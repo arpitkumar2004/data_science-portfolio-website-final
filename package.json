@@ -1,7 +1,7 @@
 {
-  "homepage": "https://rad-dango-e78ac4.netlify.app/",
+  "homepage": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/",
   "name": "data-science-portfolio",
-  "private": false,
+  "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
