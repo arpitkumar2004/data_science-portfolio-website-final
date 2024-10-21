@@ -18,13 +18,17 @@ const Header: React.FC = () => {
     };
   }, []);
 
+  const handleLinkClick = () => {
+    setIsMenuOpen(false); // Close the menu on link click
+  };
+
   return (
     <header
       className={`bg-white shadow-md transition-all duration-300 ${
         isSticky ? 'fixed top-0 left-0 right-0 z-50' : ''
       }`}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="max-w-screen-lg mx-auto px-4 py-4 flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold text-blue-600">
           Arpit Kumar
         </Link>
@@ -61,30 +65,35 @@ const Header: React.FC = () => {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
+
       {isMenuOpen && (
-        <div className="md:hidden">
+        <div className="md:hidden transition-transform duration-300 ease-in-out transform" style={{ maxHeight: isMenuOpen ? '200px' : '0', overflow: 'hidden' }}>
           <nav className="flex flex-col space-y-4 px-4 py-2 bg-white">
             <Link
               to="/"
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              onClick={handleLinkClick} // Close menu on link click
             >
               Home
             </Link>
             <Link
               to="/projects"
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              onClick={handleLinkClick} // Close menu on link click
             >
               Projects
             </Link>
             <Link
               to="/contact"
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              onClick={handleLinkClick} // Close menu on link click
             >
               Contact
             </Link>
             <Link
               to="/request-cv"
               className="text-gray-700 hover:text-blue-600 transition-colors duration-300"
+              onClick={handleLinkClick} // Close menu on link click
             >
               Request CV
             </Link>

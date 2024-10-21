@@ -15,7 +15,6 @@ import SkillBar from "../components/SkillBar";
 import Achievement from "../components/Achievement";
 import ProjectCard from "../components/ProjectCard";
 
-
 // Skills and Expetise section data
 const skills = [
   {
@@ -79,7 +78,7 @@ const achievements = [
   },
 ];
 
-// Projects Section Data 
+// Projects Section Data
 
 const featuredProjects = [
   // ... (previous project data)
@@ -139,7 +138,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-
       {/* Introduction Section */}
       <section className="mb-16">
         <div className="flex flex-col md:flex-row items-center">
@@ -265,16 +263,12 @@ const Home: React.FC = () => {
       </section>
 
       {/* Skill And Expertise Section */}
+      {/* Skill And Expertise Section */}
       <section className="mb-16">
         <h2 className="section-title">Skills & Expertise</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill, index) => (
-            <SkillBar
-              key={index}
-              skill={skill.skill}
-              level={skill.level}
-              logo={skill.logo}
-            />
+            <SkillBar key={index} skill={skill.skill} logo={skill.logo} />
           ))}
         </div>
       </section>
@@ -296,8 +290,6 @@ const Home: React.FC = () => {
           ))}
         </motion.div>
       </section>
-
-      
     </div>
   );
 };

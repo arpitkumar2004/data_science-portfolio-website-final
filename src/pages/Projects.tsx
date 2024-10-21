@@ -18,7 +18,7 @@ const Projects: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-gradient">My Projects</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gradient text-center">My Projects</h1>
 
       <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
         <input

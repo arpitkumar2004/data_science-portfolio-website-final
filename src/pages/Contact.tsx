@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-gradient">Contact Me</h1>
+      <h1 className="text-4xl font-bold mb-8 text-gradient text-center">Contact Me</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
