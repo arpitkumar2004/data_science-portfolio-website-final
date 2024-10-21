@@ -30,5 +30,6 @@
   /* Utility for margin on both sides */
   .container {
     @apply max-w-screen-lg mx-auto px-2;
+    @apply max-w-screen-lg mx-auto px-4 flex flex-col items-center;
   }
 }
