@@ -266,18 +266,17 @@ const Home: React.FC = () => {
 
       {/* Skill And Expertise Section */}
       <section className="mb-16">
-        <h2 className="section-title">Skills & Expertise</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {skills.map((skill, index) => (
-            <SkillBar
-              key={index}
-              skill={skill.skill}
-              level={skill.level}
-              logo={skill.logo}
-            />
-          ))}
-        </div>
-      </section>
+      <h2 className="section-title">Skills & Expertise</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {skills.map((skill, index) => (
+          <SkillBar
+            key={index}
+            skill={skill.skill}
+            logo={skill.logo}
+          />
+        ))}
+      </div>
+    </section>
 
       {/* Achievement  */}
       <section className="mb-16">
