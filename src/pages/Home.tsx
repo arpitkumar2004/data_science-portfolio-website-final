@@ -10,6 +10,7 @@ import {
   Github,
   Linkedin,
   Mail,
+  Building2,
 } from "lucide-react";
 import SkillBar from "../components/SkillBar";
 import Achievement from "../components/Achievement";
@@ -54,27 +55,51 @@ const skills = [
 const achievements = [
   {
     icon: <Award size={32} />,
-    title: "Top Data Scientist Award",
+    title: "Top 20 | DTL Quant-challenge",
     description:
-      "Recognized as the top-performing data scientist in the annual company awards.",
+      "Acheved rank in top 20 in the DTL Quant-Challenge 2024 in all over India and 4th in college ",
+  },
+  {
+    icon: <Award size={32} />,
+    title: "Gold | GC IIT Kharagpur",
+    description:
+      "Received Gold in the General Championship Data-Analyitcs 2024 (Inter-Hall Competiotion) in IIT Kharagpur",
+  },
+  {
+    icon: <Award size={32} />,
+    title: "Silver | Open IIT Data-Analytics",
+    description:
+      "Received Silver in the Open-IIT Data Analytics 2023 amoung in IIT Kharagpur community",
+  },
+  {
+    icon: <Award size={32} />,
+    title: "Silver | Open IIT Case-Study",
+    description:
+      "Received Silver in the Open-IIT Case-Study 2023 amoung in IIT Kharagpur community",
+  },
+  {
+    icon: <Award size={32} />,
+    title: "Silver | GC ChemQuest",
+    description:
+      "Received Silver in the General Championship ChemQuest 2023 (Inter-Hall Competiotion) in IIT Kharagpur",
+  },
+  {
+    icon: <Building2 size={32} />,
+    title: "Developer Head | Devlopers' Society",
+    description:
+      "Promoted to Developer Head in Developers' Society, IIT Kharagpur.",
   },
   {
     icon: <Brain size={32} />,
-    title: "AI Research Publication",
+    title: "Secured Under 1500 | JEE Adavance",
     description:
-      "Published a research paper on advanced AI techniques in a leading academic journal.",
+      "Acheived rank under 1500 in JEE Advanced 2022 among 0.15 Mn+ students all over India in 2022",
   },
   {
-    icon: <BarChart size={32} />,
-    title: "Data-Driven Cost Savings",
+    icon: <Brain size={32} />,
+    title: "Secured 99.4 %ile | JEE mains",
     description:
-      "Implemented data analytics solution resulting in $2M annual cost savings for the company.",
-  },
-  {
-    icon: <Code size={32} />,
-    title: "Open Source Contribution",
-    description:
-      "Major contributor to popular data science libraries, with over 1000 GitHub stars.",
+      "Acheived 99.4 percentile in JEE mains 2022 among 1 Mn+ students all over India in 2022",
   },
 ];
 
@@ -83,26 +108,24 @@ const achievements = [
 const featuredProjects = [
   // ... (previous project data)
   {
-    id: 4,
-    title: "Real-time Fraud Detection System",
+    id: 1,
+    title: "Customer-Satisfaction using MLOps (ZenML)",
     description:
-      "Implemented a real-time fraud detection system for a financial institution, reducing fraudulent transactions by 40%.",
-    image:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Anomaly Detection", "Apache Spark", "Machine Learning"],
+      "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring.",
+    image:"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    tags: ["MLOps", "Regression", "ZenML", "MLflow", "Data Engineering"],
   },
 
   {
-    id: 5,
-    title: "Computer Vision for Quality Control",
+    id: 2,
+    title: "House Price Prediction using MLOps (ZenML)",
     description:
-      "Developed a computer vision system for automated quality control in manufacturing, improving defect detection accuracy by 35%.",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Computer Vision", "Deep Learning", "OpenCV"],
+      "Developed a dynamic, end-to-end pipeline for house price prediction, with automated deployment and real-time forecasting capabilities.",
+    "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "tags": ["MLOps", "Regression", "ZenML", "Feature Engineering", "Real-time Prediction"],
   },
   {
-    id: 6,
+    id: 9,
     title: "Recommendation Engine for E-commerce Platform",
     description:
       "Built a personalized recommendation engine, increasing average order value by 15% and customer engagement by 22%.",
@@ -157,7 +180,7 @@ const Home: React.FC = () => {
                   fontFamily: "Roboto, sans-serif", // Updated font family to Roboto
                 }}
               >
-                IIT Kharagpur
+              IIT Kharagpur
               </h3>{" "}
               Data Science, Machine Learning, AI Enthusiast
             </h2>
