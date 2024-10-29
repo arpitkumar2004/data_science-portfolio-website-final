@@ -15,6 +15,7 @@ import {
 import SkillBar from "../components/SkillBar";
 import Achievement from "../components/Achievement";
 import ProjectCard from "../components/ProjectCard";
+import Experiences from "../components/Experience";
 
 // Skills and Expetise section data
 const skills = [
@@ -50,56 +51,79 @@ const skills = [
   },
 ];
 
+
+// Expereince Section Data
+
+const experiences = [
+  {
+    icon: <Building2 size={32} />,
+    title: "Development Head at Developers' Society, IIT-Kharagpur",
+    description:
+      "Promoted to Developer Head in Developers' Society, IIT Kharagpur in 2024 from Development Member since 2023.",
+  },
+  {
+    icon: <Building2 size={32} />,
+    title: "Executive Member at PPGS, IIT-Kharagpur",
+    description:
+      "Worked as Executive Member in Public Policy and Governance Society, IIT Kharagpur from 2022 to 2024.",
+  },
+  {
+    icon: <Building2 size={32} />,
+    title: "Web-development Member at ChEA, IIT-Kharagpur",
+    description:
+      "Worked as Web Team Member in Chemical Engineering Association, IIT Kharagpur from 2023 to 2024.",
+  },
+  {
+    icon: <Building2 size={32} />,
+    title: "Associate Member at SBRC, IIT-Kharagpur",
+    description:
+      "Worked as Associate Memeber in Students' Branding and Relations Cell, IIT Kharagpur from 2023 to 2024.",
+  },
+]
 // Achievement Section Data
 
 const achievements = [
   {
     icon: <Award size={32} />,
-    title: "Top 20 | DTL Quant-challenge",
+    title: "Top 20 in DTL Quant-challenge 2024",
     description:
       "Acheved rank in top 20 in the DTL Quant-Challenge 2024 in all over India and 4th in college ",
   },
   {
     icon: <Award size={32} />,
-    title: "Gold | GC IIT Kharagpur",
+    title: "Gold in GC Data - Analytics IIT KGP",
     description:
       "Received Gold in the General Championship Data-Analyitcs 2024 (Inter-Hall Competiotion) in IIT Kharagpur",
   },
   {
     icon: <Award size={32} />,
-    title: "Silver | Open IIT Data-Analytics",
+    title: "Silver in Open IIT Data - Analytics",
     description:
-      "Received Silver in the Open-IIT Data Analytics 2023 amoung in IIT Kharagpur community",
+      "Received Silver in the Open-IIT Data-Analytics 2023 among in IIT Kharagpur community",
   },
   {
     icon: <Award size={32} />,
-    title: "Silver | Open IIT Case-Study",
+    title: "Silver in Open IIT Case - Study",
     description:
-      "Received Silver in the Open-IIT Case-Study 2023 amoung in IIT Kharagpur community",
+      "Received Silver in the Open-IIT Case-Study 2023 among in IIT Kharagpur community",
   },
   {
     icon: <Award size={32} />,
-    title: "Silver | GC ChemQuest",
+    title: "Silver in GC ChemQuest",
     description:
-      "Received Silver in the General Championship ChemQuest 2023 (Inter-Hall Competiotion) in IIT Kharagpur",
-  },
-  {
-    icon: <Building2 size={32} />,
-    title: "Developer Head | Devlopers' Society",
-    description:
-      "Promoted to Developer Head in Developers' Society, IIT Kharagpur.",
+      "Received Silver in the General Championship ChemQuest 2023 in IIT Kharagpur",
   },
   {
     icon: <Brain size={32} />,
-    title: "Secured Under 1500 | JEE Adavance",
+    title: "Secured Under 1500 in JEE - Adavance",
     description:
       "Acheived rank under 1500 in JEE Advanced 2022 among 0.15 Mn+ students all over India in 2022",
   },
   {
     icon: <Brain size={32} />,
-    title: "Secured 99.4 %ile | JEE mains",
+    title: "Secured 99.42 %ile in JEE - mains",
     description:
-      "Acheived 99.4 percentile in JEE mains 2022 among 1 Mn+ students all over India in 2022",
+      "Acheived 99.42 percentile in JEE mains 2022 among 1 Mn+ students all over India in 2022",
   },
 ];
 
@@ -112,7 +136,8 @@ const featuredProjects = [
     title: "Customer-Satisfaction using MLOps (ZenML)",
     description:
       "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring.",
-    image:"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    image:
+      "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tags: ["MLOps", "Regression", "ZenML", "MLflow", "Data Engineering"],
   },
 
@@ -121,8 +146,15 @@ const featuredProjects = [
     title: "House Price Prediction using MLOps (ZenML)",
     description:
       "Developed a dynamic, end-to-end pipeline for house price prediction, with automated deployment and real-time forecasting capabilities.",
-    "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    "tags": ["MLOps", "Regression", "ZenML", "Feature Engineering", "Real-time Prediction"],
+    image:
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    tags: [
+      "MLOps",
+      "Regression",
+      "ZenML",
+      "Feature Engineering",
+      "Real-time Prediction",
+    ],
   },
   {
     id: 9,
@@ -180,7 +212,7 @@ const Home: React.FC = () => {
                   fontFamily: "Roboto, sans-serif", // Updated font family to Roboto
                 }}
               >
-              IIT Kharagpur
+                IIT Kharagpur
               </h3>{" "}
               Data Science, Machine Learning, AI Enthusiast
             </h2>
@@ -238,11 +270,14 @@ const Home: React.FC = () => {
               </a>
             </div>
           </div>
-          <div className="md:w-1/2 max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl">
+          <div
+            className="md:w-1/2 max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl"
+            style={{ backgroundColor: "#f10f10f10" }} // Replace with your website's background color
+          >
             <img
-              src="https://images.unsplash.com/photo-1719212752796-5d9767ea0f83?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              src="my_photo2.png"
               alt="Arpit Kumar"
-              className="rounded-lg shadow-lg w-full h-auto" // Make the image responsive
+              className="rounded-lg w-full h-auto" // Make the image responsive
             />
           </div>
         </div>
@@ -296,21 +331,29 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Achievement  */}
+      {/* Experience  */}
       <section className="mb-16">
-        <h2 className="section-title">Experiences & Achievements</h2>
+        <h2 className="section-title">Experiences</h2>
         <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
           animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
         >
-          {achievements.map((achievement, index) => (
-            <motion.div key={index} variants={itemVariants}>
-              <Achievement {...achievement} />
-            </motion.div>
-          ))}
+          <Experiences experiences={experiences} />
+        </motion.div>
+      </section>
+
+      {/* Achievement  */}
+      <section className="mb-16">
+        <h2 className="section-title">Achievements</h2>
+        <motion.div
+          ref={ref}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+        >
+          <Achievement achievements={achievements} />
         </motion.div>
       </section>
     </div>
@@ -318,3 +361,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+

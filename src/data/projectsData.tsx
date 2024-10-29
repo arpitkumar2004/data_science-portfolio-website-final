@@ -20,7 +20,7 @@ export const projects: Project[] = [
     "title": "Customer-Satisfaction using MLOps (ZenML)",
     "description": "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring.",
     "longDescription": "This project involved analyzing a dataset of over 100,000 orders to predict customer satisfaction based on review scores. Leveraging ZenML and MLflow, the project featured an automated pipeline for data processing, model training, and deployment. Extensive data transformations and feature engineering were applied, focusing on attributes such as order status, pricing, and payment methods to optimize prediction accuracy.",
-    "image": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "image": "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tags": ["MLOps", "Regression", "ZenML", "MLflow", "Data Engineering"],
     "objectives": [
       "Improve accuracy of customer review score predictions",
@@ -58,7 +58,7 @@ export const projects: Project[] = [
   # Fit model with preprocessed data
   pipeline.fit(X_train, y_train)
       `,
-    "githubLink": "https://github.com/yourusername/customer-satisfaction-pipeline",
+    "githubLink": "https://github.com/arpitkumar2004/customer-satisfaction-mlops",
     "articleLink": "https://medium.com/@yourusername/customer-satisfaction-mlops"
   },  
 
@@ -99,7 +99,7 @@ export const projects: Project[] = [
   model = RandomForestRegressor()
   model.fit(X_train, y_train)
       `,
-    "githubLink": "https://github.com/yourusername/house-price-prediction",
+    "githubLink": "https://github.com/arpitkumar2004/prices-predictor-system",
     "articleLink": "https://medium.com/@yourusername/house-price-prediction-mlops"
   },  
 
@@ -223,7 +223,7 @@ print("Recall:", recall_score(y_test, y_pred))
     "title": "Prediction of T-20 Cricket Match Winner",
     "description": "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
     "longDescription": "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
-    "image": "https://images.unsplash.com/photo-1516117172878-fd2c41f4a759?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tags": ["Machine Learning", "Cricket Analytics", "Ensemble Learning", "LightGBM", "XGBoost", "CatBoost"],
     "objectives": [
       "Develop an accurate model for predicting T-20 cricket match outcomes",
@@ -256,7 +256,7 @@ print("Recall:", recall_score(y_test, y_pred))
   ensemble_model = VotingClassifier(estimators=[('lgbm', lgbm), ('xgb', xgb), ('cat', cat)], voting='soft')
   ensemble_model.fit(X_train, y_train)
       `,
-    "githubLink": "https://github.com/yourusername/t20-match-winner-prediction",
+    "githubLink": "https://github.com/arpitkumar2004/American_Express_Project",
     "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction"
   },  
   {
@@ -264,7 +264,7 @@ print("Recall:", recall_score(y_test, y_pred))
     "title": "DTL Quant Challenge 2024 - Alpha Generation Model",
     "description": "Developed a dynamic alpha generation model that ranked in the top 20 nationally, achieving strong scores across in-sample, out-sample, and real-time performance.",
     "longDescription": "This project involved building a sophisticated alpha generation model for the DTL Quant Challenge 2024. The model integrated multiple financial signals, including RSI, mean reversion, volatility, and trend indicators. We dynamically adjusted weights based on the model's previous alpha performance, enhancing adaptability to changing market conditions. This approach achieved scores of 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time, proving its robustness across different market scenarios. Placing 19th nationally highlighted the model's strong predictive ability and innovative approach to quantitative trading.",
-    "image": "https://images.unsplash.com/photo-1554224154-22dec7ec8818?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "image": "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
     "tags": ["Quantitative Finance", "Alpha Generation", "RSI", "Mean Reversion", "Volatility"],
     "objectives": [
       "Develop a robust alpha model to perform in varying market conditions",
@@ -307,7 +307,7 @@ print("Recall:", recall_score(y_test, y_pred))
   "title": "General Championship Data Analytics - Social and Healthcare Risk Scorecard",
   "description": "Developed a comprehensive Social and Healthcare Risk Scorecard using decision trees and ensemble methods, achieving 82.89% accuracy and securing 1st rank.",
   "longDescription": "This project involved creating a Social and Healthcare Risk Scorecard in collaboration with Evva Health. Using decision tree algorithms and community data gathered via web scraping with BeautifulSoup and Selenium, we constructed a risk assessment tool aimed at informing resource allocation based on risk factors. Advanced statistical techniques, including Bifactor and MIRT analysis, were utilized to analyze and score responses from patient questionnaires. The deployment on Streamlit provided an accessible and interactive platform for risk analysis, with an ensemble model incorporating Voting, BERT, and Bayes Classification achieving an accuracy of 82.89%.",
-  "image": "https://images.unsplash.com/photo-1581092580358-872a4d364693?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
   "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping"],
   "objectives": [
     "Develop a risk scorecard to assess social and healthcare risk factors",
@@ -347,7 +347,7 @@ voting_model.fit(X_train, y_train)
   "title": "Open IIT Data Analytics Competition - Footfall Prediction",
   "description": "Developed a time-series model to predict city footfall, achieving 86.63% accuracy and securing 2nd place in the institute.",
   "longDescription": "In this project, we built a predictive model to forecast city footfall based on historical time-series data, as part of the Open IIT Data Analytics Competition. By scraping data using BeautifulSoup and conducting exploratory data analysis, we uncovered key patterns in the time series. Applying K-Means clustering helped identify underlying trends. Forecasting models, including FBProphet, Random Forest, and Bidirectional LSTM, were then combined in an ensemble approach that improved prediction accuracy, resulting in an 86.63% accuracy score. This ensemble model offered a robust and dynamic forecasting solution for city footfall.",
-  "image": "https://images.unsplash.com/photo-1560709228-60c0b36ffafa?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  "image": "https://imgs.search.brave.com/S8-YiFIU0XBX9jE91wgiHBftts4ZGFN46EVla9J2LJE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dHJhZnN5cy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjQv/MDIvMi1XaGF0LUlz/LUZvb3RmYWxsLUFu/YWx5dGljcy5qcGc",
   "tags": ["Data Analytics", "Time Series", "Footfall Prediction", "Ensemble Modeling", "K-Means Clustering"],
   "objectives": [
     "Predict city footfall using historical time-series data",
@@ -446,14 +446,14 @@ print("Recall:", recall_score(y_test, y_pred))
     "title": "Interhall Data Analytics Competition - Demand Forecasting",
     "description": "Forecasted product demand using advanced time-series models, achieving a MAPE of 17.1% with LSTM, and uncovering key sales trends and patterns.",
     "longDescription": "This demand forecasting project for the Interhall Data Analytics Competition involved analyzing 3 years of sales data to understand trends, detect outliers, and improve forecasting accuracy. Using Dynamic Time Warping, products with similar sales trends were clustered to aid in demand predictions. Models like SARIMAX, LSTM, and CatBoost were employed to compare their effectiveness, achieving Mean Absolute Percentage Errors (MAPE) of 25.7% (SARIMAX), 17.1% (LSTM), and 18.3% (CatBoost). The approach led to accurate demand forecasting, demonstrating the efficacy of advanced time-series techniques.",
-    "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    "tags": ["Time Series Analysis", "Demand Forecasting", "Data Clustering", "LSTM", "SARIMAX", "CatBoost"],
+    "image": "https://imgs.search.brave.com/KZ6FnWsD7yAHDbTFoKkmSFBFHG90Xye15_ccwxK7yN8/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgy/ODU4NjgzL3Bob3Rv/L3N1cHBseS1hbmQt/ZGVtYW5kLWdyYXBo/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0zWW14RFByNUx6/LXZZcGhwb0R4aFpy/NzNuaHJqWlZVOHhp/WEpmTEE3bTNBPQ",
+    "tags": ["Time Series Analysis","LSTM",  "Demand Forecasting", "Data Clustering", "SARIMAX", "CatBoost"],
     "objectives": [
       "Analyze sales data to detect trends and outliers",
       "Cluster products with similar sales patterns using Dynamic Time Warping",
       "Improve forecasting accuracy using advanced time-series models"
     ],
-    "technologies": ["Python", "Pandas", "Dynamic Time Warping", "LSTM", "SARIMAX", "CatBoost"],
+    "technologies": ["Python","LSTM", "Pandas", "Dynamic Time Warping",  "SARIMAX", "CatBoost"],
     "methods": [
       "Exploratory Data Analysis for trend detection and outlier analysis",
       "Dynamic Time Warping for clustering similar time-series patterns",
@@ -490,9 +490,9 @@ print("Recall:", recall_score(y_test, y_pred))
   {
     "id": 11,
     "title": "FUGACITY Fest Website Development",
-    "description": "Developed a dynamic, responsive website for our department's annual fest, FUGACITY, using React, Tailwind CSS, and Node.js.",
+    "description": "Developed a dynamic, responsive website for our department's annual fest, FUGACITY, using React, Tailwind CSS, and Node.js.for our annual fest FUGACITY of the department of Chemical engineering IIT Kharagpur",
     "longDescription": "This project involved creating a visually appealing, user-friendly website for the FUGACITY fest, designed to showcase event information, schedules, and updates. Built with React for interactive components, Tailwind CSS for styling, and Node.js for efficient backend management, the website delivered a seamless user experience with full responsiveness across devices.",
-    "image": "https://images.unsplash.com/photo-1537432376769-00a69e6d9e9b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "image": "ChemicalEngineeringAssociation.png",
     "tags": ["Web Development", "React", "Tailwind CSS", "Node.js", "Event Website"],
     "objectives": [
       "Create a responsive and engaging website for the FUGACITY fest",
@@ -512,40 +512,17 @@ print("Recall:", recall_score(y_test, y_pred))
       "Streamlined event management with real-time updates and notifications"
     ],
     codeSnippet: `
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-# Load and preprocess the data
-df = pd.read_csv('customer_data.csv')
-X = df.drop(columns=['churn'])
-y = df['churn']
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Train logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-# Predictions
-y_pred = model.predict(X_test)
-
-# Evaluate
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall:", recall_score(y_test, y_pred))
+For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     `,
-    "githubLink": "https://github.com/yourusername/fugacity-fest-website",
+    "githubLink": "https://github.com/ChemicalEngineeringAssociation/ChEA_Fugacity",
     "articleLink": "https://medium.com/@yourusername/fugacity-fest-website"
   },
   {
     "id": 12,
     "title": "Responsive Portfolio Website",
-    "description": "Created a responsive portfolio website using React, Tailwind CSS, and Node.js to showcase projects and skills.",
+    "description": "Created a responsive portfolio website using React, Tailwind CSS, and Node.js to showcase projects, skills and Achievements.",
     "longDescription": "This project focused on developing a personal portfolio website to showcase projects, skills, and professional information. Using React for dynamic components, Tailwind CSS for sleek and responsive design, and Node.js for backend integration, the website provides an interactive and modern user experience, fully optimized for various screen sizes.",
-    "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "image": "myDataSciencePortfolio.png",
     "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js"],
     "objectives": [
       "Create a professional and visually engaging portfolio website",
@@ -565,32 +542,9 @@ print("Recall:", recall_score(y_test, y_pred))
       "Achieved high responsiveness and user engagement across all devices"
     ],
     codeSnippet: `
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-# Load and preprocess the data
-df = pd.read_csv('customer_data.csv')
-X = df.drop(columns=['churn'])
-y = df['churn']
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Train logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-# Predictions
-y_pred = model.predict(X_test)
-
-# Evaluate
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall:", recall_score(y_test, y_pred))
+For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-website-final/
     `,
-    "githubLink": "https://github.com/yourusername/portfolio-website",
+    "githubLink": "https://github.com/arpitkumar2004/data_science-portfolio-website-final",
     "articleLink": "https://medium.com/@yourusername/portfolio-website"
   }  
 ];
