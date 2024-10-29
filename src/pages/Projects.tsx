@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { projects } from '../data/projectsData';
 import ProjectCard from '../components/ProjectCard';
 
@@ -6,6 +6,24 @@ const Projects: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [layout, setLayout] = useState<'list' | 'grid-2' | 'grid-3'>('grid-2'); // Default to grid-2
+
+  useEffect(() => {
+    // Set default layout based on screen size
+    const handleResize = () => {
+      if (window.innerWidth < 768) { // Assuming mobile screens are less than 768px
+        setLayout('list');
+      } else {
+        setLayout('grid-2');
+      }
+    };
+
+    handleResize(); // Set initial layout
+    window.addEventListener('resize', handleResize); // Update layout on resize
+
+    return () => {
+      window.removeEventListener('resize', handleResize); // Clean up the event listener
+    };
+  }, []);
 
   const filteredProjects = projects.filter(
     (project) =>
