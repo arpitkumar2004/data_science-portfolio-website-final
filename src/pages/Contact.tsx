@@ -1,150 +1,198 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send, Mail, Linkedin, Github, Twitter } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import emailjs from 'emailjs-com';
-import { Mail, Phone, MapPin } from 'lucide-react';
 
-type FormData = {
+interface ContactForm {
   name: string;
   email: string;
+  subject: string;
   message: string;
-};
+}
 
-const Contact: React.FC = () => {
+const socialLinks = [
+  {
+    name: 'LinkedIn',
+    url: 'https://linkedin.com/in/yourusername',
+    icon: Linkedin,
+    color: 'bg-[#0077B5]',
+  },
+  {
+    name: 'GitHub',
+    url: 'https://github.com/yourusername',
+    icon: Github,
+    color: 'bg-[#333333]',
+  },
+  {
+    name: 'Twitter',
+    url: 'https://twitter.com/yourusername',
+    icon: Twitter,
+    color: 'bg-[#1DA1F2]',
+  },
+];
+
+export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FormData>();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [submitSuccess, setSubmitSuccess] = React.useState(false);
+  } = useForm<ContactForm>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ContactForm) => {
     setIsSubmitting(true);
     try {
-      // Replace with your EmailJS service ID, template ID, and user ID
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        data,
-        'YOUR_USER_ID'
-      );
-      setSubmitSuccess(true);
+      const response = await fetch('http://localhost:8000/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) throw new Error('Failed to send message');
+
+      setSubmitStatus('success');
       reset();
     } catch (error) {
-      console.error('Error sending email:', error);
-      alert('Failed to send message. Please try again later.');
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus(null), 5000);
     }
-    setIsSubmitting(false);
   };
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8 text-gradient text-center">Contact Me</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-2xl font-semibold mb-4">Get in Touch</h2>
-          <p className="text-gray-600 mb-6">
-            I'm always open to new opportunities and collaborations. Feel free
-            to reach out if you have any questions or just want to say hello!
-          </p>
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <Mail className="text-blue-600 mr-2" size={20} />
-              <span>arpit.kumar.iitkgp@gmail.com</span>
-            </div>
-            <div className="flex items-center">
-              <Phone className="text-blue-600 mr-2" size={20} />
-              <span>+1 (123) 456-7890</span>
-            </div>
-            <div className="flex items-center">
-              <MapPin className="text-blue-600 mr-2" size={20} />
-              <span>Kharagpur, India</span>
-            </div>
-          </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-4xl mx-auto"
+      >
+        <h1 className="text-4xl font-bold mb-8 text-gradient text-center">Get in Touch</h1>
+        
+        {/* Social Links */}
+        <div className="flex justify-center gap-4 mb-12">
+          {socialLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${link.color} text-white p-3 rounded-full hover:opacity-90 transition-opacity`}
+            >
+              <link.icon className="w-6 h-6" />
+            </a>
+          ))}
         </div>
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+
+        {/* Contact Form */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Name
+                </label>
+                <input
+                  {...register('name', { required: 'Name is required' })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${
+                    errors.name ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: 'Invalid email address',
+                    },
+                  })}
+                  className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${
+                    errors.email ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+                )}
+              </div>
+            </div>
+
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Name
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Subject
               </label>
               <input
-                type="text"
-                id="name"
-                {...register('name', { required: 'Name is required' })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                {...register('subject', { required: 'Subject is required' })}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${
+                  errors.subject ? 'border-red-500' : 'border-gray-300'
+                }`}
               />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.name.message}
-                </p>
+              {errors.subject && (
+                <p className="mt-1 text-sm text-red-500">{errors.subject.message}</p>
               )}
             </div>
+
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address',
-                  },
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Message
               </label>
               <textarea
-                id="message"
-                rows={4}
                 {...register('message', { required: 'Message is required' })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              ></textarea>
+                rows={5}
+                className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${
+                  errors.message ? 'border-red-500' : 'border-gray-300'
+                }`}
+              />
               {errors.message && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.message.message}
-                </p>
+                <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
               )}
             </div>
+
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full btn btn-primary"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
+              {isSubmitting ? (
+                'Sending...'
+              ) : (
+                <>
+                  Send Message
+                  <Send className="w-5 h-5" />
+                </>
+              )}
             </button>
           </form>
-          {submitSuccess && (
-            <p className="mt-4 text-green-600">
-              Thank you for your message. I'll get back to you soon!
-            </p>
+
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <div className="mt-4 p-4 bg-green-50 text-green-700 rounded-lg">
+              Message sent successfully! I'll get back to you soon.
+            </div>
+          )}
+          {submitStatus === 'error' && (
+            <div className="mt-4 p-4 bg-red-50 text-red-700 rounded-lg">
+              Failed to send message. Please try again later.
+            </div>
           )}
         </div>
-      </div>
+      </motion.div>
     </div>
   );
-};
-
-export default Contact;
+}

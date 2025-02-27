@@ -34,9 +34,9 @@ const RequestCV: React.FC = () => {
       <h1 className="text-4xl font-bold mb-8 text-gradient text-center">Request CV</h1>
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Request My CV</h2>
+          <h2 className="text-2xl font-semibold mb-4 text-center">Get my CV via mail</h2>
           <p className="text-gray-600 mb-6">
-            Interested in learning more about my qualifications? Fill out the form below to request my CV. I'll send it to you as soon as possible.
+            Interested in learning more about my qualifications? Fill out the form below to request my CV. I'll send it to you as soon as possible. Average time to response is 1-2 working days.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
@@ -96,7 +96,7 @@ const RequestCV: React.FC = () => {
             </button>
           </form>
           {submitSuccess && (
-            <p className="mt-4 text-green-600">Thank you for your request. Please check your email, I'll send my CV to you shortly!</p>
+            <p className="mt-4 text-green-600">Thank you for your request. Please check your email, I'll send my CV to you shortly! Average time to response is 1-2 working days.</p>
           )}
         </div>
       </div>

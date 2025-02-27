@@ -12,6 +12,7 @@ export interface Project {
   codeSnippet: string;
   githubLink: string;
   articleLink: string;
+  liveDemoLink?: string;
 }
 
 export const projects: Project[] = [
@@ -59,7 +60,8 @@ export const projects: Project[] = [
   pipeline.fit(X_train, y_train)
       `,
     "githubLink": "https://github.com/arpitkumar2004/customer-satisfaction-mlops",
-    "articleLink": "https://medium.com/@yourusername/customer-satisfaction-mlops"
+    "articleLink": "https://medium.com/@yourusername/customer-satisfaction-mlops",
+    "liveDemoLink": "https://yourwebsite.com"
   },  
 
   {
@@ -100,7 +102,8 @@ export const projects: Project[] = [
   model.fit(X_train, y_train)
       `,
     "githubLink": "https://github.com/arpitkumar2004/prices-predictor-system",
-    "articleLink": "https://medium.com/@yourusername/house-price-prediction-mlops"
+    "articleLink": "https://medium.com/@yourusername/house-price-prediction-mlops",
+    "liveDemoLink": "https://yourwebsite.com"
   },  
 
 {
@@ -158,6 +161,7 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
+    liveDemoLink: "https://yourwebsite.com"
   },
 
 
@@ -217,6 +221,7 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
+    liveDemoLink: "https://website.com"
   },
   {
     "id": 5,
@@ -257,7 +262,8 @@ print("Recall:", recall_score(y_test, y_pred))
   ensemble_model.fit(X_train, y_train)
       `,
     "githubLink": "https://github.com/arpitkumar2004/American_Express_Project",
-    "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction"
+    "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
+    "liveDemoLink": "https://website.com"
   },  
   {
     "id": 6,
@@ -300,7 +306,8 @@ print("Recall:", recall_score(y_test, y_pred))
   data['adjusted_alpha'] = data['alpha'] * data['volatility'] * data['trend']
       `,
     "githubLink": "https://github.com/yourusername/alpha-generation-model",
-    "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model"
+    "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
+    "liveDemoLink": "https://website.com"
   },  
   {
   "id": 7,
@@ -340,7 +347,8 @@ voting_model = VotingClassifier(estimators=[('dt', dt_model), ('bert', bert_mode
 voting_model.fit(X_train, y_train)
     `,
   "githubLink": "https://github.com/yourusername/healthcare-risk-scorecard",
-  "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard"
+  "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
+  "liveDemoLink": "https://website.com"
 },
 {
   "id": 8,
@@ -383,7 +391,8 @@ model.compile(optimizer='adam', loss='mse')
 model.fit(X_train, y_train, epochs=100, validation_split=0.2)
     `,
   "githubLink": "https://github.com/yourusername/footfall-prediction",
-  "articleLink": "https://medium.com/@yourusername/footfall-prediction"
+  "articleLink": "https://medium.com/@yourusername/footfall-prediction",
+  "liveDemoLink": "https://website.com"
 },
 {
     id: 9,
@@ -440,6 +449,7 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
+    liveDemoLink: "https://website.com"
   },
   {
     "id": 10,
@@ -485,7 +495,8 @@ print("Recall:", recall_score(y_test, y_pred))
   catboost_model.fit(X_train, y_train)
       `,
     "githubLink": "https://github.com/yourusername/demand-forecasting-competition",
-    "articleLink": "https://medium.com/@yourusername/demand-forecasting-case-study"
+    "articleLink": "https://medium.com/@yourusername/demand-forecasting-case-study",
+    "liveDemoLink": "https://website.com"
   },  
   {
     "id": 11,
@@ -515,7 +526,8 @@ print("Recall:", recall_score(y_test, y_pred))
 For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     `,
     "githubLink": "https://github.com/ChemicalEngineeringAssociation/ChEA_Fugacity",
-    "articleLink": "https://medium.com/@yourusername/fugacity-fest-website"
+    "articleLink": "https://medium.com/@yourusername/fugacity-fest-website",
+    "liveDemoLink": "https://chea-ikkswc60t-shau8122.vercel.app"
   },
   {
     "id": 12,
@@ -545,6 +557,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
 For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-website-final/
     `,
     "githubLink": "https://github.com/arpitkumar2004/data_science-portfolio-website-final",
-    "articleLink": "https://medium.com/@yourusername/portfolio-website"
+    "articleLink": "https://medium.com/@yourusername/portfolio-website",
+    "liveDemoLink": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/"
   }  
 ];
