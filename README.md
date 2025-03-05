@@ -15,8 +15,8 @@ Welcome to the Data Science Portfolio Website! This project showcases various da
   - TypeScript
   - Framer Motion
   - Lucide Icons
-- **Backend**: (if applicable)
-  - Node.js (or any other backend technology used)
+- **Backend**:
+  - FastAPI
 - **Data Management**: 
   - JSON for project data
 
