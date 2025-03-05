@@ -24,7 +24,7 @@ const RequestCV: React.FC = () => {
       reset();
     } catch (error) {
       console.error('Error sending email:', error);
-      alert('Failed to send CV request. Please try again later.');
+      alert('Failed to send CV request. Please try sending mail on mentioned Gmail in contact section manually. Average time to response is 1-2 hours. Have a Nice Day !!');
     }
     setIsSubmitting(false);
   };
@@ -34,9 +34,9 @@ const RequestCV: React.FC = () => {
       <h1 className="text-3xl font-bold mb-8 text-gradient text-center">Download CV</h1>
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4 text-center">Get my CV via mail</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center">Get my CV via mail or Download it</h2>
           <p className="text-sm text-gray-600 mb-6">
-            Interested in learning more about my qualifications? Fill out the form below to request my CV. You'll get it as soon as possible. Average time to get is 1-2 hours.
+            Interested in learning more about my qualifications? Fill out the form below to Download my CV. You'll get it as soon as possible. Average time to get is 1-2 hours.
           </p>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
@@ -96,7 +96,7 @@ const RequestCV: React.FC = () => {
             </button>
           </form>
           {submitSuccess && (
-            <p className="mt-4 text-green-600">Thank you for your interest. Please check your email, You will get my CV shortly! Average time to response is 1-2 hours.</p>
+            <p className="mt-4 text-green-600">Thank you for your interest. Please check your email, You will get my CV shortly! Average time to response is 1-2 hours. Have a Nice Day !!</p>
           )}
         </div>
       </div>
