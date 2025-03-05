@@ -52,10 +52,11 @@ const Projects: React.FC = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
       className="container mx-auto px-4 py-12"
     >
       <motion.h1 
-        className="text-4xl font-bold mb-8 text-gradient text-center"
+        className="text-3xl font-bold mb-8 text-gradient text-center"
         initial={{ y: -20 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}

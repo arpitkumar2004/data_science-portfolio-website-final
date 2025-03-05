@@ -41,11 +41,11 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
       </div>
   
       <div className="p-6 space-y-4">
-        <h3 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
         
-        <p className="text-sm text-gray-600 leading-relaxed line-clamp-3">
+        <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">
           {description}
         </p>
   
@@ -53,7 +53,7 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="px-2 py-1 text-sm font-light text-blue-500 bg-blue-50 rounded-full transition-colors hover:bg-blue-200"
+              className="px-2 py-1 text-xs font-light text-blue-500 bg-blue-50 rounded-full transition-colors hover:bg-blue-200"
             >
               {tag}
             </span>
@@ -61,39 +61,38 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
         </div>
   
         <div className="flex items-center justify-between pt-4">
-          <div className="flex space-x-4">
+          <div className="flex space-x-1">
             {githubLink && (
               <a
                 href={githubLink}
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Github size={20} />
+                <Github className='mr-2' size={20} /> GitHub
               </a>
             )}
             {articleLink && (
               <a
                 href={articleLink}
                 onClick={(e) => e.stopPropagation()}
-                className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                className="flex items-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <NotebookText size={20} />
+                <NotebookText className='mr-2' size={20} /> Read Article
               </a>
-              
             )}
             {liveDemoLink && (
                <a
                  href={liveDemoLink}
                  onClick={(e) => e.stopPropagation()}
-                 className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+                 className="flex item-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                  target="_blank"
                  rel="noopener noreferrer"
                 >
-                <ExternalLink size={20} />
+                <ExternalLink className='mr-2' size={20} /> Live Demo
               </a>
             )}            
           </div>
@@ -103,4 +102,5 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
     </motion.div>
   );
 };
+
 export default ProjectCard;

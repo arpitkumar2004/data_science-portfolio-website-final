@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "react-intersection-observer";
-import {
+import { motion, AnimatePresence } from "framer-motion";import {
   BarChart,
   Brain,
   Code,
@@ -19,7 +16,8 @@ import Experience from "../components/Experience";
 import achievementData from '../data/AchievementData';
 import skillsData from "../data/skillsData";
 import { projects } from "../data/projectsData";
-
+import iitkgplogo from "../data/img/me/2.png";
+import myphoto from "../data/img/me/my_photo2.png";
 
 // // Skills and Expertise section data
 const skillsByCategory = skillsData;
@@ -27,70 +25,7 @@ const skillsByCategory = skillsData;
 // Achievement data structure
 const achievements = achievementData;
 
-// Projects Section Data
-const featuredProjects = [
-  {
-    id: 1,
-    title: "Customer-Satisfaction using MLOps (ZenML)",
-    description:
-      "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring.",
-    image:
-      "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    tags: ["MLOps", "Regression", "ZenML", "MLflow", "Data Engineering"],
-  },
-
-  {
-    id: 2,
-    title: "House Price Prediction using MLOps (ZenML)",
-    description:
-      "Developed a dynamic, end-to-end pipeline for house price prediction, with automated deployment and real-time forecasting capabilities.",
-    image:
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: [
-      "MLOps",
-      "Regression",
-      "ZenML",
-      "Feature Engineering",
-      "Real-time Prediction",
-    ],
-  },
-  {
-    id: 9,
-    title: "Recommendation Engine for E-commerce Platform",
-    description:
-      "Built a personalized recommendation engine, increasing average order value by 15% and customer engagement by 22%.",
-    image:
-      "https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Recommendation Systems", "Collaborative Filtering", "Python"],
-  },
-];
-
 const Home: React.FC = () => {
-  // const [currentSlide, setCurrentSlide] = useState(0);
-  // const [ref, inView] = useInView({
-  //   triggerOnce: true,
-  //   threshold: 0.1,
-  // });
-
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setCurrentSlide((prev) => (prev + 1) % 3);
-  //   }, 3000);
-  //   return () => clearInterval(timer);
-  // }, []);
-
-  // const containerVariants = {
-  //   hidden: { opacity: 0 },
-  //   visible: {
-  //     opacity: 1,
-  //     transition: {
-  //       staggerChildren: 0.1,
-  //     },
-  //   },
-  // };
-  const featuredProjectId = 1; // Change this to the desired project ID
-  const featuredProject = projects.find(project => project.id === featuredProjectId);
-
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
     visible: {
@@ -99,10 +34,30 @@ const Home: React.FC = () => {
     },
   };
 
+  const styles = {
+    hero: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '20px',
+      textAlign: 'center',
+      fontSize: '16px', // Reduced font size
+      marginTop: '60px'
+    },
+    '@media (max-width: 600px)': {
+      hero: {
+        padding: '10px',
+        fontSize: '12px', // Further reduced font size for mobile
+        marginTop: '60px',
+      },
+    },
+  };
+
   return (
     <div className="container mx-auto px-4">
       {/* Hero Section */}
-      <section className="min-h-[calc(100vh-64px)] flex items-center justify-center">
+      <section className="min-h-[calc(80vh-px)] flex items-center justify-center mb-10" style={styles.hero}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full">
           {/* Left Column - Profile Info */}
           <motion.div
@@ -112,11 +67,11 @@ const Home: React.FC = () => {
             className="text-left"
           >
             <div className="mb-8">
-              <h1 className="text-5xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
                 Arpit Kumar
               </h1>
               <div className="flex items-center gap-2 mb-2">
-                <img src="src\data\2.png" alt="IIT KGP" className="w-6 h-6" />
+                <img src={iitkgplogo} alt="IIT KGP" className="w-6 h-6" />
                 <p className="text-1xl text-gray-750">IIT Kharagpur</p>
               </div>
               <h2 className="text-1xl md:text-1xl text-gray-800 font-semibold mb-2">
@@ -190,7 +145,7 @@ const Home: React.FC = () => {
                 <Linkedin className="w-5 h-5 group-hover:text-blue-600" />
               </motion.a>
               <motion.a
-                href="mailto:arpit.kumar.iitkgp@gmail.com"
+                href="mailto:kumararpit17773@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3  bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
@@ -213,7 +168,7 @@ const Home: React.FC = () => {
             <div className="relative max-w-md mx-auto">
               <div className="w-[320px] h-[500px] mx-auto overflow-hidden rounded-full border-4 border-blue-100 shadow-xl">
                 <img
-                  src="my_photo2.png"
+                  src={myphoto}
                   alt="Arpit Kumar"
                   className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-300"
                 />
@@ -402,11 +357,11 @@ const Home: React.FC = () => {
             variants={itemVariants}
             className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
           >
-            <div className="mb-4 text-blue-600">
-              <Brain size={32} />
+            <div className="flex items-center mb-4">
+              <Brain size={32} className="mr-6 mb-1 text-blue-600" />
+              <h3 className="text-lg font-semibold mb-3">Machine Learning</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Machine Learning</h3>
-            <p className="text-gray-600">
+            <p className="text-sm text-gray-600">
               Expertise in developing and deploying scalable ML models for real-world applications.
               Proficient in classification, regression, and clustering algorithms.
             </p>
@@ -416,11 +371,12 @@ const Home: React.FC = () => {
             variants={itemVariants}
             className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
           >
-            <div className="mb-4 text-blue-600">
-              <BarChart size={32} />
+            <div className="flex items-center mb-4">
+              <BarChart size={32} className="mr-6 mb-1 text-blue-600" />
+              <h3 className="text-lg font-semibold mb-3">Data Analysis</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Data Analysis</h3>
-            <p className="text-gray-600">
+            
+            <p className="text-sm text-gray-600">
               Advanced statistical analysis, feature engineering, and data visualization
               using Python, Pandas, and visualization libraries.
             </p>
@@ -430,11 +386,11 @@ const Home: React.FC = () => {
             variants={itemVariants}
             className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
           >
-            <div className="mb-4 text-blue-600">
-              <Code size={32} />
+            <div className="flex items-center mb-4">
+              <Code size={32} className="mr-6 mb-1 text-blue-600" />
+              <h3 className="text-lg font-semibold">Deep Learning</h3>
             </div>
-            <h3 className="text-xl font-semibold mb-3">Deep Learning</h3>
-            <p className="text-gray-600">
+            <p className="text-sm text-gray-600">
               Implementation of neural networks using PyTorch and TensorFlow.
               Experience with CNNs, RNNs, and Transformers.
             </p>
@@ -461,145 +417,28 @@ const Home: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-            {/* Project 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="/project1-image.jpg"
-                  alt="AI-Powered Medical Diagnosis"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">Deep Learning</span>
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">Healthcare</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">AI-Powered Medical Diagnosis</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Developed a deep learning system for automated medical image analysis, achieving 95% accuracy in disease detection.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-3">
-                    <img src="/python-logo.svg" alt="Python" className="h-6 w-6" />
-                    <img src="/tensorflow-logo.svg" alt="TensorFlow" className="h-6 w-6" />
-                    <img src="/pytorch-logo.svg" alt="PyTorch" className="h-6 w-6" />
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1"
-                  >
-                    View Project <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-            {/* Project 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="/project2-image.jpg"
-                  alt="NLP-Based Market Analysis"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">NLP</span>
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">Finance</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">NLP-Based Market Analysis</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Built a sentiment analysis system processing 1M+ financial news articles for market trend prediction.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-3">
-                    <img src="/python-logo.svg" alt="Python" className="h-6 w-6" />
-                    <img src="/bert-logo.svg" alt="BERT" className="h-6 w-6" />
-                    <img src="/aws-logo.svg" alt="AWS" className="h-6 w-6" />
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1"
-                  >
-                    View Project <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Project 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="/project3-image.jpg"
-                  alt="Real-time Data Pipeline"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/70 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">Big Data</span>
-                    <span className="px-2 py-1 text-xs bg-blue-500/80 text-white rounded">MLOps</span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Real-time Data Pipeline</h3>
-                <p className="text-gray-600 text-sm mb-4">
-                  Designed and implemented a scalable data pipeline processing 10TB+ data daily with real-time ML predictions.
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-3">
-                    <img src="/apache-spark-logo.svg" alt="Spark" className="h-6 w-6" />
-                    <img src="/kafka-logo.svg" alt="Kafka" className="h-6 w-6" />
-                    <img src="/kubernetes-logo.svg" alt="Kubernetes" className="h-6 w-6" />
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="text-blue-500 hover:text-blue-600 font-medium text-sm flex items-center gap-1"
-                  >
-                    View Project <ArrowRight className="w-4 h-4" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+            <AnimatePresence mode="popLayout">
+              <ProjectCard
+                key={projects[8].id}
+                {...projects[8]}
+              />
+              <ProjectCard
+                key={projects[1].id}
+                {...projects[1]}
+              />
+              <ProjectCard
+                key={projects[2].id}
+                {...projects[2]}
+              />
+            </AnimatePresence>
           </div>
 
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
             className="text-center mt-12"
           >
             <Link
@@ -685,11 +524,10 @@ const Home: React.FC = () => {
       <section className="mb-16">
         {/* <h2 className="section-title">Experience</h2> */}
         <Experience />
-        
       </section>
 
       {/* Achievements and Leadership Section */}
-      <section className="py-12 bg-gray-50">
+      <section className="py-3 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
           <motion.h2
             className="text-3xl font-bold text-center mb-4"
@@ -705,4 +543,6 @@ const Home: React.FC = () => {
     </div>
   );
 };
+
+
 export default Home;

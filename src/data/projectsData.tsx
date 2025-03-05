@@ -1,3 +1,6 @@
+import portfolioimg from "../data/img/myDataSciencePortfolio.png"
+import cheaimg from "../data/img/ChemicalEngineeringAssociation.png"
+
 export interface Project {
   id: number;
   title: string;
@@ -14,6 +17,7 @@ export interface Project {
   articleLink: string;
   liveDemoLink?: string;
 }
+
 
 export const projects: Project[] = [
   {
@@ -503,7 +507,7 @@ print("Recall:", recall_score(y_test, y_pred))
     "title": "FUGACITY Fest Website Development",
     "description": "Developed a dynamic, responsive website for our department's annual fest, FUGACITY, using React, Tailwind CSS, and Node.js.for our annual fest FUGACITY of the department of Chemical engineering IIT Kharagpur",
     "longDescription": "This project involved creating a visually appealing, user-friendly website for the FUGACITY fest, designed to showcase event information, schedules, and updates. Built with React for interactive components, Tailwind CSS for styling, and Node.js for efficient backend management, the website delivered a seamless user experience with full responsiveness across devices.",
-    "image": "ChemicalEngineeringAssociation.png",
+    "image": cheaimg,
     "tags": ["Web Development", "React", "Tailwind CSS", "Node.js", "Event Website"],
     "objectives": [
       "Create a responsive and engaging website for the FUGACITY fest",
@@ -534,7 +538,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     "title": "Responsive Portfolio Website",
     "description": "Created a responsive portfolio website using React, Tailwind CSS, and Node.js to showcase projects, skills and Achievements.",
     "longDescription": "This project focused on developing a personal portfolio website to showcase projects, skills, and professional information. Using React for dynamic components, Tailwind CSS for sleek and responsive design, and Node.js for backend integration, the website provides an interactive and modern user experience, fully optimized for various screen sizes.",
-    "image": "myDataSciencePortfolio.png",
+    "image": portfolioimg,
     "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js"],
     "objectives": [
       "Create a professional and visually engaging portfolio website",
