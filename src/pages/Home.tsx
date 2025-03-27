@@ -420,12 +420,12 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             <AnimatePresence mode="popLayout">
               <ProjectCard
-                key={projects[8].id}
-                {...projects[8]}
+                key={projects[3].id}
+                {...projects[3]}
               />
               <ProjectCard
-                key={projects[1].id}
-                {...projects[1]}
+                key={projects[4].id}
+                {...projects[4]}
               />
               <ProjectCard
                 key={projects[2].id}
