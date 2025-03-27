@@ -223,7 +223,7 @@ print("Accuracy:", accuracy_score(y_test, y_pred))
 print("Precision:", precision_score(y_test, y_pred))
 print("Recall:", recall_score(y_test, y_pred))
     `,
-    githubLink: "https://github.com/yourusername/customer-churn",
+    githubLink: "https://github.com/arpitkumar2004/Credit-Fraud-Detection-Project",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
     liveDemoLink: "https://website.com"
   },
