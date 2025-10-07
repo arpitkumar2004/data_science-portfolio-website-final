@@ -41,11 +41,11 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
       </div>
   
       <div className="p-6 space-y-4">
-        <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
         
-        <p className="text-sm text-gray-600 leading-relaxed line-clamp-4">
+        <p className="text-xs text-gray-600 leading-relaxed line-clamp-4">
           {description}
         </p>
   
@@ -66,18 +66,18 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
               <a
                 href={githubLink}
                 onClick={(e) => e.stopPropagation()}
-                className="flex items-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
+                className="flex items-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Github className='mr-2' size={20} /> GitHub
+                <Github className='mr-2 text-xs' size={20} /> GitHub
               </a>
             )}
             {articleLink && (
               <a
                 href={articleLink}
                 onClick={(e) => e.stopPropagation()}
-                className="flex items-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
+                className="flex items-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -88,7 +88,7 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
                <a
                  href={liveDemoLink}
                  onClick={(e) => e.stopPropagation()}
-                 className="flex item-center space-x-2 p-2 text-sm text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
+                 className="flex item-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
                  target="_blank"
                  rel="noopener noreferrer"
                 >

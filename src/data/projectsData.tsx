@@ -233,7 +233,7 @@ print("Recall:", recall_score(y_test, y_pred))
     "description": "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
     "longDescription": "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
     "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "tags": ["Machine Learning", "Cricket Analytics", "Ensemble Learning", "LightGBM", "XGBoost", "CatBoost"],
+    "tags": ["Cricket Analytics", "Ensemble Learning", "LightGBM", "CatBoost"],
     "objectives": [
       "Develop an accurate model for predicting T-20 cricket match outcomes",
       "Utilize player ratings and feature engineering to improve prediction",

@@ -1,59 +1,58 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Award, 
+  GraduationCap, 
+  Users, 
+  Trophy, 
+  Code, 
+  Briefcase,
+  Megaphone,
+  BookOpen,
+  ExternalLink 
+} from 'lucide-react';
+
+// Data from the previous step
 export const achievementData = [
   {
-    title: "Academic Excellence",
+    title: "Academic & Research Excellence",
     items: [
       {
-        title: "Secured Under 1500 in JEE - Advance",
-        description: "Achieved rank under 1500 in JEE Advanced 2022 among 0.15 Mn+ students all over India in 2022",
-        verificationLink: {
-          url: "https://jeeadv.ac.in/ranks/2022.pdf",
-          label: "View Result"
-        }
+        description: "Pursuing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Minor in Machine Learning & AI at IIT Kharagpur.",
+        verificationLink: { url: "#", label: "View Details" }
       },
       {
-        title: "Secured 99.42 %ile in JEE - mains",
-        description: "Achieved 99.42 percentile in JEE mains 2022 among 1 Mn+ students all over India in 2022",
-        verificationLink: {
-          url: "https://jeemain.nta.nic.in/results/2022",
-          label: "View Result"
-        }
+        description: "Presented work at international conferences and workshops on AI, Quantitative Research, and Applied AI in Engineering.",
+        verificationLink: { url: "#", label: "View Research" }
+      },
+      {
+        description: "Published and contributed to research in AI-driven process modeling, optimization, and data-centric engineering.",
+        verificationLink: { url: "#", label: "View Publications" }
+      },
+      {
+        description: "Recognized for consistent academic excellence and awarded merit scholarships at IIT Kharagpur.",
+        verificationLink: { url: "#", label: "View Award" }
       }
     ]
   },
   {
-    title: "Competitions & Hackathons",
+    title: "Hackathons & Competitive Achievements",
     items: [
       {
-        title: "Winner - Kharagpur Data Science Hackathon",
-        description: "Developed an innovative ML solution for real-time fraud detection, securing first place among 100+ teams.",
-        verificationLink: {
-          url: "https://example.com/hackathon-winner",
-          label: "Certificate"
-        }
+        description: "Head Organizer of the Kharagpur Data Science Hackathon — one of India’s largest campus data competitions.",
+        verificationLink: { url: "#", label: "Event Page" }
       },
       {
-        title: "Top 20 in DTL Quant-challenge 2024",
-        description: "Achieved rank in top 20 in the DTL Quant-Challenge 2024 in all over India and 4th in college",
-        verificationLink: {
-          url: "https://dtl.com/quant-challenge-2024",
-          label: "Results"
-        }
+        description: "Achieved strong performance in national and international AI & Data Science hackathons with end-to-end ML solutions.",
+        verificationLink: { url: "#", label: "View Results" }
       },
       {
-        title: "Gold in GC Data - Analytics IIT KGP",
-        description: "Received Gold in the General Championship Data-Analytics 2024 (Inter-Hall Competition) in IIT Kharagpur",
-        verificationLink: {
-          url: "https://iitkgp.ac.in/gc-2024",
-          label: "Certificate"
-        }
+        description: "Active participant on Codeforces, Kaggle, and Data Science competitions with competitive ratings.",
+        verificationLink: { url: "#", label: "View Profile" }
       },
       {
-        title: "Silver in Open IIT Data - Analytics",
-        description: "Received Silver in the Open-IIT Data-Analytics 2023 among in IIT Kharagpur community",
-        verificationLink: {
-          url: "https://openiit.iitkgp.ac.in/2023",
-          label: "Results"
-        }
+        description: "Awarded for innovation and model interpretability in ML-based problem-solving challenges.",
+        verificationLink: { url: "#", label: "View Certificate" }
       }
     ]
   },
@@ -61,31 +60,120 @@ export const achievementData = [
     title: "Leadership & Community",
     items: [
       {
-        title: "Development Head - Developers' Society",
-        description: "Led the development team at IIT Kharagpur's premier tech society, managing multiple successful projects.",
-        verificationLink: {
-          url: "https://devsoc.iitkgp.ac.in/team",
-          label: "Team Profile"
-        }
+        description: "Serving as the Head of the Kharagpur Data Analytics Group (KDAG), leading interdisciplinary AI projects and mentoring young researchers.",
+        verificationLink: { url: "#", label: "Team Page" }
       },
       {
-        title: "Web Development Lead - ChEA",
-        description: "Spearheaded the development of Chemical Engineering Association's digital presence and web platforms.",
-        verificationLink: {
-          url: "https://chea.iitkgp.ac.in/team",
-          label: "Team Page"
-        }
+        description: "Organized workshops, bootcamps, and research seminars on AI, ML, and Quantitative Modeling.",
+        verificationLink: { url: "#", label: "View Events" }
       },
       {
-        title: "Executive Member - PPGS",
-        description: "Contributed to policy research and governance initiatives at Public Policy and Governance Society.",
-        verificationLink: {
-          url: "https://ppgs.iitkgp.ac.in/members",
-          label: "Member Profile"
-        }
+        description: "Collaborated with research teams to apply ML models in chemical processes, optimization, and decision systems.",
+        verificationLink: { url: "#", label: "View Projects" }
+      }
+    ]
+  },
+  {
+    title: "Professional & Applied AI Impact",
+    items: [
+      {
+        description: "Worked on AI-driven financial modeling, alpha generation, and predictive analytics for real-world datasets.",
+        verificationLink: { url: "#", label: "Case Studies" }
+      },
+      {
+        description: "Developed interpretable ML frameworks bridging engineering models with data science for process optimization.",
+        verificationLink: { url: "#", label: "Learn More" }
+      },
+      {
+        description: "Applied hybrid modeling (physics + ML) for predictive maintenance and dynamic system monitoring.",
+        verificationLink: { url: "#", label: "View Application" }
+      }
+    ]
+  },
+  {
+    title: "Technical & Coding Milestones",
+    items: [
+      {
+        description: "Rated participant on Codeforces and Kaggle, demonstrating strong algorithmic and analytical thinking.",
+        verificationLink: { url: "#", label: "View Profile" }
+      },
+      {
+        description: "Built robust ML pipelines and quantitative research frameworks in Python, PyTorch, TensorFlow, and Scikit-learn.",
+        verificationLink: { url: "#", label: "View Code" }
+      },
+      {
+        description: "Contributed to open-source AI repositories and research-oriented projects in applied machine learning.",
+        verificationLink: { url: "#", label: "View Contributions" }
       }
     ]
   }
 ];
 
-export default achievementData;
+// Helper function updated to get the icon from the description text
+const getIconForAchievement = (description: string): React.ReactNode => {
+  const lowerDesc = description.toLowerCase();
+  if (lowerDesc.includes('hackathon') || lowerDesc.includes('awarded for innovation')) return <Trophy className="w-6 h-6 text-yellow-500" />;
+  if (lowerDesc.includes('scholarship') || lowerDesc.includes('strong performance')) return <Award className="w-6 h-6 text-slate-500" />;
+  if (lowerDesc.includes('degree') || lowerDesc.includes('iit kharagpur')) return <GraduationCap className="w-6 h-6 text-sky-500" />;
+  if (lowerDesc.includes('head') || lowerDesc.includes('organizer') || lowerDesc.includes('mentoring')) return <Users className="w-6 h-6 text-blue-600" />;
+  if (lowerDesc.includes('conference') || lowerDesc.includes('published')) return <BookOpen className="w-6 h-6 text-green-600" />;
+  if (lowerDesc.includes('codeforces') || lowerDesc.includes('kaggle') || lowerDesc.includes('pipelines')) return <Code className="w-6 h-6 text-indigo-600" />;
+  if (lowerDesc.includes('workshops') || lowerDesc.includes('seminars')) return <Megaphone className="w-6 h-6 text-orange-500" />;
+  if (lowerDesc.includes('financial modeling') || lowerDesc.includes('professional') || lowerDesc.includes('hybrid modeling')) return <Briefcase className="w-6 h-6 text-amber-700" />;
+  return <Award className="w-6 h-6 text-gray-500" />;
+};
+
+
+export default function Achievements() {
+  return (
+    <div className="bg-slate-50 font-sans">
+      <div className="max-w-4xl mx-auto px-4">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+          Awards & Achievements
+        </h2>
+        <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
+
+        <div className="space-y-5 mb-8">
+          {achievementData.map((category, index) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.15 }}
+              className="bg-white border border-gray-200 rounded-xl shadow-sm p-6"
+            >
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.title}</h3>
+              <div>
+                {category.items.map((item, itemIndex) => (
+                  <div key={itemIndex} className="p-4 rounded-lg hover:bg-slate-50 transition-colors duration-200 group">
+                    <div className="flex items-start gap-5">
+                      <div className="flex-shrink-0 mt-1 text-sm">
+                        {getIconForAchievement(item.description)}
+                      </div>
+                      <div className="flex-grow text-xs">
+                        {/* MODIFICATION: Displaying the description directly as the main text */}
+                        <p className="text-gray-700 text-xs">
+                          {item.description}
+                        </p>
+                      </div>
+                      <a
+                        href={item.verificationLink.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-shrink-0 flex items-center gap-1.5 text-xs text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      >
+                        {item.verificationLink.label}
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
