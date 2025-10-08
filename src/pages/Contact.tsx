@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import emailjs from 'emailjs-com';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, User, MessageSquare, Send, CheckCircle, AlertCircle } from 'lucide-react';
 
 type FormData = {
   name: string;
   email: string;
   message: string;
 };
+
+// Use the environment variable for your script URL for security
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoD1wzkI7pmnps0_kXvFCRoL4MKfK-Bx5z7eahO9dHLw5-qMwQrvbRv9aNOnFvGGk3/exec';
 
 const Contact: React.FC = () => {
   const {
@@ -16,134 +18,139 @@ const Contact: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [submitSuccess, setSubmitSuccess] = React.useState(false);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+
+  // --- THIS IS THE FINAL, CORRECTED ONSUBMIT FUNCTION ---
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // 1. Create a FormData object. This mimics a standard HTML form.
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('message', data.message);
+    // Note: We do NOT append a 'formType', so our script correctly handles it as a contact message.
+
     try {
-      // Replace with your EmailJS service ID, template ID, and user ID
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        data,
-        'YOUR_USER_ID'
-      );
-      setSubmitSuccess(true);
+      // 2. Send the FormData object.
+      // We remove 'mode: no-cors' and the 'headers' object for a more reliable request.
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        body: formData,
+      });
+
+      setSubmitStatus('success');
       reset();
     } catch (error) {
-      console.error('Error sending email:', error);
-      alert('Failed to send message. Please try sending mail on mentioned Gmail manually. Average time to response is 1-2 hours. Have a Nice Day !!');
+      console.error('Error sending message:', error);
+      setSubmitStatus('error');
     }
     setIsSubmitting(false);
   };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8 text-gradient text-center">Contact Me</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">Get in Touch</h2>
-          <p className="text-sm text-gray-800 mb-2">
-          I am always enthusiastic about exploring new opportunities and collaborating on impactful projects, particularly in the fields of Data Science, Machine learning, and Artificial intelligence. With my background in developing predictive models, advanced analytics, and integrated systems, I am eager to connect with like-minded professionals and organizations. Please feel free to reach out if you have any questions, potential projects, or opportunities that align with my expertise. 
-          I look forward to hearing from you! Average time of response is 1-2 hours.
-          </p>
-          <p className="text-sm text-gray-800 mb-6">
-          Have a Nice day !!
-          </p>
-          <div className="space-y-4">
-            <div className="flex items-center">
-              <Mail className="text-blue-600 mr-2" size={20} />
-              <span className="text-sm">kumararpit17773@gmail.com</span>
-            </div>
-            <div className="flex items-center">
-              <Phone className="text-blue-600 mr-2" size={20} />
-              <span className="text-sm">+91 9506035861</span>
-            </div>
-            <div className="flex items-center">
-              <MapPin className="text-blue-600 mr-2" size={20} />
-              <span className="text-sm">Lucknow, Uttar Pradesh, India</span>
+    <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+      <div className="container mx-auto max-w-4xl">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden md:grid md:grid-cols-5">
+          
+          {/* Contact Info Section */}
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-8 col-span-2">
+            <h2 className="text-3xl font-bold mb-4">Get in Touch</h2>
+            <p className="text-blue-100 mb-8 leading-relaxed">
+              I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+            </p>
+            <div className="space-y-6">
+              <div className="flex items-center">
+                <Mail className="w-6 h-6 mr-4 flex-shrink-0" />
+                <span className="break-all">kumararpit17773@gmail.com</span>
+              </div>
+              
+              <div className="flex items-center">
+                <MapPin className="w-6 h-6 mr-4 flex-shrink-0" />
+                <span>Lucknow, Uttar Pradesh, India</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div>
-              <label
-                htmlFor="name"
-                className="block text-base font-medium text-gray-900 mb-2 ml-2"
+
+          {/* Form Section */}
+          <div className="p-8 col-span-3">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Send me a message</h2>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+              
+              <div className="relative">
+                <User className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="text"
+                  id="name"
+                  placeholder="Your Name"
+                  {...register('name', { required: 'Name is required' })}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+              </div>
+              {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
+              
+              <div className="relative">
+                <Mail className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400" size={20} />
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="Your Email"
+                  {...register('email', {
+                    required: 'Email is required',
+                    pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+                  })}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                />
+              </div>
+              {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
+              
+              <div className="relative">
+                <MessageSquare className="absolute top-4 left-3 text-gray-400" size={20} />
+                <textarea
+                  id="message"
+                  placeholder="Your Message"
+                  rows={5}
+                  {...register('message', { required: 'Message is required' })}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none"
+                ></textarea>
+              </div>
+              {errors.message && <p className="text-sm text-red-600">{errors.message.message}</p>}
+              
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-transform transform hover:scale-105 disabled:bg-blue-400 disabled:cursor-not-allowed"
               >
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                {...register('name', { required: 'Name is required' })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-              {errors.name && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.name.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-base font-medium text-gray-900 mb-2 ml-2"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                {...register('email', {
-                  required: 'Email is required',
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: 'Invalid email address',
-                  },
-                })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-base font-medium text-gray-900 mb-2 ml-2"
-              >
-                Message
-              </label>
-              <textarea
-                id="message"
-                rows={4}
-                {...register('message', { required: 'Message is required' })}
-                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-              ></textarea>
-              {errors.message && (
-                <p className="mt-1 text-sm text-red-600">
-                  {errors.message.message}
-                </p>
-              )}
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full btn btn-primary"
-            >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
-          {submitSuccess && (
-            <p className="mt-4 text-green-600">
-              Thank you for your message. I'll get back to you soon! Have a Nice Day !!
-            </p>
-          )}
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5 mr-2" />
+                    Send Message
+                  </>
+                )}
+              </button>
+            </form>
+
+            {submitStatus === 'success' && (
+              <div className="mt-4 flex items-center text-green-600 bg-green-50 p-3 rounded-lg">
+                <CheckCircle className="w-5 h-5 mr-2" />
+                <p>Thank you! Your message has been sent successfully.</p>
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mt-4 flex items-center text-red-600 bg-red-50 p-3 rounded-lg">
+                <AlertCircle className="w-5 h-5 mr-2" />
+                <p>Failed to send. Please try emailing me directly.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

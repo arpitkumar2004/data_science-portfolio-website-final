@@ -10,6 +10,8 @@ import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import Contact from './pages/Contact';
 import RequestCV from './pages/RequestCV';
+import AboutMe from './pages/aboutme';
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -34,6 +36,8 @@ function App() {
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/request-cv" element={<RequestCV />} />
+            <Route path="/aboutme" element={<AboutMe />} />
+
           </Routes>
         </main>
         <Footer />

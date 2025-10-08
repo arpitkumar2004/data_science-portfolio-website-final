@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Award, 
@@ -9,10 +9,12 @@ import {
   Briefcase,
   Megaphone,
   BookOpen,
-  ExternalLink 
+  ExternalLink,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
-// Data from the previous step
+// Data from the previous step (no changes needed here)
 export const achievementData = [
   {
     title: "Academic & Research Excellence",
@@ -110,7 +112,7 @@ export const achievementData = [
 ];
 
 // Helper function updated to get the icon from the description text
-const getIconForAchievement = (description: string): React.ReactNode => {
+const getIconForAchievement = (description) => {
   const lowerDesc = description.toLowerCase();
   if (lowerDesc.includes('hackathon') || lowerDesc.includes('awarded for innovation')) return <Trophy className="w-6 h-6 text-yellow-500" />;
   if (lowerDesc.includes('scholarship') || lowerDesc.includes('strong performance')) return <Award className="w-6 h-6 text-slate-500" />;
@@ -125,53 +127,97 @@ const getIconForAchievement = (description: string): React.ReactNode => {
 
 
 export default function Achievements() {
+  // State to keep track of which categories are expanded.
+  // The keys are the category indices, and values are booleans.
+  const [expandedCategories, setExpandedCategories] = useState({});
+
+  // Function to toggle the expanded state for a given category index
+  const toggleCategory = (index) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [index]: !prev[index] // Toggle the boolean value
+    }));
+  };
+
+  const INITIAL_VISIBLE_COUNT = 2; // Number of items to show initially
+
   return (
-    <div className="bg-slate-50 font-sans">
+    <div className="bg-slate-50 font-sans py-16">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
           Awards & Achievements
         </h2>
         <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
 
-        <div className="space-y-5 mb-8">
-          {achievementData.map((category, index) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="bg-white border border-gray-200 rounded-xl shadow-sm p-6"
-            >
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.title}</h3>
-              <div>
-                {category.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="p-4 rounded-lg hover:bg-slate-50 transition-colors duration-200 group">
-                    <div className="flex items-start gap-5">
-                      <div className="flex-shrink-0 mt-1 text-sm">
-                        {getIconForAchievement(item.description)}
+        <div className="space-y-5">
+          {achievementData.map((category, index) => {
+            const isExpanded = !!expandedCategories[index];
+            const canBeExpanded = category.items.length > INITIAL_VISIBLE_COUNT;
+            const displayedItems = isExpanded 
+              ? category.items 
+              : category.items.slice(0, INITIAL_VISIBLE_COUNT);
+
+            return (
+              <motion.div
+                key={category.title}
+                layout // This will animate the height change
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1, layout: { duration: 0.3 } }}
+                className="bg-white border border-gray-200 rounded-xl shadow-sm p-6"
+              >
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.title}</h3>
+                <div>
+                  {displayedItems.map((item, itemIndex) => (
+                    <div key={itemIndex} className="p-4 rounded-lg hover:bg-slate-50 transition-colors duration-200 group">
+                      <div className="flex items-start gap-5">
+                        <div className="flex-shrink-0 mt-1">
+                          {getIconForAchievement(item.description)}
+                        </div>
+                        <div className="flex-grow">
+                          <p className="text-gray-700 text-sm leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                        <a
+                          href={item.verificationLink.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-shrink-0 flex items-center gap-1.5 text-sm text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        >
+                          {item.verificationLink.label}
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
                       </div>
-                      <div className="flex-grow text-xs">
-                        {/* MODIFICATION: Displaying the description directly as the main text */}
-                        <p className="text-gray-700 text-xs">
-                          {item.description}
-                        </p>
-                      </div>
-                      <a
-                        href={item.verificationLink.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-shrink-0 flex items-center gap-1.5 text-xs text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      >
-                        {item.verificationLink.label}
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
                     </div>
+                  ))}
+                </div>
+                
+                {/* Show More/Less Button */}
+                {canBeExpanded && (
+                  <div className="mt-4 pt-4 border-t border-gray-100 text-center">
+                    <button
+                      onClick={() => toggleCategory(index)}
+                      className="flex items-center justify-center gap-2 mx-auto text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      {isExpanded ? (
+                        <>
+                          <span>Show Less</span>
+                          <ChevronUp className="w-4 h-4" />
+                        </>
+                      ) : (
+                        <>
+                          <span>Show More</span>
+                          <ChevronDown className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
                   </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </div>

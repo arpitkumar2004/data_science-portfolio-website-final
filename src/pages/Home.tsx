@@ -7,20 +7,20 @@ import {
   Github,
   Linkedin,
   Mail,
+  Instagram,
+  Facebook,
+  Twitter,
   ArrowRight,
 } from "lucide-react";
-// import Achievements from "../components/Achievement";
+import { SiKaggle, SiMedium } from "react-icons/si";
 import ProjectCard from "../components/ProjectCard";
 import Experience from "../components/Experience";
-// import achievementData from '../data/AchievementData';
 import { projects } from "../data/projectsData";
 import iitkgplogo from "../data/img/me/2.png";
 import myphoto from "../data/img/me/my_photo2.png";
 import TechnicalProficiencies from "../data/skillsData";
 import Achievements from "../data/AchievementData";
-
-// Achievement data structure
-// const achievements = achievementData;
+import ResearchComponent from "../components/research";
 
 const Home: React.FC = () => {
   const itemVariants = {
@@ -183,6 +183,32 @@ const Home: React.FC = () => {
               >
                 <Mail className="w-5 h-5 group-hover:text-blue-600" />
               </motion.a>
+
+              <motion.a
+                href="https://medium.com/@kumararpit17773"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Medium"
+                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+
+                whileHover={{ scale: 1.5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <SiMedium className="w-5 h-5 fill-none stroke-[1.5] group-hover:text-blue-600" />
+              </motion.a>
+
+              <motion.a
+                href="https://www.kaggle.com/kumararpitiitkgp"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Kaggle"
+                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+
+                whileHover={{ scale: 1.5 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <SiKaggle className="w-7 h-5 group-hover:text-blue-600" />
+              </motion.a>
             </div>
           </motion.div>
 
@@ -211,205 +237,25 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* About Me Section */}
+      {/* More About me Button */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="text-center mb-16"
+      >
+        <Link
 
-      <h2 className="text-2xl font-bold mb-4 text-center">About Me</h2>
-      <div className="w-32 h-1 bg-blue-500 mx-auto rounded-full mb-10" />
-
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50">
-        <div className="max-w-6xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
-          >
-            {/* Left Column - Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
-              <div className="aspect-square rounded-2xl overflow-hidden shadow-xl">
-                <img
-                  src={myphoto}
-                  alt="Professional headshot"
-                  className="w-full h-full object-cover"
-                />
-                {/* Decorative elements */}
-                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full z-0" />
-                <div className="absolute -top-4 -left-4 w-32 h-32 bg-blue-500/5 rounded-full z-0" />
-              </div>
-            </motion.div>
-
-            {/* Right Column - Content */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="space-y-6"
-            >
-              {/* <motion.h2
-                className="text-3xl font-bold text-gray-800"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.6 }}
-              >
-                About Me
-              </motion.h2> */}
-
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.8 }}
-                className="space-y-4 text-gray-600 text-xs gap-6"
-              >
-                <p>Hi, My name is <strong>Arpit Kumar</strong>, an aspiring Machine Learning and AI Researcher. I’m a Machine Learning and AI Researcher passionate about building intelligent systems that unite data science, applied engineering, and applied finance to solve complex, real-world problems.
-                  I’m currently pursuing an <strong>Integrated Dual Degree (B.Tech + M.Tech)</strong> in Chemical Engineering at <strong>IIT Kharagpur</strong>.</p>
-                <p>
-                  My academic and research journey revolves around leveraging AI for optimization, prediction, and discovery across engineering and financial systems. Over the years, I’ve worked on projects spanning <strong>Statistical Machine Learning, Time Series Forecasting, Quantitative Finance</strong>, and <strong>AI-driven Process Systems</strong>. I thrive at the intersection of mathematical modeling and machine learning, where I design models that not only predict but also explain and optimize complex systems.
-                </p>
-                <p>
-                  With hands-on experience in <strong>predictive modeling, computer vision, NLP, and data visualization</strong>, I’m constantly exploring new technologies to push the boundaries of applied AI.
-                </p>
-              </motion.div>
-
-              {/* Key Points */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 1 }}
-                className="grid grid-cols-2 gap-4 pt-4"
-              >
-                <div className="space-y-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                    <span className="font-medium text-gray-700">Machine Learning Specialist</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                    <span className="font-medium text-gray-700">Predictive Modeling & Forecasting</span>
-                  </div>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                    <span className="font-medium text-gray-700">Time-Series Analysis</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                    <span className="font-medium text-gray-700">Optimization & Statistical Inference</span>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Key Areas of Expertise */}
-      <section className="mb-16">
-
-        {/* Summary Text */}
-        <motion.p
-          className="text-center text-gray-900 mt-10 max-w-8xl mx-auto mb-10 text-sm md:text-base px-4 leading-relaxed "
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          to="/aboutme"
+          className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 font-medium bg-transparent hover:bg-blue-50 border border-blue-500 hover:border-blue-600 px-5 py-3 rounded-lg transition"
         >
-          I specialize in developing scalable AI solutions for prediction, optimization, and decision-making — transforming research into real-world impact.
-        </motion.p>
-        <h2 className="text-2xl font-bold mb-4 text-center">Research Interests</h2>
-        <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          More About Me <ArrowRight className="w-5 h-5" />
+        </Link>
+      </motion.div>
 
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <Brain size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold mb-3">Applied AI in Engineering Systems</h3>
-            </div>
-            <p className="text-xs text-gray-600">
-              Integration of machine learning with engineering processes for optimization, anomaly detection, and intelligent control. Focused on data-driven discovery and efficiency enhancement in process systems.</p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <Brain size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold mb-3">Research & Innovation</h3>
-            </div>
-            <p className="text-xs text-gray-600">
-              Passionate about exploring the intersection of AI, mathematics, and domain science. Dedicated to developing interpretable and scalable models that bridge research and real-world impact.</p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <Brain size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold mb-3">Machine Learning Systems</h3>
-            </div>
-            <p className="text-xs text-gray-600">
-              Expertise in developing robust ML models for predictive analytics, optimization, and decision-making. Skilled in supervised and unsupervised learning, including regression, classification, and ensemble methods.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <BarChart size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold mb-3">Data Science & Analytics</h3>
-            </div>
-
-            <p className="text-xs text-gray-600">
-              Proficient in extracting insights from complex datasets through feature engineering, statistical modeling, and visualization. Strong command of Python, Pandas, and advanced analytics tools.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <Code size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold">Deep Learning & Neural Networks</h3>
-            </div>
-            <p className="text-xs text-gray-600">
-              Hands-on experience with neural networks using PyTorch and TensorFlow. Worked with CNNs, RNNs, LSTMs, and Transformers for applications in vision, NLP, and time-series forecasting.
-            </p>
-          </motion.div>
-
-          <motion.div
-            variants={itemVariants}
-            className="bg-white p-6 rounded-lg shadow-lg border border-gray-100"
-          >
-            <div className="flex items-center mb-4">
-              <Code size={32} className="mr-6 mb-1 text-blue-600" />
-              <h3 className="text-sm font-semibold">Quantitative Finance</h3>
-            </div>
-            <p className="text-xs text-gray-600">
-              Application of AI and mathematical modeling for market prediction, alpha generation, and portfolio optimization. Experienced in time-series analysis, risk modeling, and simulation-based strategies.
-            </p>
-          </motion.div>
-        </div>
-
-      </section>
+      {/* Research Section */}
+      <ResearchComponent />     
 
       {/* Project Section */}
       <section className="py-16 bg-gradient-to-b from-gray-50 to-white">

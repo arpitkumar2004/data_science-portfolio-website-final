@@ -1,15 +1,25 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Github,NotebookText, ExternalLink, ArrowRight,} from 'lucide-react';
+import { Github, NotebookText, ExternalLink, ArrowRight } from 'lucide-react';
 import { Project } from '../data/projectsData';
 
-// Add new props to the component
-interface ProjectCardProps {
+// Assuming Project type is defined elsewhere, e.g.:
+// export interface Project {
+//   id: string;
+//   title: string;
+//   description: string;
+//   image: string;
+//   tags: string[];
+//   githubLink?: string;
+//   articleLink?: string;
+// }
+
+interface ProjectCardProps extends Project {
   liveDemoLink?: string;
 }
 
-const ProjectCard: React.FC<Project & ProjectCardProps> = ({
+const ProjectCard: React.FC<ProjectCardProps> = ({
   id,
   title,
   description,
@@ -25,78 +35,93 @@ const ProjectCard: React.FC<Project & ProjectCardProps> = ({
     navigate(`/projects/${id}`);
   };
 
+  const handleLinkClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
+  // Tooltip component
+  const Tooltip: React.FC<{ text: string }> = ({ text }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 5 }}
+      transition={{ duration: 0.2 }}
+      className="absolute bottom-full mb-2 px-3 py-1 bg-slate-800 text-white text-xs rounded-md shadow-lg whitespace-nowrap z-10"
+    >
+      {text}
+    </motion.div>
+  );
+
+  // Reusable Icon Button with Tooltip
+  const IconWithTooltip: React.FC<{
+    href: string;
+    icon: React.ElementType;
+    tooltipText: string;
+  }> = ({ href, icon: Icon, tooltipText }) => {
+    const [isHovered, setIsHovered] = React.useState(false);
+    return (
+      <a
+        href={href}
+        onClick={handleLinkClick}
+        target="_blank"
+        rel="noopener noreferrer"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative flex items-center justify-center p-1 text-slate-500 hover:text-slate-900 transition-colors"
+      >
+        <Icon size={20} />
+        <AnimatePresence>
+          {isHovered && <Tooltip text={tooltipText} />}
+        </AnimatePresence>
+      </a>
+    );
+  };
+
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      className="group bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer relative border-2 border-transparent hover:border-gradient-primary"
+      whileHover={{ y: -8 }}
       onClick={handleCardClick}
+      className="group flex flex-col bg-white rounded-lg shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border border-slate-200 h-full"
     >
+      {/* Image Container */}
       <div className="relative overflow-hidden">
-        <motion.img
+        <img
           src={image}
           alt={title}
-          className="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-48 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 to-transparent" />
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
       </div>
-  
-      <div className="p-6 space-y-4">
-        <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+
+      {/* Content Container */}
+      <div className="p-5 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
-        
-        <p className="text-xs text-gray-600 leading-relaxed line-clamp-4">
+        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 flex-grow mb-4">
           {description}
         </p>
-  
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="px-2 py-1 text-xs font-light text-blue-500 bg-blue-50 rounded-full transition-colors hover:bg-blue-200"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-  
-        <div className="flex items-center justify-between pt-4">
-          <div className="flex space-x-1">
+
+        {/* Footer with Links */}
+        <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-200">
+          <div className="flex items-center space-x-2"> {/* Reduced space-x to account for tooltip padding */}
             {githubLink && (
-              <a
-                href={githubLink}
-                onClick={(e) => e.stopPropagation()}
-                className="flex items-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Github className='mr-2 text-xs' size={20} /> GitHub
-              </a>
+              <IconWithTooltip href={githubLink} icon={Github} tooltipText="GitHub" />
             )}
             {articleLink && (
-              <a
-                href={articleLink}
-                onClick={(e) => e.stopPropagation()}
-                className="flex items-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <NotebookText className='mr-2' size={20} /> Read Article
-              </a>
+              <IconWithTooltip href={articleLink} icon={NotebookText} tooltipText="Read Paper" />
             )}
             {liveDemoLink && (
-               <a
-                 href={liveDemoLink}
-                 onClick={(e) => e.stopPropagation()}
-                 className="flex item-center space-x-2 p-2 text-xs text-blue-500 hover:text-blue-900 transition-colors cursor-pointer"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                >
-                <ExternalLink className='mr-2' size={20} /> Live Demo
-              </a>
-            )}            
+              <IconWithTooltip href={liveDemoLink} icon={ExternalLink} tooltipText="Live Demo" />
+            )}
           </div>
-          <ArrowRight className="text-blue-600 group-hover:translate-x-1 transition-transform" />
+          <div className="flex items-center text-sm font-semibold text-blue-600">
+            View Details
+            <ArrowRight
+              size={16}
+              className="ml-1 transform transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </div>
         </div>
       </div>
     </motion.div>

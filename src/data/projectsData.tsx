@@ -16,6 +16,11 @@ export interface Project {
   githubLink: string;
   articleLink: string;
   liveDemoLink?: string;
+  role: string;
+  duration: string;
+  challenges: string[];
+  galleryImages?: string[];
+  similarProjectIds: number[];
 }
 
 
@@ -65,8 +70,22 @@ export const projects: Project[] = [
       `,
     "githubLink": "https://github.com/arpitkumar2004/customer-satisfaction-mlops",
     "articleLink": "https://medium.com/@yourusername/customer-satisfaction-mlops",
-    "liveDemoLink": "https://yourwebsite.com"
-  },  
+    "liveDemoLink": "https://yourwebsite.com",
+    "galleryImages": [
+      "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ],
+    "role": "Data Scientist & MLOps Engineer",
+    "duration": "Jan 2024 - Mar 2024",
+    "challenges": [
+      "Handling missing and inconsistent data in the dataset",
+      "Optimizing feature engineering to enhance model performance",
+      "Integrating ZenML and MLflow for seamless pipeline automation"
+    ],
+    "similarProjectIds": [2, 3, 4]
+
+  },
 
   {
     "id": 2,
@@ -107,10 +126,23 @@ export const projects: Project[] = [
       `,
     "githubLink": "https://github.com/arpitkumar2004/prices-predictor-system",
     "articleLink": "https://medium.com/@yourusername/house-price-prediction-mlops",
-    "liveDemoLink": "https://yourwebsite.com"
-  },  
+    "liveDemoLink": "https://yourwebsite.com",
+    "galleryImages": [
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    ],
+    "role": "Data Scientist & MLOps Engineer",
+    "duration": "Jan 2024 - Mar 2024",
+    "challenges": [
+      "Handling missing and inconsistent data in the dataset",
+      "Optimizing feature engineering to enhance model performance",
+      "Integrating ZenML and MLflow for seamless pipeline automation"
+    ],
+    "similarProjectIds": [2, 3, 4]
+  },
 
-{
+  {
     id: 3,
     title: "Customer Churn Prediction for Telecom Company",
     description:
@@ -165,7 +197,20 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://yourwebsite.com"
+    liveDemoLink: "https://yourwebsite.com",
+    role: "Data Scientist",
+    duration: "Jan 2023 - Mar 2023",
+    challenges: [
+      "Handling imbalanced dataset",
+      "Optimizing model hyperparameters",
+      "Interpreting model results for business insights"
+    ],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ],
+    similarProjectIds: [2, 3, 4]
   },
 
 
@@ -225,7 +270,19 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/arpitkumar2004/Credit-Fraud-Detection-Project",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://website.com"
+    liveDemoLink: "https://website.com",
+    role: "Data Scientist",
+    duration: "Jan 2023 - Mar 2023",
+    challenges: [
+      "Handling imbalanced dataset",
+      "Optimizing model hyperparameters",
+      "Interpreting model results for business insights"
+    ],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    ],
+    similarProjectIds: [2, 3, 4]
   },
   {
     "id": 5,
@@ -267,8 +324,16 @@ print("Recall:", recall_score(y_test, y_pred))
       `,
     "githubLink": "https://github.com/arpitkumar2004/American_Express_Project",
     "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
-    "liveDemoLink": "https://website.com"
-  },  
+    "liveDemoLink": "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Aug 2023 - Oct 2023",
+    "challenges": [
+      "Feature engineering from diverse cricket data sources",
+      "Combining multiple models into an effective ensemble",
+      "Handling missing values and ensuring data integrity"
+    ],
+    "similarProjectIds": [2, 3, 4]
+  },
   {
     "id": 6,
     "title": "DTL Quant Challenge 2024 - Alpha Generation Model",
@@ -311,33 +376,45 @@ print("Recall:", recall_score(y_test, y_pred))
       `,
     "githubLink": "https://github.com/yourusername/alpha-generation-model",
     "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
-    "liveDemoLink": "https://website.com"
-  },  
+    "liveDemoLink": "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
+  },
   {
-  "id": 7,
-  "title": "General Championship Data Analytics - Social and Healthcare Risk Scorecard",
-  "description": "Developed a comprehensive Social and Healthcare Risk Scorecard using decision trees and ensemble methods, achieving 82.89% accuracy and securing 1st rank.",
-  "longDescription": "This project involved creating a Social and Healthcare Risk Scorecard in collaboration with Evva Health. Using decision tree algorithms and community data gathered via web scraping with BeautifulSoup and Selenium, we constructed a risk assessment tool aimed at informing resource allocation based on risk factors. Advanced statistical techniques, including Bifactor and MIRT analysis, were utilized to analyze and score responses from patient questionnaires. The deployment on Streamlit provided an accessible and interactive platform for risk analysis, with an ensemble model incorporating Voting, BERT, and Bayes Classification achieving an accuracy of 82.89%.",
-  "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
-  "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping"],
-  "objectives": [
-    "Develop a risk scorecard to assess social and healthcare risk factors",
-    "Utilize patient data and community resource data for informed resource allocation",
-    "Achieve high accuracy in risk classification through advanced modeling"
-  ],
-  "technologies": ["Python", "Streamlit", "BeautifulSoup", "Selenium", "BERT", "Bayes Classification", "Voting Method"],
-  "methods": [
-    "Data collection using web scraping (BeautifulSoup and Selenium)",
-    "Statistical analysis using Bifactor and MIRT for scorecard construction",
-    "Decision tree model development and deployment via Streamlit",
-    "Ensemble model incorporating Voting, BERT, and Bayes Classification for accuracy optimization"
-  ],
-  "results": [
-    "Secured 1st place in the institute competition",
-    "Achieved an accuracy of 82.89% in risk assessment",
-    "Created a case study on India-based community resource allocation"
-  ],
-  "codeSnippet": `
+    "id": 7,
+    "title": "General Championship Data Analytics - Social and Healthcare Risk Scorecard",
+    "description": "Developed a comprehensive Social and Healthcare Risk Scorecard using decision trees and ensemble methods, achieving 82.89% accuracy and securing 1st rank.",
+    "longDescription": "This project involved creating a Social and Healthcare Risk Scorecard in collaboration with Evva Health. Using decision tree algorithms and community data gathered via web scraping with BeautifulSoup and Selenium, we constructed a risk assessment tool aimed at informing resource allocation based on risk factors. Advanced statistical techniques, including Bifactor and MIRT analysis, were utilized to analyze and score responses from patient questionnaires. The deployment on Streamlit provided an accessible and interactive platform for risk analysis, with an ensemble model incorporating Voting, BERT, and Bayes Classification achieving an accuracy of 82.89%.",
+    "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
+    "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping"],
+    "objectives": [
+      "Develop a risk scorecard to assess social and healthcare risk factors",
+      "Utilize patient data and community resource data for informed resource allocation",
+      "Achieve high accuracy in risk classification through advanced modeling"
+    ],
+    "technologies": ["Python", "Streamlit", "BeautifulSoup", "Selenium", "BERT", "Bayes Classification", "Voting Method"],
+    "methods": [
+      "Data collection using web scraping (BeautifulSoup and Selenium)",
+      "Statistical analysis using Bifactor and MIRT for scorecard construction",
+      "Decision tree model development and deployment via Streamlit",
+      "Ensemble model incorporating Voting, BERT, and Bayes Classification for accuracy optimization"
+    ],
+    "results": [
+      "Secured 1st place in the institute competition",
+      "Achieved an accuracy of 82.89% in risk assessment",
+      "Created a case study on India-based community resource allocation"
+    ],
+    "codeSnippet": `
 from sklearn.ensemble import VotingClassifier
 from sklearn.tree import DecisionTreeClassifier
 from transformers import BertModel
@@ -350,35 +427,47 @@ voting_model = VotingClassifier(estimators=[('dt', dt_model), ('bert', bert_mode
 # Training the model
 voting_model.fit(X_train, y_train)
     `,
-  "githubLink": "https://github.com/yourusername/healthcare-risk-scorecard",
-  "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
-  "liveDemoLink": "https://website.com"
-},
-{
-  "id": 8,
-  "title": "Open IIT Data Analytics Competition - Footfall Prediction",
-  "description": "Developed a time-series model to predict city footfall, achieving 86.63% accuracy and securing 2nd place in the institute.",
-  "longDescription": "In this project, we built a predictive model to forecast city footfall based on historical time-series data, as part of the Open IIT Data Analytics Competition. By scraping data using BeautifulSoup and conducting exploratory data analysis, we uncovered key patterns in the time series. Applying K-Means clustering helped identify underlying trends. Forecasting models, including FBProphet, Random Forest, and Bidirectional LSTM, were then combined in an ensemble approach that improved prediction accuracy, resulting in an 86.63% accuracy score. This ensemble model offered a robust and dynamic forecasting solution for city footfall.",
-  "image": "https://imgs.search.brave.com/S8-YiFIU0XBX9jE91wgiHBftts4ZGFN46EVla9J2LJE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dHJhZnN5cy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjQv/MDIvMi1XaGF0LUlz/LUZvb3RmYWxsLUFu/YWx5dGljcy5qcGc",
-  "tags": ["Data Analytics", "Time Series", "Footfall Prediction", "Ensemble Modeling", "K-Means Clustering"],
-  "objectives": [
-    "Predict city footfall using historical time-series data",
-    "Improve forecasting accuracy through an ensemble approach",
-    "Identify trends and clusters in footfall data for better resource allocation"
-  ],
-  "technologies": ["Python", "BeautifulSoup", "FBProphet", "Random Forest", "LSTM", "K-Means"],
-  "methods": [
-    "Web scraping using BeautifulSoup for data collection",
-    "Exploratory data analysis and time series decomposition",
-    "Clustering with K-Means for trend identification",
-    "Ensemble modeling with FBProphet, Random Forest, and Bidirectional LSTM"
-  ],
-  "results": [
-    "Achieved 2nd place in the institute competition",
-    "Reached an accuracy of 86.63% in footfall prediction",
-    "Developed a reliable footfall prediction model for urban planning"
-  ],
-  "codeSnippet": `
+    "githubLink": "https://github.com/yourusername/healthcare-risk-scorecard",
+    "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
+    "liveDemoLink": "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Open IIT Data Analytics Competition - Footfall Prediction",
+    "description": "Developed a time-series model to predict city footfall, achieving 86.63% accuracy and securing 2nd place in the institute.",
+    "longDescription": "In this project, we built a predictive model to forecast city footfall based on historical time-series data, as part of the Open IIT Data Analytics Competition. By scraping data using BeautifulSoup and conducting exploratory data analysis, we uncovered key patterns in the time series. Applying K-Means clustering helped identify underlying trends. Forecasting models, including FBProphet, Random Forest, and Bidirectional LSTM, were then combined in an ensemble approach that improved prediction accuracy, resulting in an 86.63% accuracy score. This ensemble model offered a robust and dynamic forecasting solution for city footfall.",
+    "image": "https://imgs.search.brave.com/S8-YiFIU0XBX9jE91wgiHBftts4ZGFN46EVla9J2LJE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dHJhZnN5cy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjQv/MDIvMi1XaGF0LUlz/LUZvb3RmYWxsLUFu/YWx5dGljcy5qcGc",
+    "tags": ["Data Analytics", "Time Series", "Footfall Prediction", "Ensemble Modeling", "K-Means Clustering"],
+    "objectives": [
+      "Predict city footfall using historical time-series data",
+      "Improve forecasting accuracy through an ensemble approach",
+      "Identify trends and clusters in footfall data for better resource allocation"
+    ],
+    "technologies": ["Python", "BeautifulSoup", "FBProphet", "Random Forest", "LSTM", "K-Means"],
+    "methods": [
+      "Web scraping using BeautifulSoup for data collection",
+      "Exploratory data analysis and time series decomposition",
+      "Clustering with K-Means for trend identification",
+      "Ensemble modeling with FBProphet, Random Forest, and Bidirectional LSTM"
+    ],
+    "results": [
+      "Achieved 2nd place in the institute competition",
+      "Reached an accuracy of 86.63% in footfall prediction",
+      "Developed a reliable footfall prediction model for urban planning"
+    ],
+    "codeSnippet": `
 from fbprophet import Prophet
 from sklearn.ensemble import RandomForestRegressor
 from keras.layers import LSTM, Bidirectional
@@ -394,11 +483,23 @@ model.compile(optimizer='adam', loss='mse')
 # Train model
 model.fit(X_train, y_train, epochs=100, validation_split=0.2)
     `,
-  "githubLink": "https://github.com/yourusername/footfall-prediction",
-  "articleLink": "https://medium.com/@yourusername/footfall-prediction",
-  "liveDemoLink": "https://website.com"
-},
-{
+    "githubLink": "https://github.com/yourusername/footfall-prediction",
+    "articleLink": "https://medium.com/@yourusername/footfall-prediction",
+    "liveDemoLink": "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
+  },
+  {
     id: 9,
     title: "Recommendation Engine for E-commerce Platform",
     description:
@@ -453,7 +554,19 @@ print("Recall:", recall_score(y_test, y_pred))
     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://website.com"
+    liveDemoLink: "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
   },
   {
     "id": 10,
@@ -461,13 +574,13 @@ print("Recall:", recall_score(y_test, y_pred))
     "description": "Forecasted product demand using advanced time-series models, achieving a MAPE of 17.1% with LSTM, and uncovering key sales trends and patterns.",
     "longDescription": "This demand forecasting project for the Interhall Data Analytics Competition involved analyzing 3 years of sales data to understand trends, detect outliers, and improve forecasting accuracy. Using Dynamic Time Warping, products with similar sales trends were clustered to aid in demand predictions. Models like SARIMAX, LSTM, and CatBoost were employed to compare their effectiveness, achieving Mean Absolute Percentage Errors (MAPE) of 25.7% (SARIMAX), 17.1% (LSTM), and 18.3% (CatBoost). The approach led to accurate demand forecasting, demonstrating the efficacy of advanced time-series techniques.",
     "image": "https://imgs.search.brave.com/KZ6FnWsD7yAHDbTFoKkmSFBFHG90Xye15_ccwxK7yN8/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgy/ODU4NjgzL3Bob3Rv/L3N1cHBseS1hbmQt/ZGVtYW5kLWdyYXBo/LmpwZz9zPTYxMng2/MTImdz0wJms9MjAm/Yz0zWW14RFByNUx6/LXZZcGhwb0R4aFpy/NzNuaHJqWlZVOHhp/WEpmTEE3bTNBPQ",
-    "tags": ["Time Series Analysis","LSTM",  "Demand Forecasting", "Data Clustering", "SARIMAX", "CatBoost"],
+    "tags": ["Time Series Analysis", "LSTM", "Demand Forecasting", "Data Clustering", "SARIMAX", "CatBoost"],
     "objectives": [
       "Analyze sales data to detect trends and outliers",
       "Cluster products with similar sales patterns using Dynamic Time Warping",
       "Improve forecasting accuracy using advanced time-series models"
     ],
-    "technologies": ["Python","LSTM", "Pandas", "Dynamic Time Warping",  "SARIMAX", "CatBoost"],
+    "technologies": ["Python", "LSTM", "Pandas", "Dynamic Time Warping", "SARIMAX", "CatBoost"],
     "methods": [
       "Exploratory Data Analysis for trend detection and outlier analysis",
       "Dynamic Time Warping for clustering similar time-series patterns",
@@ -500,8 +613,20 @@ print("Recall:", recall_score(y_test, y_pred))
       `,
     "githubLink": "https://github.com/yourusername/demand-forecasting-competition",
     "articleLink": "https://medium.com/@yourusername/demand-forecasting-case-study",
-    "liveDemoLink": "https://website.com"
-  },  
+    "liveDemoLink": "https://website.com",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
+  },
   {
     "id": 11,
     "title": "FUGACITY Fest Website Development",
@@ -531,7 +656,19 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     `,
     "githubLink": "https://github.com/ChemicalEngineeringAssociation/ChEA_Fugacity",
     "articleLink": "https://medium.com/@yourusername/fugacity-fest-website",
-    "liveDemoLink": "https://chea-ikkswc60t-shau8122.vercel.app"
+    "liveDemoLink": "https://chea-ikkswc60t-shau8122.vercel.app",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
   },
   {
     "id": 12,
@@ -562,6 +699,18 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     `,
     "githubLink": "https://github.com/arpitkumar2004/data_science-portfolio-website-final",
     "articleLink": "https://medium.com/@yourusername/portfolio-website",
-    "liveDemoLink": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/"
-  }  
+    "liveDemoLink": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/",
+    "role": "Data Scientist",
+    "duration": "Dec 2023 - Feb 2024",
+    "challenges": [
+      "Integrating multiple financial signals effectively",
+      "Dynamically adjusting model parameters based on performance",
+      "Validating model robustness across different market conditions"
+    ],
+    "similarProjectIds": [2, 3, 4],
+    "galleryImages": [
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
+    ]
+  }
 ];
