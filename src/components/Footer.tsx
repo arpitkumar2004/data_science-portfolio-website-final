@@ -44,7 +44,7 @@ const Footer: React.FC = () => {
           </div>
           {/* Right: Socials */}
           <div>
-            <h4 className="font-semibold mb-2 text-base">Connect Via</h4>
+            <h4 className="font-semibold mb-2 text-base">Follow me on</h4>
             <div className="flex space-x-4">
               <a
                 href="https://github.com/arpitkumar2004"
@@ -78,7 +78,7 @@ const Footer: React.FC = () => {
         </div>
         {/* Bottom: Copyright */}
         <div className="mt-8 border-t border-gray-700 pt-4 text-center text-xs text-gray-400">
-          &copy; 2025 Arpit Kumar. All rights reserved. | Built with React &amp; Tailwind CSS
+          &copy; 2025 Arpit Kumar | All rights reserved | Made with ❤️ by Arpit Kumar with React &amp; Tailwind CSS
         </div>
       </div>
     </footer>

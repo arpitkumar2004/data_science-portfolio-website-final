@@ -4,11 +4,28 @@ import { projects } from '../data/projectsData';
 import ProjectCard from '../components/ProjectCard';
 import { Search, Filter, X, LayoutGrid, List, Columns } from 'lucide-react';
 
+const parseEndDate = (duration: string): Date => {
+  const parts = duration.split(' - ');
+  if (parts.length === 2) {
+    const endPart = parts[1];
+    const [month, year] = endPart.split(' ');
+    const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
+    return new Date(parseInt(year), monthIndex, 1);
+  }
+  return new Date(0); // fallback
+};
+
 const Projects: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [layout, setLayout] = useState<'list' | 'grid-2' | 'grid-3'>('grid-2');
   const [showFilters, setShowFilters] = useState(false);
+
+  const sortedProjects = [...projects].sort((a, b) => {
+    const dateA = parseEndDate(a.duration);
+    const dateB = parseEndDate(b.duration);
+    return dateB.getTime() - dateA.getTime(); // descending, latest first
+  });
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,13 +43,13 @@ const Projects: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const filteredProjects = projects.filter(
+  const filteredProjects = sortedProjects.filter(
     (project) =>
       project.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (selectedTags.length === 0 || selectedTags.some(tag => project.tags.includes(tag)))
   );
 
-  const allTags = Array.from(new Set(projects.flatMap((project) => project.tags)));
+  const allTags = Array.from(new Set(sortedProjects.flatMap((project) => project.tags)));
 
   const layoutClass = layout === 'list'
     ? 'flex flex-col gap-8'
