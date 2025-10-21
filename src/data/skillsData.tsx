@@ -1,35 +1,49 @@
 // import React from "react";
 import { motion } from "framer-motion";
-import { Brain, BarChart, Cloud, Code2, BookOpen, Target } from "lucide-react";
+import { Brain, BarChart, Code2, Sigma, Network, BookOpen, Target, FlaskConical } from "lucide-react";
 
-const techData = [
+export const techData = [
   {
     title: "Machine Learning & AI Frameworks",
     icon: <Brain className="w-6 h-6 text-blue-600" />,
     description:
       "Expertise in building, training, and deploying scalable ML/DL models for predictive analytics, computer vision, and quantitative finance.",
-    tools: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "OpenCV", "XGBoost", "LightGBM", "CatBoost"],
+    tools: ["TensorFlow", "PyTorch", "Scikit-learn", "Keras", "XGBoost", "LightGBM", "CatBoost", "OpenCV", "Transformers"],
+  },
+  {
+    title: "Quantitative & Statistical Modeling",
+    icon: <Sigma className="w-6 h-6 text-blue-600" />,
+    description:
+      "Strong foundation in stochastic processes, volatility modeling, optimization, and risk analytics with hybrid ML-finance integration.",
+    tools: ["NumPy", "Pandas", "Statsmodels", "QuantLib", "TA-Lib", "SciPy"],
   },
   {
     title: "Data Science & Visualization",
     icon: <BarChart className="w-6 h-6 text-blue-600" />,
     description:
-      "Skilled in end-to-end data workflows — from cleaning and preprocessing to statistical analysis and interactive visualization.",
-    tools: ["Pandas", "NumPy", "Matplotlib", "Seaborn", "Plotly", "Power BI", "Tableau"],
+      "Experienced in full-cycle data workflows — preprocessing, EDA, feature selection, and visualization for insight-driven modeling.",
+    tools: ["Pandas", "Matplotlib", "Seaborn", "Plotly", "Power BI", "Tableau"],
   },
   {
-    title: "Programming Tools",
+    title: "Backend & ML Systems Engineering",
+    icon: <Network className="w-6 h-6 text-blue-600" />,
+    description:
+      "Designing modular ML systems with containerization, versioning, and automation for reproducible pipelines.",
+    tools: ["FastAPI", "Flask", "Docker", "MLflow", "DVC", "Airflow", "Kafka", "Streamlit"],
+  },
+  {
+    title: "Programming & Automation",
     icon: <Code2 className="w-6 h-6 text-blue-600" />,
     description:
-      "Experienced in writing modular and optimized code for analytics, automation, and system integration.",
-    tools: ["Python", "C", "SQL", "C++", "Git", "Jupyter", "VS Code", "Streamlit", "FastAPI", "Flask"],
+      "Proficient in writing optimized, modular, and reproducible code for data analytics and AI applications.",
+    tools: ["Python", "C", "C++", "SQL", "MATLAB", "HTML", "CSS", "JavaScript", "LaTeX", "Git"],
   },
   {
-    title: "Core Chemical Engineering Tools",
-    icon: <Cloud className="w-6 h-6 text-blue-600" />,
+    title: "Chemical Engineering & Simulation Tools",
+    icon: <FlaskConical className="w-6 h-6 text-blue-600" />,
     description:
-      "Hands-on with advanced simulation tools for process modeling, optimization, and computational fluid dynamics (CFD).",
-    tools: ['Aspen Plus v14', "Aspen Hysys", "Comsol Multiphysics", "ANSYS", " OpenFOAM",],
+      "Hands-on experience with process modeling, simulation, and optimization in chemical engineering systems.",
+    tools: ["Aspen Plus v14", "Aspen HYSYS", "COMSOL Multiphysics", "ANSYS Fluent", "OpenFOAM"],
   },
 ];
 
@@ -93,7 +107,7 @@ export default function TechnicalProficiencies() {
             >
               <div className="flex items-center gap-3 mb-3">
                 {item.icon}
-                <h3 className="text-lg font-semibold text-gray-800">{item.title}</h3>
+                <h3 className="text-md font-semibold text-gray-800">{item.title}</h3>
               </div>
               {/* <p className="text-gray-600 text-sm mb-4">{item.description}</p> */}
               <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-8">

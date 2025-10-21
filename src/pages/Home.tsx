@@ -15,6 +15,7 @@ import {
 import { SiKaggle, SiMedium } from "react-icons/si";
 import ProjectCard from "../components/ProjectCard";
 import Experience from "../components/Experience";
+import Education from "../components/Education";
 import { projects } from "../data/projectsData";
 import iitkgplogo from "../data/img/me/2.png";
 import myphoto from "../data/img/me/my_photo2.png";
@@ -255,7 +256,22 @@ const Home: React.FC = () => {
       </motion.div>
 
       {/* Research Section */}
-      <ResearchComponent />     
+      <ResearchComponent />    
+
+      {/* Experience Section */}
+      <section className="mb-16">
+        <Experience />
+      </section>
+
+      {/* Education Section */}
+      <section className="mb-16">
+        <Education />
+      </section>
+
+      {/* Achievements and Leadership Section */}
+      <section className="bg-gray-50">
+        <Achievements />
+      </section>
 
       {/* Project Section */}
       <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
@@ -268,7 +284,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Featured Projects</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Project you might like</h2>
             <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
             <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
               Showcasing innovative solutions in machine learning, computer vision, and data science
@@ -278,12 +294,12 @@ const Home: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             <AnimatePresence mode="popLayout">
               <ProjectCard
-                key={projects[3].id}
-                {...projects[3]}
+                key={projects[12].id}
+                {...projects[12]}
               />
               <ProjectCard
-                key={projects[4].id}
-                {...projects[4]}
+                key={projects[9].id}
+                {...projects[9]}
               />
               <ProjectCard
                 key={projects[2].id}
@@ -316,14 +332,14 @@ const Home: React.FC = () => {
       </section>
 
       {/* Experience Section */}
-      <section className="mb-16">
+      {/* <section className="mb-16">
         <Experience />
-      </section>
+      </section> */}
 
       {/* Achievements and Leadership Section */}
-      <section className="bg-gray-50">
+      {/* <section className="bg-gray-50">
         <Achievements />
-      </section>
+      </section> */}
     </div>
   );
 };

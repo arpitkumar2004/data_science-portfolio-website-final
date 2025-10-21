@@ -12,65 +12,47 @@ export interface Project {
   technologies: string[];
   methods: string[];
   results: string[];
-  codeSnippet: string;
-  githubLink: string;
-  articleLink: string;
+  codeSnippet?: string;
+  githubLink?: string;
+  articleLink?: string;
   liveDemoLink?: string;
   role: string;
   duration: string;
   challenges: string[];
   galleryImages?: string[];
-  similarProjectIds: number[];
+  similarProjectIds?: number[];
 }
 
 
 export const projects: Project[] = [
   {
     "id": 1,
-    "title": "Customer-Satisfaction using MLOps (ZenML)",
-    "description": "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring.",
+    "title": "Customer-Satisfaction Prediction Project ",
+    "description": "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring. Utilized MLflow for model tracking and ZenML for efficient model deployment.",
     "longDescription": "This project involved analyzing a dataset of over 100,000 orders to predict customer satisfaction based on review scores. Leveraging ZenML and MLflow, the project featured an automated pipeline for data processing, model training, and deployment. Extensive data transformations and feature engineering were applied, focusing on attributes such as order status, pricing, and payment methods to optimize prediction accuracy.",
     "image": "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "tags": ["MLOps", "Regression", "ZenML", "MLflow", "Data Engineering"],
+    "tags": ["MLOps", "Regression", "MLflow", "Data Engineering", "DVC"],
     "objectives": [
-      "Improve accuracy of customer review score predictions",
-      "Automate pipeline for efficient model deployment and updates",
-      "Track and monitor model performance over time"
+      "Improve accuracy of customer review score predictions through feature engineering",
+      "Automate pipeline for efficient model deployment and updates using ZenML and MLflow integration",
+      "Track and monitor model performance over time for continuous improvement through MLflow tracking dashboard"
     ],
-    "technologies": ["Python", "ZenML", "MLflow", "Pandas", "Scikit-learn"],
+    "technologies": ["Python", "ZenML", "MLflow", "Pandas", "Scikit-learn", "Pytest", "DVC"],
     "methods": [
-      "Data preprocessing including handling missing values and normalization",
-      "Feature engineering to generate 15+ new predictive features",
-      "Development of regression models to predict customer review scores",
-      "Automation of ML pipeline with ZenML and MLflow integration",
-      "Monitoring and model tracking for continuous performance updates"
+      "Data preprocessing including handling missing values and normalization of numerical features",
+      "Feature engineering to generate 15+ new predictive features from existing ones for enhanced accuracy",
+      "Development of regression models to predict customer review scores with high accuracy metrics such as MAE and RMSE",
+      "Automation of ML pipeline with ZenML and MLflow integration for efficient model deployment and updates",
+      "Monitoring and model tracking for continuous performance updates through MLflow dashboard and version control with DVC"
     ],
     "results": [
-      "Achieved a 20% improvement in model accuracy metrics",
-      "Streamlined pipeline with automated deployment and monitoring",
-      "Enhanced feature extraction contributing to higher forecast accuracy"
+      "Achieved a 20% improvement in model accuracy metrics through feature engineering and automation",
+      "Streamlined pipeline with automated deployment and monitoring through ZenML and MLflow integration",
+      "Enhanced feature extraction contributing to higher forecast accuracy and user satisfaction predictions for customers"
     ],
-    "codeSnippet": `
-  import zenml.pipelines as zp
-  from sklearn.linear_model import LinearRegression
-  from sklearn.preprocessing import StandardScaler
-  from sklearn.pipeline import Pipeline
-  
-  # Example: Setting up a preprocessing and regression pipeline
-  scaler = StandardScaler()
-  model = LinearRegression()
-  
-  pipeline = Pipeline([
-      ('scaler', scaler),
-      ('regression', model)
-  ])
-  
-  # Fit model with preprocessed data
-  pipeline.fit(X_train, y_train)
-      `,
     "githubLink": "https://github.com/arpitkumar2004/customer-satisfaction-mlops",
     "articleLink": "https://medium.com/@yourusername/customer-satisfaction-mlops",
-    "liveDemoLink": "https://yourwebsite.com",
+    "liveDemoLink": "https://github.com/arpitkumar2004/customer-satisfaction-mlops",
     "galleryImages": [
       "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -83,13 +65,13 @@ export const projects: Project[] = [
       "Optimizing feature engineering to enhance model performance",
       "Integrating ZenML and MLflow for seamless pipeline automation"
     ],
-    "similarProjectIds": [2, 3, 4]
+    // "similarProjectIds": [2, 3, 4]
 
   },
 
   {
     "id": 2,
-    "title": "House Price Prediction using MLOps (ZenML)",
+    "title": "House Price Prediction Pipeline with MLflow",
     "description": "Developed a dynamic, end-to-end pipeline for house price prediction, with automated deployment and real-time forecasting capabilities.",
     "longDescription": "This project aimed to predict house prices by constructing a comprehensive pipeline using ZenML, focusing on data preprocessing, feature engineering, and model optimization. Key elements included dynamic data splitting, imputation, outlier detection, and scaling to enhance model accuracy and robustness. Automated model deployment was implemented using ZenML, enabling real-time prediction services.",
     "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
@@ -111,22 +93,9 @@ export const projects: Project[] = [
       "Real-time prediction services enabled by automated deployment",
       "Enhanced model performance via cross-validation and tuning"
     ],
-    "codeSnippet": `
-  from zenml.pipelines import pipeline
-  from sklearn.ensemble import RandomForestRegressor
-  from sklearn.model_selection import train_test_split
-  
-  # Example pipeline step for data splitting and model training
-  def data_split(X, y):
-      X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-      return X_train, X_test, y_train, y_test
-  
-  model = RandomForestRegressor()
-  model.fit(X_train, y_train)
-      `,
     "githubLink": "https://github.com/arpitkumar2004/prices-predictor-system",
     "articleLink": "https://medium.com/@yourusername/house-price-prediction-mlops",
-    "liveDemoLink": "https://yourwebsite.com",
+    "liveDemoLink": "https://github.com/arpitkumar2004/prices-predictor-system",
     "galleryImages": [
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
@@ -139,7 +108,7 @@ export const projects: Project[] = [
       "Optimizing feature engineering to enhance model performance",
       "Integrating ZenML and MLflow for seamless pipeline automation"
     ],
-    "similarProjectIds": [2, 3, 4]
+    // "similarProjectIds": [2, 3, 4]
   },
 
   {
@@ -169,35 +138,9 @@ export const projects: Project[] = [
       "10% reduction in marketing costs by targeting at-risk customers",
       "Higher engagement through personalized customer interactions",
     ],
-    codeSnippet: `
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-# Load and preprocess the data
-df = pd.read_csv('customer_data.csv')
-X = df.drop(columns=['churn'])
-y = df['churn']
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Train logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-# Predictions
-y_pred = model.predict(X_test)
-
-# Evaluate
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall:", recall_score(y_test, y_pred))
-    `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://yourwebsite.com",
+    // liveDemoLink: "https://github.com/yourusername/customer-churn",
     role: "Data Scientist",
     duration: "Jan 2023 - Mar 2023",
     challenges: [
@@ -210,7 +153,7 @@ print("Recall:", recall_score(y_test, y_pred))
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     ],
-    similarProjectIds: [2, 3, 4]
+    // similarProjectIds: [2, 3, 4]
   },
 
 
@@ -242,35 +185,9 @@ print("Recall:", recall_score(y_test, y_pred))
       "10% reduction in marketing costs by targeting at-risk customers",
       "Higher engagement through personalized customer interactions",
     ],
-    codeSnippet: `
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-# Load and preprocess the data
-df = pd.read_csv('customer_data.csv')
-X = df.drop(columns=['churn'])
-y = df['churn']
-
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Train logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-# Predictions
-y_pred = model.predict(X_test)
-
-# Evaluate
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall:", recall_score(y_test, y_pred))
-    `,
     githubLink: "https://github.com/arpitkumar2004/Credit-Fraud-Detection-Project",
-    articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://website.com",
+    // articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
+    // liveDemoLink: "https://github.com/yourusername/customer-churn",
     role: "Data Scientist",
     duration: "Jan 2023 - Mar 2023",
     challenges: [
@@ -282,7 +199,7 @@ print("Recall:", recall_score(y_test, y_pred))
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
     ],
-    similarProjectIds: [2, 3, 4]
+    // similarProjectIds: [2, 3, 4]
   },
   {
     "id": 5,
@@ -307,24 +224,9 @@ print("Recall:", recall_score(y_test, y_pred))
       "Developed a reliable model for T-20 cricket match predictions",
       "Validated model effectiveness through ensemble predictions"
     ],
-    "codeSnippet": `
-  from lightgbm import LGBMClassifier
-  from xgboost import XGBClassifier
-  from catboost import CatBoostClassifier
-  from sklearn.ensemble import VotingClassifier
-  
-  # Model setup
-  lgbm = LGBMClassifier()
-  xgb = XGBClassifier()
-  cat = CatBoostClassifier(verbose=0)
-  
-  # Ensemble setup
-  ensemble_model = VotingClassifier(estimators=[('lgbm', lgbm), ('xgb', xgb), ('cat', cat)], voting='soft')
-  ensemble_model.fit(X_train, y_train)
-      `,
     "githubLink": "https://github.com/arpitkumar2004/American_Express_Project",
-    "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
-    "liveDemoLink": "https://website.com",
+    // "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
+    // "liveDemoLink": "https://website.com",
     "role": "Data Scientist",
     "duration": "Aug 2023 - Oct 2023",
     "challenges": [
@@ -332,7 +234,7 @@ print("Recall:", recall_score(y_test, y_pred))
       "Combining multiple models into an effective ensemble",
       "Handling missing values and ensuring data integrity"
     ],
-    "similarProjectIds": [2, 3, 4]
+    // "similarProjectIds": [2, 3, 4]
   },
   {
     "id": 6,
@@ -357,34 +259,17 @@ print("Recall:", recall_score(y_test, y_pred))
       "Ranked 19th nationally in the DTL Quant Challenge",
       "Validated model's reliability and adaptability in dynamic markets"
     ],
-    "codeSnippet": `
-  import pandas as pd
-  import numpy as np
-  
-  def calculate_alpha(data):
-      # Example RSI calculation
-      delta = data['close'].diff(1)
-      gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-      loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-      rs = gain / loss
-      rsi = 100 - (100 / (1 + rs))
-      return rsi
-  
-  # Combining RSI with volatility and trend for alpha signal
-  data['alpha'] = calculate_alpha(data)
-  data['adjusted_alpha'] = data['alpha'] * data['volatility'] * data['trend']
-      `,
     "githubLink": "https://github.com/yourusername/alpha-generation-model",
-    "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
-    "liveDemoLink": "https://website.com",
+    // "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
+    // "liveDemoLink": "https://website.com",
     "role": "Data Scientist",
     "duration": "Dec 2023 - Feb 2024",
     "challenges": [
-      "Integrating multiple financial signals effectively",
-      "Dynamically adjusting model parameters based on performance",
-      "Validating model robustness across different market conditions"
+      "Integrating multiple financial signals effectively for alpha generation",
+      "Dynamically adjusting model parameters based on performance and market conditions",
+      "Validating model robustness across different market conditions and scenarios"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -414,22 +299,22 @@ print("Recall:", recall_score(y_test, y_pred))
       "Achieved an accuracy of 82.89% in risk assessment",
       "Created a case study on India-based community resource allocation"
     ],
-    "codeSnippet": `
-from sklearn.ensemble import VotingClassifier
-from sklearn.tree import DecisionTreeClassifier
-from transformers import BertModel
+//     "codeSnippet": `
+// from sklearn.ensemble import VotingClassifier
+// from sklearn.tree import DecisionTreeClassifier
+// from transformers import BertModel
 
-# Example ensemble layer using Voting method
-dt_model = DecisionTreeClassifier()
-bert_model = BertModel.from_pretrained("bert-base-uncased")
-voting_model = VotingClassifier(estimators=[('dt', dt_model), ('bert', bert_model)], voting='soft')
+// # Example ensemble layer using Voting method
+// dt_model = DecisionTreeClassifier()
+// bert_model = BertModel.from_pretrained("bert-base-uncased")
+// voting_model = VotingClassifier(estimators=[('dt', dt_model), ('bert', bert_model)], voting='soft')
 
-# Training the model
-voting_model.fit(X_train, y_train)
-    `,
+// # Training the model
+// voting_model.fit(X_train, y_train)
+//     `,
     "githubLink": "https://github.com/yourusername/healthcare-risk-scorecard",
-    "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
-    "liveDemoLink": "https://website.com",
+    // "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
+    // "liveDemoLink": "https://website.com",
     "role": "Data Scientist",
     "duration": "Dec 2023 - Feb 2024",
     "challenges": [
@@ -437,7 +322,7 @@ voting_model.fit(X_train, y_train)
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -467,25 +352,25 @@ voting_model.fit(X_train, y_train)
       "Reached an accuracy of 86.63% in footfall prediction",
       "Developed a reliable footfall prediction model for urban planning"
     ],
-    "codeSnippet": `
-from fbprophet import Prophet
-from sklearn.ensemble import RandomForestRegressor
-from keras.layers import LSTM, Bidirectional
-from keras.models import Sequential
+//     "codeSnippet": `
+// from fbprophet import Prophet
+// from sklearn.ensemble import RandomForestRegressor
+// from keras.layers import LSTM, Bidirectional
+// from keras.models import Sequential
 
-# Example of Bidirectional LSTM model setup
-model = Sequential([
-    Bidirectional(LSTM(50, activation='relu'), input_shape=(timesteps, features)),
-    Dense(1)
-])
-model.compile(optimizer='adam', loss='mse')
+// # Example of Bidirectional LSTM model setup
+// model = Sequential([
+//     Bidirectional(LSTM(50, activation='relu'), input_shape=(timesteps, features)),
+//     Dense(1)
+// ])
+// model.compile(optimizer='adam', loss='mse')
 
-# Train model
-model.fit(X_train, y_train, epochs=100, validation_split=0.2)
-    `,
+// # Train model
+// model.fit(X_train, y_train, epochs=100, validation_split=0.2)
+//     `,
     "githubLink": "https://github.com/yourusername/footfall-prediction",
-    "articleLink": "https://medium.com/@yourusername/footfall-prediction",
-    "liveDemoLink": "https://website.com",
+    // "articleLink": "https://medium.com/@yourusername/footfall-prediction",
+    // "liveDemoLink": "https://website.com",
     "role": "Data Scientist",
     "duration": "Dec 2023 - Feb 2024",
     "challenges": [
@@ -493,7 +378,7 @@ model.fit(X_train, y_train, epochs=100, validation_split=0.2)
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -526,35 +411,35 @@ model.fit(X_train, y_train, epochs=100, validation_split=0.2)
       "10% reduction in marketing costs by targeting at-risk customers",
       "Higher engagement through personalized customer interactions",
     ],
-    codeSnippet: `
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, precision_score, recall_score
+//     codeSnippet: `
+// import pandas as pd
+// from sklearn.model_selection import train_test_split
+// from sklearn.linear_model import LogisticRegression
+// from sklearn.metrics import accuracy_score, precision_score, recall_score
 
-# Load and preprocess the data
-df = pd.read_csv('customer_data.csv')
-X = df.drop(columns=['churn'])
-y = df['churn']
+// # Load and preprocess the data
+// df = pd.read_csv('customer_data.csv')
+// X = df.drop(columns=['churn'])
+// y = df['churn']
 
-# Split data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+// # Split data
+// X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Train logistic regression model
-model = LogisticRegression()
-model.fit(X_train, y_train)
+// # Train logistic regression model
+// model = LogisticRegression()
+// model.fit(X_train, y_train)
 
-# Predictions
-y_pred = model.predict(X_test)
+// # Predictions
+// y_pred = model.predict(X_test)
 
-# Evaluate
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("Precision:", precision_score(y_test, y_pred))
-print("Recall:", recall_score(y_test, y_pred))
-    `,
+// # Evaluate
+// print("Accuracy:", accuracy_score(y_test, y_pred))
+// print("Precision:", precision_score(y_test, y_pred))
+// print("Recall:", recall_score(y_test, y_pred))
+//     `,
     githubLink: "https://github.com/yourusername/customer-churn",
     articleLink: "https://medium.com/@yourusername/customer-churn-case-study",
-    liveDemoLink: "https://website.com",
+    // liveDemoLink: "https://website.com",
     "role": "Data Scientist",
     "duration": "Dec 2023 - Feb 2024",
     "challenges": [
@@ -562,7 +447,7 @@ print("Recall:", recall_score(y_test, y_pred))
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -591,29 +476,29 @@ print("Recall:", recall_score(y_test, y_pred))
       "Successfully forecasted demand with improved accuracy",
       "Identified key trends and clustered products for targeted forecasting"
     ],
-    "codeSnippet": `
-  from statsmodels.tsa.statespace.sarimax import SARIMAX
-  from tensorflow.keras.models import Sequential
-  from tensorflow.keras.layers import LSTM, Dense
-  from catboost import CatBoostRegressor
+  //   "codeSnippet": `
+  // from statsmodels.tsa.statespace.sarimax import SARIMAX
+  // from tensorflow.keras.models import Sequential
+  // from tensorflow.keras.layers import LSTM, Dense
+  // from catboost import CatBoostRegressor
   
-  # SARIMAX model setup
-  sarimax_model = SARIMAX(data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
-  sarimax_fit = sarimax_model.fit(disp=False)
+  // # SARIMAX model setup
+  // sarimax_model = SARIMAX(data, order=(1, 1, 1), seasonal_order=(1, 1, 1, 12))
+  // sarimax_fit = sarimax_model.fit(disp=False)
   
-  # LSTM model setup
-  lstm_model = Sequential()
-  lstm_model.add(LSTM(50, activation='relu', input_shape=(n_steps, n_features)))
-  lstm_model.add(Dense(1))
-  lstm_model.compile(optimizer='adam', loss='mape')
+  // # LSTM model setup
+  // lstm_model = Sequential()
+  // lstm_model.add(LSTM(50, activation='relu', input_shape=(n_steps, n_features)))
+  // lstm_model.add(Dense(1))
+  // lstm_model.compile(optimizer='adam', loss='mape')
   
-  # CatBoost model setup
-  catboost_model = CatBoostRegressor()
-  catboost_model.fit(X_train, y_train)
-      `,
+  // # CatBoost model setup
+  // catboost_model = CatBoostRegressor()
+  // catboost_model.fit(X_train, y_train)
+  //     `,
     "githubLink": "https://github.com/yourusername/demand-forecasting-competition",
     "articleLink": "https://medium.com/@yourusername/demand-forecasting-case-study",
-    "liveDemoLink": "https://website.com",
+    // "liveDemoLink": "https://website.com",
     "role": "Data Scientist",
     "duration": "Dec 2023 - Feb 2024",
     "challenges": [
@@ -621,7 +506,7 @@ print("Recall:", recall_score(y_test, y_pred))
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -664,7 +549,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
@@ -701,16 +586,166 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     "articleLink": "https://medium.com/@yourusername/portfolio-website",
     "liveDemoLink": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/",
     "role": "Data Scientist",
-    "duration": "Dec 2023 - Feb 2024",
+    "duration": "Dec 2023 - Feb 2025",
     "challenges": [
       "Integrating multiple financial signals effectively",
       "Dynamically adjusting model parameters based on performance",
       "Validating model robustness across different market conditions"
     ],
-    "similarProjectIds": [2, 3, 4],
+    // "similarProjectIds": [2, 3, 4],
     "galleryImages": [
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
       "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc"
     ]
+  },
+  {
+    id: 13,
+    title: "Volatility Curve Prediction by NK Securities",
+    description:
+      "Optimized predictive models for volatility curve estimation using advanced quantitative techniques and novel ensembling.",
+    longDescription:
+      "Developed predictive models leveraging Euclidean geometry and data clustering for enhanced accuracy. Implemented Parametric Curve Fitting, Denoising Transformers, and Iterative Imputation methods. The project demonstrated strong analytical design, combining machine learning, statistical, and geometric principles for financial forecasting.",
+    image: "/images/projects/volatility_curve_prediction.png",
+    tags: ["Quantitative Research", "Financial Modeling", "Time Series", "Deep Learning", "Ensembling"],
+    objectives: [
+      "Design an accurate volatility curve predictor using financial data.",
+      "Integrate geometric and statistical methods in ensembling."
+    ],
+    technologies: ["Python", "PyTorch", "NumPy", "Pandas", "Matplotlib"],
+    methods: ["Geometric Ensembling", "Parametric Curve Fitting", "Iterative Imputation", "Transformers"],
+    results: [
+      "Improved volatility prediction accuracy using geometric averaging.",
+      "Demonstrated hybrid use of geometry and ML in finance."
+    ],
+    codeSnippet: "https://github.com/yourusername/volatility-curve-prediction",
+    githubLink: "https://github.com/yourusername/volatility-curve-prediction",
+    articleLink: "#",
+    role: "Quant Researcher | ML Engineer",
+    duration: "May 2025 - May 2025",
+    challenges: [
+      "Handling volatility data noise and outliers.",
+      "Maintaining model stability across time horizons."
+    ],
+    // similarProjectIds: [1, 4]
+  },
+  {
+    id: 14,
+    title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
+    description: "End-to-end ML pipeline predicting product prices using text, images, and tabular information.",
+    longDescription:
+      "Developed a state-of-the-art multimodal ML system for the Amazon ML Challenge 2025. The project combines BERT-based text embeddings, CLIP image representations, and structured tabular data to predict product prices with high accuracy. Leveraged UMAP for dimensionality reduction and ensemble stacking (Linear, RF, LGBM, XGB, CatBoost) to boost predictive performance and robustness. Built a modular, OOP-driven, YAML-configured experimental pipeline enabling rapid cross-validation, meta-learning, and reproducible experiments.",
+    image: "/projects/multimodal-price.jpg",
+    tags: ["Machine Learning", "Deep Learning", "Multimodal AI", "Ensemble Models"],
+    objectives: [
+      "Integrate heterogeneous data modalities for accurate price prediction",
+      "Design a modular ML pipeline for rapid experimentation and reproducibility",
+      "Optimize ensemble stacking models for maximum predictive performance"
+    ],
+    technologies: ["Python", "PyTorch", "TensorFlow", "BERT", "CLIP", "LightGBM", "XGBoost", "CatBoost", "UMAP"],
+    methods: ["Feature Embedding", "Dimensionality Reduction", "Ensemble Stacking", "Cross-validation", "OOP Pipeline Design"],
+    results: ["Achieved SMAPE 42.89%", "Secured top 0.5% globally", "Built a scalable and modular ML pipeline for experimentation"],
+    codeSnippet: "",
+    githubLink: "https://github.com/arpitkumar2004/Assigment-PMS",
+    articleLink: "",
+    liveDemoLink: "",
+    role: "Lead Developer",
+    duration: "Oct 2025",
+    challenges: [
+      "Combining heterogeneous text, image, and tabular data effectively",
+      "Maintaining modularity for fast experimentation cycles",
+      "Fine-tuning ensemble models for top-tier competition ranking"
+    ],
+    galleryImages: [],
+    // similarProjectIds: [2]
+  },
+  {
+    id: 15,
+    title: "Deep Learning Based Text Summarization System",
+    description: "Automated summarization of large-scale documents with deep learning for improved efficiency and comprehension.",
+    longDescription:
+      "Built a deep learning pipeline to summarize 100K+ documents automatically, reducing average summary length by 75% while retaining over 92% of original information. Designed and automated preprocessing, training, and inference pipelines, increasing throughput from 5K to 25K documents per hour. The model improved summary quality by 35% ROUGE-L F1 over extractive baselines, drastically reducing manual review workload and enabling scalable document analysis.",
+    image: "/projects/text-summarizer.jpg",
+    tags: ["Deep Learning", "NLP", "Text Summarization", "Automation"],
+    objectives: [
+      "Reduce manual summarization workload for large document datasets",
+      "Maintain high information retention in generated summaries",
+      "Automate end-to-end ML pipelines for preprocessing, training, and inference"
+    ],
+    technologies: ["Python", "PyTorch", "TensorFlow", "Transformers", "NLTK", "Streamlit"],
+    methods: ["Sequence-to-Sequence Modeling", "Pipeline Automation", "ROUGE Evaluation", "Data Preprocessing"],
+    results: ["75% reduction in summary length", "35% improvement in ROUGE-L F1", "5× increase in processing throughput"],
+    codeSnippet: "",
+    githubLink: "https://github.com/arpitkumar2004/Text-Summarizer-Project",
+    articleLink: "",
+    liveDemoLink: "",
+    role: "Lead Developer",
+    duration: "Jun 2025",
+    challenges: [
+      "Processing and summarizing large-scale text datasets efficiently",
+      "Maintaining abstraction quality and reducing information loss",
+      "Designing automated pipelines for large-scale deployment"
+    ],
+    galleryImages: [],
+    // similarProjectIds: [1]
+  },
+  {
+    id: 16,
+    title: "Social and Healthcare Risk Scorecard | Evva Health",
+    description: "AI-driven patient risk prediction and healthcare resource optimization system.",
+    longDescription:
+      "Developed a voting ensemble AI model combining BERT, Naive Bayes, and Decision Tree to classify patient-reported health risks with 82.89% accuracy. Deployed a multipage Streamlit app providing real-time scoring and dynamic feedback for healthcare professionals. Scraped 1000+ patient entries using BeautifulSoup and Selenium, integrating Bifactor & MIRT modeling to optimize resource allocation across Indian healthcare case studies.",
+    image: "/projects/evva-risk-score.jpg",
+    tags: ["Healthcare Analytics", "Machine Learning", "Web Application", "NLP"],
+    objectives: [
+      "Predict patient risk profiles accurately using AI models",
+      "Deploy real-time scoring web app to assist healthcare professionals",
+      "Optimize healthcare resource allocation with predictive insights"
+    ],
+    technologies: ["Python", "BERT", "Naive Bayes", "Decision Tree", "Streamlit", "BeautifulSoup", "Selenium"],
+    methods: ["Voting Ensemble", "NLP Data Processing", "Web Deployment", "MIRT & Bifactor Models", "Data Scraping"],
+    results: ["82.89% prediction accuracy", "60% reduction in manual data collection", "Optimized healthcare resources using predictive modeling"],
+    codeSnippet: "",
+    githubLink: "https://github.com/arpitkumar2004/DA96_webapp",
+    articleLink: "",
+    liveDemoLink: "",
+    role: "Lead Developer",
+    duration: "Mar–Apr 2024",
+    challenges: [
+      "Handling unstructured and noisy patient data",
+      "Integrating ensemble AI models for robust predictions",
+      "Deploying a responsive, multipage web application for real-time use"
+    ],
+    galleryImages: [],
+    // similarProjectIds: []
+  },
+  {
+    id: 17,
+    title: "Advanced Process Modelling & Simulation | IIT Kharagpur",
+    description: "Simulation and optimization of chemical processes for energy efficiency and sustainable production.",
+    longDescription:
+      "Simulated multi-stage distillation columns, flash separations, and heat exchangers under Prof. Sourav Mondal and Prof. Nikita Saxena. Performed pinch analysis and COMSOL simulations to reduce utility costs by up to 30% and improve heat transfer efficiency by 15%. Integrated neural networks to predict boiling points (R² > 0.85) and automated multicomponent flash processes, increasing benzene recovery to 95%. Focused on sustainable and energy-efficient chemical process development.",
+    image: "/projects/process-modelling.jpg",
+    tags: ["Process Engineering", "Simulation", "Optimization", "AI Integration"],
+    objectives: [
+      "Optimize chemical process efficiency and sustainability",
+      "Integrate predictive ML models into traditional process simulations",
+      "Improve product purity and reduce energy consumption"
+    ],
+    technologies: ["Aspen Plus", "Aspen Hysys", "COMSOL", "Python", "Neural Networks", "Flash Separation Models"],
+    methods: ["Process Simulation", "Pinch Analysis", "Neural Network Prediction", "Energy Optimization", "Multi-Stage Column Design"],
+    results: ["20% reboiler energy reduction", "98% MeOH purity achieved", "15% improvement in heat transfer efficiency"],
+    codeSnippet: "",
+    githubLink: "https://github.com/arpitkumar2004/Assigment-PMS",
+    articleLink: "",
+    liveDemoLink: "",
+    role: "Research Intern",
+    duration: "2024–2025",
+    challenges: [
+      "Designing multi-stage separation columns with high purity",
+      "Integrating ML models with chemical process simulations",
+      "Ensuring industrially relevant and safe process designs"
+    ],
+    galleryImages: [],
+    // similarProjectIds: []
   }
 ];
