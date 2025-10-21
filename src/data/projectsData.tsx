@@ -102,7 +102,7 @@ export const projects: Project[] = [
       "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     ],
     "role": "Data Scientist & MLOps Engineer",
-    "duration": "Jan 2024 - Mar 2024",
+    "duration": "Jan 2023 - Mar 2023",
     "challenges": [
       "Handling missing and inconsistent data in the dataset",
       "Optimizing feature engineering to enhance model performance",

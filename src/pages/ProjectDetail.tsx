@@ -118,20 +118,20 @@ const ProjectDetail: React.FC = () => {
             {/* --- Main Details Card --- */}
             <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
               <InfoSection title="Project Overview" icon={<Layers size={22} className="text-blue-500" />}>
-                <p className='text-xs'>{project.longDescription}</p>
+                <p className='text-sm'>{project.longDescription}</p>
               </InfoSection>
 
               <InfoSection title="Objectives" icon={<Target size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-xs">{project.objectives.map((obj, i) => <li key={i}>{obj}</li>)}</ul>
+                <ul className="list-disc list-inside space-y-2 text-sm">{project.objectives.map((obj, i) => <li key={i}>{obj}</li>)}</ul>
               </InfoSection>
 
               {/* ---ADDED SECTIONS --- */}
               <InfoSection title="Key Challenges & Learnings" icon={<Lightbulb size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-xs">{project.challenges?.map((item, i) => <li key={i}>{item}</li>)}</ul>
+                <ul className="list-disc list-inside space-y-2 text-sm">{project.challenges?.map((item, i) => <li key={i}>{item}</li>)}</ul>
               </InfoSection>
 
               <InfoSection title="Results & Impact" icon={<BarChart3 size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-xs">{project.results.map((res, i) => <li key={i}>{res}</li>)}</ul>
+                <ul className="list-disc list-inside space-y-2 text-sm">{project.results.map((res, i) => <li key={i}>{res}</li>)}</ul>
               </InfoSection>
 
               {Array.isArray(project.galleryImages) && project.galleryImages.length > 0 && (

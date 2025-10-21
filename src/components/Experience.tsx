@@ -94,58 +94,83 @@ const companyIcons: Record<string, JSX.Element> = {
 //   'TypeScript': <SiTypescript className="w-4 h-4" />,
 // };
 
-// --- Reusable Experience Card Component (No changes needed here) ---
-const ExperienceCard = ({ exp }: { exp: ExperienceItem }) => (
-  <motion.div
-    layout="position"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.3 }}
-    className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300"
-  >
-    {/* Card content is identical to before */}
-    <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-4">
-      <div className='flex items-center'>
-        {companyIcons[exp.company] || <Building2 className="w-6 h-6 text-blue-600" />}
-        <div className="flex flex-col">
-          <a href={exp.link} title='Link to company page' className="text-lg font-semibold text-gray-900 ml-6 hover:text-blue-600 hover:underline transition-colors">{exp.company} </a>
-          <p className="text-sm text-gray-500 ml-6 mt-1 flex items-center gap-2">{exp.location}</p>
+// --- Reusable Experience Card Component (Updated for expandable functionality) ---
+const ExperienceCard = ({ exp }: { exp: ExperienceItem }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  return (
+    <motion.div
+      layout="position"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      onClick={() => setIsExpanded(!isExpanded)}
+    >
+      {/* Minimized view: Company, last position, location, duration */}
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-4">
+        <div className='flex items-center'>
+          {companyIcons[exp.company] || <Building2 className="w-6 h-6 text-blue-600" />}
+          <div className="flex flex-col">
+            <a href={exp.link} title='Link to company page' className="text-lg font-semibold text-gray-900 ml-6 hover:text-blue-600 hover:underline transition-colors">{exp.company}</a>
+            <p className="text-md text-gray-700 ml-6 mt-1">{exp.roles[0]?.title}</p>
+            <p className="text-sm text-gray-500 ml-6 mt-1 flex items-center gap-2">
+              {/* <MapPin className="w-4 h-4" /> */}
+              {exp.location}
+            </p>
+          </div>
         </div>
-        {/* <p className="text-sm text-gray-500 ml-8 mt-1 flex items-center gap-2">{exp.location}</p> */}
+        <div className="text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
+          <div className="flex items-center gap-2">
+            <Calendar className="w-4 h-4" />
+            <span>{exp.totalDuration}</span>
+          </div>
+        </div>
       </div>
-      <div className="text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
-        <div className="flex items-center gap-2">
-          <Calendar className="w-4 h-4" />
-          <span>{exp.totalDuration}</span>
-        </div>
+
+      {/* Expanded view: Roles and descriptions */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-2"
+          >
+            {exp.roles.map((role, roleIndex) => (
+              <div key={role.id} className={roleIndex > 0 ? "pt-4 border-t border-gray-100" : ""}>
+                <div className="flex flex-col sm:flex-row justify-between items-start">
+                  <h4 className="text-sm font-semibold text-gray-800">{role.title}</h4>
+                  <p className="text-xs text-gray-500 mt-1 sm:mt-0">{role.duration}</p>
+                </div>
+                <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-700 text-xs">
+                  {role.description.map((desc, i) => (
+                    <li key={i}>{desc}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Expand/Collapse indicator */}
+      <div className="flex justify-center mt-4">
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ChevronDown className="w-5 h-5 text-gray-500" />
+        </motion.div>
       </div>
-    </div>
-    <div className="space-y-4">
-      {exp.roles.map((role, roleIndex) => (
-        <div key={role.id} className={roleIndex > 0 ? "pt-4 border-t border-gray-100" : ""}>
-          <div className="flex flex-col sm:flex-row justify-between items-start"><h4 className="text-sm font-semibold text-gray-800">{role.title}</h4><p className="text-xs text-gray-500 mt-1 sm:mt-0">{role.duration}</p></div>
-          <ul className="list-disc pl-5 mt-2 space-y-1 text-gray-700 text-xs">{role.description.map((desc, i) => (<li key={i}>{desc}</li>))}</ul>
-        </div>
-      ))}
-    </div>
-    {/* <div className="flex flex-wrap gap-2 mt-6">
-      {exp.skills.map((skill, i) => (
-        <div key={i} className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-800 rounded-full text-xs font-medium">
-          {skillIcons[skill] || <Code className="w-4 h-4" />}<span>{skill}</span>
-        </div>
-      ))}
-    </div> */}
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 // --- Main Experience Component (Updated) ---
 export default function Experience() {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const currentExperiences = experiences.filter(exp => exp.totalDuration.includes('Present'));
-  const pastExperiences = experiences.filter(exp => !exp.totalDuration.includes('Present'));
-
   return (
     <div className="py-16 bg-gray-50 font-sans">
       <div className="max-w-4xl mx-auto px-4">
@@ -154,48 +179,12 @@ export default function Experience() {
         </h2>
         <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
 
-        <div className="space-y-8">
-          {/* Always display current experiences */}
-          {currentExperiences.map((exp) => (
+        <div className="space-y-2">
+          {/* Display all experiences as expandable cards */}
+          {experiences.map((exp) => (
             <ExperienceCard key={exp.id} exp={exp} />
           ))}
         </div>
-
-        {/* Conditionally render past experiences */}
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              className="space-y-8 mt-8"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              {pastExperiences.map((exp) => (
-                <ExperienceCard key={exp.id} exp={exp} />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Render button at the end, only if there are past experiences */}
-        {pastExperiences.length > 0 && (
-          <motion.div
-            layout
-            transition={{ duration: 0.5, type: 'spring', bounce: 0.2 }}
-            className="text-center mt-12"
-          >
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="group flex items-center justify-center gap-2 mx-auto px-6 py-3 bg-white border border-gray-300 rounded-full font-semibold text-gray-700 hover:bg-gray-100 hover:border-gray-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <span>{isExpanded ? 'Show Less' : 'Show All Experiences'}</span>
-              <motion.div animate={{ rotate: isExpanded ? 180 : 0 }}>
-                <ChevronDown className="w-5 h-5 transition-transform duration-300" />
-              </motion.div>
-            </button>
-          </motion.div>
-        )}
       </div>
     </div>
   );
