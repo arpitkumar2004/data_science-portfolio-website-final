@@ -1,15 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BarChart,
-  Brain,
-  Code,
   Github,
   Linkedin,
   Mail,
-  Instagram,
-  Facebook,
-  Twitter,
   ArrowRight,
 } from "lucide-react";
 import { SiKaggle, SiMedium } from "react-icons/si";
@@ -22,6 +16,7 @@ import myphoto from "../data/img/me/my_photo2.png";
 import TechnicalProficiencies from "../data/skillsData";
 import Achievements from "../data/AchievementData";
 import ResearchComponent from "../components/research";
+import AniText from "../components/AniText";
 
 const Home: React.FC = () => {
   const itemVariants = {
@@ -91,7 +86,18 @@ const Home: React.FC = () => {
                 <p className="text-1xl text-gray-750">IIT Kharagpur | Applied ML & AI Researcher</p>
               </div>
               <h2 className="text-1xl md:text-1xl text-gray-800 font-semibold mb-2">
-                Applied ML & Quantitative Finance Enthusiast
+                <AniText
+                  texts={[
+                    "Data Science & Applied ML Researcher",
+                    "Machine Learning & Optimization Specialist",
+                    "AI-Driven Solutions enthusiast",
+                    "Hackathon & Competition Champion",
+                    "Quantitative Finance Enthusiast",
+                    "Deep Learning Enthusiast",
+                  ]}
+                  typingSpeed={50}
+                  pauseTime={1500}
+                />
               </h2>
               <p className="text-1xl md:text-1xl text-gray-700 mb-4 text-sm md:text leading-relaxed">
                 Building intelligent, data-driven systems that bridge Machine Learning, Engineering, and Quantitative Finance. I specialize in developing scalable AI solutions for prediction, optimization, and decision-making — transforming research into real-world impact.
@@ -226,12 +232,21 @@ const Home: React.FC = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-200 via-indigo-200 to-purple-200 blur-3xl opacity-60 animate-pulse"></div>
 
               {/* Profile Image */}
-              <div className="relative z-10 w-[320px] h-[500px] mx-auto overflow-hidden rounded-[2rem] border-[3px] border-blue-200 shadow-2xl hover:shadow-blue-400/50 transition-all duration-500 hover:scale-[1.03]">
-                <img
-                  src={myphoto}
-                  alt="Arpit Kumar"
-                  className="w-full h-full object-cover object-center"
-                />
+              <div className="relative w-full aspect-square max-w-sm mx-auto group">
+                {/* Animated Gradient Ring */}
+                <div className="absolute inset-0 rounded-[3rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 group-hover:animate-spin-medium blur-sm" />
+
+                {/* Outer Glow */}
+                <div className="absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10" />
+
+                <div className="relative z-10 rounded-[2rem] overflow-hidden bg-white/40 backdrop-blur-lg shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                  <img
+                    src={myphoto}
+                    alt="Professional headshot of Arpit Kumar"
+                    className="w-full h-full object-cover rounded-[2rem] transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                </div>
               </div>
             </div>
           </motion.div>
@@ -256,7 +271,7 @@ const Home: React.FC = () => {
       </motion.div>
 
       {/* Research Section */}
-      <ResearchComponent />    
+      <ResearchComponent />
 
       {/* Experience Section */}
       <section className="mb-16">

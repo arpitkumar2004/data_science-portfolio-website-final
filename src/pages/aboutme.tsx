@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { BiRightArrow } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import AniText from "../components/AniText";
+
 
 // SkillTag Component
 type SkillTagProps = {
@@ -80,7 +82,7 @@ const AboutMe: React.FC = () => {
                         >
                             <div className="relative w-full aspect-square max-w-sm mx-auto group">
                                 {/* Animated Gradient Ring */}
-                                <div className="absolute inset-0 rounded-[2rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 animate-spin-slow group-hover:animate-spin-medium blur-sm" />
+                                <div className="absolute inset-0 rounded-[3rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 group-hover:animate-spin-medium blur-sm" />
 
                                 {/* Outer Glow */}
                                 <div className="absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10" />
@@ -112,7 +114,18 @@ const AboutMe: React.FC = () => {
                                     Arpit Kumar
                                 </h1>
                                 <p className="mt-2 text-lg font-medium text-indigo-600 tracking-tight">
-                                    Applied ML & AI Researcher
+                                    <AniText
+                                        texts={[
+                                            "Data Science & Applied ML Researcher",
+                                            "Machine Learning & Optimization Specialist",
+                                            "AI-Driven Solutions Enthusiast",
+                                            "Hackathon & Competition Champion",
+                                            "Quantitative Finance Enthusiast",
+                                            "Deep Learning Enthusiast",
+                                        ]}
+                                        typingSpeed={50}
+                                        pauseTime={1500}
+                                    />
                                 </p>
                             </div>
 
