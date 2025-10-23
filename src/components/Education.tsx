@@ -44,28 +44,28 @@ const EducationCard = ({ edu }: { edu: EducationItem }) => (
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
-        className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300"
+        className="bg-white border border-gray-200 rounded-xl p-4 md:p-6 hover:shadow-lg transition-shadow duration-300"
     >
         <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-4">
             <div className="flex items-center">
                 <img src={iitkgpLogo} alt="IIT Kharagpur" className="w-12 h-12" />
                 <div className="flex flex-col ml-4">
-                    <h3 className="text-xl font-semibold text-gray-900">{edu.institution}</h3>
-                    <p className="text-md text-gray-600">{edu.degree}</p>
-                    <p className="text-sm text-gray-500 flex items-center gap-2 mt-1 ml-0.5">
+                    <h3 className="text-lg md:text-xl font-semibold text-gray-900">{edu.institution}</h3>
+                    <p className="text-sm md:text-md text-gray-600">{edu.degree}</p>
+                    <p className="text-xs md:text-sm text-gray-500 flex items-center gap-2 mt-1 ml-0.5">
                         {/* <MapPin className="w-4 h-4" /> */}
                         {edu.location}
                     </p>
                 </div>
             </div>
-            <div className="text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
+            <div className="text-xs md:text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
                 <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-3 h-3 md:w-4 md:h-4" />
                     <span>{edu.duration}</span>
                 </div>
                 {edu.gpa && (
                     <div className="flex items-center gap-2 mt-1">
-                        <Award className="w-4 h-4" />
+                        <Award className="w-3 h-3 md:w-4 md:h-4" />
                         <span>GPA: {edu.gpa}</span>
                     </div>
                 )}
@@ -88,10 +88,10 @@ export default function Education() {
     return (
         <div className="py-16 bg-white font-sans">
             <div className="max-w-4xl mx-auto px-4">
-                <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+                <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800 mb-4">
                     My Educational Background
                 </h2>
-                <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
+                <div className="w-20 h-1 md:w-24 md:h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
 
                 <div className="space-y-8">
                     <AnimatePresence mode="popLayout">

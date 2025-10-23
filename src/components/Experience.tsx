@@ -105,7 +105,7 @@ const ExperienceCard = ({ exp }: { exp: ExperienceItem }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="bg-white border border-gray-200 rounded-xl p-4 md:p-6 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       onClick={() => setIsExpanded(!isExpanded)}
     >
       {/* Minimized view: Company, last position, location, duration */}
@@ -113,17 +113,17 @@ const ExperienceCard = ({ exp }: { exp: ExperienceItem }) => {
         <div className='flex items-center'>
           {companyIcons[exp.company] || <Building2 className="w-6 h-6 text-blue-600" />}
           <div className="flex flex-col">
-            <a href={exp.link} title='Link to company page' className="text-lg font-semibold text-gray-900 ml-6 hover:text-blue-600 hover:underline transition-colors">{exp.company}</a>
-            <p className="text-md text-gray-700 ml-6 mt-1">{exp.roles[0]?.title}</p>
-            <p className="text-sm text-gray-500 ml-6 mt-1 flex items-center gap-2">
+            <a href={exp.link} title='Link to company page' className="text-base md:text-lg font-semibold text-gray-900 ml-6 hover:text-blue-600 hover:underline transition-colors">{exp.company}</a>
+            <p className="text-sm md:text-md text-gray-700 ml-6 mt-1">{exp.roles[0]?.title}</p>
+            <p className="text-xs md:text-sm text-gray-500 ml-6 mt-1 flex items-center gap-2">
               {/* <MapPin className="w-4 h-4" /> */}
               {exp.location}
             </p>
           </div>
         </div>
-        <div className="text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
+        <div className="text-xs md:text-sm text-gray-500 text-left sm:text-right flex-shrink-0 mt-2 sm:mt-0">
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4" />
+            <Calendar className="w-3 h-3 md:w-4 md:h-4" />
             <span>{exp.totalDuration}</span>
           </div>
         </div>
@@ -174,10 +174,10 @@ export default function Experience() {
   return (
     <div className="py-16 bg-gray-50 font-sans">
       <div className="max-w-4xl mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
+        <h2 className="text-xl md:text-2xl font-bold text-center text-gray-800 mb-4">
           My Professional Experience till date
         </h2>
-        <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
+        <div className="w-20 h-1 md:w-24 md:h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
 
         <div className="space-y-2">
           {/* Display all experiences as expandable cards */}

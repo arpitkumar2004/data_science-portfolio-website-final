@@ -332,7 +332,7 @@ const ProjectDetail: React.FC = () => {
 
         {/* --- SIMILAR PROJECTS SECTION --- */}
         <div className="mt-20 pt-12 border-t">
-          <h2 className="text-2xl font-bold text-center mb-8 text-gray-900">
+          <h2 className="text-xl md:text-2xl font-bold text-center mb-8 text-gray-900">
             {similarProjects.length > 0 ? 'Explore Similar Projects' : 'Explore Other Projects'}
           </h2>
 

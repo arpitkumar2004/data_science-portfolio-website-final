@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        My Projects
+      Explore my Projects...
       </motion.h1>
 
       {/* --- IMPROVED CONTROLS --- */}

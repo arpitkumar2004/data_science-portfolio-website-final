@@ -164,7 +164,7 @@ export default function TechnicalProficiencies() {
     <section id="technical" className="py-16 bg-gradient-to-br from-slate-50 to-blue-50" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-6 text-center">
         <motion.h2
-          className="text-2xl md:text-2xl font-bold text-center mb-6 text-black bg-clip-text"
+          className="text-xl md:text-2xl font-bold text-center mb-6 text-black bg-clip-text"
           initial={{ opacity: 0, y: -30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -187,7 +187,7 @@ export default function TechnicalProficiencies() {
             <motion.div
               key={idx}
               ref={el => cardsRef.current[idx] = el}
-              className="group relative bg-white/80 backdrop-blur-sm shadow-xl rounded-3xl p-8 border border-white/20 hover:border-blue-200 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-100/50"
+              className="group relative bg-white/80 backdrop-blur-sm shadow-xl rounded-3xl p-6 md:p-8 border border-white/20 hover:border-blue-200 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-100/50"
               whileHover={{
                 y: -8,
                 scale: 1.02,
@@ -257,7 +257,7 @@ export default function TechnicalProficiencies() {
         {/* Coursework Section */}
         <motion.div
           ref={courseworkRef}
-          className="bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-10 border border-white/30 mb-12"
+          className="bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-6 md:p-10 border border-white/30 mb-12"
           style={{ willChange: 'transform' }}
         >
           <div className="flex items-center gap-4 mb-8 justify-center">
@@ -268,7 +268,7 @@ export default function TechnicalProficiencies() {
             >
               <BookOpen className="w-6 h-6 text-green-600" />
             </motion.div>
-            <h3 className="text-2xl font-bold text-gray-800">Core Coursework</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-800">Core Coursework</h3>
           </div>
           <motion.ul
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-700 text-sm text-left max-w-5xl mx-auto"
@@ -303,7 +303,7 @@ export default function TechnicalProficiencies() {
         {/* Domain & Application Section */}
         <motion.div
           ref={domainsRef}
-          className="bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-10 border border-white/30"
+          className="bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-6 md:p-10 border border-white/30"
           style={{ willChange: 'transform' }}
         >
           <div className="flex items-center gap-4 mb-8 justify-center">
@@ -314,7 +314,7 @@ export default function TechnicalProficiencies() {
             >
               <Target className="w-6 h-6 text-purple-600" />
             </motion.div>
-            <h3 className="text-2xl font-bold text-gray-800">Domains & Applications</h3>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-800">Domains & Applications</h3>
           </div>
           <motion.ul
             className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700 text-sm text-left max-w-5xl mx-auto"
