@@ -11,19 +11,27 @@ import ProjectDetail from './pages/ProjectDetail';
 import Contact from './pages/Contact';
 import RequestCV from './pages/RequestCV';
 import AboutMe from './pages/aboutme';
+import { useLenis } from './hooks/useLenis';
 
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  const lenis = useLenis();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
 
   return null;
 };
 
 function App() {
+  useLenis(); // Initialize Lenis for smooth scrolling
+
   return (
     <Router>
       <ScrollToTop />

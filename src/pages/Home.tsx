@@ -1,5 +1,8 @@
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Github,
   Linkedin,
@@ -18,6 +21,9 @@ import Achievements from "../data/AchievementData";
 import ResearchComponent from "../components/research";
 import AniText from "../components/AniText";
 
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
+
 const Home: React.FC = () => {
   const itemVariants = {
     hidden: { x: -20, opacity: 0 },
@@ -26,6 +32,84 @@ const Home: React.FC = () => {
       opacity: 1,
     },
   };
+
+  // GSAP animations on component mount
+  React.useEffect(() => {
+    // Hero section animations
+    gsap.fromTo(
+      ".hero-title",
+      { y: 50, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      ".hero-subtitle",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, delay: 0.2, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      ".hero-description",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1, delay: 0.4, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      ".stats-grid",
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)" }
+    );
+
+    gsap.fromTo(
+      ".cta-buttons",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 0.8, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      ".social-links",
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 1, ease: "power3.out" }
+    );
+
+    gsap.fromTo(
+      ".profile-image",
+      { scale: 0.8, opacity: 0, rotation: -10 },
+      { scale: 1, opacity: 1, rotation: 0, duration: 1.2, delay: 0.3, ease: "power3.out" }
+    );
+
+    // Scroll-triggered animations for sections
+    gsap.utils.toArray('.section-fade-in').forEach((section: any) => {
+      gsap.fromTo(
+        section,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+    });
+
+    // Parallax effect for background elements
+    gsap.to(".parallax-bg", {
+      yPercent: -50,
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".hero-section",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true
+      }
+    });
+  }, []);
 
   const GoogleScholar = () => (
     <motion.svg
@@ -68,7 +152,7 @@ const Home: React.FC = () => {
   return (
     <div className="container mx-auto px-4">
       {/* Hero Section */}
-      <section className="min-h-[calc(80vh-px)] flex items-center justify-center mb-10" style={styles.hero}>
+      <section className="min-h-[calc(80vh-px)] flex items-center justify-center" style={styles.hero}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full">
           {/* Left Column - Profile Info */}
           <motion.div
@@ -143,13 +227,13 @@ const Home: React.FC = () => {
             </div>
 
             {/* Social Links */}
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-4 justify-center mb-6">
               <motion.a
                 href="https://github.com/arpitkumar2004"
                 target="_blank"
                 rel="noopener noreferrer"
                 title="GitHub"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+                className="p-3 rounded-full bg-blue-50 border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -161,7 +245,7 @@ const Home: React.FC = () => {
                 target="_blank"
                 title="Google Scholar"
                 rel="noopener noreferrer"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:border-blue-600 hover:text-blue-600 transition-all group"
+                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:border-blue-600 hover:text-blue-600 transition-all group"
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -173,7 +257,7 @@ const Home: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="LinkedIn"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -184,7 +268,7 @@ const Home: React.FC = () => {
                 target="_blank"
                 title="Email"
                 rel="noopener noreferrer"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -196,7 +280,7 @@ const Home: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Medium"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
 
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
@@ -209,7 +293,7 @@ const Home: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 title="Kaggle"
-                className="p-3 bg-gray-50 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
+                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
 
                 whileHover={{ scale: 1.5 }}
                 whileTap={{ scale: 0.95 }}
@@ -226,7 +310,7 @@ const Home: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="relative flex justify-center items-center"
           >
-            <div className="relative w-[340px] h-[520px]">
+            <div className="relative w-[340px] h-[450px]">
               {/* Gradient Halo Background */}
 
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-200 via-indigo-200 to-purple-200 blur-3xl opacity-60 animate-pulse"></div>
@@ -237,7 +321,7 @@ const Home: React.FC = () => {
                 <div className="absolute inset-0 rounded-[3rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 group-hover:animate-spin-medium blur-sm" />
 
                 {/* Outer Glow */}
-                <div className="absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10" />
+                <div className="p-4 absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10 hover:animate-pulse group-hover:animate-pulse" />
 
                 <div className="relative z-10 rounded-[2rem] overflow-hidden bg-white/40 backdrop-blur-lg shadow-2xl transition-transform duration-500 group-hover:scale-105">
                   <img
@@ -299,10 +383,10 @@ const Home: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Project you might like</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">Explore my Projects</h2>
             <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
             <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
-              Showcasing innovative solutions in machine learning, computer vision, and data science
+              Showcasing here some of my innovative solutions of the classic problems made with Machine Learning techniques.
             </p>
           </motion.div>
 

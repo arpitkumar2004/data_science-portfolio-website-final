@@ -25,12 +25,11 @@ const educationData: EducationItem[] = [
         id: 1,
         institution: "Indian Institute of Technology, Kharagpur",
         location: "Kharagpur, West Bengal, India",
-        degree: "Integrated Dual Degree in Chemical Engineering",
+        degree: "Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering",
         duration: "2022 - 2027",
         description: [
-            "Specialized in Chemical Engineering with a focus on process design and optimization.",
-            "Completed coursework in advanced mathematics, thermodynamics, and data analysis.",
-            "Engaged in research projects related to machine learning applications in chemical processes."
+            "Focused on process design, simulation, and optimization, applying chemical engineering principles to industrial-scale systems.",
+            "Research Experience: Worked on projects integrating machine learning with chemical process modeling, including simulation-based optimization and predictive analytics for process efficiency."
         ],
         gpa: "8.46/10",
         link: "https://www.iitkgp.ac.in/"

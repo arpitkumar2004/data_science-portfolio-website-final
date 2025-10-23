@@ -72,7 +72,7 @@ const experiences: ExperienceItem[] = [
   },
   {
     id: 4,
-    company: "Students' Branding and Relations Cell",
+    company: "Students' Branding and Relations Cell, IIT Kharagpur",
     link: "https://sbrc.iitkgp.ac.in",
     location: "IIT Kharagpur, Kharagpur, West Bengal",
     totalDuration: "Feb 2023 - Feb 2024",
@@ -85,7 +85,7 @@ const companyIcons: Record<string, JSX.Element> = {
   "Developers' Society, IIT-Kharagpur": <img src={devsocLogo} alt="Developers' Society logo" className="w-10 h-11 rounded-full" />,
   "Public Policy and Governance Society, IIT-Kharagpur": <img src={ppgsLogo} alt="Public Policy and Governance Society logo" className="w-10 h-10 rounded-full" />,
   "Chemical Engineering Association, IIT-Kharagpur": <img src={cheaLogo} alt="Chemical Engineering Association logo" className="w-10 h-10 rounded-full" />,
-  "Students' Branding and Relations Cell": <img src={sbrcLogo} alt="Students' Branding and Relations Cell logo" className="w-10 h-10 rounded-full" />,
+  "Students' Branding and Relations Cell, IIT Kharagpur": <img src={sbrcLogo} alt="Students' Branding and Relations Cell logo" className="w-10 h-10 rounded-full" />,
 };
 
 // const skillIcons: Record<string, JSX.Element> = {

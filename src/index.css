@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+    filter: blur(2px);
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
 @layer base {
   html {
     font-family: 'Poppins', sans-serif;

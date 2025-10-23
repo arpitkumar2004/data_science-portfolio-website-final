@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
 
 const navLinks = [
@@ -94,33 +93,54 @@ const Header: React.FC = () => {
 
           <button
             onClick={toggleMenu}
-            className="md:hidden z-50"
+            className="md:hidden z-50 p-2 rounded-md hover:bg-gray-100 active:bg-gray-200 transition-colors duration-200"
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <div className="relative w-6 h-6 flex flex-col justify-center items-center">
+              <span className={`block h-0.5 w-6 bg-gray-600 transform transition duration-300 ease-in-out ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-1'}`}></span>
+              <span className={`block h-0.5 w-6 bg-gray-600 transform transition duration-300 ease-in-out ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+              <span className={`block h-0.5 w-6 bg-gray-600 transform transition duration-300 ease-in-out ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-1'}`}></span>
+            </div>
           </button>
         </div>
 
-        {/* Mobile menu remains the same */}
+        {/* Mobile menu with improved UX */}
+        {isMenuOpen && (
+          <div
+            className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-md z-40 transition-all duration-500"
+            onClick={() => setIsMenuOpen(false)}
+          />
+        )}
         <div
           id="mobile-menu"
           className={clsx(
-            'md:hidden fixed top-0 left-0 w-full bg-white transition-transform duration-300 ease-in-out',
-            { 'translate-x-0': isMenuOpen, '-translate-x-full': !isMenuOpen }
+            'md:hidden fixed top-0 left-0 w-full h-screen bg-gradient-to-b from-white to-gray-50 transition-all duration-500 ease-out z-50',
+            {
+              'translate-x-0 opacity-100': isMenuOpen,
+              '-translate-x-full opacity-0': !isMenuOpen
+            }
           )}
         >
-          <nav className="flex flex-col items-center justify-center h-screen space-y-8">
-            {navLinks.map((link) => (
-              <Link key={link.href} to={link.href} className="text-2xl text-gray-800">
+          <nav className="flex flex-col items-center justify-center h-full space-y-10 px-4">
+            {navLinks.map((link, index) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                className="text-3xl font-medium text-gray-800 hover:text-blue-600 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1"
+                style={{
+                  animationDelay: `${index * 150}ms`,
+                  animation: isMenuOpen ? 'slideInFromLeft 0.4s ease-out forwards' : 'none'
+                }}
+              >
                 {link.label}
               </Link>
             ))}
             {/* <a
               href="/request-cv"
               // download
-              className="text-2xl bg-blue-600 text-white px-6 py-3 rounded-lg"
+              className="text-2xl bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Download CV
             </a> */}

@@ -24,7 +24,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
   image,
-  tags,
+  tag,
   githubLink,
   articleLink,
   liveDemoLink,
