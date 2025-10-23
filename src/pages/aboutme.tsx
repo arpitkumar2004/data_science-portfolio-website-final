@@ -56,11 +56,11 @@ const AboutMe: React.FC = () => {
                     <div className="mb-10 text-center">
                         <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
                             <span className="bg-gradient-to-r from-indigo-500 to-blue-500 bg-clip-text text-transparent">
-                                About Me
+                                Know More About Me
                             </span>
                         </h2>
                         <p className="mt-4 text-gray-600 text-lg max-w-2xl mx-auto">
-                            Discover who I am, what drives me, and how I work with intelligent systems.
+                            Discover who I am, what drives me, and how I work with Machine Learning and data.
                         </p>
                     </div>
 
@@ -113,7 +113,7 @@ const AboutMe: React.FC = () => {
                                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
                                     Arpit Kumar
                                 </h1>
-                                <p className="mt-2 text-lg font-medium text-indigo-600 tracking-tight">
+                                <h2 className="mt-4 text-xl font-semibold text-indigo-600 tracking-tight">
                                     <AniText
                                         texts={[
                                             "Data Science & Applied ML Researcher",
@@ -126,7 +126,7 @@ const AboutMe: React.FC = () => {
                                         typingSpeed={50}
                                         pauseTime={1500}
                                     />
-                                </p>
+                                </h2>
                             </div>
 
                             <div className="space-y-4 text-base text-slate-600 text-left max-w-prose">

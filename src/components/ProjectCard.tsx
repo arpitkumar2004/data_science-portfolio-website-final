@@ -91,6 +91,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           className="w-full h-48 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
+
+        {/* Type Tag */}
+        <motion.div
+          initial={{ opacity: 1, scale: 1 }}
+          whileHover={{ opacity: 1, scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+          className={`absolute top-2 left-2 px-2 py-1 text-xs font-semibold text-white rounded-md shadow-md z-10 ${
+            type === 'Competition' ? 'bg-blue-500/80' :
+            type === 'Project' ? 'bg-green-500/80' :
+            type === 'Fest Website' ? 'bg-purple-500/80' :
+            type === 'Portfolio Website' ? 'bg-orange-500/80' :
+            type === 'Research Paper' ? 'bg-red-500/80' :
+            type === 'Conference' ? 'bg-yellow-500/80' :
+            'bg-gray-500/80'
+          }`}
+        >
+          {type}
+        </motion.div>
       </div>
 
       {/* Content Container */}

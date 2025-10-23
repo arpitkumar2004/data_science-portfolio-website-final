@@ -169,13 +169,13 @@ const Home: React.FC = () => {
                 <img src={iitkgplogo} alt="IIT KGP" className="w-6 h-6" />
                 <p className="text-1xl text-gray-750">IIT Kharagpur | Applied ML & AI Researcher</p>
               </div>
-              <h2 className="text-1xl md:text-1xl text-gray-800 font-semibold mb-2">
+              <h2 className="text-xl md:text-xl text-blue-800 font-semibold mb-2">
                 <AniText
                   texts={[
                     "Data Science & Applied ML Researcher",
-                    "Machine Learning & Optimization Specialist",
+                    "Machine Learning Enthusiast",
                     "AI-Driven Solutions enthusiast",
-                    "Hackathon & Competition Champion",
+                    "Hackathon & Competition Finalist",
                     "Quantitative Finance Enthusiast",
                     "Deep Learning Enthusiast",
                   ]}
