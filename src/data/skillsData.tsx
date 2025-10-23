@@ -286,7 +286,7 @@ export default function TechnicalProficiencies() {
             {coursework.map((course, idx) => (
               <motion.li
                 key={idx}
-                className="flex items-center gap-3 p-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl hover:from-blue-50 hover:to-purple-50 transition-all duration-300"
+                className="flex items-center text-xs gap-3 p-1 px-3 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl hover:from-blue-50 hover:to-purple-50 transition-all duration-100"
                 variants={{
                   hidden: { opacity: 0, x: -20 },
                   visible: { opacity: 1, x: 0 }
@@ -294,7 +294,7 @@ export default function TechnicalProficiencies() {
                 whileHover={{ scale: 1.02, x: 5 }}
               >
                 <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0" />
-                <span className="font-medium">{course}</span>
+                <span className="font-medium text-xs">{course}</span>
               </motion.li>
             ))}
           </motion.ul>
@@ -332,7 +332,7 @@ export default function TechnicalProficiencies() {
             {domains.map((domain, idx) => (
               <motion.li
                 key={idx}
-                className="flex items-start gap-4 p-4 bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl hover:from-purple-50 hover:to-pink-50 transition-all duration-300 group"
+                className="flex items-start text-xs gap-4 p-4 bg-gradient-to-r from-gray-50 to-purple-50 rounded-xl hover:from-purple-50 hover:to-pink-50 transition-all duration-300 group"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 }

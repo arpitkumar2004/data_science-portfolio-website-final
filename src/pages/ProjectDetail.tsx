@@ -23,7 +23,7 @@ const InfoSection: React.FC<InfoSectionProps> = ({ title, icon, children }) => (
       {icon}
       <h3 className="text-xl font-bold text-gray-800 ml-3">{title}</h3>
     </div>
-    <div className="text-gray-600 leading-relaxed space-y-3 text-sm">
+    <div className="text-gray-600 leading-relaxed space-y-3 text-xs">
       {children}
     </div>
   </div>
@@ -255,11 +255,11 @@ const ProjectDetail: React.FC = () => {
             {/* --- Main Details Card --- */}
             <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 animate-fade-in">
               <InfoSection title="Project Overview" icon={<Layers size={22} className="text-blue-500" />}>
-                <p className="text-base leading-relaxed">{project.longDescription}</p>
+                <p className="text-sm leading-relaxed">{project.longDescription}</p>
               </InfoSection>
 
               <InfoSection title="Objectives" icon={<Target size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-base">
+                <ul className="list-disc list-inside space-y-2 text-sm">
                   {project.objectives.map((obj, i) => (
                     <li key={i} className="leading-relaxed">{obj}</li>
                   ))}
@@ -269,7 +269,7 @@ const ProjectDetail: React.FC = () => {
               {/* ---ADDED SECTIONS --- */}
               {project.challenges && project.challenges.length > 0 && (
                 <InfoSection title="Key Challenges & Learnings" icon={<Lightbulb size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-base">
+                  <ul className="list-disc list-inside space-y-2 text-sm">
                     {project.challenges.map((item, i) => (
                       <li key={i} className="leading-relaxed">{item}</li>
                     ))}
@@ -278,7 +278,7 @@ const ProjectDetail: React.FC = () => {
               )}
 
               <InfoSection title="Results & Impact" icon={<BarChart3 size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-base">
+                <ul className="list-disc list-inside space-y-2 text-sm">
                   {project.results.map((res, i) => (
                     <li key={i} className="leading-relaxed">{res}</li>
                   ))}

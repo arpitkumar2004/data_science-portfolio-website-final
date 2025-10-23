@@ -32,6 +32,11 @@ const ScrollToTop = () => {
 function App() {
   useLenis(); // Initialize Lenis for smooth scrolling
 
+  // Disable browser's automatic scroll restoration to prevent preserving scroll position on navigation
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+  }, []);
+
   return (
     <Router>
       <ScrollToTop />
