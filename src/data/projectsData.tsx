@@ -10,6 +10,7 @@ export interface Project {
   tags: string[];
   objectives: string[];
   technologies: string[];
+  type: string;
   methods: string[];
   results: string[];
   codeSnippet?: string;
@@ -38,6 +39,7 @@ export const projects: Project[] = [
       "Track and monitor model performance over time for continuous improvement through MLflow tracking dashboard"
     ],
     "technologies": ["Python", "ZenML", "MLflow", "Pandas", "Scikit-learn", "Pytest", "DVC"],
+    "type": "Project",
     "methods": [
       "Data preprocessing including handling missing values and normalization of numerical features",
       "Feature engineering to generate 15+ new predictive features from existing ones for enhanced accuracy",
@@ -82,6 +84,7 @@ export const projects: Project[] = [
       "Provide real-time prediction capabilities"
     ],
     "technologies": ["Python", "ZenML", "Scikit-learn", "Pandas", "Hyperparameter Tuning"],
+    "type": "Project",
     "methods": [
       "Data splitting and preprocessing with imputation and outlier detection",
       "Feature engineering and scaling for optimized model input",
@@ -121,6 +124,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Data Analysis", "Python", "Scikit-learn", "Logistic Regression"],
+    "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -168,6 +172,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Anomaly Detection", "Apache Spark", "Machine Learning"],
+    "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -208,6 +213,7 @@ export const projects: Project[] = [
     "longDescription": "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
     "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tags": ["Cricket Analytics", "Ensemble Learning", "LightGBM", "CatBoost"],
+    "type": "Competition",
     "objectives": [
       "Develop an accurate model for predicting T-20 cricket match outcomes",
       "Utilize player ratings and feature engineering to improve prediction",
@@ -243,6 +249,7 @@ export const projects: Project[] = [
     "longDescription": "This project involved building a sophisticated alpha generation model for the DTL Quant Challenge 2024. The model integrated multiple financial signals, including RSI, mean reversion, volatility, and trend indicators. We dynamically adjusted weights based on the model's previous alpha performance, enhancing adaptability to changing market conditions. This approach achieved scores of 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time, proving its robustness across different market scenarios. Placing 19th nationally highlighted the model's strong predictive ability and innovative approach to quantitative trading.",
     "image": "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
     "tags": ["Quantitative Finance", "Alpha Generation", "RSI", "Mean Reversion", "Volatility"],
+    "type": "Competition",
     "objectives": [
       "Develop a robust alpha model to perform in varying market conditions",
       "Enhance model adaptability by dynamically adjusting signal weights",
@@ -282,6 +289,7 @@ export const projects: Project[] = [
     "longDescription": "This project involved creating a Social and Healthcare Risk Scorecard in collaboration with Evva Health. Using decision tree algorithms and community data gathered via web scraping with BeautifulSoup and Selenium, we constructed a risk assessment tool aimed at informing resource allocation based on risk factors. Advanced statistical techniques, including Bifactor and MIRT analysis, were utilized to analyze and score responses from patient questionnaires. The deployment on Streamlit provided an accessible and interactive platform for risk analysis, with an ensemble model incorporating Voting, BERT, and Bayes Classification achieving an accuracy of 82.89%.",
     "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
     "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping"],
+    "type": "Competition",
     "objectives": [
       "Develop a risk scorecard to assess social and healthcare risk factors",
       "Utilize patient data and community resource data for informed resource allocation",
@@ -335,6 +343,7 @@ export const projects: Project[] = [
     "longDescription": "In this project, we built a predictive model to forecast city footfall based on historical time-series data, as part of the Open IIT Data Analytics Competition. By scraping data using BeautifulSoup and conducting exploratory data analysis, we uncovered key patterns in the time series. Applying K-Means clustering helped identify underlying trends. Forecasting models, including FBProphet, Random Forest, and Bidirectional LSTM, were then combined in an ensemble approach that improved prediction accuracy, resulting in an 86.63% accuracy score. This ensemble model offered a robust and dynamic forecasting solution for city footfall.",
     "image": "https://imgs.search.brave.com/S8-YiFIU0XBX9jE91wgiHBftts4ZGFN46EVla9J2LJE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dHJhZnN5cy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjQv/MDIvMi1XaGF0LUlz/LUZvb3RmYWxsLUFu/YWx5dGljcy5qcGc",
     "tags": ["Data Analytics", "Time Series", "Footfall Prediction", "Ensemble Modeling", "K-Means Clustering"],
+    "type": "Competition",
     "objectives": [
       "Predict city footfall using historical time-series data",
       "Improve forecasting accuracy through an ensemble approach",
@@ -394,6 +403,7 @@ export const projects: Project[] = [
     image:
       "https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Recommendation Systems", "Collaborative Filtering", "Python"],
+    "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -465,6 +475,7 @@ export const projects: Project[] = [
       "Cluster products with similar sales patterns using Dynamic Time Warping",
       "Improve forecasting accuracy using advanced time-series models"
     ],
+    "type": "Competition",
     "technologies": ["Python", "LSTM", "Pandas", "Dynamic Time Warping", "SARIMAX", "CatBoost"],
     "methods": [
       "Exploratory Data Analysis for trend detection and outlier analysis",
@@ -525,6 +536,7 @@ export const projects: Project[] = [
       "Optimize for fast loading and smooth navigation across devices"
     ],
     "technologies": ["React", "Tailwind CSS", "Node.js", "JavaScript"],
+    "type": "Fest Website",
     "methods": [
       "Developed interactive components using React",
       "Applied Tailwind CSS for rapid and responsive styling",
@@ -562,6 +574,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     "longDescription": "This project focused on developing a personal portfolio website to showcase projects, skills, and professional information. Using React for dynamic components, Tailwind CSS for sleek and responsive design, and Node.js for backend integration, the website provides an interactive and modern user experience, fully optimized for various screen sizes.",
     "image": portfolioimg,
     "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js"],
+    "type": "Portfolio Website",
     "objectives": [
       "Create a professional and visually engaging portfolio website",
       "Showcase projects and skills with a responsive design",
@@ -607,6 +620,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Developed predictive models leveraging Euclidean geometry and data clustering for enhanced accuracy. Implemented Parametric Curve Fitting, Denoising Transformers, and Iterative Imputation methods. The project demonstrated strong analytical design, combining machine learning, statistical, and geometric principles for financial forecasting.",
     image: "/images/projects/volatility_curve_prediction.png",
     tags: ["Quantitative Research", "Financial Modeling", "Time Series", "Deep Learning", "Ensembling"],
+    "type": "Competition",
     objectives: [
       "Design an accurate volatility curve predictor using financial data.",
       "Integrate geometric and statistical methods in ensembling."
@@ -635,6 +649,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Developed a state-of-the-art multimodal ML system for the Amazon ML Challenge 2025. The project combines BERT-based text embeddings, CLIP image representations, and structured tabular data to predict product prices with high accuracy. Leveraged UMAP for dimensionality reduction and ensemble stacking (Linear, RF, LGBM, XGB, CatBoost) to boost predictive performance and robustness. Built a modular, OOP-driven, YAML-configured experimental pipeline enabling rapid cross-validation, meta-learning, and reproducible experiments.",
     image: "/projects/multimodal-price.jpg",
+    "type": "Competition",
     tags: ["Machine Learning", "Deep Learning", "Multimodal AI", "Ensemble Models"],
     objectives: [
       "Integrate heterogeneous data modalities for accurate price prediction",
@@ -665,6 +680,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Built a deep learning pipeline to summarize 100K+ documents automatically, reducing average summary length by 75% while retaining over 92% of original information. Designed and automated preprocessing, training, and inference pipelines, increasing throughput from 5K to 25K documents per hour. The model improved summary quality by 35% ROUGE-L F1 over extractive baselines, drastically reducing manual review workload and enabling scalable document analysis.",
     image: "/projects/text-summarizer.jpg",
+    "type": "Project",
     tags: ["Deep Learning", "NLP", "Text Summarization", "Automation"],
     objectives: [
       "Reduce manual summarization workload for large document datasets",
@@ -695,6 +711,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Developed a voting ensemble AI model combining BERT, Naive Bayes, and Decision Tree to classify patient-reported health risks with 82.89% accuracy. Deployed a multipage Streamlit app providing real-time scoring and dynamic feedback for healthcare professionals. Scraped 1000+ patient entries using BeautifulSoup and Selenium, integrating Bifactor & MIRT modeling to optimize resource allocation across Indian healthcare case studies.",
     image: "/projects/evva-risk-score.jpg",
+    "type": "Competition",
     tags: ["Healthcare Analytics", "Machine Learning", "Web Application", "NLP"],
     objectives: [
       "Predict patient risk profiles accurately using AI models",
@@ -725,6 +742,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Simulated multi-stage distillation columns, flash separations, and heat exchangers under Prof. Sourav Mondal and Prof. Nikita Saxena. Performed pinch analysis and COMSOL simulations to reduce utility costs by up to 30% and improve heat transfer efficiency by 15%. Integrated neural networks to predict boiling points (R² > 0.85) and automated multicomponent flash processes, increasing benzene recovery to 95%. Focused on sustainable and energy-efficient chemical process development.",
     image: "/projects/process-modelling.jpg",
+    "type": "Project",
     tags: ["Process Engineering", "Simulation", "Optimization", "AI Integration"],
     objectives: [
       "Optimize chemical process efficiency and sustainability",
