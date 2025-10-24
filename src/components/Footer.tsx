@@ -1,6 +1,7 @@
 import React from 'react';
 import { Github, Linkedin, Twitter, Mail, MapPin } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const ref = React.useRef(null);
@@ -53,18 +54,22 @@ const Footer: React.FC = () => {
             <h4 className="font-semibold mb-2 text-base">Quick Links</h4>
             <ul className="space-y-1 text-sm text-gray-300">
               {[
-                { href: "/", text: "Home" },
-                { href: "/#projects", text: "Projects" },
-                { href: "/#aboutme", text: "About Me" },
-                { href: "/#contact", text: "Contact" },
-                { href: "/#request-cv", text: "Resume" },
+                { href: "/", text: "Home", isHash: false },
+                { href: "#projects", text: "Projects", isHash: true },
+                { href: "#aboutme", text: "About Me", isHash: true },
+                { href: "#contact", text: "Contact", isHash: true },
+                { href: "#request-cv", text: "Resume", isHash: true },
               ].map((link, index) => (
                 <motion.li
                   key={index}
                   whileHover={{ x: 5, color: "#60a5fa" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <a href={link.href} className="hover:text-blue-400 transition-colors duration-300">{link.text}</a>
+                  {link.isHash ? (
+                    <a href={`${import.meta.env.BASE_URL}${link.href}`} className="hover:text-blue-400 transition-colors duration-300">{link.text}</a>
+                  ) : (
+                    <Link to={link.href} className="hover:text-blue-400 transition-colors duration-300">{link.text}</Link>
+                  )}
                 </motion.li>
               ))}
             </ul>

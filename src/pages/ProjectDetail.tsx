@@ -7,7 +7,7 @@ import ProjectCard from '../components/ProjectCard';
 import {
   Github, ExternalLink, NotebookText, Layers, Target, Cpu, Calendar,
   User, GalleryHorizontal, Lightbulb, BarChart3, X, ArrowLeft, Share2,
-  Home
+  Home, Download
 } from 'lucide-react';
 
 // Helper component for main content sections
@@ -72,6 +72,16 @@ const ProjectDetail: React.FC = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setCurrentImage('');
+  };
+
+  // Download image functionality
+  const downloadImage = () => {
+    const link = document.createElement('a');
+    link.href = currentImage;
+    link.download = `project-image-${Date.now()}.png`; // Default filename with timestamp
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Share functionality
@@ -155,7 +165,7 @@ const ProjectDetail: React.FC = () => {
               className="inline-flex items-center mr-3 px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition"
             >
               <ArrowLeft className="mr-2" size={22} />
-              Back to Project
+              Back to Projects
             </button>
             <button
               onClick={shareProject}
@@ -246,8 +256,9 @@ const ProjectDetail: React.FC = () => {
               <img
                 src={project.image}
                 alt={project.title}
-                className={`w-full h-auto object-cover transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                className={`w-full h-auto object-cover transition-opacity duration-300 cursor-pointer hover:scale-105 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
                 onLoad={() => setImageLoaded(true)}
+                onClick={() => openModal(project.image)}
                 loading="lazy"
               />
             </div>
@@ -297,7 +308,7 @@ const ProjectDetail: React.FC = () => {
                           onClick={() => openModal(imgSrc)}
                           loading="lazy"
                         />
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-md flex items-center justify-center">
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-md flex items-center justify-center pointer-events-none">
                           <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium">
                             Click to enlarge
                           </span>
@@ -352,6 +363,9 @@ const ProjectDetail: React.FC = () => {
             <div className="relative bg-white rounded-lg shadow-xl max-w-4xl max-h-[90vh]" onClick={e => e.stopPropagation()}>
               <button onClick={closeModal} className="absolute -top-4 -right-4 p-2 bg-white rounded-full text-gray-700 hover:bg-gray-200 transition z-10" aria-label="Close image preview">
                 <X size={24} />
+              </button>
+              <button onClick={downloadImage} className="absolute -top-4 -left-4 p-2 bg-white rounded-full text-gray-700 hover:bg-gray-200 transition z-10" aria-label="Download image">
+                <Download size={24} />
               </button>
               <img src={currentImage} alt="Project preview" className="object-contain rounded-lg max-h-[90vh]" />
             </div>
