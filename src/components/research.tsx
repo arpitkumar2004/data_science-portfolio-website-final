@@ -1,122 +1,162 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, BarChart, Code, ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, ArrowRight, Terminal } from 'lucide-react';
 
-// Animation variants for each grid item
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0,
-    transition: { type: 'spring', stiffness: 100 }
-  },
-  exit: { opacity: 0, y: -20 },
-};
-
-// Data for the research interests cards
 const researchData = [
-    {
-        icon: Brain,
-        title: "Applied AI in Engineering Systems",
-        description: "Integration of machine learning with engineering processes for optimization, anomaly detection, and intelligent control. Focused on data-driven discovery and efficiency enhancement in process systems."
-    },
-    {
-        icon: Code,
-        title: "Deep Learning & Neural Networks",
-        description: "Hands-on experience with neural networks using PyTorch and TensorFlow. Worked with CNNs, RNNs, LSTMs, and Transformers for applications in vision, NLP, and time-series forecasting."
-    },
-    {
-        icon: Brain,
-        title: "Machine Learning Systems",
-        description: "Expertise in developing robust ML models for predictive analytics, optimization, and decision-making. Skilled in supervised and unsupervised learning, including regression, classification, and ensemble methods."
-    },
-    {
-        icon: BarChart,
-        title: "Data Science & Analytics",
-        description: "Proficient in extracting insights from complex datasets through feature engineering, statistical modeling, and visualization. Strong command of Python, Pandas, and advanced analytics tools."
-    },
-    {
-        icon: Code,
-        title: "Quantitative Finance",
-        description: "Application of AI and mathematical modeling for market prediction, alpha generation, and portfolio optimization. Experienced in time-series analysis, risk modeling, and simulation-based strategies."
-    },
-    {
-        icon: Brain,
-        title: "Research & Innovation",
-        description: "Passionate about exploring the intersection of AI, mathematics, and domain science. Dedicated to developing interpretable and scalable models that bridge research and real-world impact."
-    },
+  {
+    id: "01",
+    tag: "Optimization",
+    title: "Applied AI in Engineering",
+    description: "Integrating ML with engineering for optimization and intelligent control. Focused on data-driven discovery in process systems."
+  },
+  {
+    id: "02",
+    tag: "Architecture",
+    title: "Deep Learning Architectures",
+    description: "Designing neural networks with PyTorch and TensorFlow, specializing in Transformers and LSTMs for time-series forecasting."
+  },
+  {
+    id: "03",
+    tag: "Predictive Systems",
+    title: "Machine Learning Systems",
+    description: "Developing robust models for predictive analytics, including ensemble methods and supervised learning frameworks."
+  },
+  {
+    id: "04",
+    tag: "Analytics",
+    title: "Data Science & Analytics",
+    description: "Extracting insights through advanced feature engineering and statistical modeling using Python and Pandas."
+  },
+  {
+    id: "05",
+    tag: "Stochastic Modeling",
+    title: "Quantitative Finance",
+    description: "Applying AI for market prediction and alpha generation through time-series analysis and risk modeling."
+  },
+  {
+    id: "06",
+    tag: "Interpretability",
+    title: "Research & Innovation",
+    description: "Bridging the gap between mathematical theory and real-world impact through interpretable and scalable AI models."
+  },
 ];
 
 const ResearchComponent = () => {
-    const [isExpanded, setIsExpanded] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsToShow, setItemsToShow] = useState(3);
 
-    // Determine which items to display based on the expanded state
-    const itemsToShow = isExpanded ? researchData : researchData.slice(0, 3);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) setItemsToShow(1);
+      else if (window.innerWidth < 1024) setItemsToShow(2);
+      else setItemsToShow(3);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    return (
-        <div className="w-full max-w-6xl mx-auto px-4">
-            <motion.section
-                className="mb-16"
-                // This layout prop animates the container size change
-                layout="position" 
-                transition={{ duration: 0.5, type: "spring" }}
-            >
-                {/* Summary Text */}
-                <motion.p
-                    className="text-center text-gray-700 mt-10 max-w-3xl mx-auto mb-10 text-sm md:text-md px-4 leading-relaxed"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                >
-                    I have experience in developing scalable AI solutions for prediction, optimization, and decision-making — transforming research into real-world impact.
-                </motion.p>
-                <h2 className="text-2xl font-bold mb-4 text-center text-gray-900">My Research Interests lies in </h2>
-                <div className="w-24 h-1.5 bg-blue-600 mx-auto rounded-full mb-12" />
+  const maxIndex = researchData.length - itemsToShow;
+  const nextSlide = () => setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+  const prevSlide = () => setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
 
-                {/* Grid for research items */}
-                <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-                    <AnimatePresence initial={false}>
-                        {itemsToShow.map((item, index) => (
-                            <motion.div
-                                key={item.title} // Use a unique key like title
-                                variants={itemVariants}
-                                initial="hidden"
-                                animate="visible"
-                                exit="exit"
-                                layout="position" // This makes the item animate its position
-                                className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col"
-                            >
-                                <div className="flex items-center mb-4">
-                                    <item.icon size={32} className="mr-4 text-blue-600 flex-shrink-0" />
-                                    <h3 className="text-md font-semibold text-gray-800">{item.title}</h3>
-                                </div>
-                                <p className="text-xs text-gray-600 flex-grow">
-                                    {item.description}
-                                </p>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </div>
-
-                {/* Show More / Show Less Button */}
-                <div className="text-center mt-12">
-                    <motion.button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="text-sm bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-md hover:bg-blue-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center mx-auto"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        layout // Animate button position
-                    >
-                        {isExpanded ? 'Show Less' : 'Show More'}
-                        {isExpanded 
-                            ? <ChevronUp size={20} className="ml-2" /> 
-                            : <ChevronDown size={20} className="ml-2" />
-                        }
-                    </motion.button>
-                </div>
-            </motion.section>
+  return (
+    <section className="py-24 px-6 max-w-7xl mx-auto">
+      {/* Header with Research Meta-data */}
+      <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="max-w-2xl">
+          <div className="flex items-center gap-2 mb-4">
+            <Terminal size={16} className="text-blue-600" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-600">
+              Technical Focus Areas
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter">
+            Research Interests
+          </h2>
+          <p className="text-slate-500 mt-6 text-lg leading-relaxed font-medium">
+            Developing high-fidelity AI solutions by bridging first-principles engineering 
+            with neural architectures to solve non-linear optimization problems.
+          </p>
         </div>
-    );
-}
+        
+        {/* Navigation - Top Right for Desktop */}
+        <div className="hidden md:flex gap-3">
+          <button onClick={prevSlide} className="p-4 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white transition-all">
+            <ChevronLeft size={20} />
+          </button>
+          <button onClick={nextSlide} className="p-4 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white transition-all">
+            <ChevronRight size={20} />
+          </button>
+        </div>
+      </div>
+
+      {/* Slider Container */}
+      <div className="relative cursor-grab active:cursor-grabbing">
+        <div className="overflow-visible lg:overflow-hidden">
+          <motion.div
+            className="flex"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(e, info) => {
+              if (info.offset.x < -50) nextSlide();
+              if (info.offset.x > 50) prevSlide();
+            }}
+            animate={{ x: `-${currentIndex * (100 / itemsToShow)}%` }}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
+          >
+            {researchData.map((item, index) => (
+              <div 
+                key={index} 
+                className="flex-shrink-0 px-3 w-full md:w-1/2 lg:w-1/3"
+              >
+                <div className="group h-full bg-white border border-slate-100 rounded-2xl p-8 hover:bg-white hover:border-blue-600 transition-all duration-500 flex flex-col shadow-sm hover:shadow-xl hover:shadow-blue-900/5">
+                  
+                  {/* Card Header: ID & Tag */}
+                  <div className="flex justify-between items-start mb-8">
+                    <span className="text-2xl font-mono font-black text-slate-200 group-hover:text-blue-600/20 transition-colors">
+                      {item.id}
+                    </span>
+                    <span className="px-3 py-1 bg-white border border-slate-200 rounded text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 group-hover:text-blue-600 group-hover:border-blue-100">
+                      {item.tag}
+                    </span>
+                  </div>
+
+                  {/* Body */}
+                  <div className="relative pl-6 border-l-2 border-slate-200 group-hover:border-blue-600 transition-all duration-500">
+                    <h3 className="text-xl font-bold text-slate-800 mb-4 tracking-tight leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-slate-500 leading-relaxed text-sm font-medium">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-12 pt-6 border-t border-slate-100 flex items-center justify-between">
+                    <div className="flex items-center text-blue-600 font-bold text-[10px] uppercase tracking-[0.2em]">
+                      <span>View Methodology</span>
+                      <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Mobile/Tablet Controls */}
+        <div className="flex md:hidden justify-center items-center mt-12 gap-6">
+          <button onClick={prevSlide} className="p-4 rounded-full border border-slate-200"><ChevronLeft size={20} /></button>
+          <div className="flex gap-1.5">
+            {[...Array(maxIndex + 1)].map((_, i) => (
+              <div key={i} className={`h-1.5 rounded-full transition-all ${currentIndex === i ? "w-6 bg-blue-600" : "w-1.5 bg-slate-200"}`} />
+            ))}
+          </div>
+          <button onClick={nextSlide} className="p-4 rounded-full border border-slate-200"><ChevronRight size={20} /></button>
+        </div>
+      </div>
+    </section>
+  );
+};
 
 export default ResearchComponent;

@@ -5,12 +5,22 @@ import ProjectCard from '../components/ProjectCard';
 import { Search, Filter, X, LayoutGrid, List, Columns } from 'lucide-react';
 
 const parseEndDate = (duration: string): Date => {
-  const parts = duration.split(' - ');
-  if (parts.length === 2) {
-    const endPart = parts[1];
-    const [month, year] = endPart.split(' ');
+  // Handle formats like "Jan 2024 - Mar 2024", "Oct 2025", "Mar–Apr 2024"
+  const parts = duration.split(/ - |–/);
+  let endPart = parts.length > 1 ? parts[1] : parts[0];
+
+  // If endPart has a range like "Mar–Apr", take the last part
+  const rangeParts = endPart.split('–');
+  if (rangeParts.length > 1) {
+    endPart = rangeParts[rangeParts.length - 1];
+  }
+
+  const [month, year] = endPart.trim().split(' ');
+  if (month && year) {
     const monthIndex = new Date(`${month} 1, ${year}`).getMonth();
-    return new Date(parseInt(year), monthIndex, 1);
+    if (!isNaN(monthIndex)) {
+      return new Date(parseInt(year), monthIndex, 1);
+    }
   }
   return new Date(0); // fallback
 };

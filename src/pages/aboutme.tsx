@@ -1,189 +1,210 @@
+import React from "react";
 import { motion } from "framer-motion";
 import myphoto from "../data/img/me/my_photo2.png";
 import {
-    BrainCircuit,
-    LineChart,
-    Code,
+    Terminal,
+    Database,
+    Layers,
+    Activity,
     Download,
-    FlaskConical,
     Mail,
+    ChevronRight,
+    Briefcase,
+    ShieldCheck,
+    Cpu
 } from "lucide-react";
-import { BiRightArrow } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import AniText from "../components/AniText";
 
-
-// SkillTag Component
-type SkillTagProps = {
-    icon: React.ReactNode;
-    children: React.ReactNode;
-};
-
-const SkillTag: React.FC<SkillTagProps> = ({ icon, children }) => (
-    <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { opacity: 1, y: 0 },
-        }}
-        className="flex items-center gap-3 p-3 transition-all duration-300 bg-white border border-gray-200 rounded-lg cursor-pointer shadow-sm hover:border-indigo-300 hover:shadow-lg"
-    >
-        {icon}
-        <span className="font-medium text-gray-800">{children}</span>
-    </motion.div>
+const TechnicalBadge = ({ children }: { children: React.ReactNode }) => (
+    <span className="px-2 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded text-[10px] font-mono font-bold uppercase tracking-wider">
+        {children}
+    </span>
 );
 
-// Main AboutMe Component
 const AboutMe: React.FC = () => {
-    const resumeUrl = "/Arpit_Kumar_Resume.pdf";
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-            },
-        },
-    };
+    const brandBlue = "rgb(37 99 235)";
 
     return (
-        <div className="font-sans antialiased text-gray-800 bg-slate-50">
-            <section className="py-12">
-                <div className="max-w-6xl mx-auto px-4">
-                    {/* Section Title */}
-                    <div className="mb-10 text-center">
-                        <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-                            <span className="bg-gradient-to-r from-indigo-500 to-blue-500 bg-clip-text text-transparent">
-                                Know More About Me
-                            </span>
-                        </h2>
-                        <p className="mt-4 text-gray-600 text-lg max-w-2xl mx-auto">
-                            Discover who I am, what drives me, and how I work with Machine Learning and data.
-                        </p>
-                    </div>
+        <div className="min-h-screen bg-white font-sans antialiased text-slate-900">
+            {/* Minimalist Top Bar */}
+            <div className="sticky top-0 z-50 w-full h-1 bg-slate-100">
+                <motion.div 
+                    initial={{ width: 0 }} 
+                    whileInView={{ width: "100%" }} 
+                    viewport={{ once: true }}
+                    className="h-full" 
+                    style={{ backgroundColor: brandBlue }}
+                />
+            </div>
 
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
-                        transition={{ duration: 0.6 }}
-                        className="grid grid-cols-1 md:grid-cols-5 gap-12 md:gap-16 items-start"
-                    >
-                        {/* Left Column - Image */}
+            <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-24">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+                    
+                    {/* LEFT SIDE: Identity Card */}
+                    <div className="lg:col-span-5 xl:col-span-4">
                         <motion.div
-                            variants={{
-                                hidden: { opacity: 0, x: -50 },
-                                visible: { opacity: 1, x: 0 },
-                            }}
-                            transition={{ duration: 0.5, delay: 0.2 }}
-                            className="md:col-span-2 relative flex items-center justify-center"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="relative"
                         >
-                            <div className="relative w-full aspect-square max-w-sm mx-auto group">
-                                {/* Animated Gradient Ring */}
-                                <div className="absolute inset-0 rounded-[3rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 group-hover:animate-spin-medium blur-sm" />
-
-                                {/* Outer Glow */}
-                                <div className="absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10" />
-
-                                {/* Glass Layer + Image */}
-                                <div className="relative z-10 rounded-[2rem] overflow-hidden bg-white/40 backdrop-blur-lg shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                            {/* The "Researcher" Photo Frame */}
+                            <div className="relative group">
+                                <div className="absolute -inset-4 bg-slate-50 rounded-3xl -z-10 border border-slate-100" />
+                                <div className="overflow-hidden rounded-2xl bg-slate-200 aspect-[4/5] relative">
                                     <img
                                         src={myphoto}
-                                        alt="Professional headshot of Arpit Kumar"
-                                        className="w-full h-full object-cover rounded-[2rem] transition-transform duration-500 group-hover:scale-110"
-                                        loading="lazy"
+                                        alt="Arpit Kumar - IIT Kharagpur"
+                                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                                     />
+                                    {/* Data Overlay Effect */}
+                                    <div className="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-lg border border-white/10">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+                                            <span className="text-[10px] font-mono text-white/70 uppercase tracking-widest">System Status: Active</span>
+                                        </div>
+                                        <p className="text-white font-mono text-xs leading-tight">
+                                            LOC: IIT_KHARAGPUR // <br />
+                                            CORE: DEEP_LEARNING_RSCH
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Verification Block for Recruiters */}
+                            <div className="mt-10 p-6 bg-slate-50 border border-slate-200 rounded-xl">
+                                <h4 className="flex items-center gap-2 text-sm font-bold text-slate-900 mb-4">
+                                    <ShieldCheck size={18} className="text-blue-600" />
+                                    Recruiter Verification
+                                </h4>
+                                <ul className="space-y-3">
+                                    <li className="flex justify-between text-xs">
+                                        <span className="text-slate-500 font-mono">Academic Level:</span>
+                                        <span className="font-bold text-right">Int. Dual Degree (B.Tech+M.Tech)</span>
+                                    </li>
+                                    <li className="flex justify-between text-xs">
+                                        <span className="text-slate-500 font-mono">Institution:</span>
+                                        <span className="font-bold">IIT Kharagpur</span>
+                                    </li>
+                                    <li className="flex justify-between text-xs">
+                                        <span className="text-slate-500 font-mono">Math Foundation:</span>
+                                        <span className="font-bold text-green-600">Advanced / Research-Ready</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* RIGHT SIDE: Technical Dossier */}
+                    <div className="lg:col-span-7 xl:col-span-8">
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <header className="mb-8">
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    <TechnicalBadge>Machine Learning</TechnicalBadge>
+                                    <TechnicalBadge>Quantitative Finance</TechnicalBadge>
+                                    <TechnicalBadge>Optimization</TechnicalBadge>
+                                </div>
+                                <h1 className="text-4xl md:text-6xl font-black text-slate-900 tracking-tighter mb-4">
+                                    Arpit Kumar
+                                </h1>
+                                <div className="text-lg md:text-xl font-mono text-blue-600 font-bold">
+                                    &gt; <AniText
+                                        texts={[
+                                            "Neural Architecture Architect",
+                                            "Predictive Modeling Expert",
+                                            "Algorithmic Researcher",
+                                            "End-to-End Data Scientist"
+                                        ]}
+                                        typingSpeed={50}
+                                        pauseTime={2000}
+                                    />
+                                </div>
+                            </header>
+
+                            <div className="space-y-6 text-slate-700 leading-relaxed text-base md:text-lg max-w-3xl">
+                                <p>
+                                    Specializing in <strong>Deep Learning and Statistical Inference</strong>, I build high-impact AI systems starting from mathematical derivations to production-grade deployments. My background at <span className="text-slate-900 font-semibold underline decoration-blue-600/30 underline-offset-4">IIT Kharagpur</span> has instilled a first-principles approach to problem-solving.
+                                </p>
+                                <p>
+                                    Unlike "black-box" practitioners, I focus on <strong>interpretable ML</strong>—designing custom neural architectures (Transformers, LSTMs, CNNs) and optimization frameworks that solve non-linear engineering challenges and quantitative financial market complexities.
+                                </p>
+                            </div>
+
+                            {/* The "Why Hire Me" Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+                                <div className="flex gap-4 p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+                                    <div className="mt-1 text-blue-600"><Terminal size={20} /></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900">ML From Scratch</h4>
+                                        <p className="text-sm text-slate-500">Deep understanding of backpropagation, gradient descent variants, and cost functions without relying solely on libraries.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4 p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+                                    <div className="mt-1 text-blue-600"><Database size={20} /></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900">Data Architecture</h4>
+                                        <p className="text-sm text-slate-500">Expertise in feature engineering pipelines, handling multi-modal data, and time-series forecasting at scale.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4 p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+                                    <div className="mt-1 text-blue-600"><Layers size={20} /></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900">Dual Degree Rigor</h4>
+                                        <p className="text-sm text-slate-500">Combines the engineering discipline of a B.Tech with the advanced research methodology of an M.Tech.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4 p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+                                    <div className="mt-1 text-blue-600"><Activity size={20} /></div>
+                                    <div>
+                                        <h4 className="font-bold text-slate-900">Industry Alignment</h4>
+                                        <p className="text-sm text-slate-500">Focused on ROI-driven AI—building models that improve efficiency, reduce cost, or generate alpha.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* RECRUITER ACTION CENTER */}
+                            <div className="bg-slate-900 rounded-2xl p-8 text-white relative overflow-hidden">
+                                <div className="absolute top-0 right-0 p-8 opacity-10">
+                                    <Briefcase size={120} />
+                                </div>
+                                
+                                <h3 className="text-2xl font-bold mb-2">Proceed with Recruitment</h3>
+                                <p className="text-slate-400 mb-8 max-w-md text-sm">
+                                    Available for Machine Learning Engineering, Data Science, or Quantitative Analyst roles where technical rigor is required.
+                                </p>
+
+                                <div className="flex flex-col sm:flex-row gap-4 relative z-10">
+                                    <Link
+                                        to="/request-cv"
+                                        className="flex items-center justify-center gap-3 px-6 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/20"
+                                    >
+                                        <Download size={18} />
+                                        Get Technical CV
+                                    </Link>
+
+                                    <Link
+                                        to="/hire-me"
+                                        className="flex items-center justify-center gap-3 px-6 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-all"
+                                    >
+                                        <Briefcase size={18} />
+                                        Hire as Consultant
+                                    </Link>
+
+                                    <Link
+                                        to="/contact"
+                                        className="flex items-center justify-center gap-3 px-6 py-4 border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 transition-all"
+                                    >
+                                        <Mail size={18} />
+                                        Interview Request
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>
-
-
-                        {/* Right Column - Content */}
-                        <motion.div
-                            variants={{
-                                hidden: { opacity: 0, x: 50 },
-                                visible: { opacity: 1, x: 0 },
-                            }}
-                            transition={{ duration: 0.5, delay: 0.4 }}
-                            className="md:col-span-3 space-y-8"
-                        >
-                            <div>
-                                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-                                    Arpit Kumar
-                                </h1>
-                                <h2 className="mt-4 text-xl font-semibold text-indigo-600 tracking-tight">
-                                    <AniText
-                                        texts={[
-                                            "Data Science & Applied ML Researcher",
-                                            "Machine Learning & Optimization Specialist",
-                                            "AI-Driven Solutions Enthusiast",
-                                            "Hackathon & Competition Champion",
-                                            "Quantitative Finance Enthusiast",
-                                            "Deep Learning Enthusiast",
-                                        ]}
-                                        typingSpeed={50}
-                                        pauseTime={1500}
-                                    />
-                                </h2>
-                            </div>
-
-                            <div className="space-y-4 text-base text-slate-600 text-left max-w-prose">
-                                <p>
-                                    Pursuing an <strong>Integrated Dual Degree (B.Tech + M.Tech)</strong> in Chemical Engineering at <strong>IIT Kharagpur</strong>, I am passionate about building intelligent systems that unite data science, engineering, and finance to solve complex, real-world problems.
-                                </p>
-                                <p>
-                                    My journey revolves around leveraging AI for optimization, prediction, and discovery. I thrive at the intersection of mathematical modeling and machine learning, designing models that not only predict but also explain and optimize complex systems.
-                                </p>
-                            </div>
-
-                            {/* Core Strengths */}
-                            <div className="pt-4">
-                                <h3 className="text-lg font-semibold text-gray-800 mb-4">Core Strengths</h3>
-                                <motion.div
-                                    variants={containerVariants}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm"
-                                >
-                                    <SkillTag icon={<BrainCircuit className="w-5 h-5 text-indigo-500" />}>Machine Learning Specialist</SkillTag>
-                                    <SkillTag icon={<LineChart className="w-5 h-5 text-indigo-500" />}>Predictive Modeling</SkillTag>
-                                    <SkillTag icon={<Code className="w-5 h-5 text-indigo-500" />}>Quantitative Finance</SkillTag>
-                                    <SkillTag icon={<FlaskConical className="w-5 h-5 text-indigo-500" />}>AI-driven Process Systems</SkillTag>
-                                </motion.div>
-                            </div>
-
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row flex-wrap items-start gap-4 pt-6">
-                                <Link
-                                    to="/request-cv"
-                                    aria-label="Download CV"
-                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-white bg-indigo-600 rounded-lg shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
-                                >
-                                    <Download className="w-5 h-5" />
-                                    <span>Download CV</span>
-                                </Link>
-                                <Link
-                                    to="/projects"
-                                    aria-label="Explore Projects"
-                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-indigo-700 bg-white border border-indigo-600 rounded-lg hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
-                                >
-                                    <span>Explore Projects</span>
-                                    <BiRightArrow className="w-5 h-5" />
-                                </Link>
-                                <Link
-                                    to="/contact"
-                                    aria-label="Contact Me"
-                                    className="inline-flex items-center justify-center gap-2 px-6 py-3 font-semibold text-gray-600 bg-white border border-gray-300 hover:bg-gray-200 hover:text-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 w-full sm:w-auto"
-                                >
-                                    <Mail className="w-5 h-5" />
-                                    <span>Contact Me</span>
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </motion.div>
+                    </div>
                 </div>
             </section>
         </div>

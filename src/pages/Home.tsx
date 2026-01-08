@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -8,440 +8,237 @@ import {
   Linkedin,
   Mail,
   ArrowRight,
+  FileText,
+  Terminal,
+  ShieldCheck,
+  History,
+  GraduationCap,
+  Award,
+  ChevronRight
 } from "lucide-react";
 import { SiKaggle, SiMedium } from "react-icons/si";
+
+// Components
 import ProjectCard from "../components/ProjectCard";
 import Experience from "../components/Experience";
 import Education from "../components/Education";
+import ResearchComponent from "../components/research";
+import TechnicalProficiencies from "../data/skillsData";
+import Achievements from "../data/AchievementData";
+import AniText from "../components/AniText";
+
+// Data & Assets
 import { projects } from "../data/projectsData";
 import iitkgplogo from "../data/img/me/2.png";
 import myphoto from "../data/img/me/my_photo2.png";
-import TechnicalProficiencies from "../data/skillsData";
-import Achievements from "../data/AchievementData";
-import ResearchComponent from "../components/research";
-import AniText from "../components/AniText";
-
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
 
 const Home: React.FC = () => {
-  const itemVariants = {
-    hidden: { x: -20, opacity: 0 },
-    visible: {
-      x: 0,
-      opacity: 1,
-    },
-  };
+  const brandBlue = "rgb(37 99 235)";
 
-  // GSAP animations on component mount
-  React.useEffect(() => {
-    // Hero section animations
-    gsap.fromTo(
-      ".hero-title",
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
-    );
+  useEffect(() => {
+    // Register ScrollTrigger in a client-only lifecycle to prevent errors during module evaluation
+    try {
+      gsap.registerPlugin(ScrollTrigger);
+    } catch (err) {
+      // If registration fails, log and continue; this prevents the whole page from crashing
+      console.warn('gsap.registerPlugin failed', err);
+    }
 
-    gsap.fromTo(
-      ".hero-subtitle",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, delay: 0.2, ease: "power3.out" }
-    );
+    // Hero Entrance
+    const tl = gsap.timeline();
+    tl.fromTo(".hero-content", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 1, ease: "power3.out" })
+      .fromTo(".profile-image-container", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, ease: "power3.out" }, "-=0.7")
+      .fromTo(".stat-card", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1 }, "-=0.5");
 
-    gsap.fromTo(
-      ".hero-description",
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, delay: 0.4, ease: "power3.out" }
-    );
-
-    gsap.fromTo(
-      ".stats-grid",
-      { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.8, delay: 0.6, ease: "back.out(1.7)" }
-    );
-
-    gsap.fromTo(
-      ".cta-buttons",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.8, ease: "power3.out" }
-    );
-
-    gsap.fromTo(
-      ".social-links",
-      { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 1, ease: "power3.out" }
-    );
-
-    gsap.fromTo(
-      ".profile-image",
-      { scale: 0.8, opacity: 0, rotation: -10 },
-      { scale: 1, opacity: 1, rotation: 0, duration: 1.2, delay: 0.3, ease: "power3.out" }
-    );
-
-    // Scroll-triggered animations for sections
-    gsap.utils.toArray('.section-fade-in').forEach((section: any) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0, y: 50 },
+    // Section Reveals
+    const sections = gsap.utils.toArray('.reveal-section');
+    sections.forEach((section: any) => {
+      gsap.fromTo(section, 
+        { opacity: 0, y: 40 },
         {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
+          opacity: 1, y: 0, duration: 1, ease: "power3.out",
           scrollTrigger: {
             trigger: section,
-            start: "top 80%",
-            end: "bottom 20%",
+            start: "top 85%",
             toggleActions: "play none none reverse"
           }
         }
       );
     });
-
-    // Parallax effect for background elements
-    gsap.to(".parallax-bg", {
-      yPercent: -50,
-      ease: "none",
-      scrollTrigger: {
-        trigger: ".hero-section",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
   }, []);
 
   const GoogleScholar = () => (
-    <motion.svg
-      width="20"
-      height="20"
-      viewBox="0 0 26 26"
-      role="img"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <title>Google Scholar</title>
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"
-      />
-    </motion.svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+    </svg>
   );
 
-  const styles = {
-    hero: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '20px',
-      textAlign: 'center',
-      fontSize: '16px', // Reduced font size
-      marginTop: '60px'
-    },
-    '@media (max-width: 600px)': {
-      hero: {
-        padding: '10px',
-        fontSize: '12px', // Further reduced font size for mobile
-        marginTop: '60px',
-      },
-    },
-  };
+  const shouldReduceMotion = useReducedMotion();
+  const heroItem = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 
   return (
-    <div className="container mx-auto px-4">
-      {/* Hero Section */}
-      <section className="min-h-[calc(80vh-px)] flex items-center justify-center" style={styles.hero}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center w-full">
-          {/* Left Column - Profile Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-left"
-          >
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-                Arpit Kumar
-              </h1>
-              <div className="flex items-center gap-2 mb-2">
-                <img src={iitkgplogo} alt="IIT KGP" className="w-6 h-6" />
-                <p className="text-1xl text-gray-750">IIT Kharagpur | Applied ML & AI Researcher</p>
-              </div>
-              <h2 className="text-xl md:text-xl text-blue-800 font-semibold mb-2">
-                <AniText
-                  texts={[
-                    "Data Science & Applied ML Researcher",
-                    "Machine Learning Enthusiast",
-                    "AI-Driven Solutions enthusiast",
-                    "Hackathon & Competition Finalist",
-                    "Quantitative Finance Enthusiast",
-                    "Deep Learning Enthusiast",
-                  ]}
-                  typingSpeed={50}
-                  pauseTime={1500}
-                />
-              </h2>
-              <p className="text-1xl md:text-1xl text-gray-700 mb-4 text-sm md:text leading-relaxed">
-                Building intelligent, data-driven systems that bridge Machine Learning, Engineering, and Quantitative Finance. I specialize in developing scalable AI solutions for prediction, optimization, and decision-making — transforming research into real-world impact.
-              </p>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-3 md:grid-cols-3 gap-4 mb-8">
-              <div className="bg-blue-50 p-4 rounded-lg text-center">
-                <h3 className="text-2xl font-bold text-blue-600">9+</h3>
-                <p className="text-sm text-gray-600">Deployed ML Solutions</p>
-              </div>
-              <div className="bg-blue-50 p-4 rounded-lg text-center">
-                <h3 className="text-2xl font-bold text-blue-600">3+</h3>
-                <p className="text-sm text-gray-600">Published & Ongoing Research</p>
-              </div>
-              <div className="bg-blue-50 p-4 rounded-lg text-center">
-                <h3 className="text-2xl font-bold text-blue-600">2+</h3>
-                <p className="text-sm text-gray-600">Years in Applied AI Research</p>
-              </div>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex gap-4 justify-center mb-6">
-              <Link
-                to="/projects"
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-              >
-                Explore Projects <ArrowRight size={16} />
-              </Link>
-              {/* <Link
-                to="/contact"
-                className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-              >
-                Contact Me
-              </Link> */}
-              <Link
-                to="/request-cv"
-                className="px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
-              >
-                Download Resume
-              </Link>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex gap-4 justify-center mb-6">
-              <motion.a
-                href="https://github.com/arpitkumar2004"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="GitHub"
-                className="p-3 rounded-full bg-blue-50 border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 hover:text-blue-600 transition-all group"
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Github className="w-5 h-5 group-hover:text-blue-600" />
-              </motion.a>
-
-              <motion.a
-                href="https://scholar.google.com/citations?user=arpitkumar2004&hl=en"
-                target="_blank"
-                title="Google Scholar"
-                rel="noopener noreferrer"
-                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:border-blue-600 hover:text-blue-600 transition-all group"
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <GoogleScholar className="w-5 h-5 group-hover:text-blue-600" />
-              </motion.a>
-
-              <motion.a
-                href="https://www.linkedin.com/in/arpit-kumar-shivam/"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="LinkedIn"
-                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Linkedin className="w-5 h-5 group-hover:text-blue-600" />
-              </motion.a>
-              <motion.a
-                href="mailto:kumararpit17773@gmail.com"
-                target="_blank"
-                title="Email"
-                rel="noopener noreferrer"
-                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Mail className="w-5 h-5 group-hover:text-blue-600" />
-              </motion.a>
-
-              <motion.a
-                href="https://medium.com/@kumararpit17773"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Medium"
-                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
-
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <SiMedium className="w-5 h-5 fill-none stroke-[1.5] group-hover:text-blue-600" />
-              </motion.a>
-
-              <motion.a
-                href="https://www.kaggle.com/kumararpitiitkgp"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="Kaggle"
-                className="p-3 bg-blue-50 border-2 border-gray-300 hover:border-blue-600 rounded-full hover:bg-blue-50 hover:text-blue-600 transition-all group"
-
-                whileHover={{ scale: 1.5 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <SiKaggle className="w-7 h-5 group-hover:text-blue-600" />
-              </motion.a>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Visual Section */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="relative flex justify-center items-center"
-          >
-            <div className="relative w-[340px] h-[450px]">
-              {/* Gradient Halo Background */}
-
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-200 via-indigo-200 to-purple-200 blur-3xl opacity-60 animate-pulse"></div>
-
-              {/* Profile Image */}
-              <div className="relative w-full aspect-square max-w-sm mx-auto group">
-                {/* Animated Gradient Ring */}
-                <div className="absolute inset-0 rounded-[3rem] p-1 bg-[conic-gradient(at_top_right,_var(--tw-gradient-stops))] from-indigo-500 via-blue-500 to-purple-500 group-hover:animate-spin-medium blur-sm" />
-
-                {/* Outer Glow */}
-                <div className="p-4 absolute inset-0 rounded-[2rem] bg-indigo-500/10 blur-2xl scale-105 -z-10 hover:animate-pulse group-hover:animate-pulse" />
-
-                <div className="relative z-10 rounded-[2rem] overflow-hidden bg-white/40 backdrop-blur-lg shadow-2xl transition-transform duration-500 group-hover:scale-105">
-                  <img
-                    src={myphoto}
-                    alt="Professional headshot of Arpit Kumar"
-                    className="w-full h-full object-cover rounded-[2rem] transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
+    <div className="bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden">
+      
+      {/* --- HERO SECTION --- */}
+      <section className="relative pt-20 pb-12 lg:pt-20 lg:pb-24 px-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+          <motion.div className="lg:col-span-7" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { staggerChildren: 0.06 } } }}>
+            <motion.div variants={heroItem} className="hero-content">
+              <div className="flex flex-wrap gap-3 mb-6">
+                <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-100 rounded-full">
+                  <img src={iitkgplogo} alt="IIT KGP" className="w-4 h-4" />
+                  <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">IIT Kharagpur // Dual Degree</span>
+                </div>
+                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full">
+                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" aria-hidden="true" />
+                  <span className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-widest">Active Researcher</span>
                 </div>
               </div>
-            </div>
+
+              <motion.h1 variants={heroItem} className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-4 leading-tight">
+                Arpit Kumar
+              </motion.h1>
+
+              <motion.div variants={heroItem} className="h-10 flex items-center mb-6">
+                <span className="text-lg md:text-2xl font-mono font-bold text-blue-600">
+                  &gt; <AniText
+                    texts={["Deep Learning Researcher", "Applied ML Specialist", "Quantitative Strategist", "Mathematical Modeler"]}
+                    typingSpeed={50}
+                    pauseTime={1500}
+                  />
+                </span>
+              </motion.div>
+
+              <motion.p variants={heroItem} className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+                Developing high-fidelity AI systems by bridging <strong>First-Principles Engineering</strong> and <strong>Neural Architectures</strong>. Specializing in scalable optimization and predictive modeling.
+              </motion.p>
+
+              <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 py-6">
+                {[{l: "Years of Experience", v: "03+"}, {l: "Projects Deployed", v: "09+"}, {l: "Competitions Won", v: "03+"}, {l: "Ongoing Research", v: "02+"}].map((s, i) => (
+                  <div key={i} role="listitem" className="stat-card">
+                    <h3 className="text-3xl font-black text-slate-900">{s.v}</h3>
+                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1">{s.l}</p>
+                    <div className="w-8 h-1 bg-blue-600 mt-2" aria-hidden="true" />
+                  </div>
+                ))}
+              </div>
+
+              <motion.div variants={heroItem} className="flex flex-wrap gap-4">
+                <Link to="/projects" aria-label="Review portfolio" className="group px-8 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                  Review Projects <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link to="/request-cv" aria-label="Get technical CV" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                  <FileText size={18} />Download CV
+                </Link>
+                <Link to="/aboutme" aria-label="More about me" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                About Me <ShieldCheck size={18} />
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div className="lg:col-span-5 relative profile-image-container" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { delay: 0.2 } } }}>
+            <motion.div whileHover={!shouldReduceMotion ? { scale: 1.03 } : {}} className="relative z-10 mx-auto w-full max-w-[420px]">
+              <div className="absolute -inset-4 border border-slate-100 rounded-[3rem] -z-10" aria-hidden="true" />
+              <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 border-4 border-white shadow-2xl aspect-[4/5]">
+                <img src={myphoto} alt="Arpit Kumar" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+              </div>
+              <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+                {[
+                  { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub' },
+                  { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn' },
+                  { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle' },
+                  { icon: GoogleScholar, href: "#", label: 'Google Scholar' }
+                ].map((item, i) => (
+                  <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} className="p-4 bg-white shadow-xl rounded-2xl text-slate-600 hover:text-blue-600 border border-slate-50 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+                    <item.icon size={20} />
+                  </a>
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* More About me Button */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-center mb-16"
-      >
-        <Link
-
-          to="/aboutme"
-          className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 font-medium bg-transparent hover:bg-blue-50 border border-blue-500 hover:border-blue-600 px-5 py-3 rounded-lg transition"
-        >
-          More About Me <ArrowRight className="w-5 h-5" />
-        </Link>
-      </motion.div>
-
-      {/* Research Section */}
-      <ResearchComponent />
-
-      {/* Experience Section */}
-      <section className="mb-16">
-        <Experience />
+      {/* --- RESEARCH SECTION --- */}
+      <section className="reveal-section bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <ResearchComponent />
+        </div>
       </section>
 
-      {/* Education Section */}
-      <section className="mb-16">
-        <Education />
+      {/* --- EXPERIENCE SECTION (PRIORITIZED FOR HIRING) --- */}
+      <section className="reveal-section ">
+        <div className="max-w-7xl mx-auto px-6">
+          <Experience />
+        </div>
       </section>
 
-      {/* Achievements and Leadership Section */}
-      <section className="bg-gray-50">
-        <Achievements />
+      {/* --- EDUCATION SECTION (ACADEMIC VALIDATION) --- */}
+      <section className="reveal-section">
+        <div className="max-w-7xl mx-auto px-6">
+          <Education />
+        </div>
       </section>
 
-      {/* Project Section */}
-      <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-6xl mx-auto px-4">
-          {/* Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Explore my Projects</h2>
-            <div className="w-20 h-1 bg-blue-500 mx-auto rounded-full" />
-            <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-sm">
-              Showcasing here some of my innovative solutions of the classic problems made with Machine Learning techniques.
-            </p>
-          </motion.div>
+      {/* --- ACHIEVEMENTS --- */}
+      <section className="reveal-section bg-slate-50 text-white py-24">
+        <div className="max-w-7xl mx-auto px-6">
+          <Achievements />
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      {/* --- PROJECTS --- */}
+      <section className="reveal-section py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-lg text-blue-600">
+                <Terminal size={18} />
+              </div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-600">
+                Technical Capabilities Matrix
+              </span>
+            </div>              
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-2 tracking-tighter">Featured Research Projects</h2>
+            </div>
+            <Link to="/projects" className="flex items-center gap-2 text-slate-900 font-bold hover:text-blue-600 transition-colors">
+              Explore All <ArrowRight size={20} />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <AnimatePresence mode="popLayout">
-              <ProjectCard
-                key={projects[12].id}
-                {...projects[12]}
-              />
-              <ProjectCard
-                key={projects[9].id}
-                {...projects[9]}
-              />
-              <ProjectCard
-                key={projects[2].id}
-                {...projects[2]}
-              />
+              {[12, 9, 8].map((id) => {
+                const p = projects.find((proj) => proj.id === id);
+                return p ? <ProjectCard key={p.id} {...p} /> : null;
+              })}
             </AnimatePresence>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center mt-12"
-          >
-            <Link
-              to="/projects"
-              className="inline-flex items-center gap-2 text-blue-500 hover:text-blue-600 font-medium bg-transparent hover:bg-blue-50 border border-blue-500 hover:border-blue-600 px-5 py-3 rounded-lg transition"
-            >
-              View All Projects <ArrowRight className="w-5 h-5" />
-            </Link>
-          </motion.div>
         </div>
       </section>
 
-
-      {/* Technical Proficiencies Section */}
-      <section className="py-5">
-        <TechnicalProficiencies />
+      {/* --- SKILLS --- */}
+      <section className="reveal-section">
+        <div className="max-w-7xl mx-auto px-6">
+          <TechnicalProficiencies />
+        </div>
       </section>
 
-      {/* Experience Section */}
-      {/* <section className="mb-16">
-        <Experience />
-      </section> */}
-
-      {/* Achievements and Leadership Section */}
-      {/* <section className="bg-gray-50">
-        <Achievements />
-      </section> */}
+      {/* --- FOOTER CTA --- */}
+      <section className="reveal-section pb-24 px-6">
+        <div className="max-w-7xl mx-auto bg-slate-50 border border-slate-100 rounded-[3rem] p-12 text-center">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tighter">Let's solve complex problems.</h2>
+          <p className="text-slate-500 max-w-2xl mx-auto mb-10 text-lg">Currently accepting research collaborations and consultancy roles.</p>
+          <div className="flex flex-wrap justify-center gap-4">
+             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl">Start Consultation</Link>
+             <Link to="/aboutme" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl">Detailed Profile</Link>
+          </div>
+        </div>
+      </section>
+      
     </div>
   );
 };
-
 
 export default Home;

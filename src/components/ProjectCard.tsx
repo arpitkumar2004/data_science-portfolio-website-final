@@ -1,22 +1,34 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Github, NotebookText, ExternalLink, ArrowRight } from 'lucide-react';
-import { Project } from '../data/projectsData';
+import { 
+  Github, 
+  ArrowRight, 
+  Clock, 
+  FileText, 
+  Microscope,
+  Code2,
+  Terminal,
+  Activity,
+  Search,
+  Database,
+  ExternalLink
+} from 'lucide-react';
 
-// Assuming Project type is defined elsewhere, e.g.:
-// export interface Project {
-//   id: string;
-//   title: string;
-//   description: string;
-//   image: string;
-//   tags: string[];
-//   githubLink?: string;
-//   articleLink?: string;
-// }
-
-interface ProjectCardProps extends Project {
+// Technical Interface
+interface ProjectCardProps {
+  id: string | number;
+  title: string;
+  description: string;
+  image: string;
+  type?: string;
+  tags?: string[];
+  githubLink?: string;
+  articleLink?: string;
   liveDemoLink?: string;
+  readingTime?: string;
+  duration?: string;
+  role?: string;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -25,120 +37,148 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   image,
   type,
+  tags,
   githubLink,
   articleLink,
   liveDemoLink,
+  duration,
+  role,
+  readingTime = "5 min read",
 }) => {
   const navigate = useNavigate();
+  const brandBlue = "rgb(37 99 235)";
 
-  const handleCardClick = () => {
-    navigate(`/projects/${id}`);
-  };
+  const handleCardClick = () => navigate(`/projects/${String(id)}`);
+  const handleLinkClick = (e: React.MouseEvent) => e.stopPropagation();
 
-  const handleLinkClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
-  // Tooltip component
-  const Tooltip: React.FC<{ text: string }> = ({ text }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 5 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 5 }}
-      transition={{ duration: 0.2 }}
-      className="absolute bottom-full mb-2 px-3 py-1 bg-slate-800 text-white text-xs rounded-md shadow-lg whitespace-nowrap z-10"
-    >
-      {text}
-    </motion.div>
-  );
-
-  // Reusable Icon Button with Tooltip
-  const IconWithTooltip: React.FC<{
-    href: string;
-    icon: React.ElementType;
-    tooltipText: string;
-  }> = ({ href, icon: Icon, tooltipText }) => {
-    const [isHovered, setIsHovered] = React.useState(false);
-    return (
-      <a
-        href={href}
-        onClick={handleLinkClick}
-        target="_blank"
-        rel="noopener noreferrer"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className="relative flex items-center justify-center p-1 text-slate-500 hover:text-slate-900 transition-colors"
-      >
-        <Icon size={20} />
-        <AnimatePresence>
-          {isHovered && <Tooltip text={tooltipText} />}
-        </AnimatePresence>
-      </a>
-    );
+  const TypeIcon = () => {
+    const t = type?.toLowerCase() || '';
+    if (t.includes('paper') || t.includes('research')) return <Microscope size={12} />;
+    if (t.includes('competition')) return <Activity size={12} />;
+    return <Code2 size={12} />;
   };
 
   return (
     <motion.div
       whileHover={{ y: -8 }}
       onClick={handleCardClick}
-      className="group flex flex-col bg-white rounded-lg shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer border border-slate-200 h-full"
+      className="group flex flex-col bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden hover:border-blue-600 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 cursor-pointer h-full relative"
     >
-      {/* Image Container */}
-      <div className="relative overflow-hidden">
+      {/* 1. IMAGE AREA (Grayscale to Color Interaction) */}
+      <div className="relative h-56 overflow-hidden bg-slate-100">
         <img
           src={image}
           alt={title}
-          className="w-full h-48 object-cover transform transition-transform duration-500 ease-in-out group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110 grayscale group-hover:grayscale-0"
         />
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-all duration-300" />
+        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
+        
+        {/* Dossier Badge */}
+        <div className="absolute top-5 left-5">
+          <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full shadow-sm border border-white/20 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
+            <span className="text-[10px] font-mono font-black uppercase tracking-widest text-slate-800">
+              {type || "Technical Build"}
+            </span>
+          </div>
+        </div>
 
-        {/* Type Tag */}
-        <motion.div
-          initial={{ opacity: 1, scale: 1 }}
-          whileHover={{ opacity: 1, scale: 1.05 }}
-          transition={{ duration: 0.3 }}
-          className={`absolute top-2 left-2 px-2 py-1 text-xs font-semibold text-white rounded-md shadow-md z-10 ${
-            type === 'Competition' ? 'bg-blue-500/80' :
-            type === 'Project' ? 'bg-green-500/80' :
-            type === 'Fest Website' ? 'bg-purple-500/80' :
-            type === 'Portfolio Website' ? 'bg-orange-500/80' :
-            type === 'Research Paper' ? 'bg-red-500/80' :
-            type === 'Conference' ? 'bg-yellow-500/80' :
-            'bg-gray-500/80'
-          }`}
-        >
-          {type}
-        </motion.div>
+        
       </div>
 
-      {/* Content Container */}
-      <div className="p-5 flex flex-col flex-grow">
-        <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
+      {/* 2. CORE INFORMATION SECTION */}
+      <div className="p-8 flex flex-col flex-grow">
+        
+        {/* Meta Stats Row */}
+        <div className="flex justify-between items-center mb-6 font-mono">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1.5 text-blue-600 text-[10px] font-black uppercase tracking-widest">
+              <TypeIcon /> {type}
+            </div>
+            {duration && (
+               <span className="text-[10px] text-slate-400 uppercase tracking-tighter">{duration}</span>
+            )}
+          </div>
+          <div className="flex items-center gap-1.5 text-slate-300">
+            <Clock size={12} />
+            <span className="text-[10px] font-black uppercase">{readingTime}</span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className="text-2xl font-black text-slate-900 tracking-tighter mb-4 leading-tight group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
-        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3 flex-grow mb-4">
+
+        {/* Technical Summary Header */}
+        <div className="flex items-center gap-2 mb-3">
+            <Terminal size={14} className="text-slate-300" />
+            <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Executive Abstract</span>
+        </div>
+        
+        {/* Comprehensive Description (Increased line clamp for recruiter info) */}
+        <p className="text-slate-600 text-sm leading-relaxed line-clamp-4 mb-6 font-medium">
           {description}
         </p>
 
-        {/* Footer with Links */}
-        <div className="flex items-center justify-between pt-4 mt-auto border-t border-slate-200">
-          <div className="flex items-center space-x-2"> {/* Reduced space-x to account for tooltip padding */}
+        {/* Tech DNA Tags */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {tags?.slice(0, 4).map((tag) => (
+            <span key={tag} className="text-[9px] font-mono font-black text-slate-400 uppercase tracking-[0.2em] border border-slate-100 px-2 py-0.5 rounded-md">
+              #{tag}
+            </span>
+          ))}
+        </div>
+
+        {/* --- SEPARATOR LINE --- */}
+        <div className="w-full h-px bg-slate-100 mb-6 mt-auto" />
+
+        {/* 3. ACTION ZONE */}
+        <div className="flex items-center gap-3">
+          <button
+            className="flex-grow flex items-center justify-between px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold text-xs uppercase tracking-[0.2em] transition-all hover:bg-blue-600 shadow-xl shadow-slate-200 hover:shadow-blue-900/30 group/btn"
+          >
+            <span>Read More</span>
+            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+          </button>
+
+          <div className="flex gap-2">
             {githubLink && (
-              <IconWithTooltip href={githubLink} icon={Github} tooltipText="GitHub" />
-            )}
-            {articleLink && (
-              <IconWithTooltip href={articleLink} icon={NotebookText} tooltipText="Read Paper" />
+              <a 
+                href={githubLink} 
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-2xl border border-slate-100 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-sm group/icon"
+                title="Git Source"
+              >
+                <Github size={20} className="group-hover/icon:scale-110 transition-transform" />
+              </a>
             )}
             {liveDemoLink && (
-              <IconWithTooltip href={liveDemoLink} icon={ExternalLink} tooltipText="Live Demo" />
+              <a 
+                href={liveDemoLink} 
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-2xl border border-slate-100 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-sm group/icon"
+                title="Live Demonstration"
+              >
+                <ExternalLink size={20} className="group-hover/icon:scale-110 transition-transform" />
+              </a>
             )}
-          </div>
-          <div className="flex items-center text-sm font-semibold text-blue-600">
-            View Details
-            <ArrowRight
-              size={16}
-              className="ml-1 transform transition-transform duration-300 group-hover:translate-x-1"
-            />
+            {articleLink && (
+              <a 
+                href={articleLink} 
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3.5 rounded-2xl border border-slate-100 text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-all shadow-sm group/icon"
+                title="Full Documentation"
+              >
+                <FileText size={20} className="group-hover/icon:scale-110 transition-transform" />
+              </a>
+            )}
           </div>
         </div>
       </div>

@@ -12,6 +12,8 @@ import Contact from './pages/Contact';
 import RequestCV from './pages/RequestCV';
 import AboutMe from './pages/aboutme';
 import { useLenis } from './hooks/useLenis';
+import { ToastProvider } from './components/ToastProvider';
+import ErrorBoundary from './components/ErrorBoundary';
 
 
 const ScrollToTop = () => {
@@ -40,21 +42,25 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <ToastProvider>
       <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/:id" element={<ProjectDetail />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/request-cv" element={<RequestCV />} />
-            <Route path="/aboutme" element={<AboutMe />} />
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/:id" element={<ProjectDetail />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/request-cv" element={<RequestCV />} />
+              <Route path="/aboutme" element={<AboutMe />} />
 
-          </Routes>
+            </Routes>
+          </ErrorBoundary>
         </main>
         <Footer />
       </div>
+      </ToastProvider>
     </Router>
   );
 }

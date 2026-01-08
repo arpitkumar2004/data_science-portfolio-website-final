@@ -21,7 +21,7 @@ interface AchievementsProps {
 
 const Achievement: React.FC<AchievementsProps> = ({ sections }) => {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 max-w-7xl">
       {sections.map((section, sectionIndex) => (
         <motion.div
           key={sectionIndex}

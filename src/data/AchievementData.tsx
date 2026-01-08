@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { details } from 'framer-motion/client';
+// import { details } from 'framer-motion/client';
 import { useState } from 'react';
 
 import {
@@ -108,7 +108,7 @@ export const achievementData = [
     ]
   },
   {
-    title: "Winning Competitions & Hackathons in Data Science & AI",
+    title: "Competitions & Hackathons in Data Science & AI",
     accentColor: "yellow",
     items: [
       {
