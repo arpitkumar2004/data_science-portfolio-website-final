@@ -39,13 +39,13 @@ const Header: React.FC = () => {
           {/* Logo / Brand */}
           <Link to="/" className="flex items-center gap-2 group">
             <div 
-              className="p-1.5 rounded-lg text-white transition-transform group-hover:rotate-12"
-              style={{ backgroundColor: brandBlue }}
+              className="p-1.5 rounded-lg text-blue-600 transition-transform group-hover:rotate-12"
+              // style={{ backgroundColor: brandBlue }}
             >
-              <Terminal size={18} strokeWidth={2.5} />
+              <Terminal size={30} strokeWidth={3.5} />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tighter text-slate-900 leading-none">
+              <span className="text-lg font-black tracking-tighter text-blue-600 leading-none">
                 ARPIT KUMAR
               </span>
               <span className="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase mt-0.5">

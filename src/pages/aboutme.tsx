@@ -59,9 +59,9 @@ const AboutMe: React.FC = () => {
                                     />
                                     {/* Data Overlay Effect */}
                                     <div className="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-lg border border-white/10">
-                                        <div className="flex items-center gap-3 mb-2">
+                                        <div className="flex items-center gap-3 mb-2 border-b border-white/20 pb-2">
                                             <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                                            <span className="text-[10px] font-mono text-white/70 uppercase tracking-widest">System Status: Active</span>
+                                            <span className="text-[12px] font-mono text-white/70 font-bold uppercase tracking-widest">Status: Open to work</span>
                                         </div>
                                         <p className="text-white font-mono text-xs leading-tight">
                                             LOC: IIT_KHARAGPUR // <br />

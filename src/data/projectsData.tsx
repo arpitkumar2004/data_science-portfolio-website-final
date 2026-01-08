@@ -19,9 +19,12 @@ export interface Project {
   liveDemoLink?: string;
   role: string;
   duration: string;
+  readingTime?: string;
+  company: string;
   challenges: string[];
   galleryImages?: string[];
   similarProjectIds?: number[];
+
 }
 
 
@@ -32,7 +35,7 @@ export const projects: Project[] = [
     "description": "Developed and deployed a regression model pipeline to predict customer review scores, enhancing forecasting accuracy by 20% through feature engineering and automated monitoring. Utilized MLflow for model tracking and ZenML for efficient model deployment.",
     "longDescription": "This project involved analyzing a dataset of over 100,000 orders to predict customer satisfaction based on review scores. Leveraging ZenML and MLflow, the project featured an automated pipeline for data processing, model training, and deployment. Extensive data transformations and feature engineering were applied, focusing on attributes such as order status, pricing, and payment methods to optimize prediction accuracy.",
     "image": "https://plus.unsplash.com/premium_vector-1683134673277-bfcd86efa0f7?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "tags": ["MLOps", "Regression", "MLflow", "Data Engineering", "DVC"],
+    "tags": ["MLOps", "Regression", "MLflow", "Data Engineering", "DVC","Ongoing Project"],
     "objectives": [
       "Improve accuracy of customer review score predictions through feature engineering",
       "Automate pipeline for efficient model deployment and updates using ZenML and MLflow integration",
@@ -77,7 +80,7 @@ export const projects: Project[] = [
     "description": "Developed a dynamic, end-to-end pipeline for house price prediction, with automated deployment and real-time forecasting capabilities.",
     "longDescription": "This project aimed to predict house prices by constructing a comprehensive pipeline using ZenML, focusing on data preprocessing, feature engineering, and model optimization. Key elements included dynamic data splitting, imputation, outlier detection, and scaling to enhance model accuracy and robustness. Automated model deployment was implemented using ZenML, enabling real-time prediction services.",
     "image": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    "tags": ["MLOps", "Regression", "ZenML", "Feature Engineering", "Real-time Prediction"],
+    "tags": ["MLOps", "Regression", "ZenML", "Feature Engineering", "Real-time Prediction","Deployed","Completed Project"],
     "objectives": [
       "Develop robust models for accurate house price predictions",
       "Automate end-to-end pipeline for efficient model deployment",
@@ -123,7 +126,7 @@ export const projects: Project[] = [
       "This project aimed to predict customer churn for a major telecom provider. By analyzing customer data and building a machine learning model, we were able to accurately identify customers likely to churn.",
     image:
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Data Analysis", "Python", "Scikit-learn", "Logistic Regression"],
+    tags: ["Data Analysis", "Python", "Scikit-learn", "Logistic Regression","Ongoing Project"],
     "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
@@ -171,7 +174,7 @@ export const projects: Project[] = [
       "This project aimed to predict customer churn for a major telecom provider. By analyzing customer data and building a machine learning model, we were able to accurately identify customers likely to churn.",
     image:
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Anomaly Detection", "Apache Spark", "Machine Learning"],
+    tags: ["Anomaly Detection", "Apache Spark", "Machine Learning","Ongoing Project"],
     "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
@@ -212,7 +215,7 @@ export const projects: Project[] = [
     "description": "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
     "longDescription": "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
     "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "tags": ["Cricket Analytics", "Ensemble Learning", "LightGBM", "CatBoost"],
+    "tags": ["Cricket Analytics", "Ensemble Learning", "LightGBM", "CatBoost","XGBoost","Completed Project"],
     "type": "Competition",
     "objectives": [
       "Develop an accurate model for predicting T-20 cricket match outcomes",
@@ -288,7 +291,7 @@ export const projects: Project[] = [
     "description": "Developed a comprehensive Social and Healthcare Risk Scorecard using decision trees and ensemble methods, achieving 82.89% accuracy and securing 1st rank.",
     "longDescription": "This project involved creating a Social and Healthcare Risk Scorecard in collaboration with Evva Health. Using decision tree algorithms and community data gathered via web scraping with BeautifulSoup and Selenium, we constructed a risk assessment tool aimed at informing resource allocation based on risk factors. Advanced statistical techniques, including Bifactor and MIRT analysis, were utilized to analyze and score responses from patient questionnaires. The deployment on Streamlit provided an accessible and interactive platform for risk analysis, with an ensemble model incorporating Voting, BERT, and Bayes Classification achieving an accuracy of 82.89%.",
     "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
-    "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping"],
+    "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping","Deployed","Completed Project"],
     "type": "Competition",
     "objectives": [
       "Develop a risk scorecard to assess social and healthcare risk factors",
@@ -402,7 +405,7 @@ export const projects: Project[] = [
       "This project aimed to predict customer churn for a major telecom provider. By analyzing customer data and building a machine learning model, we were able to accurately identify customers likely to churn.",
     image:
       "https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-    tags: ["Recommendation Systems", "Collaborative Filtering", "Python"],
+    tags: ["Recommendation Systems", "Collaborative Filtering", "Python","Ongoing Project"],
     "type": "Project",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
@@ -529,7 +532,7 @@ export const projects: Project[] = [
     "description": "Developed a dynamic, responsive website for our department's annual fest, FUGACITY, using React, Tailwind CSS, and Node.js.for our annual fest FUGACITY of the department of Chemical engineering IIT Kharagpur",
     "longDescription": "This project involved creating a visually appealing, user-friendly website for the FUGACITY fest, designed to showcase event information, schedules, and updates. Built with React for interactive components, Tailwind CSS for styling, and Node.js for efficient backend management, the website delivered a seamless user experience with full responsiveness across devices.",
     "image": cheaimg,
-    "tags": ["Web Development", "React", "Tailwind CSS", "Node.js", "Event Website"],
+    "tags": ["Web Development", "React", "Tailwind CSS", "Node.js", "Event Website", "Responsive Design","Completed Project"],
     "objectives": [
       "Create a responsive and engaging website for the FUGACITY fest",
       "Showcase event details, schedules, and updates in a user-friendly manner",
@@ -573,7 +576,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     "description": "Created a responsive portfolio website using React, Tailwind CSS, and Node.js to showcase projects, skills and Achievements.",
     "longDescription": "This project focused on developing a personal portfolio website to showcase projects, skills, and professional information. Using React for dynamic components, Tailwind CSS for sleek and responsive design, and Node.js for backend integration, the website provides an interactive and modern user experience, fully optimized for various screen sizes.",
     "image": portfolioimg,
-    "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js"],
+    "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js","Ongoing Project"],
     "type": "Portfolio Website",
     "objectives": [
       "Create a professional and visually engaging portfolio website",
@@ -650,7 +653,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Developed a state-of-the-art multimodal ML system for the Amazon ML Challenge 2025. The project combines BERT-based text embeddings, CLIP image representations, and structured tabular data to predict product prices with high accuracy. Leveraged UMAP for dimensionality reduction and ensemble stacking (Linear, RF, LGBM, XGB, CatBoost) to boost predictive performance and robustness. Built a modular, OOP-driven, YAML-configured experimental pipeline enabling rapid cross-validation, meta-learning, and reproducible experiments.",
     image: "/projects/multimodal-price.jpg",
     "type": "Competition",
-    tags: ["Machine Learning", "Deep Learning", "Multimodal AI", "Ensemble Models"],
+    tags: ["Machine Learning", "Deep Learning", "Multimodal AI", "Ensemble Models","Deployed","Completed Project"],
     objectives: [
       "Integrate heterogeneous data modalities for accurate price prediction",
       "Design a modular ML pipeline for rapid experimentation and reproducibility",
@@ -660,7 +663,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     methods: ["Feature Embedding", "Dimensionality Reduction", "Ensemble Stacking", "Cross-validation", "OOP Pipeline Design"],
     results: ["Achieved SMAPE 42.89%", "Secured top 0.5% globally", "Built a scalable and modular ML pipeline for experimentation"],
     codeSnippet: "",
-    githubLink: "https://github.com/arpitkumar2004/Assigment-PMS",
+    githubLink: "https://github.com/arpitkumar2004/A_ML_2025",
     articleLink: "",
     liveDemoLink: "",
     role: "Lead Developer",
@@ -681,7 +684,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Built a deep learning pipeline to summarize 100K+ documents automatically, reducing average summary length by 75% while retaining over 92% of original information. Designed and automated preprocessing, training, and inference pipelines, increasing throughput from 5K to 25K documents per hour. The model improved summary quality by 35% ROUGE-L F1 over extractive baselines, drastically reducing manual review workload and enabling scalable document analysis.",
     image: "/projects/text-summarizer.jpg",
     "type": "Project",
-    tags: ["Deep Learning", "NLP", "Text Summarization", "Automation"],
+    tags: ["Deep Learning", "NLP", "Text Summarization", "Automation","Ongoing Project"],
     objectives: [
       "Reduce manual summarization workload for large document datasets",
       "Maintain high information retention in generated summaries",
@@ -712,7 +715,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Developed a voting ensemble AI model combining BERT, Naive Bayes, and Decision Tree to classify patient-reported health risks with 82.89% accuracy. Deployed a multipage Streamlit app providing real-time scoring and dynamic feedback for healthcare professionals. Scraped 1000+ patient entries using BeautifulSoup and Selenium, integrating Bifactor & MIRT modeling to optimize resource allocation across Indian healthcare case studies.",
     image: "/projects/evva-risk-score.jpg",
     "type": "Competition",
-    tags: ["Healthcare Analytics", "Machine Learning", "Web Application", "NLP"],
+    tags: ["Healthcare Analytics", "Machine Learning", "Web Application", "NLP","Deployed","Completed Project"],
     objectives: [
       "Predict patient risk profiles accurately using AI models",
       "Deploy real-time scoring web app to assist healthcare professionals",
@@ -742,8 +745,8 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Simulated multi-stage distillation columns, flash separations, and heat exchangers under Prof. Sourav Mondal and Prof. Nikita Saxena. Performed pinch analysis and COMSOL simulations to reduce utility costs by up to 30% and improve heat transfer efficiency by 15%. Integrated neural networks to predict boiling points (R² > 0.85) and automated multicomponent flash processes, increasing benzene recovery to 95%. Focused on sustainable and energy-efficient chemical process development.",
     image: "/projects/process-modelling.jpg",
-    "type": "Project",
-    tags: ["Process Engineering", "Simulation", "Optimization", "AI Integration"],
+    "type": "Research Project",
+    tags: ["Process Engineering", "Simulation", "Optimization", "Electrlyser Design","Completed Project"],
     objectives: [
       "Optimize chemical process efficiency and sustainability",
       "Integrate predictive ML models into traditional process simulations",
@@ -756,8 +759,9 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     githubLink: "https://github.com/arpitkumar2004/Assigment-PMS",
     articleLink: "",
     liveDemoLink: "",
-    role: "Research Intern",
-    duration: "2024–2025",
+    role: "Researcher",
+    company: "IIT Kharagpur",
+    duration: "July 2025 – Nov 2025",
     challenges: [
       "Designing multi-stage separation columns with high purity",
       "Integrating ML models with chemical process simulations",

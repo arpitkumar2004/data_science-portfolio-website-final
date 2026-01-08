@@ -301,12 +301,12 @@ export default function Experience() {
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
               <h4 className="text-2xl font-black tracking-tighter mb-2">Detailed CV required?</h4>
-              <p className="text-slate-400 text-sm max-w-sm">I have an extended research CV available for industrial R&D roles and academic inquiries.</p>
+              <p className="text-slate-400 text-sm max-w-sm">I have an extended complete CV available for inernship for <b className="font-bold">Summer 2026</b> and industrial R&D roles as well and academic inquiries.</p>
             </div>
-            <button className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/20 flex items-center gap-3">
+            <a href='#/request-cv' className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/20 flex items-center gap-3">
               <Terminal size={18} />
               Request Full CV
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>
