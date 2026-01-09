@@ -13,8 +13,11 @@ import {
   Terminal, 
   Linkedin,
   Github,
+  Twitter,
+  Globe,
   ArrowUpRight
 } from 'lucide-react';
+import { SiKaggle, SiMedium } from "react-icons/si";
 
 type FormData = {
   name: string;
@@ -22,6 +25,12 @@ type FormData = {
   subject: string;
   message: string;
 };
+
+const GoogleScholar = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
+  </svg>
+);
 
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzoD1wzkI7pmnps0_kXvFCRoL4MKfK-Bx5z7eahO9dHLw5-qMwQrvbRv9aNOnFvGGk3/exec';
 
@@ -136,12 +145,21 @@ const Contact: React.FC = () => {
 
             <section>
               <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">Professional Network</h3>
-              <div className="flex gap-4">
-                <a href="#" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
+              <div className="flex gap-4 flex-wrap">
+                <a href="#" aria-label="LinkedIn" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
                   <Linkedin size={20} />
                 </a>
-                <a href="#" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
+                <a href="#" aria-label="GitHub" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
                   <Github size={20} />
+                </a>
+                <a href="#" aria-label="Medium" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
+                  <SiMedium size={20} />
+                </a>
+                <a href="#" aria-label="Kaggle" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
+                  <SiKaggle size={20} />
+                </a>
+                <a href="#" aria-label="Google Scholar" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
+                  <GoogleScholar size={20} />
                 </a>
               </div>
             </section>

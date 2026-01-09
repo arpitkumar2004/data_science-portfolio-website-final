@@ -8,7 +8,7 @@ import {
   BarChart3, Cpu, ChevronRight, Binary
 } from "lucide-react";
 
-const techData = [
+export const techData = [
   {
     title: "Gen AI & LLM Ops",
     category: "State-of-the-Art",

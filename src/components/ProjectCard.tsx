@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   Github, 
   ArrowRight, 
@@ -116,8 +116,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Executive Abstract</span>
         </div>
         
-        {/* Comprehensive Description (Increased line clamp for recruiter info) */}
-        <p className="text-slate-600 text-sm leading-relaxed line-clamp-4 mb-6 font-medium">
+        {/* Comprehensive Description (responsive clamp for readability) */}
+        <p className="text-slate-600 text-sm leading-relaxed line-clamp-4 md:line-clamp-6 mb-6 font-medium">
           {description}
         </p>
 
@@ -135,12 +135,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
         {/* 3. ACTION ZONE */}
         <div className="flex items-center gap-3">
-          <button
+          <Link
+            to={`/projects/${String(id)}`}
+            onClick={(e) => e.stopPropagation()}
             className="flex-grow flex items-center justify-between px-6 py-4 bg-slate-900 text-white rounded-2xl font-bold text-xs uppercase tracking-[0.2em] transition-all hover:bg-blue-600 shadow-xl shadow-slate-200 hover:shadow-blue-900/30 group/btn"
           >
             <span>Read More</span>
             <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-          </button>
+          </Link>
 
           <div className="flex gap-2">
             {githubLink && (

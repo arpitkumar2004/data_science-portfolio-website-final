@@ -175,6 +175,11 @@ const Projects: React.FC = () => {
 
       {/* --- PROJECT GRID --- */}
       <main className="px-6 md:px-12 lg:px-20 py-16 max-w-[1600px] mx-auto">
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <p className="text-lg text-slate-600 leading-relaxed">
+            A curated collection of research outputs, technical projects and experiments. Browse entries, filter by technology, and open any dossier to read full methodology, results and implementation details.
+          </p>
+        </div>
         <AnimatePresence mode="popLayout">
           {filteredProjects.length > 0 ? (
             <motion.div layout className={layout === 'list' ? 'flex flex-col gap-12' : layout === 'grid-2' ? 'grid grid-cols-1 md:grid-cols-2 gap-10' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'}>

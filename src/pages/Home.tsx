@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { gsap } from "gsap";
@@ -26,6 +26,7 @@ import ResearchComponent from "../components/research";
 import TechnicalProficiencies from "../data/skillsData";
 import Achievements from "../data/AchievementData";
 import AniText from "../components/AniText";
+import OpenToWork from "../components/OpenToWork";
 
 // Data & Assets
 import { projects } from "../data/projectsData";
@@ -76,6 +77,44 @@ const Home: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
   const heroItem = { hidden: { opacity: 0, y: 8 }, show: { opacity: 1, y: 0, transition: { duration: 0.6 } } };
 
+  const stats = useMemo(() => {
+    const nowYear = new Date().getFullYear();
+    const startYears = projects.map(p => {
+      const dur = p.duration || '';
+      const m = dur.match(/([A-Za-z]+)\s+(\d{4})/);
+      if (m) return parseInt(m[2], 10);
+      const y = dur.match(/(\d{4})/);
+      if (y) return parseInt(y[1], 10);
+      return null;
+    }).filter(Boolean) as number[];
+
+    const earliest = startYears.length ? Math.min(...startYears) : nowYear;
+    const years = Math.max(0, nowYear - earliest);
+    const yearsDisplay = String(years).padStart(2, '0') + '+';
+
+    const projectsDeployedCount = projects.filter(p => p.tags?.some(t => /(deployed|live|completed)/i.test(t))).length;
+
+    const competitionsWonCount = projects.filter(p =>
+      p.type?.toLowerCase() === 'competition' &&
+      p.results?.some(r => /(place|rank|ranked|gold|silver|bronze|1st|2nd|3rd)/i.test(r))
+    ).length;
+
+    const ongoingResearchCount = projects.filter(p =>
+      (p.type && p.type.toLowerCase().includes('research')) ||
+      p.tags?.some(t => /ongoing/i.test(t))
+    ).length;
+
+    return [
+      { l: 'Years of Experience', v: yearsDisplay },
+      { l: 'Projects Deployed', v: String(projectsDeployedCount).padStart(2, '0') + '+' },
+      { l: 'Competitions Won', v: String(competitionsWonCount).padStart(2, '0') + '+' },
+      { l: 'Ongoing Projects', v: String(ongoingResearchCount).padStart(2, '0') + '+' },
+    ];
+  }, [projects]);
+
+  // Open-to-work logic moved to `OpenToWork` component.
+
+
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden">
       
@@ -114,7 +153,7 @@ const Home: React.FC = () => {
               </motion.p>
 
               <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 py-6">
-                {[{l: "Years of Experience", v: "03+"}, {l: "Projects Deployed", v: "09+"}, {l: "Competitions Won", v: "03+"}, {l: "Ongoing Research", v: "02+"}].map((s, i) => (
+                {stats.map((s, i) => (
                   <div key={i} role="listitem" className="stat-card">
                     <h3 className="text-3xl font-black text-slate-900">{s.v}</h3>
                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1">{s.l}</p>
@@ -143,6 +182,9 @@ const Home: React.FC = () => {
               <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 border-4 border-white shadow-2xl aspect-[4/5]">
                 <img src={myphoto} alt="Arpit Kumar" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
               </div>
+
+              <OpenToWork />
+
               <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
                 {[
                   { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub' },
@@ -227,7 +269,7 @@ const Home: React.FC = () => {
 
       {/* --- FOOTER CTA --- */}
       <section className="reveal-section pb-24 px-6">
-        <div className="max-w-7xl mx-auto bg-slate-900 border border-slate-100 rounded-[3rem] p-12 text-center">
+        <div className="max-w-7xl mx-auto bg-slate-900 border-10 border-blue-800 rounded-[3rem] p-12 text-center shadow-xl shadow-blue-200">
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Let's solve complex problems.</h2>
           <p className="text-slate-500 max-w-2xl mx-auto mb-10 text-lg">Currently accepting research collaborations and internship opportunities for Data science and AI roles in Summer 2026.</p>
           <div className="flex flex-wrap justify-center gap-4">

@@ -1,11 +1,20 @@
-# TODO: Implement Cool Responsive Card Slider for Research Interests
+# TODO: Improve UI of ProjectDetail.tsx with Mandatory Headings
 
-- [x] Replace grid layout with horizontal card slider using Framer Motion
-- [x] Add state for current slide index and navigation logic
-- [x] Implement left/right arrow navigation buttons
-- [x] Make slider responsive (1 card mobile, 2 tablet, 3 desktop)
-- [x] Add smooth drag/swipe support for touch devices
-- [x] Remove "Show More/Less" button and expand/collapse logic
-- [x] Adjust card styling and animations for slider layout
-- [x] Test slider on different screen sizes and run dev server
-- [x] Fix TypeScript errors and complete implementation
+## Tasks
+- [x] Add Abstract / Executive Summary section using project.description
+- [x] Add Introduction section using project.longDescription
+- [x] Add Problem Statement section inferred from objectives
+- [x] Keep existing Objectives / Aims section
+- [x] Add Scope of the Study / Project section using type and technologies
+- [x] Add Literature Review section with placeholder
+- [x] Add Methodology / System Design section using methods
+- [x] Add Implementation / Experimentation section using technologies and methods
+- [x] Keep existing Results and Analysis section (Results & Impact)
+- [x] Add Discussion section inferred from results
+- [x] Add Conclusion section inferred from results
+- [x] Add Limitations section using challenges
+- [x] Add Future Scope / Recommendations section with placeholder
+- [x] Add References / Bibliography section with placeholder
+- [x] Ensure all sections use appropriate icons and maintain responsive design
+- [x] Test the updated UI for layout and responsiveness
+- [x] Verify that all sections display correctly with the mapped data

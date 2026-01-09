@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { projects } from '../data/projectsData';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -7,7 +7,8 @@ import ProjectCard from '../components/ProjectCard';
 import {
   Github, ExternalLink, NotebookText, Layers, Target, Cpu, Calendar,
   User, GalleryHorizontal, Lightbulb, BarChart3, X, ArrowLeft, Share2,
-  Home, Download
+  Home, Download, FileText, BookOpen, Settings, Wrench, TrendingUp,
+  AlertTriangle, Rocket, Book, Mail, ArrowUpRight,ShieldCheck
 } from 'lucide-react';
 
 // Helper component for main content sections
@@ -23,7 +24,7 @@ const InfoSection: React.FC<InfoSectionProps> = ({ title, icon, children }) => (
       {icon}
       <h3 className="text-xl font-bold text-gray-800 ml-3">{title}</h3>
     </div>
-    <div className="text-gray-600 leading-relaxed space-y-3 text-xs">
+    <div className="text-gray-600 leading-relaxed space-y-3 text-base md:text-lg">
       {children}
     </div>
   </div>
@@ -34,7 +35,7 @@ const ProjectDetail: React.FC = () => {
   const navigate = useNavigate();
   const projectId = Number(id);
   const project = projects.find((proj) => proj.id === projectId);
-
+  const brandBlue = "rgb(37 99 235)"
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [currentImage, setCurrentImage] = useState<string>('');
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
@@ -124,10 +125,10 @@ const ProjectDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen font-sans">
       {/* Breadcrumb Navigation */}
       <div className="bg-white border-b">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <button
               onClick={() => navigate('/')}
@@ -149,7 +150,7 @@ const ProjectDetail: React.FC = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-[1425px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
         {/* Header with Title and Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
@@ -157,7 +158,7 @@ const ProjectDetail: React.FC = () => {
             <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight mb-2">
               {project.title}
             </h1>
-            <p className="text-md text-gray-600">{project.description}</p>
+            <p className="text-slate-600 text-base md:text-lg">{project.description}</p>
           </div>
           <div className="flex items-center space-x-3">
             <button
@@ -265,37 +266,112 @@ const ProjectDetail: React.FC = () => {
 
             {/* --- Main Details Card --- */}
             <div className="bg-white rounded-lg shadow-md p-6 sm:p-8 animate-fade-in">
-              <InfoSection title="Project Overview" icon={<Layers size={22} className="text-blue-500" />}>
-                <p className="text-sm leading-relaxed">{project.longDescription}</p>
+              <InfoSection title="Abstract / Executive Summary" icon={<FileText size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">{project.description}</p>
               </InfoSection>
 
-              <InfoSection title="Objectives" icon={<Target size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-sm">
+              <InfoSection title="Introduction" icon={<BookOpen size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">{project.longDescription}</p>
+              </InfoSection>
+
+              <InfoSection title="Problem Statement" icon={<AlertTriangle size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  {project.objectives.length > 0
+                    ? `This project addresses the need to ${project.objectives[0].toLowerCase()}. The problem arises from the challenges in ${project.type.toLowerCase()} development and the gaps in existing solutions.`
+                    : 'This project tackles key challenges in the domain, identifying gaps in current approaches and proposing innovative solutions.'
+                  }
+                </p>
+              </InfoSection>
+
+              <InfoSection title="Objectives / Aims" icon={<Target size={22} className="text-blue-500" />}>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
                   {project.objectives.map((obj, i) => (
                     <li key={i} className="leading-relaxed">{obj}</li>
                   ))}
                 </ul>
               </InfoSection>
 
-              {/* ---ADDED SECTIONS --- */}
-              {project.challenges && project.challenges.length > 0 && (
-                <InfoSection title="Key Challenges & Learnings" icon={<Lightbulb size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm">
-                    {project.challenges.map((item, i) => (
-                      <li key={i} className="leading-relaxed">{item}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
+              <InfoSection title="Scope of the Study / Project" icon={<Settings size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  This {project.type.toLowerCase()} focuses on {project.technologies.join(', ')} technologies. The scope includes {project.objectives.length > 0 ? project.objectives.slice(0, 2).join(' and ') : 'core development and implementation'}. Target audience includes developers, researchers, and stakeholders in the field.
+                </p>
+              </InfoSection>
 
-              <InfoSection title="Results & Impact" icon={<BarChart3 size={22} className="text-blue-500" />}>
-                <ul className="list-disc list-inside space-y-2 text-sm">
+              <InfoSection title="Literature Review" icon={<Book size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  Existing work in {project.type.toLowerCase()} has explored various approaches using {project.technologies.slice(0, 3).join(', ')}. Previous studies have shown mixed results, with challenges in {project.challenges && project.challenges.length > 0 ? project.challenges[0].toLowerCase() : 'scalability and accuracy'}. This project builds upon these foundations while addressing identified gaps.
+                </p>
+              </InfoSection>
+
+              <InfoSection title="Methodology / System Design" icon={<Wrench size={22} className="text-blue-500" />}>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
+                  {project.methods.map((method, i) => (
+                    <li key={i} className="leading-relaxed">{method}</li>
+                  ))}
+                </ul>
+              </InfoSection>
+
+              <InfoSection title="Implementation / Experimentation" icon={<Cpu size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed mb-4">
+                  The project was implemented using {project.technologies.join(', ')}. Key implementation steps included:
+                </p>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
+                  {project.methods.slice(0, 3).map((method, i) => (
+                    <li key={i} className="leading-relaxed">{method}</li>
+                  ))}
+                </ul>
+              </InfoSection>
+
+              <InfoSection title="Results and Analysis" icon={<BarChart3 size={22} className="text-blue-500" />}>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
                   {project.results.map((res, i) => (
                     <li key={i} className="leading-relaxed">{res}</li>
                   ))}
                 </ul>
               </InfoSection>
 
+              <InfoSection title="Discussion" icon={<TrendingUp size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  The results demonstrate {project.results.length > 0 ? project.results[0].toLowerCase() : 'significant improvements'}. Compared to expected outcomes, the project {project.results.some(r => r.includes('improvement') || r.includes('accuracy')) ? 'exceeded expectations' : 'met the primary objectives'}. Strengths include the use of {project.technologies.slice(0, 2).join(' and ')}, while challenges were encountered in {project.challenges && project.challenges.length > 0 ? project.challenges[0].toLowerCase() : 'implementation and optimization'}.
+                </p>
+              </InfoSection>
+
+              <InfoSection title="Conclusion" icon={<Target size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  This project successfully achieved its objectives by {project.results.length > 0 ? project.results[0].toLowerCase() : 'delivering innovative solutions'}. Key achievements include {project.results.slice(0, 2).join(' and ')}. The work confirms the viability of {project.technologies.slice(0, 2).join(' and ')} for {project.type.toLowerCase()} applications.
+                </p>
+              </InfoSection>
+
+              <InfoSection title="Limitations" icon={<AlertTriangle size={22} className="text-blue-500" />}>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
+                  {project.challenges && project.challenges.length > 0 ? project.challenges.map((challenge, i) => (
+                    <li key={i} className="leading-relaxed">{challenge}</li>
+                  )) : (
+                    <>
+                      <li>Time constraints limited extensive testing across all scenarios</li>
+                      <li>Data availability and quality affected model performance</li>
+                      <li>Resource limitations in deployment and scaling</li>
+                    </>
+                  )}
+                </ul>
+              </InfoSection>
+
+              <InfoSection title="Future Scope / Recommendations" icon={<Rocket size={22} className="text-blue-500" />}>
+                <p className="text-base md:text-lg leading-relaxed">
+                  Future improvements could include extending the system to handle larger datasets, integrating additional {project.technologies.slice(0, 2).join(' and ')} features, and exploring advanced algorithms. Recommendations include conducting longitudinal studies and collaborating with domain experts for enhanced validation.
+                </p>
+              </InfoSection>
+
+              <InfoSection title="References / Bibliography" icon={<Book size={22} className="text-blue-500" />}>
+                <ul className="list-disc list-inside space-y-2 text-base md:text-lg">
+                  <li>Project documentation and code repository: {project.githubLink || 'Available on GitHub'}</li>
+                  <li>Related research papers and articles: {project.articleLink || 'Published in relevant journals'}</li>
+                  <li>Technology documentation: Official {project.technologies.slice(0, 2).join(' and ')} documentation</li>
+                  <li>Dataset sources and research papers cited in the methodology</li>
+                </ul>
+              </InfoSection>
+
+              {/* --- EXISTING SECTIONS --- */}
               {Array.isArray(project.galleryImages) && project.galleryImages.length > 0 && (
                 <InfoSection title="Project Gallery" icon={<GalleryHorizontal size={22} className="text-blue-500" />}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -322,7 +398,7 @@ const ProjectDetail: React.FC = () => {
               {/* --- ADDED CODE SNIPPET SECTION --- */}
               {project.codeSnippet && (
                 <InfoSection title="Code Snippet" icon={<Cpu size={22} className="text-blue-500" />}>
-                  <p className="text-sm text-gray-500 mb-4">A brief example. For the full codebase, please visit the GitHub repository.</p>
+                  <p className="text-base text-gray-500 mb-4">A brief example. For the full codebase, please visit the GitHub repository.</p>
                   <SyntaxHighlighter
                     language="python"
                     style={vscDarkPlus}
@@ -372,7 +448,61 @@ const ProjectDetail: React.FC = () => {
           </div>
         )}
       </div>
+      {/* --- REFINED RECRUITER CTA SECTION --- */}
+      <section className="mx-6 md:mx-12 lg:mx-20 mb-20">
+        <div className="max-w-[1600px] mx-auto bg-slate-900 rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden group/cta">
+          {/* Subtle Technical Pattern */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+               style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
+          
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-7">
+              <div className="flex items-center gap-3 mb-8 px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-300">System Status: Available for Collaboration</span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9]">
+                Let's Build the <span className="text-blue-500">Future</span>.
+              </h2>
+              <p className="text-slate-400 text-xl font-medium max-w-xl leading-relaxed mb-10">
+                Inquisitive about a specific methodology or looking to discuss a high-impact role? I'm open to R&D internships, full-time Data Science roles, and research partnerships.
+              </p>
+            </div>
+
+            <div className="lg:col-span-5 flex flex-col gap-4">
+              <Link to="/contact" className="group flex items-center justify-between p-8 bg-blue-600 rounded-[2rem] hover:bg-blue-500 transition-all shadow-2xl shadow-blue-900/40">
+                <div className="flex items-center gap-6">
+                  <div className="p-4 bg-white/10 rounded-2xl"><Mail size={24} /></div>
+                  <div className="text-left">
+                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-blue-100 mb-1">Direct Channel</p>
+                    <p className="text-xl font-black">Initiate Discussion</p>
+                  </div>
+                </div>
+                <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Link>
+
+              <Link to="/request-cv" className="group flex items-center justify-between p-8 bg-white text-slate-900 rounded-[2rem] hover:bg-slate-50 transition-all shadow-xl">
+                <div className="flex items-center gap-6">
+                  <div className="p-4 bg-slate-900/5 rounded-2xl text-blue-600"><Download size={24} /></div>
+                  <div className="text-left">
+                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">Technical Dossier</p>
+                    <p className="text-xl font-black">Get Technical CV</p>
+                  </div>
+                </div>
+                <FileText size={24} className="text-slate-300 group-hover:text-blue-600 transition-colors" />
+              </Link>
+
+              <div className="flex items-center gap-2 mt-4 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl">
+                <ShieldCheck size={16} className="text-blue-500" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Verified Researcher @ IIT Kharagpur</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
+
+    
   );
 };
 

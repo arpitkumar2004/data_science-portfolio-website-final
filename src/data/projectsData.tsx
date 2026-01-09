@@ -5,6 +5,10 @@ export interface Project {
   id: number;
   title: string;
   description: string;
+  Introduction?: string;
+  ProblemStatement?: string;
+  scopeStudy?: string;
+  LiteratureReview?: string;
   longDescription: string;
   image: string;
   tags: string[];
@@ -12,7 +16,14 @@ export interface Project {
   technologies: string[];
   type: string;
   methods: string[];
+  implementation?: string[];
   results: string[];
+  discussion?: string[];
+  conclusion?: string[];
+  limitations?: string[];
+  futureWork?: string[];
+  references?: string[];
+  acknowledgements?: string[];
   codeSnippet?: string;
   githubLink?: string;
   articleLink?: string;
