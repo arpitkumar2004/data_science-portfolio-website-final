@@ -128,7 +128,7 @@ const ProjectDetail: React.FC = () => {
     <div className="bg-slate-50 min-h-screen font-sans">
       {/* Breadcrumb Navigation */}
       <div className="bg-white border-b">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <nav className="flex items-center space-x-2 text-sm text-gray-600">
             <button
               onClick={() => navigate('/')}

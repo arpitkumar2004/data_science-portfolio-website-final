@@ -62,7 +62,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     <motion.div
       whileHover={{ y: -8 }}
       onClick={handleCardClick}
-      className="group flex flex-col bg-white rounded-[2.5rem] border border-slate-100 overflow-hidden hover:border-blue-600 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 cursor-pointer h-full relative"
+      className="group flex flex-col bg-white rounded-[1rem] border border-slate-100 overflow-hidden hover:border-blue-600 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 cursor-pointer h-full relative"
     >
       {/* 1. IMAGE AREA (Grayscale to Color Interaction) */}
       <div className="relative h-56 overflow-hidden bg-slate-100">
@@ -111,10 +111,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </h3>
 
         {/* Technical Summary Header */}
-        <div className="flex items-center gap-2 mb-3">
+        {/* <div className="flex items-center gap-2 mb-3">
             <Terminal size={14} className="text-slate-300" />
             <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Executive Abstract</span>
-        </div>
+        </div>*/}
         
         {/* Comprehensive Description (responsive clamp for readability) */}
         <p className="text-slate-600 text-sm leading-relaxed line-clamp-4 md:line-clamp-6 mb-6 font-medium">
