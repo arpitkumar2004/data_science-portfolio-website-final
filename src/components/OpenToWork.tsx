@@ -13,6 +13,7 @@ const OpenToWork: React.FC = () => {
   const [pin, setPin] = useState<string>('');
   const [pinError, setPinError] = useState<string | null>(null);
   const [attempts, setAttempts] = useState<number>(0);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   // Ensure the flag exists (set to true by default) so visibility persists across reloads
@@ -28,6 +29,17 @@ const OpenToWork: React.FC = () => {
   useEffect(() => {
     const unsubscribe = onOpenToWorkChange((v) => setVisible(v));
     return unsubscribe;
+  }, []);
+
+  // Track whether the current user is an Admin (set by RoleGateway)
+  useEffect(() => {
+    const read = () => setIsAdmin(localStorage.getItem('userRole') === 'Admin');
+    read();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === 'userRole') read();
+    };
+    window.addEventListener('storage', onStorage);
+    return () => window.removeEventListener('storage', onStorage);
   }, []);
 
   // Keyboard shortcuts: Escape closes dropdown/modal; Ctrl+R re-shows badge
@@ -105,7 +117,7 @@ const OpenToWork: React.FC = () => {
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
           >
-            <div className="text-xs font-mono font-bold text-emerald-600 uppercase mb-3">Looking for</div>
+            <div className="text-xs font-mono font-bold text-emerald-600 uppercase mb-3">Looking for Internship Opportunities in summer 2026</div>
 
             <ul className="space-y-2">
               {openToWorkPositions.map((p, i) => (
@@ -128,16 +140,18 @@ const OpenToWork: React.FC = () => {
             </ul>
 
             <div className="mt-3 flex gap-2">
-              <Link to="/request-cv" className="flex-1 text-center px-3 py-2 bg-emerald-600 text-white rounded-md font-bold hover:bg-emerald-700">
-                Request CV
+              <Link to="/request-cv" className="flex-row items-center gap-2 inline-flex text-center px-3 py-2 bg-emerald-600 text-white rounded-md font-bold hover:bg-emerald-700">
+                <ChevronRight size={16} /> Hire Me 
               </Link>
-              <button
-                type="button"
-                className="px-3 py-2 border rounded-md text-sm text-slate-600 hover:bg-slate-100"
-                onClick={handleHideClick}
-              >
-                Hide
-              </button>
+              {isAdmin && (
+                <button
+                  type="button"
+                  className="px-3 py-2 border rounded-md text-sm text-slate-600 hover:bg-slate-100"
+                  onClick={handleHideClick}
+                >
+                  Hide
+                </button>
+              )}
             </div>
           </div>
         </div>

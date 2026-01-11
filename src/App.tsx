@@ -1,8 +1,5 @@
-import React from 'react';
-import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-
-import { HashRouter as  Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,7 +11,7 @@ import AboutMe from './pages/aboutme';
 import { useLenis } from './hooks/useLenis';
 import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
-
+import RoleGateway from './components/RoleGateway'; // Import the new component
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -32,9 +29,8 @@ const ScrollToTop = () => {
 };
 
 function App() {
-  useLenis(); // Initialize Lenis for smooth scrolling
+  useLenis();
 
-  // Disable browser's automatic scroll restoration to prevent preserving scroll position on navigation
   useEffect(() => {
     window.history.scrollRestoration = 'manual';
   }, []);
@@ -43,23 +39,25 @@ function App() {
     <Router>
       <ScrollToTop />
       <ToastProvider>
-      <div className="flex flex-col min-h-screen bg-gray-50">
-        <Header />
-        <main className="flex-grow">
-          <ErrorBoundary>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:id" element={<ProjectDetail />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/request-cv" element={<RequestCV />} />
-              <Route path="/aboutme" element={<AboutMe />} />
-
-            </Routes>
-          </ErrorBoundary>
-        </main>
-        <Footer />
-      </div>
+        {/* WRAP EVERYTHING INSIDE THE GATEWAY */}
+        <RoleGateway>
+          <div className="flex flex-col min-h-screen bg-gray-50">
+            <Header />
+            <main className="flex-grow">
+              <ErrorBoundary>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/projects" element={<Projects />} />
+                  <Route path="/projects/:id" element={<ProjectDetail />} />
+                  <Route path="/contact" element={<Contact />} />
+                  <Route path="/request-cv" element={<RequestCV />} />
+                  <Route path="/aboutme" element={<AboutMe />} />
+                </Routes>
+              </ErrorBoundary>
+            </main>
+            <Footer />
+          </div>
+        </RoleGateway>
       </ToastProvider>
     </Router>
   );

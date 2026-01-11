@@ -12,10 +12,7 @@ import {
   AlertCircle, 
   Terminal, 
   Linkedin,
-  Github,
-  Twitter,
-  Globe,
-  ArrowUpRight
+  Github
 } from 'lucide-react';
 import { SiKaggle, SiMedium } from "react-icons/si";
 
@@ -63,9 +60,12 @@ const Contact: React.FC = () => {
     lastFormRef.current = data;
 
     const formData = new FormData();
+    formData.append('formType', 'contacts');
+    formData.append('timestamp', new Date().toISOString());
     formData.append('name', data.name);
     formData.append('email', data.email);
-    formData.append('message', `[Subject: ${data.subject}] ${data.message}`);
+    formData.append('subject', data.subject);
+    formData.append('message', data.message);
 
     try {
       const res = await fetch(GOOGLE_SCRIPT_URL, {
@@ -159,7 +159,7 @@ const Contact: React.FC = () => {
                   <SiKaggle size={20} />
                 </a>
                 <a href="#" aria-label="Google Scholar" className="p-4 rounded-xl border border-slate-100 hover:border-blue-600 hover:text-blue-600 transition-all">
-                  <GoogleScholar size={20} />
+                  <GoogleScholar  />
                 </a>
               </div>
             </section>

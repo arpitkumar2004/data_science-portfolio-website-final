@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Menu, X, Download, Code2 } from 'lucide-react';
+import { Terminal, Menu, X, Download } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -87,6 +87,7 @@ const Header: React.FC = () => {
               <Download size={16} />
               <span>Resume</span>
             </Link>
+
           </nav>
 
           {/* Mobile Toggle */}
@@ -142,7 +143,7 @@ const Header: React.FC = () => {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence> 
 
       {/* Spacing for fixed header */}
       <div className="h-24" />

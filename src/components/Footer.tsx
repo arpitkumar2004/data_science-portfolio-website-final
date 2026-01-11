@@ -13,7 +13,19 @@ import { SiKaggle, SiMedium, SiArxiv } from 'react-icons/si';
 const Footer: React.FC = () => {
   const brandBlue = "rgb(37 99 235)";
   const [time, setTime] = useState(new Date().toLocaleTimeString());
-  const [visitorCount, setVisitorCount] = useState(1240);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [visitorCount, setVisitorCount] = useState(211);
+
+  useEffect(() => {
+    const read = () => setUserRole(localStorage.getItem('userRole'));
+    read();
+    window.addEventListener('storage', read);
+    window.addEventListener('role:updated', read);
+    return () => {
+      window.removeEventListener('storage', read);
+      window.removeEventListener('role:updated', read);
+    };
+  }, []);
 
   useEffect(() => {
     // 1. System Clock (Real-time updates)
@@ -21,7 +33,7 @@ const Footer: React.FC = () => {
 
     // 2. Anti-Refresh Visitor Logic (Session Protected)
     const sessionToken = sessionStorage.getItem('arpit_session_counted');
-    const persistentLogCount = Number(localStorage.getItem('arpit_total_access_logs')) || 1240;
+    const persistentLogCount = Number(localStorage.getItem('arpit_total_access_logs')) || 211;
 
     if (!sessionToken) {
       // First time in this browser session
@@ -72,7 +84,7 @@ const Footer: React.FC = () => {
             {/* Unique Visitor Log Counter */}
             <div className="p-4 bg-white/5 border border-white/10 rounded-2xl inline-flex gap-6 items-center">
               <div>
-                <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter mb-1 font-bold">VIsitors Count</p>
+                <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter mb-1 font-bold">Visitors Count</p>
                 <p className="text-lg font-black font-mono text-blue-500 tracking-widest">{visitorCount.toString().padStart(6, '0')}</p>
               </div>
               <div className="w-px bg-white/10 h-8" />
@@ -196,6 +208,17 @@ const Footer: React.FC = () => {
 
           {/* System Control (Back to top) & Copyright */}
           <div className="flex items-center gap-8">
+            {/* Role control (moves from header to footer) */}
+            <button
+              onClick={() => window.dispatchEvent(new Event('role:open'))}
+              aria-label={userRole ? `Current role ${userRole}. Click to change.` : 'Set viewing role'}
+              title={userRole ? `Viewing as ${userRole} — click to change` : 'Set viewing role'}
+              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-300 hover:text-white transition-all uppercase group bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            >
+              <Fingerprint size={14} className="text-blue-400" />
+              <span>{userRole ?? 'Set role'}</span>
+            </button>
+
             <button 
               onClick={scrollToTop}
               className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-500 hover:text-white transition-all uppercase group bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30"

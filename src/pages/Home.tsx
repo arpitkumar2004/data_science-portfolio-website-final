@@ -273,7 +273,7 @@ const Home: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Let's solve complex problems.</h2>
           <p className="text-slate-500 max-w-2xl mx-auto mb-10 text-lg">Currently accepting research collaborations and internship opportunities for Data science and AI roles in Summer 2026.</p>
           <div className="flex flex-wrap justify-center gap-4">
-             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl">Want Call back</Link>
+             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl">Discuss opportunities</Link>
              <Link to="/aboutme" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl hover:bg-slate-100">More About Me</Link>
           </div>
         </div>

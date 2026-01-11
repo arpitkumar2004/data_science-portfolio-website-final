@@ -66,11 +66,12 @@ const RequestCV: React.FC = () => {
     lastFormRef.current = data;
     
     const formData = new FormData();
-    formData.append('formType', 'cvRequest');
+    formData.append('formType', 'CV_Request');
+    formData.append('timestamp', new Date().toISOString());
     formData.append('name', data.name);
     formData.append('email', data.email);
-    formData.append('company', data.company);
-    formData.append('reason', data.reason);
+    formData.append('organisation', data.company);
+    formData.append('message', data.reason);
 
     try {
       const res = await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', body: formData });
