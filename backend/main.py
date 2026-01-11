@@ -59,7 +59,7 @@ async def admin_login(password: str = Form(...)):
     token = secrets.token_urlsafe(32)
     expiry = int(time.time()) + 3600  # 1 hour
     ACTIVE_ADMIN_TOKENS[token] = expiry
-    return {"is_admin": True, "admin_token": token, "expires_in": 3600}
+    return {"is_admin": True, "admin_token": token, "expires_in": expiry - int(time.time())}
 
 @app.post("/admin/logout")
 async def admin_logout(admin_token: str = None):

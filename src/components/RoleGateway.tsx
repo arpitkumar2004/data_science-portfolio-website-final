@@ -3,6 +3,10 @@ import axios from 'axios';
 import { Database, Binary, FileSearch, Globe, Lock, ArrowRight, Fingerprint, Building, Building2 } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
 
+
+// Use VITE_API_URL if it exists, otherwise fall back to localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(false);
@@ -14,7 +18,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     if (savedRole === 'Admin') {
       const token = sessionStorage.getItem('adminToken');
       if (token) {
-        axios.get('http://localhost:8000/admin/validate', { params: { admin_token: token } })
+        axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
           .then(() => setRole('Admin'))
           .catch(() => {
             localStorage.removeItem('userRole');
@@ -80,7 +84,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     try {
       const form = new FormData();
       form.append('password', password);
-      const res = await axios.post('http://localhost:8000/admin/login', form);
+      const res = await axios.post(`${API_BASE_URL}/admin/login`, form);
       if (res.data && res.data.is_admin) {
         sessionStorage.setItem('adminToken', res.data.admin_token);
         handleSelect('Admin');
