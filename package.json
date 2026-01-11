@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "homepage": "https://arpitkumar2004.github.io/data_science-portfolio-website-final/",
   "scripts": {
     "dev": "vite",
     "predeploy": "npm run build",
