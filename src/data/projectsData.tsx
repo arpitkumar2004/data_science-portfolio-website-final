@@ -31,7 +31,7 @@ export interface Project {
   role: string;
   duration: string;
   readingTime?: string;
-  company: string;
+  company?: string;
   challenges: string[];
   galleryImages?: string[];
   similarProjectIds?: number[];

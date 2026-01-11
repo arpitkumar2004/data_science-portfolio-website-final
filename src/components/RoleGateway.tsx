@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Database, Binary, FileSearch, Globe, Lock, ArrowRight, Fingerprint, Building, Building2 } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
 
@@ -10,6 +11,23 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const savedRole = localStorage.getItem('userRole');
+    if (savedRole === 'Admin') {
+      const token = sessionStorage.getItem('adminToken');
+      if (token) {
+        axios.get('http://localhost:8000/admin/validate', { params: { admin_token: token } })
+          .then(() => setRole('Admin'))
+          .catch(() => {
+            localStorage.removeItem('userRole');
+            sessionStorage.removeItem('adminToken');
+            setRole(null);
+          })
+          .finally(() => setIsReady(true));
+        return;
+      } else {
+        // token missing — clear saved admin role
+        localStorage.removeItem('userRole');
+      }
+    }
     if (savedRole) setRole(savedRole);
     setIsReady(true);
   }, []);
@@ -42,6 +60,14 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
   const handleSelect = (selectedRole: string) => {
     localStorage.setItem('userRole', selectedRole);
+
+    // If changing away from Admin, revoke any existing admin token and session
+    if (selectedRole.toLowerCase() !== 'admin') {
+      sessionStorage.removeItem('adminToken');
+      // also clear any admin-related session flags
+      sessionStorage.removeItem('isAdmin');
+    }
+
     setRole(selectedRole);
     sessionStorage.setItem('roleNotifShown', '1');
     showToast(`You are viewing as ${selectedRole}`, 'info', 5000, 'top');
@@ -49,12 +75,26 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     window.dispatchEvent(new Event('role:updated'));
   };
 
-  const handleAdminLogin = (e: React.FormEvent) => {
+  const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "admin123") {
-      handleSelect('Admin');
-    } else {
-      alert("Verification Failed");
+    try {
+      const form = new FormData();
+      form.append('password', password);
+      const res = await axios.post('http://localhost:8000/admin/login', form);
+      if (res.data && res.data.is_admin) {
+        sessionStorage.setItem('adminToken', res.data.admin_token);
+        handleSelect('Admin');
+        setIsAdminMode(false);
+        showToast('Admin session established', 'success');
+      } else {
+        showToast('Verification Failed', 'error');
+      }
+    } catch (err: any) {
+      if (err.response && err.response.status === 401) {
+        showToast('Verification Failed: Invalid Credentials', 'error');
+      } else {
+        showToast('Verification Failed: Server Error', 'error');
+      }
     }
   };
 
