@@ -18,13 +18,26 @@ app = FastAPI(title="Arpit's Portfolio Backend")
 
 # --- CORS CONFIGURATION ---
 # Allows your React app (running on localhost:5173) to talk to this API
+origins = [
+    "http://localhost:5173",          # Local development
+    "https://data-science-portfolio-website-fina.vercel.app/", # Your Vercel URL
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For production, replace with your Vercel URL
+    allow_origins=origins, 
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["https://portfolio-backend-dk8c.onrender.com"],  # For production, replace with your Vercel URL
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 # --- ADMIN AUTH: token management ---
 # Simple server-side token store for admin sessions (in-memory, short-lived)
