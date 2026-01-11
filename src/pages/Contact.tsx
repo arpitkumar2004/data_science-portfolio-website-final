@@ -12,6 +12,9 @@ import { SiKaggle, SiMedium } from "react-icons/si";
 import axios from 'axios'; // Ensure axios is installed
 import { Link } from 'react-router-dom';
 
+// Use VITE_API_URL if it exists, otherwise fall back to localhost
+const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+
 type FormData = {
   name: string;
   email: string;
@@ -64,7 +67,7 @@ const Contact: React.FC = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('adminToken');
     if (token) {
-      axios.get('http://localhost:8000/admin/validate', { params: { admin_token: token } })
+      axios.get('${API_BASE_URL}/admin/validate', { params: { admin_token: token } })
         .then(() => setIsAdminAuth(true))
         .catch(() => {
           sessionStorage.removeItem('adminToken');
@@ -86,7 +89,7 @@ const Contact: React.FC = () => {
       } else {
         const token = sessionStorage.getItem('adminToken');
         if (token) {
-          axios.get('http://localhost:8000/admin/validate', { params: { admin_token: token } })
+          axios.get('${API_BASE_URL}/admin/validate', { params: { admin_token: token } })
             .then(() => { setIsAdminAuth(true); fetchLeads(); })
             .catch(() => { sessionStorage.removeItem('adminToken'); setIsAdminAuth(false); setLeads([]); });
         }
@@ -101,7 +104,7 @@ const Contact: React.FC = () => {
     setIsLoadingLeads(true);
     try {
       const adminToken = sessionStorage.getItem('adminToken');
-      const res = await axios.get(`http://localhost:8000/admin/leads`, { params: { admin_token: adminToken }});
+      const res = await axios.get(`${API_BASE_URL}/admin/leads`, { params: { admin_token: adminToken }});
       // Ensure flagged is a boolean even if schema was missing previously
       setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
     } catch (err: any) {
@@ -131,7 +134,7 @@ const Contact: React.FC = () => {
     try {
       const form = new FormData();
       form.append('password', password);
-      const res = await axios.post('http://localhost:8000/admin/login', form);
+      const res = await axios.post('${API_BASE_URL}/admin/login', form);
       if (res.data && res.data.is_admin) {
         sessionStorage.setItem('adminToken', res.data.admin_token);
         setIsAdminAuth(true);
@@ -150,7 +153,7 @@ const Contact: React.FC = () => {
     const token = sessionStorage.getItem('adminToken');
     if (!confirm('Permanently delete this lead?')) return;
     try {
-      await axios.delete(`http://localhost:8000/admin/leads/${leadId}`, { params: { admin_token: token } });
+      await axios.delete(`${API_BASE_URL}/admin/leads/${leadId}`, { params: { admin_token: token } });
       setLeads(prev => prev.filter(l => l.id !== leadId));
       showToast('Lead deleted', 'success');
     } catch (err) {
@@ -161,7 +164,7 @@ const Contact: React.FC = () => {
   const flagLead = async (leadId: number) => {
     const token = sessionStorage.getItem('adminToken');
     try {
-      const res = await axios.post(`http://localhost:8000/admin/leads/${leadId}/flag`, null, { params: { admin_token: token } });
+      const res = await axios.post(`${API_BASE_URL}/admin/leads/${leadId}/flag`, null, { params: { admin_token: token } });
       // Update local state
       setLeads(prev => prev.map(l => l.id === leadId ? { ...l, flagged: true } : l));
       showToast('Lead flagged', 'success');
@@ -173,7 +176,7 @@ const Contact: React.FC = () => {
   const unflagLead = async (leadId: number) => {
     const token = sessionStorage.getItem('adminToken');
     try {
-      const res = await axios.post(`http://localhost:8000/admin/leads/${leadId}/unflag`, null, { params: { admin_token: token } });
+      const res = await axios.post(`${API_BASE_URL}/admin/leads/${leadId}/unflag`, null, { params: { admin_token: token } });
       setLeads(prev => prev.map(l => l.id === leadId ? { ...l, flagged: false } : l));
       showToast('Lead unflagged', 'success');
     } catch (err) {
@@ -186,7 +189,7 @@ const Contact: React.FC = () => {
     if (!searchQuery) { fetchLeads(); return; }
     setIsLoadingLeads(true);
     try {
-      const res = await axios.get('http://localhost:8000/admin/leads/search', { params: { query: searchQuery, admin_token: token } });
+      const res = await axios.get('${API_BASE_URL}/admin/leads/search', { params: { query: searchQuery, admin_token: token } });
       setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
     } catch (err) {
       showToast('Search failed', 'error');
@@ -203,7 +206,7 @@ const Contact: React.FC = () => {
     }
     setIsLoadingLeads(true);
     try {
-      const res = await axios.get('http://localhost:8000/admin/leads/filter', { params: { start_date: filterStart, end_date: filterEnd, admin_token: token } });
+      const res = await axios.get('${API_BASE_URL}/admin/leads/filter', { params: { start_date: filterStart, end_date: filterEnd, admin_token: token } });
       setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
     } catch (err) {
       showToast('Filter failed', 'error');
@@ -216,7 +219,7 @@ const Contact: React.FC = () => {
     const token = sessionStorage.getItem('adminToken');
     setIsLoadingStats(true);
     try {
-      const res = await axios.get('http://localhost:8000/admin/leads/stats', { params: { admin_token: token } });
+      const res = await axios.get('${API_BASE_URL}/admin/leads/stats', { params: { admin_token: token } });
       setStats(res.data);
     } catch (err) {
       showToast('Failed to fetch stats', 'error');
@@ -228,7 +231,7 @@ const Contact: React.FC = () => {
   // const migrateSchema = async () => {
   //   const token = sessionStorage.getItem('adminToken');
   //   try {
-  //     const res = await axios.post('http://localhost:8000/admin/migrate-schema', null, { params: { admin_token: token } });
+  //     const res = await axios.post('${API_BASE_URL}/admin/migrate-schema', null, { params: { admin_token: token } });
   //     if (res.data && res.data.applied && res.data.applied.length) {
   //       showToast(`Applied migrations: ${res.data.applied.join(',')}`, 'success');
   //     } else {
@@ -256,7 +259,7 @@ const Contact: React.FC = () => {
       formData.append('subject', data.subject);
       formData.append('message', data.message);
 
-      await fetch("http://localhost:8000/submit-contact", { method: "POST", body: formData });
+      await fetch("${API_BASE_URL}/submit-contact", { method: "POST", body: formData });
       setSubmitStatus('success');
       showToast('Transmission Successful', 'success');
       reset();
@@ -324,7 +327,7 @@ const Contact: React.FC = () => {
               </span>
             </motion.div>
             {isAdminAuth && (
-                <button onClick={async () => { const token = sessionStorage.getItem('adminToken'); try { await axios.post('http://localhost:8000/admin/logout', null, { params: { admin_token: token } }); } catch (e) {} finally { sessionStorage.clear(); window.location.reload(); } }} className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest border border-red-100 px-3 py-1 rounded-full hover:bg-red-50 transition-all">Terminate Admin Session</button>
+                <button onClick={async () => { const token = sessionStorage.getItem('adminToken'); try { await axios.post('${API_BASE_URL}/admin/logout', null, { params: { admin_token: token } }); } catch (e) {} finally { sessionStorage.clear(); window.location.reload(); } }} className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest border border-red-100 px-3 py-1 rounded-full hover:bg-red-50 transition-all">Terminate Admin Session</button>
             )}
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
