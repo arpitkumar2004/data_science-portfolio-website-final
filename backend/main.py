@@ -20,7 +20,7 @@ app = FastAPI(title="Arpit's Portfolio Backend")
 # Allows your React app (running on localhost:5173) to talk to this API
 origins = [
     "http://localhost:5173",          # Local development
-    "https://data-science-portfolio-website-fina.vercel.app/", # Your Vercel URL
+    "https://arpitkumar-arpitkumar2004s-projects.vercel.app/", # Your Vercel URL
 ]
 
 app.add_middleware(
