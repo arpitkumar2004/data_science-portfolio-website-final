@@ -67,7 +67,7 @@ const Contact: React.FC = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('adminToken');
     if (token) {
-      axios.get('${API_BASE_URL}/admin/validate', { params: { admin_token: token } })
+      axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
         .then(() => setIsAdminAuth(true))
         .catch(() => {
           sessionStorage.removeItem('adminToken');
@@ -89,7 +89,7 @@ const Contact: React.FC = () => {
       } else {
         const token = sessionStorage.getItem('adminToken');
         if (token) {
-          axios.get('${API_BASE_URL}/admin/validate', { params: { admin_token: token } })
+          axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
             .then(() => { setIsAdminAuth(true); fetchLeads(); })
             .catch(() => { sessionStorage.removeItem('adminToken'); setIsAdminAuth(false); setLeads([]); });
         }
@@ -134,7 +134,7 @@ const Contact: React.FC = () => {
     try {
       const form = new FormData();
       form.append('password', password);
-      const res = await axios.post('${API_BASE_URL}/admin/login', form);
+      const res = await axios.post(`${API_BASE_URL}/admin/login`, form);
       if (res.data && res.data.is_admin) {
         sessionStorage.setItem('adminToken', res.data.admin_token);
         setIsAdminAuth(true);
@@ -189,7 +189,7 @@ const Contact: React.FC = () => {
     if (!searchQuery) { fetchLeads(); return; }
     setIsLoadingLeads(true);
     try {
-      const res = await axios.get('${API_BASE_URL}/admin/leads/search', { params: { query: searchQuery, admin_token: token } });
+      const res = await axios.get(`${API_BASE_URL}/admin/leads/search`, { params: { query: searchQuery, admin_token: token } });
       setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
     } catch (err) {
       showToast('Search failed', 'error');
@@ -206,7 +206,7 @@ const Contact: React.FC = () => {
     }
     setIsLoadingLeads(true);
     try {
-      const res = await axios.get('${API_BASE_URL}/admin/leads/filter', { params: { start_date: filterStart, end_date: filterEnd, admin_token: token } });
+      const res = await axios.get(`${API_BASE_URL}/admin/leads/filter`, { params: { start_date: filterStart, end_date: filterEnd, admin_token: token } });
       setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
     } catch (err) {
       showToast('Filter failed', 'error');
@@ -219,7 +219,7 @@ const Contact: React.FC = () => {
     const token = sessionStorage.getItem('adminToken');
     setIsLoadingStats(true);
     try {
-      const res = await axios.get('${API_BASE_URL}/admin/leads/stats', { params: { admin_token: token } });
+      const res = await axios.get(`${API_BASE_URL}/admin/leads/stats`, { params: { admin_token: token } });
       setStats(res.data);
     } catch (err) {
       showToast('Failed to fetch stats', 'error');
@@ -259,7 +259,7 @@ const Contact: React.FC = () => {
       formData.append('subject', data.subject);
       formData.append('message', data.message);
 
-      await fetch("${API_BASE_URL}/submit-contact", { method: "POST", body: formData });
+      await fetch(`${API_BASE_URL}/submit-contact`, { method: "POST", body: formData });
       setSubmitStatus('success');
       showToast('Transmission Successful', 'success');
       reset();
