@@ -431,9 +431,9 @@ const AdminDashboard: React.FC = () => {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {filteredLeads.map((lead) => (
-                      <tr
+                      <tr onClick={selectedLead?.id !== lead.id ? () => setSelectedLead(lead) : undefined}
                         key={lead.id}
-                        className="hover:bg-slate-50/50 transition-colors group"
+                        className="hover:bg-blue-100/50 transition-colors group"
                       >
                         <td className="p-4">
                           <input
