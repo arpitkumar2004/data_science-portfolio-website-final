@@ -1,15 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useToast } from '../hooks/useToast';
-import { 
-  Mail, MapPin, User, MessageSquare, Send, CheckCircle, 
-  AlertCircle, Terminal, Linkedin, Github, ShieldCheck, 
-  Lock, Eye, Trash2, Filter, Clock, Search, Briefcase, Microscope,
-  Award, Code2, GraduationCap, ChevronRight,  Database, ExternalLink, Link as LinkIcon
+import {
+  Mail, MapPin, User, MessageSquare, Send, Terminal,
+  Linkedin, Github, ExternalLink
 } from 'lucide-react';
-import { SiKaggle, SiMedium } from "react-icons/si";
-import axios from 'axios'; // Ensure axios is installed
+import { SiKaggle } from "react-icons/si";
 import { Link } from 'react-router-dom';
 
 // Use VITE_API_URL if it exists, otherwise fall back to localhost
@@ -22,232 +19,23 @@ type FormData = {
   message: string;
 };
 
-// Types for the Admin Dashboard
-type Lead = {
-  id: number;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  timestamp: string;
-  flagged?: boolean;
-};
-
 const Contact: React.FC = () => {
-  // --- STATE MANAGEMENT ---
   const [userRole, setUserRole] = useState<string | null>(localStorage.getItem('userRole'));
-  const [isAdminAuth, setIsAdminAuth] = useState(sessionStorage.getItem('isAdmin') === 'true');
-  const [password, setPassword] = useState('');
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [isLoadingLeads, setIsLoadingLeads] = useState(false);
-
-  // Admin UI helpers
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStart, setFilterStart] = useState('');
-  const [filterEnd, setFilterEnd] = useState('');
-  const [stats, setStats] = useState<any>(null);
-  const [isLoadingStats, setIsLoadingStats] = useState(false);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
   const { showToast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
 
-  const brandBlue = "rgb(37 99 235)";
-  // Admin verification is handled server-side now. Tokens are stored in sessionStorage under 'adminToken'
-
-  // --- ADMIN LOGIC: FETCH LEADS ---
-  useEffect(() => {
-    if (isAdminAuth) {
-      fetchLeads();
-    }
-  }, [isAdminAuth]);
-
-  // On mount, validate any existing token in sessionStorage
-  useEffect(() => {
-    const token = sessionStorage.getItem('adminToken');
-    if (token) {
-      axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
-        .then(() => setIsAdminAuth(true))
-        .catch(() => {
-          sessionStorage.removeItem('adminToken');
-          setIsAdminAuth(false);
-        });
-    }
-  }, []);
-
-  // Listen for role changes from RoleGateway and react accordingly
+  // Listen for role changes from RoleGateway
   useEffect(() => {
     const onRoleUpdated = () => {
       const updatedRole = localStorage.getItem('userRole');
       setUserRole(updatedRole);
-      if (!updatedRole || updatedRole.toLowerCase() !== 'admin') {
-        // Clear any admin session if we switched away from admin
-        setIsAdminAuth(false);
-        sessionStorage.removeItem('adminToken');
-        setLeads([]);
-      } else {
-        const token = sessionStorage.getItem('adminToken');
-        if (token) {
-          axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
-            .then(() => { setIsAdminAuth(true); fetchLeads(); })
-            .catch(() => { sessionStorage.removeItem('adminToken'); setIsAdminAuth(false); setLeads([]); });
-        }
-      }
     };
 
     window.addEventListener('role:updated', onRoleUpdated);
     return () => window.removeEventListener('role:updated', onRoleUpdated);
   }, []);
-
-  const fetchLeads = async () => {
-    setIsLoadingLeads(true);
-    try {
-      const adminToken = sessionStorage.getItem('adminToken');
-      const res = await axios.get(`${API_BASE_URL}/admin/leads`, { params: { admin_token: adminToken }});
-      // Ensure flagged is a boolean even if schema was missing previously
-      setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
-    } catch (err: any) {
-      if (err.response && err.response.status === 401) {
-        showToast("Access Denied: Invalid Admin Token", "error");
-        setIsAdminAuth(false);
-        sessionStorage.removeItem('adminToken');
-      } else {
-        showToast("Failed to sync lead database", "error");
-      }
-    } finally {
-      setIsLoadingLeads(false);
-    }
-  };
-
-  const handleRoleSelection = (role: string) => {
-    if (role === 'admin') {
-      // Stay on modal to ask for password
-      setUserRole('admin');
-    } else {
-      setUserRole(role);
-      localStorage.setItem('userRole', role);
-    }
-  };
-
-  const handleAdminLogin = async () => {
-    try {
-      const form = new FormData();
-      form.append('password', password);
-      const res = await axios.post(`${API_BASE_URL}/admin/login`, form);
-      if (res.data && res.data.is_admin) {
-        sessionStorage.setItem('adminToken', res.data.admin_token);
-        setIsAdminAuth(true);
-        localStorage.setItem('userRole', 'admin');
-        showToast("Encrypted Session Established", "success");
-      } else {
-        showToast("Access Denied: Invalid Credentials", "error");
-      }
-    } catch (err) {
-      showToast("Access Denied: Invalid Credentials", "error");
-    }
-  };
-
-  // --- ADMIN ACTIONS: delete, flag, search, filter, stats ---
-  const deleteLead = async (leadId: number) => {
-    const token = sessionStorage.getItem('adminToken');
-    if (!confirm('Permanently delete this lead?')) return;
-    try {
-      await axios.delete(`${API_BASE_URL}/admin/leads/${leadId}`, { params: { admin_token: token } });
-      setLeads(prev => prev.filter(l => l.id !== leadId));
-      showToast('Lead deleted', 'success');
-    } catch (err) {
-      showToast('Failed to delete lead', 'error');
-    }
-  };
-
-  const flagLead = async (leadId: number) => {
-    const token = sessionStorage.getItem('adminToken');
-    try {
-      const res = await axios.post(`${API_BASE_URL}/admin/leads/${leadId}/flag`, null, { params: { admin_token: token } });
-      // Update local state
-      setLeads(prev => prev.map(l => l.id === leadId ? { ...l, flagged: true } : l));
-      showToast('Lead flagged', 'success');
-    } catch (err) {
-      showToast('Failed to flag lead', 'error');
-    }
-  };
-
-  const unflagLead = async (leadId: number) => {
-    const token = sessionStorage.getItem('adminToken');
-    try {
-      const res = await axios.post(`${API_BASE_URL}/admin/leads/${leadId}/unflag`, null, { params: { admin_token: token } });
-      setLeads(prev => prev.map(l => l.id === leadId ? { ...l, flagged: false } : l));
-      showToast('Lead unflagged', 'success');
-    } catch (err) {
-      showToast('Failed to unflag lead', 'error');
-    }
-  };
-
-  const searchLeads = async () => {
-    const token = sessionStorage.getItem('adminToken');
-    if (!searchQuery) { fetchLeads(); return; }
-    setIsLoadingLeads(true);
-    try {
-      const res = await axios.get(`${API_BASE_URL}/admin/leads/search`, { params: { query: searchQuery, admin_token: token } });
-      setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
-    } catch (err) {
-      showToast('Search failed', 'error');
-    } finally {
-      setIsLoadingLeads(false);
-    }
-  };
-
-  const filterLeads = async () => {
-    const token = sessionStorage.getItem('adminToken');
-    if (!filterStart || !filterEnd) {
-      showToast('Please select both start and end dates', 'error');
-      return;
-    }
-    setIsLoadingLeads(true);
-    try {
-      const res = await axios.get(`${API_BASE_URL}/admin/leads/filter`, { params: { start_date: filterStart, end_date: filterEnd, admin_token: token } });
-      setLeads(res.data.map((l: any) => ({ ...l, flagged: !!l.flagged })));
-    } catch (err) {
-      showToast('Filter failed', 'error');
-    } finally {
-      setIsLoadingLeads(false);
-    }
-  };
-
-  const fetchStats = async () => {
-    const token = sessionStorage.getItem('adminToken');
-    setIsLoadingStats(true);
-    try {
-      const res = await axios.get(`${API_BASE_URL}/admin/leads/stats`, { params: { admin_token: token } });
-      setStats(res.data);
-    } catch (err) {
-      showToast('Failed to fetch stats', 'error');
-    } finally {
-      setIsLoadingStats(false);
-    }
-  };
-
-  // const migrateSchema = async () => {
-  //   const token = sessionStorage.getItem('adminToken');
-  //   try {
-  //     const res = await axios.post('${API_BASE_URL}/admin/migrate-schema', null, { params: { admin_token: token } });
-  //     if (res.data && res.data.applied && res.data.applied.length) {
-  //       showToast(`Applied migrations: ${res.data.applied.join(',')}`, 'success');
-  //     } else {
-  //       showToast('No migrations needed', 'info');
-  //     }
-  //     fetchLeads();
-  //   } catch (err) {
-  //     showToast('Migration failed', 'error');
-  //   }
-  // };
-
-  const openCase = (lead: Lead) => {
-    // Simple case view: show toast and log to console. Could be modal in future.
-    showToast(`${lead.name}: ${lead.message.slice(0, 150)}`, 'info', 8000);
-    console.log('Open Case:', lead);
-  };
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -260,58 +48,14 @@ const Contact: React.FC = () => {
       formData.append('message', data.message);
 
       await fetch(`${API_BASE_URL}/submit-contact`, { method: "POST", body: formData });
-      setSubmitStatus('success');
       showToast('Transmission Successful', 'success');
       reset();
     } catch (error) {
-      setSubmitStatus('error');
+      showToast('Transmission Failed. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);
     }
   };
-
-  // --- SUB-COMPONENT: ROLE SELECTOR ---
-  if (!userRole || (userRole?.toLowerCase() === 'admin' && !isAdminAuth)) {
-    return (
-      <div className="fixed inset-0 z-[100] bg-slate-950 flex items-center justify-center p-6 font-sans">
-        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-md w-full bg-slate-900 border border-slate-800 rounded-[2.5rem] p-8 md:p-12 shadow-2xl">
-          <Terminal className="text-blue-500 mb-6" size={32} />
-          <h2 className="text-2xl font-black text-white tracking-tight mb-2">Identify System Role</h2>
-          <p className="text-slate-400 text-sm mb-8 font-mono">Select your access level to proceed to the technical dossier.</p>
-          
-          {!userRole ? (
-            <div className="grid gap-3">
-              {['Researcher', 'Recruiter', 'General', 'Admin'].map((role) => (
-                <button 
-                  key={role} 
-                  onClick={() => handleRoleSelection(role.toLowerCase())}
-                  className="w-full py-4 px-6 rounded-2xl bg-slate-800 border border-slate-700 text-white font-bold hover:bg-blue-600 hover:border-blue-500 transition-all flex items-center justify-between group"
-                >
-                  {role}
-                  <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              ))}
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" size={18} />
-                <input 
-                  type="password" 
-                  placeholder="Enter Admin Access Key"
-                  className="w-full pl-12 pr-4 py-4 bg-slate-950 border border-slate-800 rounded-2xl text-white focus:border-blue-500 outline-none transition-all font-mono text-sm"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <button onClick={handleAdminLogin} className="w-full py-4 bg-blue-600 text-white font-black rounded-2xl shadow-xl shadow-blue-900/20">Authenticate Session</button>
-              <button onClick={() => setUserRole(null)} className="w-full text-slate-500 text-xs font-mono uppercase tracking-widest hover:text-white transition-colors">Back to Roles</button>
-            </div>
-          )}
-        </motion.div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100">
@@ -323,12 +67,9 @@ const Contact: React.FC = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-6">
               <Terminal size={14} className="text-blue-600" />
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-700 underline decoration-blue-600/30">
-                Authorized as: {userRole.toUpperCase()}
+                Authorized as: {userRole?.toUpperCase() || 'GUEST'}
               </span>
             </motion.div>
-            {isAdminAuth && (
-                <button onClick={async () => { const token = sessionStorage.getItem('adminToken'); try { await axios.post('${API_BASE_URL}/admin/logout', null, { params: { admin_token: token } }); } catch (e) {} finally { sessionStorage.clear(); window.location.reload(); } }} className="text-[10px] font-mono font-bold text-red-500 uppercase tracking-widest border border-red-100 px-3 py-1 rounded-full hover:bg-red-50 transition-all">Terminate Admin Session</button>
-            )}
           </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6">
             Let's build the <span className="text-blue-600">Future</span>.
@@ -394,26 +135,41 @@ const Contact: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="space-y-2">
                     <label className="text-[10px] font-mono font-bold uppercase text-slate-500 ml-1">Identity</label>
-                    <input {...register('name', { required: true })} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium" placeholder="Name" />
+                    <div className="relative">
+                      <User className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <input {...register('name', { required: 'Name is required' })} className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium" placeholder="Name" />
+                    </div>
+                    {errors.name && <p className="text-red-500 text-xs font-mono">{errors.name.message}</p>}
                   </div>
                   <div className="space-y-2">
                     <label className="text-[10px] font-mono font-bold uppercase text-slate-500 ml-1">Work Email</label>
-                    <input {...register('email', { required: true })} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium" placeholder="Email" />
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                      <input {...register('email', { required: 'Email is required', pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' } })} className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium" placeholder="Email" />
+                    </div>
+                    {errors.email && <p className="text-red-500 text-xs font-mono">{errors.email.message}</p>}
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-mono font-bold uppercase text-slate-500 ml-1">Subject</label>
-                  <select {...register('subject')} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium appearance-none">
-                    <option>Research Collaboration</option>
-                    <option>Hiring / Recruitment</option>
-                    <option>Project Consultation</option>
-                  </select>
+                  <div className="relative">
+                    <MessageSquare className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <select {...register('subject')} className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium appearance-none">
+                      <option>Research Collaboration</option>
+                      <option>Hiring / Recruitment</option>
+                      <option>Project Consultation</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-[10px] font-mono font-bold uppercase text-slate-500 ml-1">Message Brief</label>
-                  <textarea rows={5} {...register('message', { required: true })} className="w-full px-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none" placeholder="Details..."></textarea>
+                  <div className="relative">
+                    <MessageSquare className="absolute left-4 top-4 text-slate-400" size={18} />
+                    <textarea rows={5} {...register('message', { required: 'Message is required' })} className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none" placeholder="Details..."></textarea>
+                  </div>
+                  {errors.message && <p className="text-red-500 text-xs font-mono">{errors.message.message}</p>}
                 </div>
 
                 <button type="submit" disabled={isSubmitting} className="w-full py-5 px-8 bg-blue-600 text-white font-black rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all flex items-center justify-center gap-3">
@@ -423,90 +179,6 @@ const Contact: React.FC = () => {
             </motion.div>
           </div>
         </div>
-
-        {/* --- ADMIN ONLY SECTION: THE LEAD VAULT --- */}
-        <AnimatePresence>
-          {isAdminAuth && (
-            <motion.section initial={{ opacity: 0, y: 100 }} animate={{ opacity: 1, y: 0 }} className="mt-32 border-t-2 border-slate-100 pt-24">
-              <div className="flex items-center justify-between mb-6">
-                 <div>
-                    <div className="flex items-center gap-3 mb-2">
-                        <ShieldCheck className="text-blue-600" size={24} />
-                        <h2 className="text-4xl font-black tracking-tighter">Inquiry Database</h2>
-                    </div>
-                    <p className="text-slate-500 font-mono text-xs uppercase tracking-widest">Confidential Log // Accessing Lead Repository</p>
-                 </div>
-                 <div className="flex items-center gap-3">
-                    <button onClick={fetchLeads} className="p-3 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white transition-all"><Clock size={20}/></button>
-                    <button onClick={fetchStats} className="p-3 rounded-xl bg-slate-100 hover:bg-blue-600 hover:text-white transition-all">Stats</button>
-                    {/* <button onClick={migrateSchema} className="p-3 rounded-xl bg-amber-50 hover:bg-amber-600 hover:text-white transition-all">Migrate</button> */}
-                 </div>
-              </div>
-
-              {/* Controls: Search & Filter */}
-              <div className="mb-6 flex flex-col md:flex-row gap-3 items-center">
-                <div className="flex-1 flex gap-2">
-                  <input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search messages" className="w-full px-4 py-3 bg-white border border-slate-200 rounded-2xl" />
-                  <button onClick={searchLeads} className="px-4 py-3 bg-blue-600 text-white rounded-2xl">Search</button>
-                </div>
-
-                <div className="flex gap-2 items-center">
-                  <input type="date" value={filterStart} onChange={(e) => setFilterStart(e.target.value)} className="px-3 py-2 bg-white border border-slate-200 rounded-2xl" />
-                  <input type="date" value={filterEnd} onChange={(e) => setFilterEnd(e.target.value)} className="px-3 py-2 bg-white border border-slate-200 rounded-2xl" />
-                  <button onClick={filterLeads} className="px-4 py-3 bg-slate-900 text-white rounded-2xl">Filter</button>
-                </div>
-
-                <div className="hidden md:flex items-center gap-4 ml-4 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-100">
-                  <div className="text-xs font-mono text-slate-500">Total</div>
-                  <div className="font-black text-lg">{stats?.total_leads ?? '—'}</div>
-                  <div className="text-xs font-mono text-slate-500">Flagged</div>
-                  <div className="font-black text-lg">{stats?.total_flagged_leads ?? '—'}</div>
-                </div>
-              </div>
-
-              {isLoadingLeads ? (
-                <div className="h-64 flex items-center justify-center font-mono text-slate-400 animate-pulse uppercase tracking-[0.5em]">Syncing_Database...</div>
-              ) : (
-                <div className="grid grid-cols-1 gap-4">
-                  {leads.map((lead) => (
-                    <div key={lead.id} className="bg-slate-50 border border-slate-200 rounded-3xl p-6 lg:p-8 hover:border-blue-600 transition-all group">
-                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-                          <div className="flex items-center gap-4">
-                             <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 font-bold">{lead.name.charAt(0)}</div>
-                             <div>
-                                <h4 className="font-black text-slate-900">{lead.name}</h4>
-                                <p className="text-xs text-slate-500 font-mono">{lead.email}</p>
-                             </div>
-                          </div>
-                          <div className="flex gap-2 items-center">
-                             <span className={`px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase border ${lead.subject === 'Hiring / Recruitment' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-blue-50 text-blue-600 border-blue-100'}`}>
-                                {lead.subject}
-                             </span>
-                             <span className="px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase bg-white border border-slate-200 text-slate-400">
-                                {new Date(lead.timestamp).toLocaleDateString()}
-                             </span>
-                             {lead.flagged && (
-                               <span className="px-3 py-1 rounded-full text-[9px] font-mono font-bold uppercase bg-amber-50 text-amber-600 border border-amber-100">FLAGGED</span>
-                             )}
-                          </div>
-                       </div>
-                       <p className="text-slate-600 text-sm leading-relaxed bg-white p-4 rounded-2xl border border-slate-100 italic">"{lead.message}"</p>
-                       <div className="mt-6 flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button onClick={() => openCase(lead)} className="flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-blue-600 hover:underline"><Eye size={14}/> Open Case</button>
-                          {lead.flagged ? (
-                            <button onClick={() => unflagLead(lead.id)} className="flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-amber-600 hover:underline"><ShieldCheck size={14}/> Unflag</button>
-                          ) : (
-                            <button onClick={() => flagLead(lead.id)} className="flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-amber-600 hover:underline"><Award size={14}/> Flag</button>
-                          )}
-                          <button onClick={() => deleteLead(lead.id)} className="flex items-center gap-2 text-[10px] font-mono font-bold uppercase text-red-500 hover:underline"><Trash2 size={14}/> Purge</button>
-                       </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </motion.section>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );

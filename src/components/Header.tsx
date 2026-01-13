@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Menu, X, Download } from 'lucide-react';
+import { Terminal, Menu, X, Download, ShieldCheck } from 'lucide-react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -12,12 +12,30 @@ const navLinks = [
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Check if user is admin
+  useEffect(() => {
+    const checkAdminStatus = () => {
+      const userRole = localStorage.getItem('userRole');
+      const adminToken = sessionStorage.getItem('adminToken');
+      setIsAdmin(userRole?.toLowerCase() === 'admin' && !!adminToken);
+    };
+
+    checkAdminStatus();
+
+    // Listen for role updates
+    const handleRoleUpdate = () => checkAdminStatus();
+    window.addEventListener('role:updated', handleRoleUpdate);
+
+    return () => window.removeEventListener('role:updated', handleRoleUpdate);
   }, []);
 
   // Close menu on navigation
@@ -68,7 +86,7 @@ const Header: React.FC = () => {
                 >
                   {link.label}
                   {isActive && (
-                    <motion.div 
+                    <motion.div
                       layoutId="nav-underline"
                       className="absolute bottom-0 left-4 right-4 h-0.5 bg-blue-600 rounded-full"
                     />
@@ -76,7 +94,26 @@ const Header: React.FC = () => {
                 </Link>
               );
             })}
-            
+
+            {/* Admin Link - Only show if user is admin */}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`relative px-4 py-2 text-sm font-bold transition-colors ${
+                  location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                <ShieldCheck size={16} className="inline mr-1" />
+                Admin
+                {location.pathname === '/admin' && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-blue-600 rounded-full"
+                  />
+                )}
+              </Link>
+            )}
+
             <div className="h-4 w-[1px] bg-slate-200 mx-4" />
 
             <Link
@@ -123,7 +160,20 @@ const Header: React.FC = () => {
                   {link.label}
                 </Link>
               ))}
-              
+
+              {/* Admin Link - Mobile */}
+              {isAdmin && (
+                <Link
+                  to="/admin"
+                  className={`text-4xl font-black tracking-tighter flex items-center gap-3 ${
+                    location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-300'
+                  }`}
+                >
+                  <ShieldCheck size={32} />
+                  Admin
+                </Link>
+              )}
+
               <div className="h-[1px] w-full bg-slate-100 my-4" />
               
               <Link

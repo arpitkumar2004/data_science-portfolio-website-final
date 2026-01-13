@@ -8,6 +8,7 @@ import ProjectDetail from './pages/ProjectDetail';
 import Contact from './pages/Contact';
 import RequestCV from './pages/RequestCV';
 import AboutMe from './pages/aboutme';
+import AdminDashboardPage from './pages/AdminDashboard';
 import { useLenis } from './hooks/useLenis';
 import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/request-cv" element={<RequestCV />} />
                   <Route path="/aboutme" element={<AboutMe />} />
+                  <Route path="/admin" element={<AdminDashboardPage />} />
                 </Routes>
               </ErrorBoundary>
             </main>
