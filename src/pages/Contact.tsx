@@ -58,11 +58,11 @@ const Contact: React.FC = () => {
     return () => window.removeEventListener("role:updated", onRoleUpdated);
   }, []);
 
-  // 2. Cold-Start Logic: Show notice if request takes > 8 seconds
+  // 2. Cold-Start Logic: Show notice if request takes > 15 seconds
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isSubmitting) {
-      timer = setTimeout(() => setShowWakeUpNotice(true), 8000);
+      timer = setTimeout(() => setShowWakeUpNotice(true), 15000);
     } else {
       setShowWakeUpNotice(false);
     }

@@ -24,18 +24,21 @@ app = FastAPI(title="Arpit's Portfolio Backend")
 
 # --- CORS CONFIGURATION ---
 # Allows your React app (running on localhost:5173) to talk to this API
+# --- FIXED CORS CONFIGURATION ---
 origins = [
-    "http://localhost:5173",          # Local development
-    "https://arpitkumar-arpitkumar2004s-projects.vercel.app/", # Your Vercel URL
-    "https://data-science-portfolio-website-fina.vercel.app/",
+    "http://localhost:5173",
+    "https://arpitkumar-arpitkumar2004s-projects.vercel.app", # Removed trailing slash
+    "https://data-science-portfolio-website-fina.vercel.app",   # Removed trailing slash
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins, 
+    allow_origins=origins, # Use the list variable we defined above
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    # Adding this helps with some browser-specific issues
+    expose_headers=["*"],
 )
 
 # --- Pydantic Schemas for JSON Validation ---
