@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import axios from 'axios'; // Added axios
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -77,6 +78,7 @@ function App() {
               </ErrorBoundary>
             </main>
             <Footer />
+            <SpeedInsights />
           </div>
         </RoleGateway>
       </ToastProvider>
