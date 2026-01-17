@@ -1,22 +1,26 @@
 import os
 import secrets
 import time
-from datetime import datetime, timedelta
-from fastapi import FastAPI, Depends, Form, HTTPException, status
+from datetime import datetime, timedelta, timezone
+from fastapi import FastAPI, Depends, Form, HTTPException, status, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import inspect, text, func
 from typing import List
-import models
 from database import engine, get_db
-from sqlalchemy.orm import Session
 from sqlalchemy.orm.attributes import flag_modified
-from datetime import datetime, timezone
 from typing import List, Optional
 from pydantic import BaseModel, Field
 import models, database
+from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
+from starlette.responses import JSONResponse
+from pydantic import EmailStr
+from dotenv import load_dotenv
 
+load_dotenv()
 
+VITE_API_URL = os.getenv("VITE_API_URL")
+phone = os.getenv("CONTACT_PHONE_NUMBER")
 # Create the tables in Neon if they don't exist
 models.Base.metadata.create_all(bind=engine)
 
@@ -39,6 +43,19 @@ app.add_middleware(
     allow_headers=["*"],
     # Adding this helps with some browser-specific issues
     expose_headers=["*"],
+)
+# --- EMAIL CONFIGURATION ---
+conf = ConnectionConfig(
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME"),
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD"),
+    MAIL_FROM = os.getenv("MAIL_FROM"),
+    MAIL_PORT = int(os.getenv("MAIL_PORT")),
+    MAIL_SERVER = os.getenv("MAIL_SERVER"),
+    MAIL_FROM_NAME = os.getenv("MAIL_FROM_NAME"),
+    MAIL_STARTTLS = True,
+    MAIL_SSL_TLS = False,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True
 )
 
 # --- Pydantic Schemas for JSON Validation ---
@@ -114,7 +131,9 @@ async def submit_contact(
     email: str = Form(...),
     subject: str = Form(...),
     message: str = Form(...),
+    company: str = Form(None),
     formType: str = Form("contacts"),
+    role: str = Form(None),
     db: Session = Depends(get_db)
 ):
     try:
@@ -123,7 +142,9 @@ async def submit_contact(
             email=email,
             subject=subject,
             message=message,
-            form_type=formType
+            company=company,
+            form_type=formType,
+            role=role
         )
         db.add(new_lead)
         db.commit()
@@ -132,6 +153,171 @@ async def submit_contact(
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
+
+# --- API ENDPOINT: CV REQUEST & DISPATCH ---
+
+@app.post("/api/v1/request-cv")
+async def handle_cv_request(
+    background_tasks: BackgroundTasks,
+    name: str = Form(...),
+    email: EmailStr = Form(...),
+    company: str = Form(...),
+    subject: str = Form(...),
+    message: str = Form(...),
+    role: str = Form(None),
+    db: Session = Depends(get_db)
+):
+    # 1. Save Lead to PostgreSQL Database
+    try:
+        new_lead = models.ContactLead(
+            name=name,
+            email=email,
+            subject=subject,
+            message=message,
+            company=company,
+            form_type="CV_DISPATCH_SYSTEM",
+            role=role,
+        )
+        db.add(new_lead)
+        db.commit()
+    except Exception as e:
+        print(f"Database Error: {e}")
+        # We continue even if DB fails to ensure the user gets the CV
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {{ margin: 0; padding: 0; background-color: #f4f7fa; }}
+            .container {{ font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 20px auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }}
+            
+            /* Technical Header */
+            .header {{ background-color: #0f172a; padding: 30px; color: #ffffff; border-bottom: 4px solid #2563eb; }}
+            .sys-log {{ font-family: 'Courier New', monospace; font-size: 10px; color: #60a5fa; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }}
+            .title {{ font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }}
+            
+            /* Content Area */
+            .body {{ padding: 35px; color: #334155; }}
+            .intro {{ font-size: 16px; margin-bottom: 25px; border-left: 3px solid #2563eb; padding-left: 15px; }}
+            .highlight {{ color: #2563eb; font-weight: 700; }}
+            
+            /* Why Hire Me - Matrix */
+            .matrix-title {{ font-size: 12px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }}
+            .value-item {{ margin-bottom: 15px; }}
+            .value-label {{ font-weight: 700; color: #0f172a; font-size: 14px; display: block; }}
+            .value-desc {{ font-size: 13px; color: #64748b; margin: 2px 0 0 0; }}
+
+            /* Skill Dashboard Simulation */
+            .dashboard {{ background-color: #f8fafc; border-radius: 12px; padding: 20px; margin: 25px 0; border: 1px solid #e2e8f0; }}
+            .stat-bar {{ height: 6px; background: #e2e8f0; border-radius: 3px; margin: 8px 0 15px 0; overflow: hidden; }}
+            .stat-fill {{ height: 100%; background: #2563eb; border-radius: 3px; }}
+
+            /* CTA Buttons */
+            .cta-hub {{ margin-top: 30px; }}
+            .btn-main {{ display: block; background-color: #2563eb; color: #ffffff !important; text-decoration: none; padding: 16px; border-radius: 8px; text-align: center; font-weight: 700; font-size: 15px; margin-bottom: 10px; }}
+            .btn-outline {{ display: inline-block; width: 48%; background-color: #ffffff; color: #0f172a !important; text-decoration: none; padding: 12px 0; border-radius: 8px; text-align: center; font-weight: 700; font-size: 13px; border: 1px solid #e2e8f0; }}
+            
+            .footer-graphic {{ background: #0f172a; padding: 20px; text-align: center; }}
+            .schematic {{ font-family: 'Courier New', monospace; font-size: 9px; color: #334155; line-height: 1.2; text-align: center; padding: 20px; }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1 class="title">Technical Dossier(CV): Arpit Kumar</h1>
+            </div>
+            
+            <div class="body">
+                <div class="intro">
+                    Hello <b>{name}</b>,<br>
+                    Acknowledging your inquiry regarding <b>{subject.replace('CV Request: ', '')}</b> for <b>{company}</b>. 
+                    Please find my technical credentials attached.
+                </div>
+
+                <div class="matrix-title">Capabilities Portfolio</div>
+                
+                <div class="value-item">
+                    <span class="value-label">01. Mathematical Rigor (IIT Kharagpur)</span>
+                    <p class="value-desc">Integrated Dual Degree candidate with a 8.46 CGPA. I build ML architectures from first-principles math, not just high-level wrappers.</p>
+                </div>
+
+                <div class="value-item">
+                    <span class="value-label">02. Engineering at Scale</span>
+                    <p class="value-desc">Expertise in deploying MLOps pipelines (Docker, FastAPI, Kubernetes) that bridge the gap between research code and production environments.</p>
+                </div>
+
+                <div class="value-item">
+                    <span class="value-label">03. Domain Breadth</span>
+                    <p class="value-desc">Proven impact across Deep Learning, Machine Learning, Full Stack Applications and Chemical Process Optimization.</p>
+                </div>
+
+                <div class="dashboard">
+                    <div style="font-size: 11px; font-weight: bold; color: #64748b;">CORE STACK PROFICIENCY</div>
+                    <div style="font-size: 12px; margin-top: 10px;">Deep Learning (PyTorch/JAX)</div>
+                    <div class="stat-bar"><div class="stat-fill" style="width: 95%;"></div></div>
+                    <div style="font-size: 12px;">Machine Learning</div>
+                    <div class="stat-bar"><div class="stat-fill" style="width: 88%;"></div></div>
+                    <div style="font-size: 12px;">MLOps & Backend</div>
+                    <div class="stat-bar"><div class="stat-fill" style="width: 92%;"></div></div>
+                </div>
+
+                <div class="matrix-title">Recruiter Action Hub</div>
+                <div class="cta-hub">
+                    <a href="https://calendly.com/kumararpit17773/30min" class="btn-main">Schedule Technical Interview &rarr;</a>
+                    <div style="width: 100%;">
+                        <a href="{VITE_API_URL}" class="btn-outline">Browse Research</a>
+                        <a href="https://wa.me/{phone}" class="btn-outline" style="float: right;">Direct Chat</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schematic">
+                _______________________________________________________
+                <br>
+                <br>
+                 SYSTEM_ENCRYPTION: AES-256 <br>
+                 ORIGIN: ARPIT_KUMAR_SECURE_TERMINAL <br>
+                _______________________________________________________
+                <br>
+                <br>
+                AI_RESEARCHER // DATA_SCIENTIST // FULL_STACK_DEVELOPER
+                <br>
+                ________________________________________________________<br>
+            </div>
+
+            <div class="footer-graphic">
+                <div style="color: #64748b; font-size: 10px; font-family: monospace;">
+                    © {datetime.now().year} ARPIT KUMAR // ALL RIGHTS RESERVED // CONFIDENTIAL CV DISPATCH SYSTEM
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+    # 3. Handle Attachment Path
+    # Ensure CV@Arpit.pdf is inside a folder named 'assets' in your backend directory
+    cv_path = os.path.join(os.getcwd(), "assets", "CV@Arpit.pdf")
+    
+    if not os.path.exists(cv_path):
+        raise HTTPException(status_code=500, detail="CV File not found on server. Contact admin.")
+
+    # 4. Create Email Message
+    email_message = MessageSchema(
+        subject=f"Technical CV - Arpit Kumar | {company}",
+        recipients=[email],
+        body=html,
+        subtype=MessageType.html,
+        attachments=[cv_path]
+    )
+
+    # 5. Send Email in Background (So the user doesn't wait for SMTP to finish)
+    fm = FastMail(conf)
+    background_tasks.add_task(fm.send_message, email_message)
+
+    return {"status": "success", "detail": "Dispatch sequence initiated"}
 
 # 2. Endpoint for ADMIN to fetch all leads
 @app.get("/admin/leads")
@@ -156,6 +342,7 @@ async def get_admin_leads(
             "name": l.name,
             "email": l.email,
             "subject": l.subject,
+            "company": l.company,
             "message": l.message,
             "timestamp": l.timestamp.isoformat() if l.timestamp else None,
             "flagged": bool(getattr(l, 'flagged', False)),
@@ -264,6 +451,7 @@ async def search_leads(
             "name": l.name,
             "email": l.email,
             "subject": l.subject,
+            "company": l.company,
             "message": l.message,
             "timestamp": l.timestamp.isoformat() if l.timestamp else None,
             "flagged": bool(getattr(l, 'flagged', False)),
@@ -302,6 +490,7 @@ async def filter_leads(
             "name": l.name,
             "email": l.email,
             "subject": l.subject,
+            "company": l.company,
             "message": l.message,
             "timestamp": l.timestamp.isoformat() if l.timestamp else None,
             "flagged": bool(getattr(l, 'flagged', False)),
@@ -541,7 +730,7 @@ async def export_leads_csv(
 
     # Write header
     writer.writerow([
-        'ID', 'Name', 'Email', 'Subject', 'Message', 'Timestamp', 'Flagged',
+        'ID', 'Name', 'Email', 'Subject','Company', 'Message', 'Timestamp', 'Flagged',
         'Status', 'Priority', 'Quality Score', 'Internal Notes', 'Last Contacted',
         'Follow-up Date', 'Tags', 'Source'
     ])
@@ -553,6 +742,7 @@ async def export_leads_csv(
             lead.name,
             lead.email,
             lead.subject,
+            lead.company,
             lead.message,
             lead.timestamp.isoformat() if lead.timestamp else '',
             lead.flagged,
@@ -607,6 +797,7 @@ async def get_filtered_leads(
             "name": l.name,
             "email": l.email,
             "subject": l.subject,
+            "company": l.company,
             "message": l.message,
             "timestamp": l.timestamp.isoformat() if l.timestamp else None,
             "flagged": bool(getattr(l, 'flagged', False)),

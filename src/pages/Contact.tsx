@@ -8,6 +8,7 @@ import {
   User,
   MessageSquare,
   Send,
+  Building2Icon,
   Terminal,
   Linkedin,
   Github,
@@ -28,6 +29,9 @@ type FormData = {
   email: string;
   subject: string;
   message: string;
+  company: string;
+  formType: string;
+  role: string;
 };
 
 const Contact: React.FC = () => {
@@ -79,7 +83,9 @@ const Contact: React.FC = () => {
       bodyFormData.append("email", data.email);
       bodyFormData.append("subject", data.subject);
       bodyFormData.append("message", data.message);
+      bodyFormData.append("company", data.company || "");
       bodyFormData.append("formType", "contacts");
+      bodyFormData.append("role", localStorage.getItem("userRole") || "GUEST");
 
       const response = await fetch(`${API_BASE_URL}/submit-contact`, {
         method: "POST",
@@ -248,6 +254,22 @@ const Contact: React.FC = () => {
                       },
                     })}
                   />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
+                    Institute or Organization
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <Building2Icon size={18} />
+                    </div>
+                    <input
+                      {...register("company")}
+                      className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
+                      placeholder="Your Company or Institute or college Name"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">

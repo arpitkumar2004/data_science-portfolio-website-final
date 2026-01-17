@@ -10,6 +10,7 @@ class ContactLead(Base):
     email = Column(String, nullable=False)
     subject = Column(String, nullable=False)
     message = Column(Text, nullable=False)
+    company = Column(String, default="")
     form_type = Column(String, default="contacts")
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
     flagged = Column(Boolean, default=False)

@@ -182,7 +182,7 @@ const Projects: React.FC = () => {
         </div>
         <AnimatePresence mode="popLayout">
           {filteredProjects.length > 0 ? (
-            <motion.div layout className={layout === 'list' ? 'flex flex-col gap-12' : layout === 'grid-2' ? 'grid grid-cols-1 md:grid-cols-2 gap-10' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'}>
+            <motion.div layout className={layout === 'list' ? 'flex flex-col gap-12' : layout === 'grid-2' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'}>
               {filteredProjects.map((project) => (
                 <motion.div key={project.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="group relative">
                   <div className="absolute -top-6 left-0 font-mono text-[9px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-[0.2em]">
