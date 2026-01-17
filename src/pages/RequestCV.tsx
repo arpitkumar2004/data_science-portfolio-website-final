@@ -7,6 +7,10 @@ import {
   User,
   MessageSquare,
   Send,
+  Activity,
+  Fingerprint,
+  Layout,
+  Globe,  BookOpen,
   Building2Icon,
   Terminal,
   Linkedin,
@@ -168,10 +172,10 @@ const RequestCV: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 mb-6 shadow-xl"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600 mb-6 shadow-xl"
               >
                 <Terminal size={12} className="text-blue-400" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-300">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest bg-blue-600 text-slate-50">
                   Automated Dispatch Terminal
                 </span>
               </motion.div>
@@ -187,22 +191,22 @@ const RequestCV: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full lg:w-auto">
               {[
                 {
-                  label: "Systems",
+                  label: "Project Built",
                   val: careerStats.totalProjects,
                   icon: <Cpu size={14} />,
                 },
                 {
-                  label: "Research",
+                  label: "Research Papers",
                   val: careerStats.researchPapers,
                   icon: <Microscope size={14} />,
                 },
                 {
-                  label: "Honors",
+                  label: "Awards & Honors",
                   val: careerStats.totalHonors,
                   icon: <Award size={14} />,
                 },
                 {
-                  label: "Skills",
+                  label: "Skills Aquired",
                   val: careerStats.technicalSkills,
                   icon: <Code2 size={14} />,
                 },
@@ -215,7 +219,7 @@ const RequestCV: React.FC = () => {
                     {stat.icon}
                   </div>
                   <div className="text-2xl font-black text-slate-900 tracking-tighter">
-                    {stat.val}
+                    {stat.val}+
                   </div>
                   <div className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1">
                     {stat.label}
@@ -229,39 +233,96 @@ const RequestCV: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* --- LEFT: SIDEBAR --- */}
           <div className="lg:col-span-4 space-y-8">
-            <section className="p-8 bg-blue-600 rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-blue-200">
-              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
-                <ShieldCheck size={120} />
+            {/* --- PRIMARY DISPATCH CARD --- */}
+            <section className="p-8 bg-slate-900 rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-blue-200">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
+                <ShieldCheck size={140} />
               </div>
+
               <div className="relative z-10">
-                <h3 className="text-2xl font-black mb-4 tracking-tight">
-                  Technical fulfillment
-                </h3>
-                <p className="text-blue-50 text-sm leading-relaxed mb-8">
-                  The dispatch system will transmit a PDF dossier to your work
-                  email upon successful log creation.
-                </p>
-                <div className="p-3 bg-white/10 border border-white/20 rounded-xl flex items-center gap-3">
-                  <Binary className="text-white" size={16} />
-                  <span className="text-[10px] font-mono font-bold uppercase">
-                    SSL Encrypted Pipeline
+                <div className="flex items-center gap-2 mb-6 px-3 py-1 bg-white/10 border border-white/20 rounded-full w-fit">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-100">
+                    System: Active
                   </span>
+                </div>
+
+                <h3 className="text-2xl font-black mb-3 tracking-tighter uppercase">
+                  Technical Fulfillment
+                </h3>
+                <p className="text-blue-50 text-sm leading-relaxed mb-8 font-medium">
+                  Upon successful log creation, the dispatch system will
+                  transmit a multi-page PDF dossier directly to your provided
+                  work email.
+                </p>
+
+                <div className="space-y-3">
+                  <div className="p-3 bg-white/10 border border-white/20 rounded-xl flex items-center gap-3">
+                    <Binary className="text-white" size={16} />
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
+                      SSL_ENCRYPTED_PIPELINE
+                    </span>
+                  </div>
+                  <div className="p-3 bg-white/10 border border-white/20 rounded-xl flex items-center gap-3">
+                    <Activity className="text-white" size={16} />
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
+                      AUTO_MAIL_TRIGGER: ENABLED
+                    </span>
+                  </div>
                 </div>
               </div>
             </section>
 
-            <div className="flex flex-wrap gap-2">
-              <EcosystemLink
-                to="/"
-                icon={<Terminal size={14} />}
-                label="Terminal"
-                dark
-              />
-              <EcosystemLink
-                href="https://github.com/arpitkumar2004"
-                icon={<Github size={14} />}
-                label="GitHub"
-              />
+            {/* --- CATEGORIZED NAVIGATION --- */}
+            <div className="space-y-6 pt-4">
+              {/* Internal Repository Links */}
+              <div>
+                <h4 className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
+                  <Layout size={12} /> Repository Index
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  <EcosystemLink
+                    to="/"
+                    icon={<Terminal size={14} />}
+                    label="Home"
+                    dark
+                  />
+                  <EcosystemLink
+                    to="/projects"
+                    icon={<Database size={14} />}
+                    label="Research"
+                  />
+                  <EcosystemLink
+                    to="/aboutme"
+                    icon={<BookOpen size={14} />}
+                    label="Dossier"
+                  />
+                </div>
+              </div>
+
+              {/* External Technical Nodes */}
+              <div>
+                <h4 className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
+                  <Globe size={12} /> External Nodes
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  <EcosystemLink
+                    href="https://github.com/arpitkumar2004"
+                    icon={<Github size={14} />}
+                    label="GitHub"
+                  />
+                  <EcosystemLink
+                    href="https://linkedin.com/in/arpit-kumar-shivam"
+                    icon={<Linkedin size={14} />}
+                    label="LinkedIn"
+                  />
+                  <EcosystemLink
+                    href="https://kaggle.com/kumararpit"
+                    icon={<SiKaggle size={14} />}
+                    label="Kaggle"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 

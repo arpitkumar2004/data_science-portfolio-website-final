@@ -37,7 +37,7 @@ type FormData = {
 const Contact: React.FC = () => {
   const { showToast } = useToast();
   const [userRole, setUserRole] = useState<string | null>(
-    localStorage.getItem("userRole")
+    localStorage.getItem("userRole"),
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWakeUpNotice, setShowWakeUpNotice] = useState(false);
@@ -96,7 +96,10 @@ const Contact: React.FC = () => {
 
       if (!response.ok) throw new Error();
 
-      showToast("Thankyou for reaching out!\nYour message has been sent, Arpit will get back to you soon", "success");
+      showToast(
+        "Thankyou for reaching out!\nYour message has been sent, Arpit will get back to you soon",
+        "success",
+      );
       reset();
     } catch (error) {
       showToast("Transmission Failed, Please Try Again", "error");
@@ -255,44 +258,43 @@ const Contact: React.FC = () => {
                     })}
                   />
                 </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
-                    Institute or Organization
-                  </label>
-                  <div className="relative">
-                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                      <Building2Icon size={18} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
+                      Institute or Organization
+                    </label>
+                    <div className="relative">
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                        <Building2Icon size={18} />
+                      </div>
+                      <input
+                        {...register("company")}
+                        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
+                        placeholder="Your Company or Institute or college Name"
+                      />
                     </div>
-                    <input
-                      {...register("company")}
-                      className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
-                      placeholder="Your Company or Institute or college Name"
-                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
+                      Context
+                    </label>
+                    <div className="relative">
+                      <MessageSquare
+                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+                        size={18}
+                      />
+                      <select
+                        {...register("subject")}
+                        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                      >
+                        <option>Research Collaboration</option>
+                        <option>Hiring / Recruitment</option>
+                        <option>Project Consultation</option>
+                        <option>General Inquiry</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
-                    Context
-                  </label>
-                  <div className="relative">
-                    <MessageSquare
-                      className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                      size={18}
-                    />
-                    <select
-                      {...register("subject")}
-                      className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
-                    >
-                      <option>Research Collaboration</option>
-                      <option>Hiring / Recruitment</option>
-                      <option>Project Consultation</option>
-                      <option>General Inquiry</option>
-                    </select>
-                  </div>
-                </div>
-
                 <div className="space-y-1.5">
                   <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
                     Brief
@@ -341,7 +343,7 @@ const Contact: React.FC = () => {
                     ) : (
                       <>
                         <span className="uppercase tracking-[0.2em] text-xs">
-                          Send Message 
+                          Send Message
                         </span>
                         <ArrowRight
                           size={18}
