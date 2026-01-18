@@ -7,10 +7,12 @@ import {
   User,
   MessageSquare,
   Send,
+  Info,
   Activity,
   Fingerprint,
   Layout,
-  Globe,  BookOpen,
+  Globe,
+  BookOpen,
   Building2Icon,
   Terminal,
   Linkedin,
@@ -180,10 +182,10 @@ const RequestCV: React.FC = () => {
                 </span>
               </motion.div>
               <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 leading-none">
-                Request <span className="text-blue-600 italic">Dossier.</span>
+                Download my CV <span className="text-blue-600 italic">Dossier.</span>
               </h1>
               <p className="text-slate-500 text-lg font-medium">
-                Access technical credentials and research manuscripts.
+                Fill out the form to receive a comprehensive technical CV dossier in a few seconds via email automatically to your inbox.
               </p>
             </div>
 
@@ -250,10 +252,13 @@ const RequestCV: React.FC = () => {
                 <h3 className="text-2xl font-black mb-3 tracking-tighter uppercase">
                   Technical Fulfillment
                 </h3>
-                <p className="text-blue-50 text-sm leading-relaxed mb-8 font-medium">
-                  Upon successful log creation, the dispatch system will
-                  transmit a multi-page PDF dossier directly to your provided
-                  work email.
+                <p className="text-blue-50 text-sm leading-relaxed mb-3 font-medium">
+                  Upon successful Submission of form, the dispatch system will
+                  transmit a PDF CV dossier directly to your provided work
+                  email. You will be notified upon completion.
+                </p>
+                <p className="text-red-500 text-sm leading-relaxed font-medium mb-6 flex items-center gap-2">
+                  <Info size={42} /> Please ensure your email address is valid and accessible.
                 </p>
 
                 <div className="space-y-3">
