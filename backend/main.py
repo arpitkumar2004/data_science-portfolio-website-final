@@ -298,8 +298,8 @@ async def handle_cv_request(
     """
 
     # 3. Handle Attachment Path
-    # Ensure CV@Arpit.pdf is inside a folder named 'assets' in your backend directory
-    cv_path = os.path.join(os.getcwd(), "assets", "CV@Arpit.pdf")
+    # Ensure AK_CV.pdf is inside a folder named 'assets' in your backend directory
+    cv_path = os.path.join(os.getcwd(), "assets", "AK_CV.pdf")
     
     if not os.path.exists(cv_path):
         raise HTTPException(status_code=500, detail="CV File not found on server. Contact admin.")
