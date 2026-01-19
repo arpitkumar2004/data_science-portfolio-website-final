@@ -52,8 +52,8 @@ conf = ConnectionConfig(
     MAIL_PORT = int(os.getenv("MAIL_PORT")),
     MAIL_SERVER = os.getenv("MAIL_SERVER"),
     MAIL_FROM_NAME = os.getenv("MAIL_FROM_NAME"),
-    MAIL_STARTTLS = True,
-    MAIL_SSL_TLS = False,
+    MAIL_STARTTLS = False,              # Change to False for port 465
+    MAIL_SSL_TLS = True,                # Change to True for port 465
     USE_CREDENTIALS = True,
     VALIDATE_CERTS = True
 )
