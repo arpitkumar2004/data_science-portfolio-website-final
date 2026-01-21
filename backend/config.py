@@ -36,7 +36,8 @@ RATE_LIMIT_ADMIN = "100/minute"  # Admin endpoints
 
 # CORS Configuration
 CORS_ORIGINS = [
-    "http://localhost:5173",
+    "http://localhost:5173",      # Main portfolio
+    "http://localhost:5174",      # Admin panel
     "https://arpitkumar.dev",
     "https://data-science-portfolio-website-fina.vercel.app",
 ]

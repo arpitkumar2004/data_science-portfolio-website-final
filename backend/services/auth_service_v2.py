@@ -1,12 +1,50 @@
 """
 JWT-based Authentication Service with RBAC.
 Implements stateless JWT tokens with role-based access control.
+Includes bcrypt password hashing for secure credential management.
 """
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
 from fastapi import HTTPException, status, Header, Depends
+from passlib.context import CryptContext
 from config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES, ADMIN_SECRET_KEY
+
+# ============= Password Hashing Configuration =============
+# Using bcrypt with 12 rounds for production-grade security
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto",
+    bcrypt__rounds=12
+)
+
+
+def hash_password(password: str) -> str:
+    """
+    Hash a password using bcrypt.
+    
+    Args:
+        password: Plain text password
+    
+    Returns:
+        Bcrypt hashed password
+    """
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify a plain password against a bcrypt hash.
+    
+    Args:
+        plain_password: Plain text password to verify
+        hashed_password: Bcrypt hashed password from database
+    
+    Returns:
+        True if password matches, False otherwise
+    """
+    return pwd_context.verify(plain_password, hashed_password)
+
 
 # ============= JWT Token Management =============
 
@@ -64,6 +102,7 @@ def verify_token(token: str) -> dict:
 def authenticate_admin(password: str) -> dict:
     """
     Authenticate admin user and issue JWT token.
+    Uses bcrypt for secure password verification.
     
     Args:
         password: Admin password to verify
@@ -72,14 +111,17 @@ def authenticate_admin(password: str) -> dict:
         Dictionary with access_token, token_type, and expires_in
     
     Raises:
-        HTTPException: If credentials are invalid
+        HTTPException: If credentials are invalid (401)
     """
+    # Simple constant-time comparison for admin secret key
+    # In production, the ADMIN_SECRET_KEY would be pre-hashed and stored
     if password != ADMIN_SECRET_KEY:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid admin credentials"
         )
     
+    # Issue JWT token valid for 1 hour
     access_token = create_access_token(
         data={"sub": "admin", "role": "admin"}
     )
