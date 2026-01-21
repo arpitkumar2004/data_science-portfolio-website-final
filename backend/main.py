@@ -178,14 +178,14 @@ async def submit_contact(
         <div class="container">
             <div class="header">
                 <div style="font-family: monospace; font-size: 11px; color: #60a5fa; margin-bottom: 10px;">INQUIRY_PARSED // SESSION: {datetime.now().strftime('%H%M%S')}</div>
-                <h1 style="margin: 0; font-size: 24px; font-weight: 800;">Contact Handshake: Arpit Kumar</h1>
+                <h1 style="margin: 0; font-size: 22px; font-weight: 800;">Contact: Arpit Kumar</h1>
             </div>
             
             <div class="body">
                 <div class="sys-badge">Priority Communication Enabled</div>
                 <div class="intro-text">
                     Hello <b>{name}</b>,<br>
-                    Thank you for reaching out via my Research Terminal regarding <b>{subject}</b>. I have successfully received your message and am reviewing the details.
+                    Thank you for reaching out via my Research portfolio Terminal regarding <b>{subject}</b>. I have successfully received your message and am reviewing the details. 
                 </div>
 
                 <div class="section-header">Original Inquiry Summary</div>
@@ -207,11 +207,9 @@ async def submit_contact(
             </div>
 
             <div class="schematic">
-                [ STATUS: ACKNOWLEDGED ]<br>
-                [ LATENCY: NEAR_INSTANT ]<br>
                 ------------------------------------------<br>
                 AI_RESEARCHER // IIT_KHARAGPUR_SCHOLAR<br>
-                © {datetime.now().year} ARPIT_KUMAR.DEV
+                © {datetime.now().year} ARPITKUMAR.DEV
             </div>
         </div>
     </body>
@@ -222,7 +220,7 @@ async def submit_contact(
     def send_acknowledgment():
         try:
             resend.Emails.send({
-                "from": "Arpit Kumar <dossier@arpitkumar.dev>",
+                "from": "Arpit Kumar (IIT Kharagpur) <contact@arpitkumar.dev>",
                 "to": [email],
                 "subject": f"Re: {subject} | Arpit Kumar",
                 "html": html_content
@@ -404,7 +402,7 @@ async def handle_cv_request(
     def send_resend_email():
         try:
             resend.Emails.send({
-                "from": "Arpit Kumar (IIT Kharagpur) <onboarding@resend.dev>",
+                "from": "Arpit Kumar (IIT Kharagpur) <contact@arpitkumar.dev>",
                 "to": [email],
                 "subject": f"Technical CV - Arpit Kumar | IIT Kharagpur | AI Research & Development | For {company}",
                 "html": html_content,
