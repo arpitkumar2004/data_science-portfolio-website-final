@@ -42,3 +42,20 @@ from routes import health, auth, leads
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(leads.router)
+
+# Root endpoint for health checks and monitoring
+@app.get("/")
+async def root():
+    """Root endpoint - redirects to API docs"""
+    return {
+        "message": "Arpit's Portfolio Backend API",
+        "version": APP_VERSION,
+        "status": "operational",
+        "docs": "/docs",
+        "health": "/api/"
+    }
+
+@app.get("/hello")
+async def hello_root():
+    """Hello endpoint at root level"""
+    return {"message": "Hello from Arpit's Portfolio Backend!", "version": APP_VERSION}
