@@ -2,64 +2,61 @@ import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
 import { useLeads, useLeadStats, useOptimisticLeadUpdate } from "../hooks/useAdminData";
-import adminAPI, { Lead } from "../services/adminAPI";
+import adminAPI, { Lead, LeadStats, LeadStatus, LeadPriority } from "../services/adminAPI";
 import {
-  ShieldCheck,
-  Trash2,
+  LayoutDashboard,
+  Users,
+  Settings,
+  LogOut,
   Search,
-  Eye,
-  Database,
+  Filter,
   Download,
   RefreshCw,
-  ChevronRight,
-  X,
+  Eye,
   Mail,
-  Phone,
-  Calendar,
-  Filter,
-  MoreVertical,
-  CheckCircle2,
-  AlertCircle,
-  Award,
+  Trash2,
+  Star,
   Clock,
   TrendingUp,
-  Users,
   Target,
   Activity,
-  Star,
-  Tag,
+  X,
+  BarChart3,
+  FileText,
+  ChevronDown,
+  ChevronUp,
+  Grid3x3,
 } from "lucide-react";
+
 
 const AdminDashboard: React.FC = () => {
   const { showToast } = useToast();
 
   // SWR Data
-  const {
-    leads: swrLeads,
-    isLoading: leadsLoading,
-    refresh: refreshLeads,
-  } = useLeads();
-  const {
-    stats: swrStats,
-    isLoading: statsLoading,
-    refresh: refreshStats,
-  } = useLeadStats();
+  const { leads: swrLeads, isLoading: leadsLoading, refresh: refreshLeads } = useLeads();
+  const { stats: swrStats, isLoading: statsLoading, refresh: refreshStats } = useLeadStats();
   const { updateLead } = useOptimisticLeadUpdate();
+
 
   // Data State
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<LeadStats | null>(null);
 
   // UI State
-  const [viewMode, setViewMode] = useState<"leads" | "analytics">("leads");
+  const [sidebarView, setSidebarView] = useState<"dashboard" | "analytics" | "settings">("dashboard");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
   // Filters
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [sortBy, setSortBy] = useState<"newest" | "oldest" | "priority">("newest");
 
   useEffect(() => {
     setLeads(swrLeads || []);
@@ -73,40 +70,43 @@ const AdminDashboard: React.FC = () => {
     setIsLoading(leadsLoading || statsLoading);
   }, [leadsLoading, statsLoading]);
 
+
   const refreshData = async () => {
     setIsLoading(true);
     try {
       await Promise.all([refreshLeads(), refreshStats()]);
-    } catch (err) {
-      showToast("Data sync failed", "error");
+      showToast("✓ Data refreshed", "success");
+    } catch {
+      showToast("✗ Data sync failed", "error");
     } finally {
       setIsLoading(false);
     }
   };
-  // Handle emailing the lead with mailto link (pre-filled)
+
   const handleEmailLead = () => {
     if (!selectedLead) return;
     const subject = encodeURIComponent(`Re: ${selectedLead.subject}`);
     const body = encodeURIComponent(
-      `Hi ${selectedLead.name},\n\nI hope this email finds you well. I wanted to follow up with you about your query. \n\n\n [Your message here]\n\n\nI am always open to any feedback or suggestions. Thank you for your time. \n\nBest regards,\nArpit Kumar\nkumararpit1773@gmail.com`
+      `Hi ${selectedLead.name},\n\nI hope this email finds you well. I wanted to follow up with you about your query.\n\n[Your message here]\n\nBest regards,\nArpit Kumar`
     );
     window.location.href = `mailto:${selectedLead.email}?subject=${subject}&body=${body}`;
-  }
+  };
+
 
   // Unified update handler with optimistic UI
-  const handleUpdate = async (id: number, field: string, value: any) => {
+  const handleUpdate = async (id: number, field: string, value: unknown) => {
     const normalizedValue =
       field === "quality_score"
-        ? parseFloat(value)
+        ? parseFloat(value as string)
         : typeof value === "string"
         ? value.toLowerCase()
         : value;
 
-    const serverCallMap: Record<string, () => Promise<any>> = {
-      status: () => adminAPI.updateLeadStatus(id, normalizedValue),
-      priority: () => adminAPI.updateLeadPriority(id, normalizedValue),
-      quality_score: () => adminAPI.updateLeadQualityScore(id, normalizedValue),
-      internal_notes: () => adminAPI.updateLeadNotes(id, normalizedValue),
+    const serverCallMap: Record<string, () => Promise<unknown>> = {
+      status: () => adminAPI.updateLeadStatus(id, normalizedValue as string),
+      priority: () => adminAPI.updateLeadPriority(id, normalizedValue as string),
+      quality_score: () => adminAPI.updateLeadQualityScore(id, normalizedValue as number),
+      internal_notes: () => adminAPI.updateLeadNotes(id, normalizedValue as string),
     };
 
     const serverUpdate = serverCallMap[field];
@@ -118,442 +118,637 @@ const AdminDashboard: React.FC = () => {
         (lead) => ({ ...lead, [field]: normalizedValue }),
         serverUpdate
       );
-      showToast(`${field.replace("_", " ")} updated`, "success");
-    } catch (error: any) {
-      console.error("Update Error:", error);
-      const errorMsg = error?.message || "Update failed";
-      showToast(errorMsg, "error");
+      showToast(`✓ ${field.replace("_", " ")} updated`, "success");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Update failed";
+      showToast(`✗ ${errorMessage}`, "error");
     }
   };
 
-  // 2. FLAG/UNFLAG HANDLER
   const toggleFlag = async (lead: Lead) => {
-    const action = lead.flagged ? "unflag" : "flag";
     try {
       await updateLead(
         lead.id,
         (current) => ({ ...current, flagged: !lead.flagged }),
-        () =>
-          lead.flagged
-            ? adminAPI.unflagLead(lead.id)
-            : adminAPI.flagLead(lead.id)
+        () => (lead.flagged ? adminAPI.unflagLead(lead.id) : adminAPI.flagLead(lead.id))
       );
-      showToast(`Lead ${action}ged`, "success");
-    } catch (err) {
-      showToast(`Failed to ${action}`, "error");
+      showToast(`✓ Lead ${lead.flagged ? "unflagged" : "flagged"}`, "success");
+    } catch {
+      showToast("✗ Failed to toggle flag", "error");
     }
   };
+
   const handleDelete = async (id: number) => {
-    if (!confirm("Confirm permanent deletion?")) return;
+    if (!confirm("Permanently delete this lead?")) return;
     try {
       await adminAPI.deleteLead(id);
       setLeads((prev) => prev.filter((l) => l.id !== id));
-      showToast("Lead removed", "success");
-    } catch (err) {
-      showToast("Delete failed", "error");
+      showToast("✓ Lead deleted", "success");
+    } catch {
+      showToast("✗ Delete failed", "error");
     }
   };
 
   const bulkDelete = async () => {
-    if (!confirm(`Delete ${selectedIds.length} leads?`)) return;
+    if (!confirm(`Delete ${selectedIds.length} leads permanently?`)) return;
     try {
       await adminAPI.bulkDelete(selectedIds);
       setLeads((prev) => prev.filter((l) => !selectedIds.includes(l.id)));
       setSelectedIds([]);
-      showToast("Bulk deletion complete", "success");
-    } catch (err) {
-      showToast("Bulk action failed", "error");
+      showToast(`✓ Deleted ${selectedIds.length} leads`, "success");
+    } catch {
+      showToast("✗ Bulk delete failed", "error");
     }
   };
 
-  // --- Helpers ---
-  const filteredLeads = useMemo(() => {
-    return leads.filter((l) => {
-      const matchesSearch =
-        l.name.toLowerCase().includes(search.toLowerCase()) ||
-        l.email.toLowerCase().includes(search.toLowerCase());
-      const matchesStatus = statusFilter === "all" || l.status === statusFilter;
-      const matchesPriority =
-        priorityFilter === "all" || l.priority === priorityFilter;
-      return matchesSearch && matchesStatus && matchesPriority;
-    });
-  }, [leads, search, statusFilter, priorityFilter]);
-
-  const getStatusBadge = (s: string = "new") => {
-    const styles: any = {
-      unread: "bg-blue-50 text-blue-700 border-blue-200",
-      processing: "bg-amber-50 text-amber-700 border-amber-200",
-      contacted: "bg-emerald-50 text-emerald-700 border-emerald-200",
-      archived: "bg-slate-100 text-slate-600 border-slate-300",
-    };
-    return `px-2.5 py-1 rounded-md text-xs font-bold border ${
-      styles[s] || styles.unread
-    }`;
+  const handleExport = async () => {
+    try {
+      const blob = await adminAPI.exportLeads("csv");
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `leads-export-${new Date().toISOString().split("T")[0]}.csv`;
+      a.click();
+      showToast("✓ Export downloaded", "success");
+    } catch {
+      showToast("✗ Export failed", "error");
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
-      {/* Top Navigation Bar */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-30">
-        <div className="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="bg-slate-900 p-2 rounded-lg">
-              <ShieldCheck className="text-white" size={20} />
-            </div>
-            <h1 className="font-bold text-slate-900 tracking-tight">
-              LeadManager{" "}
-              <span className="text-slate-400 font-normal">Pro</span>
-            </h1>
-          </div>
+  const handleLogout = () => {
+    if (!confirm("Logout from admin panel?")) return;
+    adminAPI.logout();
+    localStorage.removeItem("userRole");
+    sessionStorage.removeItem("roleNotifShown");
+    window.location.href = "/";
+  };
 
-          <nav className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl">
-            <button
-              onClick={() => setViewMode("leads")}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                viewMode === "leads"
-                  ? "bg-white shadow-sm text-blue-600"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              Leads
-            </button>
-            <button
-              onClick={() => setViewMode("analytics")}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                viewMode === "analytics"
-                  ? "bg-white shadow-sm text-blue-600"
-                  : "text-slate-500 hover:text-slate-700"
-              }`}
-            >
-              Analytics
-            </button>
-          </nav>
+
+  // --- Helpers ---
+  const filteredLeads = useMemo(() => {
+    const result = leads.filter((l) => {
+      const matchesSearch =
+        l.name.toLowerCase().includes(search.toLowerCase()) ||
+        l.email.toLowerCase().includes(search.toLowerCase()) ||
+        l.subject.toLowerCase().includes(search.toLowerCase()) ||
+        l.message.toLowerCase().includes(search.toLowerCase());
+      const matchesStatus = statusFilter === "all" || l.status === statusFilter;
+      const matchesPriority = priorityFilter === "all" || l.priority === priorityFilter;
+      const matchesRole = roleFilter === "all" || l.role === roleFilter;
+      return matchesSearch && matchesStatus && matchesPriority && matchesRole;
+    });
+
+    // Sort
+    if (sortBy === "newest") {
+      result.sort((a, b) => new Date(b.created_at || "").getTime() - new Date(a.created_at || "").getTime());
+    } else if (sortBy === "oldest") {
+      result.sort((a, b) => new Date(a.created_at || "").getTime() - new Date(b.created_at || "").getTime());
+    } else if (sortBy === "priority") {
+      const priorityOrder: Record<string, number> = { urgent: 4, high: 3, medium: 2, low: 1 };
+      result.sort((a, b) => (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0));
+    }
+
+    return result;
+  }, [leads, search, statusFilter, priorityFilter, roleFilter, sortBy]);
+
+  const getStatusBadge = (s: string = "unread") => {
+    const styles: Record<string, string> = {
+      unread: "bg-blue-500/10 text-blue-600 border-blue-500/20",
+      processing: "bg-amber-500/10 text-amber-600 border-amber-500/20",
+      contacted: "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+      archived: "bg-slate-400/10 text-slate-600 border-slate-400/20",
+    };
+    return `px-2 py-0.5 rounded text-[10px] font-bold uppercase border ${styles[s] || styles.unread}`;
+  };
+
+  const getPriorityColor = (p: string = "medium") => {
+    const colors: Record<string, string> = {
+      urgent: "text-red-600 bg-red-500/10",
+      high: "text-orange-600 bg-orange-500/10",
+      medium: "text-yellow-600 bg-yellow-500/10",
+      low: "text-slate-600 bg-slate-500/10",
+    };
+    return colors[p] || colors.medium;
+  };
+
+
+  return (
+    <div className="flex h-screen bg-slate-50 overflow-hidden">
+      {/* Sidebar */}
+      <motion.div
+        initial={false}
+        animate={{ width: isSidebarCollapsed ? 80 : 280 }}
+        className="bg-slate-900 text-white flex flex-col border-r border-slate-800 relative z-20"
+      >
+        {/* Logo */}
+        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800">
+          {!isSidebarCollapsed && (
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <LayoutDashboard size={18} />
+              </div>
+              <div>
+                <div className="font-bold text-sm">Admin Panel</div>
+                <div className="text-[10px] text-slate-400">Lead Manager Pro</div>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="p-1.5 hover:bg-slate-800 rounded transition-colors"
+          >
+            {isSidebarCollapsed ? <ChevronDown size={16} className="rotate-90" /> : <ChevronUp size={16} className="rotate-90" />}
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 p-4 space-y-2">
+          <button
+            onClick={() => setSidebarView("dashboard")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+              sidebarView === "dashboard"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                : "hover:bg-slate-800 text-slate-300"
+            }`}
+          >
+            <Users size={20} />
+            {!isSidebarCollapsed && <span className="font-medium text-sm">Leads</span>}
+          </button>
+
+          <button
+            onClick={() => setSidebarView("analytics")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+              sidebarView === "analytics"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                : "hover:bg-slate-800 text-slate-300"
+            }`}
+          >
+            <BarChart3 size={20} />
+            {!isSidebarCollapsed && <span className="font-medium text-sm">Analytics</span>}
+          </button>
+
+          <button
+            onClick={() => setSidebarView("settings")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
+              sidebarView === "settings"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
+                : "hover:bg-slate-800 text-slate-300"
+            }`}
+          >
+            <Settings size={20} />
+            {!isSidebarCollapsed && <span className="font-medium text-sm">Settings</span>}
+          </button>
+        </nav>
+
+        {/* Stats Summary */}
+        {!isSidebarCollapsed && stats && (
+          <div className="p-4 border-t border-slate-800 space-y-3">
+            <div className="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Quick Stats</div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="bg-slate-800 rounded-lg p-3">
+                <div className="text-2xl font-black text-white">{(stats?.total_leads as number) || 0}</div>
+                <div className="text-[9px] text-slate-400 uppercase">Total</div>
+              </div>
+              <div className="bg-slate-800 rounded-lg p-3">
+                <div className="text-2xl font-black text-blue-400">{(stats?.leads_last_24h as number) || 0}</div>
+                <div className="text-[9px] text-slate-400 uppercase">Today</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Logout */}
+        <button
+          onClick={handleLogout}
+          className="m-4 flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-all border border-red-500/20"
+        >
+          <LogOut size={18} />
+          {!isSidebarCollapsed && <span className="font-medium text-sm">Logout</span>}
+        </button>
+      </motion.div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Top Bar */}
+        <div className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-bold text-slate-900">
+              {sidebarView === "dashboard" && "Lead Management"}
+              {sidebarView === "analytics" && "Analytics & Insights"}
+              {sidebarView === "settings" && "Settings"}
+            </h1>
+            <div className="h-5 w-px bg-slate-200" />
+            <div className="text-sm text-slate-500">
+              {filteredLeads.length} {filteredLeads.length === 1 ? "lead" : "leads"}
+            </div>
+          </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={refreshData}
-              className="p-2 text-slate-400 hover:text-blue-600 transition-colors"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              disabled={isLoading}
             >
-              <RefreshCw
-                size={18}
-                className={isLoading ? "animate-spin" : ""}
-              />
+              <RefreshCw size={18} className={`text-slate-600 ${isLoading ? "animate-spin" : ""}`} />
             </button>
-            <div className="h-6 w-px bg-slate-200 mx-1" />
-            <button className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 text-white rounded-lg text-sm font-bold hover:bg-slate-800 transition-all">
+            <button onClick={handleExport} className="px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-medium hover:bg-slate-800 transition-all flex items-center gap-2">
               <Download size={16} />
               Export CSV
             </button>
           </div>
         </div>
-      </header>
 
-      <main className="flex-1 max-w-[1600px] w-full mx-auto p-6 space-y-6">
-        {viewMode === "analytics" ? (
-          <AnalyticsView stats={stats} />
-        ) : (
-          <>
-            {/* Stats Bar */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <StatCard
-                label="Total Leads"
-                value={stats?.total_leads}
-                icon={<Users className="text-blue-600" />}
-              />
-              <StatCard
-                label="Lead Velocity (24h)"
-                value={stats?.leads_last_24h}
-                icon={<Activity className="text-emerald-600" />}
-              />
-              <StatCard
-                label="Avg. Score"
-                value={stats?.avg_quality_score?.toFixed(1)}
-                icon={<Star className="text-amber-500" />}
-              />
-              <StatCard
-                label="Conversion Efficiency"
-                value={`${(stats?.conversion_rate || 0).toFixed(1)}%`}
-                icon={<Target className="text-purple-600" />}
-              />
-            </div>
-
-            {/* Filter Bar */}
-            <div className="bg-white p-4 rounded-xl border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
-              <div className="flex flex-1 min-w-[300px] relative">
-                <Search
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
-                  size={18}
+        {/* Content Area */}
+        <div className="flex-1 overflow-auto">
+          {sidebarView === "dashboard" && (
+            <div className="p-6 space-y-6">
+              {/* KPI Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <KPICard
+                  label="Total Leads"
+                  value={(stats?.total_leads as number) || 0}
+                  icon={<Users className="text-blue-600" size={24} />}
+                  trend="+12%"
+                  trendUp
                 />
-                <input
-                  type="text"
-                  placeholder="Search by name, email, or message..."
-                  className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 outline-none text-sm"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
+                <KPICard
+                  label="24h Velocity"
+                  value={(stats?.leads_last_24h as number) || 0}
+                  icon={<TrendingUp className="text-emerald-600" size={24} />}
+                  trend="+8"
+                  trendUp
+                />
+                <KPICard
+                  label="Conversion Rate"
+                  value={`${((stats?.conversion_rate as number) || 0).toFixed(1)}%`}
+                  icon={<Target className="text-purple-600" size={24} />}
+                  trend="+2.3%"
+                  trendUp
+                />
+                <KPICard
+                  label="Avg Quality"
+                  value={((stats?.avg_quality_score as number) || 0).toFixed(2)}
+                  icon={<Activity className="text-amber-600" size={24} />}
+                  trend="-0.1"
+                  trendUp={false}
                 />
               </div>
-              <div className="flex gap-3">
-                <select
-                  className="text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 outline-none"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  <option value="all">All Status</option>
-                  <option value="unread">Unread</option>
-                  <option value="processing">Processing</option>
-                  <option value="contacted">Contacted</option>
-                  <option value="archived">Archived</option>
-                </select>
-                <select
-                  className="text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 outline-none"
-                  value={priorityFilter}
-                  onChange={(e) => setPriorityFilter(e.target.value)}
-                >
-                  <option value="all">All Priority</option>
-                  <option value="high">High</option>
-                  <option value="medium">Medium</option>
-                  <option value="low">Low</option>
-                  <option value="urgent">Urgent</option>
-                </select>
-              </div>
-            </div>
 
-            {/* Bulk Actions Bar */}
-            <AnimatePresence>
-              {selectedIds.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-xl flex items-center justify-between shadow-lg shadow-blue-200"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="font-bold">
-                      {selectedIds.length} leads selected
+              {/* Filters & Actions */}
+              <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-4">
+                {/* Search & View Toggle */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                    <input
+                      type="text"
+                      placeholder="Search by name, email, subject, or message..."
+                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    onClick={() => setShowFilters(!showFilters)}
+                    className={`px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-all ${
+                      showFilters
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                    }`}
+                  >
+                    <Filter size={16} />
+                    Filters
+                  </button>
+                  <div className="flex gap-1 bg-slate-100 p-1 rounded-lg">
+                    <button
+                      onClick={() => setViewMode("table")}
+                      className={`p-2 rounded ${
+                        viewMode === "table" ? "bg-white shadow-sm" : "hover:bg-slate-200"
+                      }`}
+                    >
+                      <FileText size={16} className="text-slate-700" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`p-2 rounded ${
+                        viewMode === "grid" ? "bg-white shadow-sm" : "hover:bg-slate-200"
+                      }`}
+                    >
+                      <Grid3x3 size={16} className="text-slate-700" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Advanced Filters */}
+                <AnimatePresence>
+                  {showFilters && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="grid grid-cols-4 gap-3 pt-4 border-t border-slate-200">
+                        <select
+                          value={statusFilter}
+                          onChange={(e) => setStatusFilter(e.target.value)}
+                          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                          <option value="all">All Status</option>
+                          <option value="unread">Unread</option>
+                          <option value="processing">Processing</option>
+                          <option value="contacted">Contacted</option>
+                          <option value="archived">Archived</option>
+                        </select>
+
+                        <select
+                          value={priorityFilter}
+                          onChange={(e) => setPriorityFilter(e.target.value)}
+                          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                          <option value="all">All Priority</option>
+                          <option value="urgent">Urgent</option>
+                          <option value="high">High</option>
+                          <option value="medium">Medium</option>
+                          <option value="low">Low</option>
+                        </select>
+
+                        <select
+                          value={roleFilter}
+                          onChange={(e) => setRoleFilter(e.target.value)}
+                          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                          <option value="all">All Roles</option>
+                          <option value="Recruiter">Recruiter</option>
+                          <option value="Researcher">Researcher</option>
+                          <option value="Developer">Developer</option>
+                          <option value="Guest">Guest</option>
+                        </select>
+
+                        <select
+                          value={sortBy}
+                          onChange={(e) => setSortBy(e.target.value as "newest" | "oldest" | "priority")}
+                          className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500/20"
+                        >
+                          <option value="newest">Newest First</option>
+                          <option value="oldest">Oldest First</option>
+                          <option value="priority">By Priority</option>
+                        </select>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Bulk Actions */}
+                {selectedIds.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-3"
+                  >
+                    <span className="text-sm font-medium text-blue-900">
+                      {selectedIds.length} lead{selectedIds.length > 1 ? "s" : ""} selected
                     </span>
-                    <div className="h-4 w-px bg-blue-400" />
-                    <button
-                      onClick={() => setSelectedIds([])}
-                      className="text-xs hover:underline"
-                    >
-                      Clear Selection
-                    </button>
-                  </div>
-                  <div className="flex gap-3">
-                    <button
-                      onClick={bulkDelete}
-                      className="px-4 py-1.5 bg-red-500 hover:bg-red-400 rounded-lg text-sm font-bold transition-colors"
-                    >
-                      Delete Permanently
-                    </button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Leads Table */}
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="bg-slate-50 border-b border-slate-200">
-                      <th className="p-4 w-10">
-                        <input
-                          type="checkbox"
-                          checked={
-                            selectedIds.length === filteredLeads.length &&
-                            filteredLeads.length > 0
-                          }
-                          onChange={(e) =>
-                            setSelectedIds(
-                              e.target.checked
-                                ? filteredLeads.map((l) => l.id)
-                                : []
-                            )
-                          }
-                          className="rounded border-slate-300"
-                        />
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase">
-                        Lead Name
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase">
-                        Status
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase">
-                        Priority
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase text-center">
-                        Score
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase">
-                        Date
-                      </th>
-                      <th className="p-4 text-xs font-bold text-slate-500 uppercase text-right">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-100">
-                    {filteredLeads.map((lead) => (
-                      <tr onClick={selectedLead?.id !== lead.id ? () => setSelectedLead(lead) : undefined}
-                        key={lead.id}
-                        className="hover:bg-blue-100/50 transition-colors group"
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setSelectedIds([])}
+                        className="px-3 py-1.5 text-sm bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
                       >
-                        <td className="p-4">
-                          <input
-                            type="checkbox"
-                            checked={selectedIds.includes(lead.id)}
-                            onChange={() =>
-                              setSelectedIds((prev) =>
-                                prev.includes(lead.id)
-                                  ? prev.filter((id) => id !== lead.id)
-                                  : [...prev, lead.id]
-                              )
-                            }
-                            className="rounded border-slate-300"
-                          />
-                        </td>
-                        <td className="p-4">
-                          <div className="flex items-center gap-3">
-                            <div
-                              className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                                lead.flagged
-                                  ? "bg-amber-100 text-amber-600 ring-2 ring-amber-400"
-                                  : "bg-slate-100 text-slate-600"
-                              }`}
-                            >
-                              {lead.name.charAt(0)}
-                            </div>
-                            <div>
-                              <div className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                                {lead.name}
-                                {lead.flagged && (
-                                  <Star
-                                    size={12}
-                                    className="fill-amber-400 text-amber-400"
-                                  />
-                                )}
-                              </div>
-                              <div className="text-xs text-slate-500">
-                                {lead.email}
-                              </div>
-                            </div>
-                          </div>
-                        </td>
+                        Clear
+                      </button>
+                      <button
+                        onClick={bulkDelete}
+                        className="px-3 py-1.5 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors flex items-center gap-2"
+                      >
+                        <Trash2 size={14} />
+                        Delete
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </div>
 
-                        {/* EDITABLE STATUS */}
-                        <td className="p-4">
-                          <select
-                            value={lead.status || "unread"}
-                            onChange={(e) =>
-                              handleUpdate(lead.id, "status", e.target.value)
-                            }
-                            className="text-xs font-bold bg-slate-50 border border-slate-200 rounded px-2 py-1 outline-none focus:border-blue-400"
+              {/* Leads Table/Grid */}
+              {viewMode === "table" ? (
+                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-slate-50 border-b border-slate-200">
+                        <tr>
+                          <th className="p-4 w-10">
+                            <input
+                              type="checkbox"
+                              checked={selectedIds.length === filteredLeads.length && filteredLeads.length > 0}
+                              onChange={(e) =>
+                                setSelectedIds(e.target.checked ? filteredLeads.map((l) => l.id) : [])
+                              }
+                              className="rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500/20"
+                            />
+                          </th>
+                          <th className="p-4 text-left text-xs font-bold text-slate-600 uppercase">Lead</th>
+                          <th className="p-4 text-left text-xs font-bold text-slate-600 uppercase">Status</th>
+                          <th className="p-4 text-left text-xs font-bold text-slate-600 uppercase">Priority</th>
+                          <th className="p-4 text-left text-xs font-bold text-slate-600 uppercase">Role</th>
+                          <th className="p-4 text-center text-xs font-bold text-slate-600 uppercase">Score</th>
+                          <th className="p-4 text-left text-xs font-bold text-slate-600 uppercase">Date</th>
+                          <th className="p-4 text-right text-xs font-bold text-slate-600 uppercase">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {filteredLeads.map((lead) => (
+                          <tr
+                            key={lead.id}
+                            className="hover:bg-slate-50 transition-colors group"
                           >
-                            <option value="unread">UNREAD</option>
-                            <option value="processing">PROCESSING</option>
-                            <option value="contacted">CONTACTED</option>
-                            <option value="archived">ARCHIVED</option>
-                          </select>
-                        </td>
+                            <td className="p-4">
+                              <input
+                                type="checkbox"
+                                checked={selectedIds.includes(lead.id)}
+                                onChange={() =>
+                                  setSelectedIds((prev) =>
+                                    prev.includes(lead.id)
+                                      ? prev.filter((id) => id !== lead.id)
+                                      : [...prev, lead.id]
+                                  )
+                                }
+                                className="rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500/20"
+                              />
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center gap-3">
+                                <div
+                                  className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                                    lead.flagged
+                                      ? "bg-amber-100 text-amber-700 ring-2 ring-amber-400"
+                                      : "bg-slate-100 text-slate-600"
+                                  }`}
+                                >
+                                  {lead.name.charAt(0).toUpperCase()}
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="font-semibold text-slate-900 flex items-center gap-2 truncate">
+                                    {lead.name}
+                                    {lead.flagged && <Star size={12} className="fill-amber-500 text-amber-500 flex-shrink-0" />}
+                                  </div>
+                                  <div className="text-xs text-slate-500 truncate">{lead.email}</div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <select
+                                value={lead.status || "unread"}
+                                onChange={(e) => handleUpdate(lead.id, "status", e.target.value)}
+                                className={`${getStatusBadge(lead.status)} cursor-pointer hover:ring-2 hover:ring-blue-500/20 transition-all`}
+                              >
+                                <option value="unread">UNREAD</option>
+                                <option value="processing">PROCESSING</option>
+                                <option value="contacted">CONTACTED</option>
+                                <option value="archived">ARCHIVED</option>
+                              </select>
+                            </td>
+                            <td className="p-4">
+                              <select
+                                value={lead.priority || "medium"}
+                                onChange={(e) => handleUpdate(lead.id, "priority", e.target.value)}
+                                className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${getPriorityColor(
+                                  lead.priority
+                                )} cursor-pointer hover:ring-2 hover:ring-blue-500/20 transition-all`}
+                              >
+                                <option value="low">LOW</option>
+                                <option value="medium">MEDIUM</option>
+                                <option value="high">HIGH</option>
+                                <option value="urgent">URGENT</option>
+                              </select>
+                            </td>
+                            <td className="p-4">
+                              <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs font-medium">
+                                {lead.role || "Guest"}
+                              </span>
+                            </td>
+                            <td className="p-4 text-center">
+                              <input
+                                type="number"
+                                step="0.1"
+                                min="0"
+                                max="1"
+                                value={lead.quality_score || 0}
+                                onChange={(e) =>
+                                  handleUpdate(lead.id, "quality_score", parseFloat(e.target.value))
+                                }
+                                className="w-16 text-center text-sm font-mono font-bold bg-slate-50 border border-slate-200 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500/20 outline-none"
+                              />
+                            </td>
+                            <td className="p-4">
+                              <div className="text-sm text-slate-600">
+                                {new Date(lead.created_at || "").toLocaleDateString()}
+                              </div>
+                              <div className="text-xs text-slate-400">
+                                {new Date(lead.created_at || "").toLocaleTimeString()}
+                              </div>
+                            </td>
+                            <td className="p-4">
+                              <div className="flex items-center justify-end gap-1">
+                                <button
+                                  onClick={() => toggleFlag(lead)}
+                                  className={`p-2 rounded-lg transition-colors ${
+                                    lead.flagged
+                                      ? "text-amber-600 bg-amber-50 hover:bg-amber-100"
+                                      : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                                  }`}
+                                  title={lead.flagged ? "Unflag" : "Flag"}
+                                >
+                                  <Star size={16} />
+                                </button>
+                                <button
+                                  onClick={() => setSelectedLead(lead)}
+                                  className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
+                                  title="View Details"
+                                >
+                                  <Eye size={16} />
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(lead.id)}
+                                  className="p-2 hover:bg-red-50 text-red-500 rounded-lg transition-colors"
+                                  title="Delete"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
 
-                        {/* EDITABLE PRIORITY */}
-                        <td className="p-4">
-                          <select
-                            value={lead.priority || "medium"}
-                            onChange={(e) =>
-                              handleUpdate(lead.id, "priority", e.target.value)
-                            }
-                            className={`text-[10px] font-black uppercase px-2 py-1 rounded border outline-none ${
-                              lead.priority === "urgent"
-                                ? "bg-red-600/10 border-red-400 text-red-700"
-                                : lead.priority === "high"
-                                ? "bg-red-50 border-red-200 text-red-700"
-                                : lead.priority === "medium"
-                                ? "bg-amber-50 border-amber-200 text-amber-700"
-                                : "bg-slate-50 border-slate-200 text-slate-600"
+                  {filteredLeads.length === 0 && (
+                    <div className="p-20 text-center">
+                      <Users className="mx-auto text-slate-200 mb-4" size={64} />
+                      <p className="text-slate-400 font-medium text-lg">No leads found</p>
+                      <p className="text-slate-400 text-sm mt-2">Try adjusting your filters</p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredLeads.map((lead) => (
+                    <motion.div
+                      key={lead.id}
+                      layout
+                      className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-lg transition-all cursor-pointer"
+                      onClick={() => setSelectedLead(lead)}
+                    >
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div
+                            className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold ${
+                              lead.flagged
+                                ? "bg-amber-100 text-amber-700 ring-2 ring-amber-400"
+                                : "bg-slate-100 text-slate-600"
                             }`}
                           >
-                            <option value="low">LOW</option>
-                            <option value="medium">MEDIUM</option>
-                            <option value="high">HIGH</option>
-                            <option value="urgent">URGENT</option>
-                          </select>
-                        </td>
-
-                        {/* EDITABLE QUALITY SCORE */}
-                        <td className="p-4 text-center">
-                          <input
-                            type="number"
-                            step="0.1"
-                            min="0"
-                            max="1"
-                            value={lead.quality_score || 0}
-                            onChange={(e) =>
-                              handleUpdate(
-                                lead.id,
-                                "quality_score",
-                                parseFloat(e.target.value)
-                              )
-                            }
-                            className="w-14 text-center font-mono text-sm font-bold bg-slate-50 border border-slate-200 rounded px-1"
-                          />
-                        </td>
-
-                        <td className="p-4 text-xs text-slate-500 font-medium">
-                          {new Date(lead.created_at || lead.timestamp).toLocaleDateString()}
-                        </td>
-
-                        {/* ACTIONS (ALWAYS VISIBLE) */}
-                        <td className="p-4 text-right">
-                          <div className="flex justify-end gap-1">
-                            <button
-                              onClick={() => toggleFlag(lead)}
-                              className={`p-2 rounded-lg transition-colors ${
-                                lead.flagged
-                                  ? "text-amber-500 bg-amber-50"
-                                  : "text-slate-400 hover:bg-slate-100"
-                              }`}
-                              title={lead.flagged ? "Unflag" : "Flag Lead"}
-                            >
-                              <Award size={16} />
-                            </button>
-                            <button
-                              onClick={() => setSelectedLead(lead)}
-                              className="p-2 hover:bg-blue-50 text-blue-600 rounded-lg transition-colors"
-                              title="Quick View"
-                            >
-                              <Eye size={16} />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(lead.id)}
-                              className="p-2 hover:bg-red-50 text-red-500 rounded-lg transition-colors"
-                              title="Delete"
-                            >
-                              <Trash2 size={16} />
-                            </button>
+                            {lead.name.charAt(0).toUpperCase()}
                           </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              {filteredLeads.length === 0 && (
-                <div className="p-20 text-center">
-                  <Database className="mx-auto text-slate-200 mb-4" size={48} />
-                  <p className="text-slate-400 font-medium">
-                    No leads found matching your filters
-                  </p>
+                          <div>
+                            <div className="font-semibold text-slate-900">{lead.name}</div>
+                            <div className="text-xs text-slate-500">{lead.email}</div>
+                          </div>
+                        </div>
+                        {lead.flagged && <Star size={14} className="fill-amber-500 text-amber-500" />}
+                      </div>
+
+                      <div className="space-y-2 mb-3">
+                        <div className="text-sm font-medium text-slate-700 line-clamp-1">{lead.subject}</div>
+                        <div className="text-xs text-slate-500 line-clamp-2">{lead.message}</div>
+                      </div>
+
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className={getStatusBadge(lead.status)}>{lead.status}</span>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${getPriorityColor(lead.priority)}`}>
+                          {lead.priority}
+                        </span>
+                      </div>
+
+                      <div className="flex items-center justify-between text-xs text-slate-400">
+                        <span>{new Date(lead.created_at || "").toLocaleDateString()}</span>
+                        <span>Score: {(lead.quality_score || 0).toFixed(1)}</span>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               )}
             </div>
-          </>
-        )}
-      </main>
+          )}
 
-      {/* Side Detail Panel (Drawer) */}
+          {sidebarView === "analytics" && (
+            <AnalyticsView stats={stats} leads={leads} />
+          )}
+
+          {sidebarView === "settings" && <SettingsView />}
+        </div>
+      </div>
+
+      {/* Lead Detail Drawer */}
       <AnimatePresence>
         {selectedLead && (
           <>
@@ -562,75 +757,116 @@ const AdminDashboard: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedLead(null)}
-              className="fixed inset-0 bg-slate-900/40 z-40"
+              className="fixed inset-0 bg-slate-900/40 z-40 backdrop-blur-sm"
             />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-10 h-screen w-full max-w-2xl bg-white shadow-2xl z-50 flex flex-col"
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 h-screen w-full max-w-2xl bg-white shadow-2xl z-50 flex flex-col"
             >
               {/* Drawer Header */}
-              <div className="p-6 mt-4 border-b border-slate-100 flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-slate-900">
-                    {selectedLead.name}
-                  </h2>
-                  <p className="text-sm text-slate-500">{selectedLead.email}</p>
+              <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
+                    {selectedLead.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-slate-900">{selectedLead.name}</h2>
+                    <p className="text-sm text-slate-500">{selectedLead.email}</p>
+                  </div>
                 </div>
                 <button
                   onClick={() => setSelectedLead(null)}
-                  className="p-2 hover:bg-slate-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-slate-200 rounded-full transition-colors"
                 >
                   <X size={20} />
                 </button>
               </div>
 
               {/* Drawer Content */}
-              <div className="overflow-y-auto p-6 space-y-6">
-                {/* Meta Grid */}
-                <div className="grid grid-cols-12 gap-6">
-                  <div className="col-span-3 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">
-                      Status
-                    </span>
-                    <div className="uppercase ">{selectedLead.status} </div>
-                  </div>
-                  <div className="col-span-3 p-4 bg-slate-50 rounded-xl border border-slate-100 text-center">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase block mb-1">
-                      Priority
-                    </span>
-                    <div className="uppercase ">{selectedLead.priority} </div>
-                  </div>
-
-                  {/* Timeline / Contact History */}
-                  <div className="col-span-6">
-                    <h4 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                      <Clock size={16} className="text-slate-400" /> Timeline
-                    </h4>
-                    <div className="space-y-4 border-l-2 border-slate-100 ml-2 pl-6">
-                      <div className="relative">
-                        <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white shadow-sm" />
-                        <div className="text-xs font-bold text-slate-900">
-                          Lead Created
-                        </div>
-                        <div className="text-[10px] text-slate-500">
-                          {new Date(selectedLead.created_at || selectedLead.timestamp).toLocaleString()}
-                        </div>
-                      </div>
-                      {/* Add more timeline items from contact_history here */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                {/* Quick Stats */}
+                <div className="grid grid-cols-4 gap-4">
+                  <div className="p-4 bg-slate-50 rounded-lg text-center">
+                    <div className="text-xs text-slate-500 mb-1">Status</div>
+                    <div className={`${getStatusBadge(selectedLead.status)} inline-block`}>
+                      {selectedLead.status}
                     </div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-lg text-center">
+                    <div className="text-xs text-slate-500 mb-1">Priority</div>
+                    <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase inline-block ${getPriorityColor(selectedLead.priority)}`}>
+                      {selectedLead.priority}
+                    </div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-lg text-center">
+                    <div className="text-xs text-slate-500 mb-1">Score</div>
+                    <div className="text-lg font-black text-slate-900">{(selectedLead.quality_score || 0).toFixed(2)}</div>
+                  </div>
+                  <div className="p-4 bg-slate-50 rounded-lg text-center">
+                    <div className="text-xs text-slate-500 mb-1">Role</div>
+                    <div className="text-sm font-semibold text-slate-700">{selectedLead.role || "Guest"}</div>
                   </div>
                 </div>
 
-                {/* Message Section */}
+                {/* Subject & Message */}
                 <div>
                   <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                    <Mail size={16} className="text-slate-400" /> Lead Inquiry
+                    <Mail size={16} className="text-slate-400" /> Inquiry Details
                   </h4>
-                  <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-sm text-slate-700 leading-relaxed italic">
-                    "{selectedLead.message}"
+                  <div className="space-y-3">
+                    <div>
+                      <div className="text-xs text-slate-500 mb-1">Subject</div>
+                      <div className="font-semibold text-slate-900">{selectedLead.subject}</div>
+                    </div>
+                    <div>
+                      <div className="text-xs text-slate-500 mb-1">Message</div>
+                      <div className="p-4 bg-slate-50 rounded-lg text-sm text-slate-700 leading-relaxed border border-slate-200">
+                        {selectedLead.message}
+                      </div>
+                    </div>
+                    {selectedLead.company && (
+                      <div>
+                        <div className="text-xs text-slate-500 mb-1">Company</div>
+                        <div className="text-sm text-slate-700">{selectedLead.company}</div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Timeline */}
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <Clock size={16} className="text-slate-400" /> Timeline
+                  </h4>
+                  <div className="space-y-4 border-l-2 border-slate-200 pl-6 ml-2">
+                    <div className="relative">
+                      <div className="absolute -left-[29px] top-1 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white" />
+                      <div className="text-xs font-bold text-slate-900">Lead Created</div>
+                      <div className="text-[11px] text-slate-500">
+                        {new Date(selectedLead.created_at || "").toLocaleString()}
+                      </div>
+                    </div>
+                    {selectedLead.last_contacted && (
+                      <div className="relative">
+                        <div className="absolute -left-[29px] top-1 w-4 h-4 rounded-full bg-blue-500 border-4 border-white" />
+                        <div className="text-xs font-bold text-slate-900">Last Contacted</div>
+                        <div className="text-[11px] text-slate-500">
+                          {new Date(selectedLead.last_contacted).toLocaleString()}
+                        </div>
+                      </div>
+                    )}
+                    {selectedLead.updated_at && (
+                      <div className="relative">
+                        <div className="absolute -left-[29px] top-1 w-4 h-4 rounded-full bg-slate-400 border-4 border-white" />
+                        <div className="text-xs font-bold text-slate-900">Last Updated</div>
+                        <div className="text-[11px] text-slate-500">
+                          {new Date(selectedLead.updated_at).toLocaleString()}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -640,31 +876,40 @@ const AdminDashboard: React.FC = () => {
                     <Activity size={16} className="text-slate-400" /> Internal Notes
                   </h4>
                   <textarea
-                    className="w-full p-4 bg-white border border-slate-200 rounded-xl text-sm min-h-[120px] focus:ring-2 focus:ring-blue-500/10 outline-none"
+                    className="w-full p-4 bg-slate-50 border border-slate-200 rounded-lg text-sm min-h-[120px] focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
                     placeholder="Add private notes about this lead..."
                     defaultValue={selectedLead.internal_notes}
-                    onBlur={(e) =>
-                      handleUpdate(
-                        selectedLead.id,
-                        "internal_notes",
-                        e.target.value
-                      )
-                    }
+                    onBlur={(e) => handleUpdate(selectedLead.id, "internal_notes", e.target.value)}
                   />
                 </div>
+
+                {/* Metadata */}
+                {selectedLead.metadata && Object.keys(selectedLead.metadata).length > 0 && (
+                  <div>
+                    <h4 className="text-sm font-bold text-slate-900 mb-3">Technical Info</h4>
+                    <div className="bg-slate-900 rounded-lg p-4 text-xs font-mono text-slate-300 overflow-x-auto">
+                      <pre>{JSON.stringify(selectedLead.metadata, null, 2)}</pre>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {/* Drawer Footer Actions */}
-              <div className="p-6 border-t border-slate-100 flex gap-3 bg-slate-50/50">
-                <button onClick={handleEmailLead} className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-2.5 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-md shadow-blue-200">
+              {/* Drawer Footer */}
+              <div className="p-6 border-t border-slate-200 bg-slate-50 flex gap-3">
+                <button
+                  onClick={handleEmailLead}
+                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20"
+                >
                   <Mail size={18} />
                   Email Lead
                 </button>
-                <button onClick={() => setSelectedLead(null)} className="flex-1 flex items-center justify-center gap-2 bg-slate-200 text-slate-700 py-2.5 rounded-xl font-bold hover:bg-slate-300 transition-all">
-                  <ChevronRight size={18} />
-                  Close
+                <button
+                  onClick={() => handleDelete(selectedLead.id)}
+                  className="flex items-center justify-center gap-2 bg-red-50 text-red-600 px-6 py-3 rounded-lg font-semibold hover:bg-red-100 transition-all border border-red-200"
+                >
+                  <Trash2 size={18} />
+                  Delete
                 </button>
-              
               </div>
             </motion.div>
           </>
@@ -674,60 +919,138 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-// --- Sub-components ---
 
-const StatCard = ({ label, value, icon }: any) => (
-  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-    <div className="p-3 bg-slate-50 rounded-xl">{icon}</div>
-    <div>
-      <div className="text-2xl font-black text-slate-900 leading-tight">
-        {value || 0}
-      </div>
-      <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-        {label}
+// KPI Card Component
+const KPICard = ({ label, value, icon, trend, trendUp }: { label: string; value: number | string; icon: React.ReactNode; trend: string; trendUp: boolean }) => (
+  <div className="bg-white rounded-xl border border-slate-200 p-5 hover:shadow-lg transition-all">
+    <div className="flex items-start justify-between mb-4">
+      <div className="p-3 bg-slate-50 rounded-lg">{icon}</div>
+      <div className={`text-xs font-bold px-2 py-1 rounded ${trendUp ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-600"}`}>
+        {trend}
       </div>
     </div>
+    <div className="text-3xl font-black text-slate-900 mb-1">{value}</div>
+    <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{label}</div>
   </div>
 );
 
-const AnalyticsView = ({ stats }: any) => (
-  <div className="space-y-6">
-    <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 className="text-xl font-bold text-slate-900 mb-6">
-        Pipeline Distribution
-      </h3>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-        {["unread", "processing", "contacted", "archived"].map((status) => {
-          const count = stats?.status_distribution?.[status] || 0;
-          const total = stats?.total_leads || 1;
-          const pct = ((count / total) * 100).toFixed(0);
-          return (
-            <div
-              key={status}
-              className="p-6 rounded-2xl bg-slate-50 border border-slate-100 text-center"
-            >
-              <div className="text-3xl font-black text-slate-900 mb-1">
-                {count}
+// Analytics View Component
+const AnalyticsView = ({ stats, leads }: { stats: LeadStats | null; leads: Lead[] }) => (
+  <div className="p-6 space-y-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Status Distribution */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <BarChart3 size={20} className="text-blue-600" />
+          Pipeline Distribution
+        </h3>
+        <div className="space-y-4">
+          {["unread", "processing", "contacted", "archived"].map((status) => {
+            const countKey = `${status}_count` as keyof LeadStats;
+            const count = (stats?.[countKey] as number) || 0;
+            const total = (stats?.total_leads as number) || 1;
+            const pct = ((count / total) * 100).toFixed(0);
+            return (
+              <div key={status}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-slate-700 capitalize">{status}</span>
+                  <span className="text-sm font-bold text-slate-900">{count} ({pct}%)</span>
+                </div>
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-600 rounded-full transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-              <div className="text-xs font-bold text-slate-500 uppercase mb-3">
-                {status}
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Role Distribution */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <Users size={20} className="text-purple-600" />
+          Role Distribution
+        </h3>
+        <div className="space-y-4">
+          {stats?.role_distribution && Object.entries(stats.role_distribution).map(([role, count]) => {
+            const total = (stats?.total_leads as number) || 1;
+            const pct = (((count as number) / total) * 100).toFixed(0);
+            return (
+              <div key={role}>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-slate-700 capitalize">{role}</span>
+                  <span className="text-sm font-bold text-slate-900">{count} ({pct}%)</span>
+                </div>
+                <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-purple-600 rounded-full transition-all duration-500"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-              <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-blue-500 rounded-full"
-                  style={{ width: `${pct}%` }}
-                />
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6 col-span-2">
+        <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <Activity size={20} className="text-emerald-600" />
+          Recent Activity
+        </h3>
+        <div className="space-y-3">
+          {leads.slice(0, 10).map((lead: Lead) => (
+            <div key={lead.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold">
+                  {lead.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-slate-900">{lead.name}</div>
+                  <div className="text-xs text-slate-500">{lead.email}</div>
+                </div>
               </div>
-              <div className="mt-2 text-[10px] font-bold text-slate-400">
-                {pct}% Total
+              <div className="text-xs text-slate-400">
+                {new Date(lead.created_at || "").toLocaleString()}
               </div>
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
-    {/* Add more charts here using a library like Recharts if needed */}
   </div>
 );
+
+// Settings View Component
+const SettingsView = () => (
+  <div className="p-6 space-y-6">
+    <div className="bg-white rounded-xl border border-slate-200 p-6">
+      <h3 className="text-lg font-bold text-slate-900 mb-6 flex items-center gap-2">
+        <Settings size={20} className="text-slate-600" />
+        Admin Settings
+      </h3>
+      <div className="space-y-4">
+        <div className="p-4 bg-slate-50 rounded-lg">
+          <div className="text-sm font-semibold text-slate-900 mb-1">Auto-Refresh</div>
+          <div className="text-xs text-slate-500">Dashboard refreshes every 30 seconds automatically</div>
+        </div>
+        <div className="p-4 bg-slate-50 rounded-lg">
+          <div className="text-sm font-semibold text-slate-900 mb-1">Rate Limiting</div>
+          <div className="text-xs text-slate-500">Public: 10 req/min • Admin: 100 req/min</div>
+        </div>
+        <div className="p-4 bg-slate-50 rounded-lg">
+          <div className="text-sm font-semibold text-slate-900 mb-1">JWT Authentication</div>
+          <div className="text-xs text-slate-500">Token expires after 60 minutes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// --- Old Sub-components (kept for compatibility) ---
 
 export default AdminDashboard;
