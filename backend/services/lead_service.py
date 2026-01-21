@@ -291,7 +291,7 @@ def get_lead_statistics(db: Session) -> dict:
     }
 
     # Lead velocity
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     last_24h = now - timedelta(hours=24)
     last_7d = now - timedelta(days=7)
     leads_last_24h = db.query(models.ContactLead).filter(models.ContactLead.created_at >= last_24h).count()

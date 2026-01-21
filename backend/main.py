@@ -32,30 +32,20 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-    expose_headers=["*"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["authorization", "content-type", "accept", "origin"],
+    expose_headers=["content-type", "authorization"],
 )
 
 # Include route routers
 from routes import health, auth, leads
-app.include_router(health.router)
+
+# Health routes - include at both /api and root level for compatibility
+app.include_router(health.router)  # Includes at /api prefix (default)
+app.include_router(health.router, prefix="")  # Also include at root level for backward compatibility
+
+# Auth routes
 app.include_router(auth.router)
+
+# Leads routes - register only once to avoid duplication/ambiguity
 app.include_router(leads.router)
-
-# Root endpoint for health checks and monitoring
-@app.get("/")
-async def root():
-    """Root endpoint - redirects to API docs"""
-    return {
-        "message": "Arpit's Portfolio Backend API",
-        "version": APP_VERSION,
-        "status": "operational",
-        "docs": "/docs",
-        "health": "/api/"
-    }
-
-@app.get("/hello")
-async def hello_root():
-    """Hello endpoint at root level"""
-    return {"message": "Hello from Arpit's Portfolio Backend!", "version": APP_VERSION}

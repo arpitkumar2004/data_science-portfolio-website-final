@@ -1,11 +1,12 @@
 """Email service for sending contact acknowledgments and CV requests"""
 import os
 import base64
+from pathlib import Path
 import resend
 from config import EMAIL_FROM, RESEND_API_KEY, VITE_API_URL, CALENDLY_LINK, CONTACT_PHONE_NUMBER
 from utils.constants import get_contact_acknowledgment_email, get_cv_request_email
 
-# Initialize Resend API
+# Initialize Resend API (config enforces presence of API key)
 resend.api_key = RESEND_API_KEY
 
 
@@ -58,13 +59,14 @@ def send_cv_request_email(name: str, email: str, company: str, subject: str, cv_
     try:
         # Set defaults
         if cv_path is None:
-            cv_path = os.path.join(os.getcwd(), "assets", "Arpit_Kumar_CV.pdf")
+            # Resolve relative to project root to avoid cwd issues in production
+            cv_path = Path(__file__).resolve().parent.parent / "assets" / "Arpit_Kumar_CV.pdf"
         
         frontend_url = frontend_url or VITE_API_URL
         phone = phone or CONTACT_PHONE_NUMBER
 
         # Verify CV file exists
-        if not os.path.exists(cv_path):
+        if not Path(cv_path).exists():
             print(f"CV file not found at {cv_path}")
             return False
 

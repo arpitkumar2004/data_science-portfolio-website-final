@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from slowapi import Limiter
 from slowapi.util import get_remote_address
+from starlette.concurrency import run_in_threadpool
+from email_validator import validate_email, EmailNotValidError
 import json
 import csv
 import io
@@ -32,6 +34,21 @@ router = APIRouter(prefix="/api", tags=["leads"])
 limiter = Limiter(key_func=get_remote_address)
 
 
+def _validate_contact_payload(name: str, email: str, subject: str, message: str) -> None:
+    """Basic validation to prevent malformed or abusive submissions."""
+    try:
+        validate_email(email)
+    except EmailNotValidError as exc:  # pragma: no cover - runtime validation
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(exc))
+
+    if len(subject) > 300:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Subject too long (max 300 chars)")
+    if len(message) > 5000:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Message too long (max 5000 chars)")
+    if len(name) > 200:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Name too long (max 200 chars)")
+
+
 # ============= PUBLIC ENDPOINTS =============
 
 @router.post("/submit-contact")
@@ -53,6 +70,8 @@ async def submit_contact(
     Saves lead to database with metadata and sends acknowledgment email asynchronously.
     Rate limited to prevent spam.
     """
+    _validate_contact_payload(name=name, email=email, subject=subject, message=message)
+
     try:
         # Capture "Honey Trap" metadata
         metadata = {
@@ -63,17 +82,18 @@ async def submit_contact(
         }
         
         # Persist lead to database
-        new_lead = create_contact_lead(
-            db=db,
-            name=name,
-            email=email,
-            subject=subject,
-            message=message,
-            company=company,
-            form_type=formType,
-            role=role,
-            metadata=metadata,
-            lead_type=models.LeadType.CONTACT
+        new_lead = await run_in_threadpool(
+            create_contact_lead,
+            db,
+            name,
+            email,
+            subject,
+            message,
+            company,
+            formType,
+            role,
+            metadata,
+            models.LeadType.CONTACT,
         )
     except Exception as e:
         print(f"Database Error: {e}")
@@ -113,6 +133,8 @@ async def handle_cv_request(
     Saves lead to database and sends CV with email asynchronously.
     Rate limited to prevent abuse.
     """
+    _validate_contact_payload(name=name, email=email, subject=subject, message=message)
+
     try:
         # Capture metadata
         metadata = {
@@ -122,17 +144,18 @@ async def handle_cv_request(
         }
         
         # Save lead to database
-        new_lead = create_contact_lead(
-            db=db,
-            name=name,
-            email=email,
-            subject=subject,
-            message=message,
-            company=company,
-            form_type="CV_DISPATCH_SYSTEM",
-            role=role,
-            metadata=metadata,
-            lead_type=models.LeadType.CV_REQUEST
+        new_lead = await run_in_threadpool(
+            create_contact_lead,
+            db,
+            name,
+            email,
+            subject,
+            message,
+            company,
+            "CV_DISPATCH_SYSTEM",
+            role,
+            metadata,
+            models.LeadType.CV_REQUEST,
         )
     except Exception as e:
         print(f"Database Error: {e}")

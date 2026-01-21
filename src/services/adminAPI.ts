@@ -4,7 +4,7 @@
  * Change backend URL in one place.
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/+$/, "");
 
 // ============= Types =============
 
@@ -64,8 +64,12 @@ class AdminAPIClient {
   private token: string | null = null;
 
   constructor(baseURL: string) {
-    this.baseURL = baseURL;
+    this.baseURL = baseURL.replace(/\/+$/, ""); // normalize to avoid double slashes
     this.loadToken();
+  }
+
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private loadToken() {
@@ -109,18 +113,41 @@ class AdminAPIClient {
       },
     };
 
-    const response = await fetch(url, config);
+    const retryableStatus = new Set([502, 503, 504]);
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        this.clearToken();
-        throw new Error("Authentication expired. Please login again.");
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const response = await fetch(url, config);
+
+        if (!response.ok) {
+          if (response.status === 401) {
+            this.clearToken();
+            throw new Error("Authentication expired. Please login again.");
+          }
+
+          // Retry once for transient server errors
+          if (retryableStatus.has(response.status) && attempt === 0) {
+            await this.delay(400);
+            continue;
+          }
+
+          const error = await response.json().catch(() => ({ detail: response.statusText }));
+          throw new Error(error.detail || "API request failed");
+        }
+
+        return response.json();
+      } catch (err: any) {
+        if (attempt === 0) {
+          await this.delay(400);
+          continue;
+        }
+        const msg = err?.message || "Network error";
+        throw new Error(msg);
       }
-      const error = await response.json().catch(() => ({ detail: response.statusText }));
-      throw new Error(error.detail || "API request failed");
     }
 
-    return response.json();
+    // Fallback (should not reach here)
+    throw new Error("API request failed");
   }
 
   // ============= Authentication =============

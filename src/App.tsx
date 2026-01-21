@@ -17,7 +17,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import RoleGateway from './components/RoleGateway';
 
 // --- ADDED: API BASE URL ---
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/+$/, "");
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
