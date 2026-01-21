@@ -1,8 +1,13 @@
 import os
+from pathlib import Path
 from typing import List
 from dotenv import load_dotenv
 
-load_dotenv()
+# Load env from backend/.env first, then project root .env as fallback
+_here = Path(__file__).resolve().parent
+_root = _here.parent
+load_dotenv(dotenv_path=_here / ".env")
+load_dotenv(dotenv_path=_root / ".env")
 
 
 def _require_env(name: str) -> str:
