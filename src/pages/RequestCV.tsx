@@ -322,7 +322,7 @@ const RequestCV: React.FC = () => {
                     label="LinkedIn"
                   />
                   <EcosystemLink
-                    href="https://kaggle.com/kumararpit"
+                    href="https://kaggle.com/kumararpitiitkgp"
                     icon={<SiKaggle size={14} />}
                     label="Kaggle"
                   />
