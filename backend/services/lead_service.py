@@ -7,7 +7,8 @@ from utils.serializers import serialize_contact_lead
 
 
 def create_contact_lead(db: Session, name: str, email: str, subject: str, message: str, 
-                       company: str = None, form_type: str = "contacts", role: str = None) -> models.ContactLead:
+                       company: str = None, form_type: str = "contacts", role: str = None,
+                       metadata: dict = None, lead_type: str = None) -> models.ContactLead:
     """
     Create and persist a new contact lead to database.
     
@@ -20,6 +21,7 @@ def create_contact_lead(db: Session, name: str, email: str, subject: str, messag
         company: Company name
         form_type: Type of form submission
         role: User role
+        metadata: Additional metadata (IP, user-agent, etc.)
     
     Returns:
         Created ContactLead model instance
@@ -31,7 +33,9 @@ def create_contact_lead(db: Session, name: str, email: str, subject: str, messag
         message=message,
         company=company,
         form_type=form_type,
-        role=role
+        role=role,
+        metadata_json=metadata or {},
+        lead_type=(lead_type or models.LeadType.CONTACT).value if hasattr(lead_type or models.LeadType.CONTACT, 'value') else (lead_type or models.LeadType.CONTACT)
     )
     db.add(new_lead)
     db.commit()
@@ -51,7 +55,7 @@ def get_all_leads(db: Session, skip: int = 0, limit: int = None) -> list:
     Returns:
         List of serialized lead dictionaries
     """
-    query = db.query(models.ContactLead).order_by(models.ContactLead.timestamp.desc())
+    query = db.query(models.ContactLead).order_by(models.ContactLead.created_at.desc())
     
     if skip > 0:
         query = query.offset(skip)
@@ -221,7 +225,7 @@ def get_filtered_leads(db: Session, status: str = None, priority: str = None, mi
     if min_score is not None:
         query = query.filter(models.ContactLead.quality_score >= min_score)
     
-    leads = query.order_by(models.ContactLead.timestamp.desc()).all()
+    leads = query.order_by(models.ContactLead.created_at.desc()).all()
     return [serialize_contact_lead(lead) for lead in leads]
 
 
@@ -278,33 +282,51 @@ def get_lead_statistics(db: Session) -> dict:
         Dictionary with statistics
     """
     total_leads = db.query(models.ContactLead).count()
-    
-    # Status distribution
-    status_counts = {}
-    for status in ['new', 'contacted', 'qualified', 'converted', 'lost']:
-        count = db.query(models.ContactLead).filter(models.ContactLead.status == status).count()
-        status_counts[status] = count
-    
-    # Conversion rate
-    converted_count = status_counts.get('converted', 0)
-    conversion_rate = (converted_count / total_leads) * 100 if total_leads > 0 else 0
-    
+
+    # Status distribution (new lifecycle)
+    lifecycle_statuses = ['unread', 'processing', 'contacted', 'archived']
+    status_counts = {
+        status: db.query(models.ContactLead).filter(models.ContactLead.status == status).count()
+        for status in lifecycle_statuses
+    }
+
+    # Lead velocity
+    now = datetime.utcnow()
+    last_24h = now - timedelta(hours=24)
+    last_7d = now - timedelta(days=7)
+    leads_last_24h = db.query(models.ContactLead).filter(models.ContactLead.created_at >= last_24h).count()
+    leads_last_7d = db.query(models.ContactLead).filter(models.ContactLead.created_at >= last_7d).count()
+
+    # Conversion efficiency: % of users choosing recruiter role
+    recruiter_count = db.query(models.ContactLead).filter(models.ContactLead.role == 'recruiter').count()
+    conversion_efficiency = (recruiter_count / total_leads) * 100 if total_leads else 0
+
     # Average quality score
     avg_quality_score = db.query(models.ContactLead).filter(
         models.ContactLead.quality_score.isnot(None)
     ).with_entities(func.avg(models.ContactLead.quality_score)).scalar()
     avg_quality_score = float(avg_quality_score) if avg_quality_score else 0.0
-    
-    # Leads in last 30 days
-    thirty_days_ago = datetime.utcnow() - timedelta(days=30)
+
+    # Leads in last 30 days (legacy metric)
+    thirty_days_ago = now - timedelta(days=30)
     leads_last_30_days = db.query(models.ContactLead).filter(
-        models.ContactLead.timestamp >= thirty_days_ago
+        models.ContactLead.created_at >= thirty_days_ago
     ).count()
-    
+
+    # Priority breakdown
+    high_priority_count = db.query(models.ContactLead).filter(models.ContactLead.priority == 'high').count()
+
     return {
         "total_leads": total_leads,
         "status_distribution": status_counts,
-        "conversion_rate": conversion_rate,
+        "conversion_rate": conversion_efficiency,
         "avg_quality_score": avg_quality_score,
-        "leads_last_30_days": leads_last_30_days
+        "leads_last_30_days": leads_last_30_days,
+        "leads_last_24h": leads_last_24h,
+        "leads_last_7d": leads_last_7d,
+        "high_priority_count": high_priority_count,
+        "role_distribution": {
+            "recruiter": recruiter_count,
+            "other": total_leads - recruiter_count
+        }
     }

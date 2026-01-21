@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Database, Binary, FileSearch, Globe, Lock, ArrowRight, Fingerprint, Building2 } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+import { adminAPI } from "../services/adminAPI";
 
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [password, setPassword] = useState('');
   const [isReady, setIsReady] = useState(false);
+  const [failedAttempts, setFailedAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
     const savedRole = localStorage.getItem('userRole');
     if (savedRole === 'Admin') {
-      const token = sessionStorage.getItem('adminToken');
+      const token = sessionStorage.getItem('adminToken') || localStorage.getItem('adminToken');
       if (token) {
-        axios.get(`${API_BASE_URL}/admin/validate`, { params: { admin_token: token } })
-          .then(() => setRole('Admin'))
-          .catch(() => {
-            localStorage.removeItem('userRole');
-            sessionStorage.removeItem('adminToken');
-            setRole(null);
+        adminAPI
+          .validateToken()
+          .then((valid) => {
+            if (valid) {
+              setRole('Admin');
+            } else {
+              localStorage.removeItem('userRole');
+              sessionStorage.removeItem('adminToken');
+            }
           })
           .finally(() => setIsReady(true));
         return;
@@ -69,20 +72,61 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isBlocked) {
+      showToast('⛔ Access Blocked: Too many failed attempts. Try again in 3 hours.', 'error');
+      return;
+    }
+
+    if (!password || password.trim() === '') {
+      showToast('Please enter admin password', 'error');
+      return;
+    }
+
     try {
-      const form = new FormData();
-      form.append('password', password);
-      const res = await axios.post(`${API_BASE_URL}/admin/login`, form);
-      if (res.data && res.data.is_admin) {
-        sessionStorage.setItem('adminToken', res.data.admin_token);
+      const res = await adminAPI.login(password);
+      if (res && res.access_token) {
+        setFailedAttempts(0);
+        setIsBlocked(false);
         handleSelect('Admin');
         setIsAdminMode(false);
-        showToast('Root Access Granted', 'success');
+        setPassword('');
+        showToast('✓ Root Access Granted', 'success');
       } else {
-        showToast('Verification Failed', 'error');
+        showToast('Authentication failed - Invalid response', 'error');
       }
     } catch (err: any) {
-      showToast('Verification Failed: Invalid Credentials', 'error');
+      console.error('Admin login error:', err);
+      const newAttempts = failedAttempts + 1;
+      setFailedAttempts(newAttempts);
+      setPassword('');
+
+      // Check if rate limited by backend (429)
+      if (err?.message?.includes('429') || err?.message?.toLowerCase().includes('rate limit')) {
+        setIsBlocked(true);
+        showToast('⛔ Access Blocked: Too many failed attempts. Your IP is blocked for 3 hours.', 'error');
+        setTimeout(() => {
+          setIsBlocked(false);
+          setFailedAttempts(0);
+        }, 3 * 60 * 60 * 1000); // 3 hours
+        return;
+      }
+
+      const attemptsLeft = 10 - newAttempts;
+      const errorMessage = err?.message || 'Invalid Credentials';
+      
+      if (attemptsLeft <= 3 && attemptsLeft > 0) {
+        showToast(`✗ Authentication Failed: ${errorMessage}\n⚠️ Warning: ${attemptsLeft} attempts remaining before 3-hour block`, 'error');
+      } else if (attemptsLeft <= 0) {
+        setIsBlocked(true);
+        showToast('⛔ Access Blocked: Maximum attempts exceeded. Blocked for 3 hours.', 'error');
+        setTimeout(() => {
+          setIsBlocked(false);
+          setFailedAttempts(0);
+        }, 3 * 60 * 60 * 1000); // 3 hours
+      } else {
+        showToast(`✗ Authentication Failed: ${errorMessage}\n(${attemptsLeft}/10 attempts remaining)`, 'error');
+      }
     }
   };
 
@@ -125,7 +169,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-white text-slate-900 overflow-y-auto font-sans selection:bg-blue-100">
+    <div className="fixed inset-0 z-[9998] bg-white text-slate-900 overflow-y-auto font-sans selection:bg-blue-100">
       
       {/* Background Layer */}
       <div className="fixed inset-0 z-0 opacity-[0.05] pointer-events-none" 

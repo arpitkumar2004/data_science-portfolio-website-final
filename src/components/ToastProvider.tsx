@@ -45,7 +45,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {children}
 
       {/* Top - center toasts */}
-      <div aria-live="polite" className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-3 w-[320px] pointer-events-none">
+      <div aria-live="polite" className="fixed top-6 left-1/2 transform -translate-x-1/2 z-[9999] flex flex-col gap-3 w-[320px] pointer-events-none">
         <AnimatePresence>
           {toasts.filter((t) => t.position === 'top').map((toast) => (
             <motion.div
@@ -61,7 +61,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   {toast.type === 'error' && <AlertCircle size={18} />}
                   {toast.type === 'info' && <Info size={18} />}
                 </div>
-                <div className="text-sm font-medium">{toast.message}</div>
+                <div className="text-sm font-medium whitespace-pre-line">{toast.message}</div>
               </div>
             </motion.div>
           ))}
@@ -69,7 +69,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       </div>
 
       {/* Bottom-right toasts (default) */}
-      <div aria-live="polite" className="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-3 w-[320px] pointer-events-none">
+      <div aria-live="polite" className="fixed bottom-6 right-6 z-[9999] flex flex-col-reverse gap-3 w-[320px] pointer-events-none">
         <AnimatePresence>
           {toasts.filter((t) => t.position !== 'top').map((toast) => (
             <motion.div
@@ -85,7 +85,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                   {toast.type === 'error' && <AlertCircle size={18} />}
                   {toast.type === 'info' && <Info size={18} />}
                 </div>
-                <div className="text-sm font-medium">{toast.message}</div>
+                <div className="text-sm font-medium whitespace-pre-line">{toast.message}</div>
               </div>
             </motion.div>
           ))}

@@ -4,11 +4,11 @@ from datetime import datetime
 
 
 class StatusUpdate(BaseModel):
-    status: str = Field(..., pattern="^(new|contacted|qualified|converted|lost)$")
+    status: str = Field(..., pattern="^(unread|processing|contacted|archived)$")
 
 
 class PriorityRequest(BaseModel):
-    priority: str
+    priority: str = Field(..., pattern="^(low|medium|high|urgent)$")
 
 
 class ScoreRequest(BaseModel):
@@ -25,7 +25,7 @@ class TagUpdate(BaseModel):
 
 class BulkStatusUpdate(BaseModel):
     lead_ids: List[int]
-    status: str
+    status: str = Field(..., pattern="^(unread|processing|contacted|archived)$")
 
 
 class ContactLeadCreate(BaseModel):
@@ -37,6 +37,8 @@ class ContactLeadCreate(BaseModel):
     company: Optional[str] = None
     form_type: str = "contacts"
     role: Optional[str] = None
+    lead_type: Optional[str] = "contact"
+    metadata: Optional[dict] = None
 
 
 class CVRequestCreate(BaseModel):
@@ -47,6 +49,7 @@ class CVRequestCreate(BaseModel):
     subject: str
     message: str
     role: Optional[str] = None
+    metadata: Optional[dict] = None
 
 
 class ContactLeadResponse(BaseModel):
@@ -57,7 +60,9 @@ class ContactLeadResponse(BaseModel):
     subject: str
     company: str
     message: str
-    timestamp: Optional[str]
+    lead_type: Optional[str]
+    created_at: Optional[str]
+    updated_at: Optional[str]
     flagged: bool
     status: str
     priority: str
@@ -68,6 +73,7 @@ class ContactLeadResponse(BaseModel):
     contact_history: List
     tags: List[str]
     source: str
+    metadata: Optional[dict]
 
     class Config:
         from_attributes = True

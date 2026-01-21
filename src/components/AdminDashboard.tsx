@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
+import { useLeads, useLeadStats, useOptimisticLeadUpdate } from "../hooks/useAdminData";
+import adminAPI, { Lead } from "../services/adminAPI";
 import {
   ShieldCheck,
   Trash2,
@@ -27,31 +29,22 @@ import {
   Star,
   Tag,
 } from "lucide-react";
-import axios from "axios";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
-// --- Types ---
-type Lead = {
-  id: number;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  timestamp: string;
-  flagged?: boolean;
-  status?: string;
-  priority?: string;
-  quality_score?: number;
-  internal_notes?: string;
-  follow_up_date?: string;
-  contact_history?: any[];
-  tags?: string[];
-  source?: string;
-};
 
 const AdminDashboard: React.FC = () => {
   const { showToast } = useToast();
+
+  // SWR Data
+  const {
+    leads: swrLeads,
+    isLoading: leadsLoading,
+    refresh: refreshLeads,
+  } = useLeads();
+  const {
+    stats: swrStats,
+    isLoading: statsLoading,
+    refresh: refreshStats,
+  } = useLeadStats();
+  const { updateLead } = useOptimisticLeadUpdate();
 
   // Data State
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -68,27 +61,22 @@ const AdminDashboard: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
 
-  const adminToken = sessionStorage.getItem("adminToken");
+  useEffect(() => {
+    setLeads(swrLeads || []);
+  }, [swrLeads]);
 
   useEffect(() => {
-    if (adminToken) {
-      refreshData();
-    }
-  }, [adminToken]);
+    setStats(swrStats || null);
+  }, [swrStats]);
+
+  useEffect(() => {
+    setIsLoading(leadsLoading || statsLoading);
+  }, [leadsLoading, statsLoading]);
 
   const refreshData = async () => {
     setIsLoading(true);
     try {
-      const [leadsRes, statsRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/admin/leads`, {
-          params: { admin_token: adminToken },
-        }),
-        axios.get(`${API_BASE_URL}/admin/leads/stats`, {
-          params: { admin_token: adminToken },
-        }),
-      ]);
-      setLeads(leadsRes.data);
-      setStats(statsRes.data);
+      await Promise.all([refreshLeads(), refreshStats()]);
     } catch (err) {
       showToast("Data sync failed", "error");
     } finally {
@@ -105,66 +93,50 @@ const AdminDashboard: React.FC = () => {
     window.location.href = `mailto:${selectedLead.email}?subject=${subject}&body=${body}`;
   }
 
-  // 1. IMPROVED UPDATE HANDLER (Matches your backend routes exactly)
+  // Unified update handler with optimistic UI
   const handleUpdate = async (id: number, field: string, value: any) => {
-    const adminToken = sessionStorage.getItem("adminToken");
+    const normalizedValue =
+      field === "quality_score"
+        ? parseFloat(value)
+        : typeof value === "string"
+        ? value.toLowerCase()
+        : value;
 
-    // 1. Determine the correct URL path for the backend
-    const endpointMap: Record<string, string> = {
-      status: "status",
-      priority: "priority",
-      quality_score: "quality-score",
-      internal_notes: "notes",
+    const serverCallMap: Record<string, () => Promise<any>> = {
+      status: () => adminAPI.updateLeadStatus(id, normalizedValue),
+      priority: () => adminAPI.updateLeadPriority(id, normalizedValue),
+      quality_score: () => adminAPI.updateLeadQualityScore(id, normalizedValue),
+      internal_notes: () => adminAPI.updateLeadNotes(id, normalizedValue),
     };
-    const path = endpointMap[field] || field;
 
-    // 2. Clean the data (Backend expects specific types)
-    let finalValue = value;
-    if (field === "quality_score") finalValue = parseFloat(value);
-    if (field === "priority" || field === "status")
-      finalValue = String(value).toLowerCase();
+    const serverUpdate = serverCallMap[field];
+    if (!serverUpdate) return;
 
     try {
-      // 3. Make the API call
-      await axios.put(
-        `${API_BASE_URL}/admin/leads/${id}/${path}`,
-        { [field]: finalValue }, // Key matches Pydantic model
-        { params: { admin_token: adminToken } }
+      await updateLead(
+        id,
+        (lead) => ({ ...lead, [field]: normalizedValue }),
+        serverUpdate
       );
-
-      // 4. Update UI state on success
-      setLeads((prev) =>
-        prev.map((l) => (l.id === id ? { ...l, [field]: finalValue } : l))
-      );
-
       showToast(`${field.replace("_", " ")} updated`, "success");
     } catch (error: any) {
-      // <--- FIXED: Explicitly naming the error 'error' or 'err'
-      console.error("Update Error:", error.response?.data || error.message);
-
-      // Check if it's a validation error from FastAPI
-      const errorMsg =
-        error.response?.data?.detail?.[0]?.msg || "Update failed";
+      console.error("Update Error:", error);
+      const errorMsg = error?.message || "Update failed";
       showToast(errorMsg, "error");
     }
   };
 
   // 2. FLAG/UNFLAG HANDLER
   const toggleFlag = async (lead: Lead) => {
-    const adminToken = sessionStorage.getItem("adminToken");
     const action = lead.flagged ? "unflag" : "flag";
     try {
-      await axios.post(
-        `${API_BASE_URL}/admin/leads/${lead.id}/${action}`,
-        null,
-        {
-          params: { admin_token: adminToken },
-        }
-      );
-      setLeads((prev) =>
-        prev.map((l) =>
-          l.id === lead.id ? { ...l, flagged: !lead.flagged } : l
-        )
+      await updateLead(
+        lead.id,
+        (current) => ({ ...current, flagged: !lead.flagged }),
+        () =>
+          lead.flagged
+            ? adminAPI.unflagLead(lead.id)
+            : adminAPI.flagLead(lead.id)
       );
       showToast(`Lead ${action}ged`, "success");
     } catch (err) {
@@ -174,9 +146,7 @@ const AdminDashboard: React.FC = () => {
   const handleDelete = async (id: number) => {
     if (!confirm("Confirm permanent deletion?")) return;
     try {
-      await axios.delete(`${API_BASE_URL}/admin/leads/${id}`, {
-        params: { admin_token: adminToken },
-      });
+      await adminAPI.deleteLead(id);
       setLeads((prev) => prev.filter((l) => l.id !== id));
       showToast("Lead removed", "success");
     } catch (err) {
@@ -187,13 +157,7 @@ const AdminDashboard: React.FC = () => {
   const bulkDelete = async () => {
     if (!confirm(`Delete ${selectedIds.length} leads?`)) return;
     try {
-      await Promise.all(
-        selectedIds.map((id) =>
-          axios.delete(`${API_BASE_URL}/admin/leads/${id}`, {
-            params: { admin_token: adminToken },
-          })
-        )
-      );
+      await adminAPI.bulkDelete(selectedIds);
       setLeads((prev) => prev.filter((l) => !selectedIds.includes(l.id)));
       setSelectedIds([]);
       showToast("Bulk deletion complete", "success");
@@ -217,14 +181,13 @@ const AdminDashboard: React.FC = () => {
 
   const getStatusBadge = (s: string = "new") => {
     const styles: any = {
-      new: "bg-blue-50 text-blue-700 border-blue-200",
-      contacted: "bg-amber-50 text-amber-700 border-amber-200",
-      qualified: "bg-emerald-50 text-emerald-700 border-emerald-200",
-      converted: "bg-purple-50 text-purple-700 border-purple-200",
-      lost: "bg-slate-100 text-slate-600 border-slate-300",
+      unread: "bg-blue-50 text-blue-700 border-blue-200",
+      processing: "bg-amber-50 text-amber-700 border-amber-200",
+      contacted: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      archived: "bg-slate-100 text-slate-600 border-slate-300",
     };
     return `px-2.5 py-1 rounded-md text-xs font-bold border ${
-      styles[s] || styles.new
+      styles[s] || styles.unread
     }`;
   };
 
@@ -298,9 +261,9 @@ const AdminDashboard: React.FC = () => {
                 icon={<Users className="text-blue-600" />}
               />
               <StatCard
-                label="Conversion"
-                value={`${(stats?.conversion_rate || 0).toFixed(2)}%`}
-                icon={<Target className="text-emerald-600" />}
+                label="Lead Velocity (24h)"
+                value={stats?.leads_last_24h}
+                icon={<Activity className="text-emerald-600" />}
               />
               <StatCard
                 label="Avg. Score"
@@ -308,9 +271,9 @@ const AdminDashboard: React.FC = () => {
                 icon={<Star className="text-amber-500" />}
               />
               <StatCard
-                label="Active Month"
-                value={stats?.leads_last_30_days}
-                icon={<Activity className="text-purple-600" />}
+                label="Conversion Efficiency"
+                value={`${(stats?.conversion_rate || 0).toFixed(1)}%`}
+                icon={<Target className="text-purple-600" />}
               />
             </div>
 
@@ -336,9 +299,10 @@ const AdminDashboard: React.FC = () => {
                   onChange={(e) => setStatusFilter(e.target.value)}
                 >
                   <option value="all">All Status</option>
-                  <option value="new">New</option>
+                  <option value="unread">Unread</option>
+                  <option value="processing">Processing</option>
                   <option value="contacted">Contacted</option>
-                  <option value="qualified">Qualified</option>
+                  <option value="archived">Archived</option>
                 </select>
                 <select
                   className="text-sm bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 outline-none"
@@ -349,6 +313,7 @@ const AdminDashboard: React.FC = () => {
                   <option value="high">High</option>
                   <option value="medium">Medium</option>
                   <option value="low">Low</option>
+                  <option value="urgent">Urgent</option>
                 </select>
               </div>
             </div>
@@ -480,17 +445,16 @@ const AdminDashboard: React.FC = () => {
                         {/* EDITABLE STATUS */}
                         <td className="p-4">
                           <select
-                            value={lead.status || "new"}
+                            value={lead.status || "unread"}
                             onChange={(e) =>
                               handleUpdate(lead.id, "status", e.target.value)
                             }
                             className="text-xs font-bold bg-slate-50 border border-slate-200 rounded px-2 py-1 outline-none focus:border-blue-400"
                           >
-                            <option value="new">NEW</option>
+                            <option value="unread">UNREAD</option>
+                            <option value="processing">PROCESSING</option>
                             <option value="contacted">CONTACTED</option>
-                            <option value="qualified">QUALIFIED</option>
-                            <option value="converted">CONVERTED</option>
-                            <option value="lost">LOST</option>
+                            <option value="archived">ARCHIVED</option>
                           </select>
                         </td>
 
@@ -502,7 +466,9 @@ const AdminDashboard: React.FC = () => {
                               handleUpdate(lead.id, "priority", e.target.value)
                             }
                             className={`text-[10px] font-black uppercase px-2 py-1 rounded border outline-none ${
-                              lead.priority === "high"
+                              lead.priority === "urgent"
+                                ? "bg-red-600/10 border-red-400 text-red-700"
+                                : lead.priority === "high"
                                 ? "bg-red-50 border-red-200 text-red-700"
                                 : lead.priority === "medium"
                                 ? "bg-amber-50 border-amber-200 text-amber-700"
@@ -512,6 +478,7 @@ const AdminDashboard: React.FC = () => {
                             <option value="low">LOW</option>
                             <option value="medium">MEDIUM</option>
                             <option value="high">HIGH</option>
+                            <option value="urgent">URGENT</option>
                           </select>
                         </td>
 
@@ -535,7 +502,7 @@ const AdminDashboard: React.FC = () => {
                         </td>
 
                         <td className="p-4 text-xs text-slate-500 font-medium">
-                          {new Date(lead.timestamp).toLocaleDateString()}
+                          {new Date(lead.created_at || lead.timestamp).toLocaleDateString()}
                         </td>
 
                         {/* ACTIONS (ALWAYS VISIBLE) */}
@@ -649,7 +616,7 @@ const AdminDashboard: React.FC = () => {
                           Lead Created
                         </div>
                         <div className="text-[10px] text-slate-500">
-                          {new Date(selectedLead.timestamp).toLocaleString()}
+                          {new Date(selectedLead.created_at || selectedLead.timestamp).toLocaleString()}
                         </div>
                       </div>
                       {/* Add more timeline items from contact_history here */}
@@ -730,35 +697,33 @@ const AnalyticsView = ({ stats }: any) => (
         Pipeline Distribution
       </h3>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-        {["new", "contacted", "qualified", "converted", "lost"].map(
-          (status) => {
-            const count = stats?.status_distribution?.[status] || 0;
-            const total = stats?.total_leads || 1;
-            const pct = ((count / total) * 100).toFixed(0);
-            return (
-              <div
-                key={status}
-                className="p-6 rounded-2xl bg-slate-50 border border-slate-100 text-center"
-              >
-                <div className="text-3xl font-black text-slate-900 mb-1">
-                  {count}
-                </div>
-                <div className="text-xs font-bold text-slate-500 uppercase mb-3">
-                  {status}
-                </div>
-                <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-blue-500 rounded-full"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-                <div className="mt-2 text-[10px] font-bold text-slate-400">
-                  {pct}% Total
-                </div>
+        {["unread", "processing", "contacted", "archived"].map((status) => {
+          const count = stats?.status_distribution?.[status] || 0;
+          const total = stats?.total_leads || 1;
+          const pct = ((count / total) * 100).toFixed(0);
+          return (
+            <div
+              key={status}
+              className="p-6 rounded-2xl bg-slate-50 border border-slate-100 text-center"
+            >
+              <div className="text-3xl font-black text-slate-900 mb-1">
+                {count}
               </div>
-            );
-          }
-        )}
+              <div className="text-xs font-bold text-slate-500 uppercase mb-3">
+                {status}
+              </div>
+              <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-blue-500 rounded-full"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
+              <div className="mt-2 text-[10px] font-bold text-slate-400">
+                {pct}% Total
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
     {/* Add more charts here using a library like Recharts if needed */}
