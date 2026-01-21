@@ -263,7 +263,7 @@ async def handle_cv_request(
         print(f"Database Error: {e}")
 
     # 2. Prepare Attachment (Resend requires Base64 for local files)
-    cv_path = os.path.join(os.getcwd(), "assets", "AK_CV.pdf")
+    cv_path = os.path.join(os.getcwd(), "assets", "Arpit_Kumar_CV.pdf")
     if not os.path.exists(cv_path):
         raise HTTPException(status_code=500, detail="CV file not found on server.")
 
