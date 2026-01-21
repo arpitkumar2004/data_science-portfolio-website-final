@@ -6,19 +6,21 @@ from fastapi import FastAPI, Depends, Form, HTTPException, status, BackgroundTas
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import inspect, text, func
-from typing import List
 from database import engine, get_db
 from sqlalchemy.orm.attributes import flag_modified
 from typing import List, Optional
 from pydantic import BaseModel, Field
 import models, database
-from fastapi_mail import ConnectionConfig, FastMail, MessageSchema, MessageType
 from starlette.responses import JSONResponse
 from pydantic import EmailStr
 from dotenv import load_dotenv
+import resend
+import base64
 
 load_dotenv()
 
+# Initialize Resend
+resend.api_key = os.getenv("RESEND_API_KEY")
 VITE_API_URL = os.getenv("VITE_API_URL")
 phone = os.getenv("CONTACT_PHONE_NUMBER")
 # Create the tables in Neon if they don't exist
@@ -31,7 +33,7 @@ app = FastAPI(title="Arpit's Portfolio Backend")
 # --- FIXED CORS CONFIGURATION ---
 origins = [
     "http://localhost:5173",
-    "https://arpitkumar-arpitkumar2004s-projects.vercel.app", # Removed trailing slash
+    'https://arpitkumar.dev',
     "https://data-science-portfolio-website-fina.vercel.app",   # Removed trailing slash
 ]
 
@@ -43,19 +45,6 @@ app.add_middleware(
     allow_headers=["*"],
     # Adding this helps with some browser-specific issues
     expose_headers=["*"],
-)
-# --- EMAIL CONFIGURATION ---
-conf = ConnectionConfig(
-    MAIL_USERNAME = os.getenv("MAIL_USERNAME"),
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD"),
-    MAIL_FROM = os.getenv("MAIL_FROM"),
-    MAIL_PORT = int(os.getenv("MAIL_PORT")),
-    MAIL_SERVER = os.getenv("MAIL_SERVER"),
-    MAIL_FROM_NAME = os.getenv("MAIL_FROM_NAME"),
-    MAIL_STARTTLS = False,              # Change to False for port 465
-    MAIL_SSL_TLS = True,                # Change to True for port 465
-    USE_CREDENTIALS = True,
-    VALIDATE_CERTS = True
 )
 
 # --- Pydantic Schemas for JSON Validation ---
@@ -154,7 +143,7 @@ async def submit_contact(
         db.rollback()
         raise HTTPException(status_code=500, detail=str(e))
 
-# --- API ENDPOINT: CV REQUEST & DISPATCH ---
+# 2. Endpoint to RECEIVE leads from CV.tsx
 
 @app.post("/api/v1/request-cv")
 async def handle_cv_request(
@@ -167,7 +156,7 @@ async def handle_cv_request(
     role: str = Form(None),
     db: Session = Depends(get_db)
 ):
-    # 1. Save Lead to PostgreSQL Database
+    # 1. Save Lead to PostgreSQL (Keep your existing logic)
     try:
         new_lead = models.ContactLead(
             name=name,
@@ -182,142 +171,106 @@ async def handle_cv_request(
         db.commit()
     except Exception as e:
         print(f"Database Error: {e}")
-        # We continue even if DB fails to ensure the user gets the CV
 
-    html = f"""
+    # 2. Prepare Attachment (Resend requires Base64 for local files)
+    cv_path = os.path.join(os.getcwd(), "assets", "AK_CV.pdf")
+    if not os.path.exists(cv_path):
+        raise HTTPException(status_code=500, detail="CV file not found on server.")
+
+    with open(cv_path, "rb") as f:
+        cv_content = base64.b64encode(f.read()).decode()
+
+    # 3. Enhanced HTML Template
+    frontend_url = os.getenv("VITE_API_URL")
+    phone = os.getenv("CONTACT_PHONE_NUMBER")
+    
+    html_content = f"""
     <!DOCTYPE html>
     <html>
     <head>
         <meta charset="UTF-8">
         <style>
-            body {{ margin: 0; padding: 0; background-color: #f4f7fa; }}
-            .container {{ font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 20px auto; background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }}
-            
-            /* Technical Header */
-            .header {{ background-color: #0f172a; padding: 30px; color: #ffffff; border-bottom: 4px solid #2563eb; }}
-            .sys-log {{ font-family: 'Courier New', monospace; font-size: 10px; color: #60a5fa; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }}
-            .title {{ font-size: 24px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }}
-            
-            /* Content Area */
-            .body {{ padding: 35px; color: #334155; }}
-            .intro {{ font-size: 16px; margin-bottom: 25px; border-left: 3px solid #2563eb; padding-left: 15px; }}
-            .highlight {{ color: #2563eb; font-weight: 700; }}
-            
-            /* Why Hire Me - Matrix */
+            .container {{ font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }}
+            .header {{ background-color: #0f172a; padding: 30px; color: #ffffff; text-align: center; }}
+            .body {{ padding: 35px; color: #334155; background-color: #ffffff; }}
+            .intro {{ font-size: 16px; border-left: 4px solid #2563eb; padding-left: 15px; margin-bottom: 25px; }}
             .matrix-title {{ font-size: 12px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; }}
             .value-item {{ margin-bottom: 15px; }}
-            .value-label {{ font-weight: 700; color: #0f172a; font-size: 14px; display: block; }}
-            .value-desc {{ font-size: 13px; color: #64748b; margin: 2px 0 0 0; }}
-
-            /* Skill Dashboard Simulation */
-            .dashboard {{ background-color: #f8fafc; border-radius: 12px; padding: 20px; margin: 25px 0; border: 1px solid #e2e8f0; }}
-            .stat-bar {{ height: 6px; background: #e2e8f0; border-radius: 3px; margin: 8px 0 15px 0; overflow: hidden; }}
+            .value-label {{ font-weight: 700; color: #0f172a; font-size: 14px; }}
+            .value-desc {{ font-size: 13px; color: #64748b; margin: 2px 0; }}
+            .dashboard {{ background-color: #f8fafc; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0; margin: 20px 0; }}
+            .stat-bar {{ height: 6px; background: #e2e8f0; border-radius: 3px; margin: 5px 0 12px 0; }}
             .stat-fill {{ height: 100%; background: #2563eb; border-radius: 3px; }}
-
-            /* CTA Buttons */
-            .cta-hub {{ margin-top: 30px; }}
-            .btn-main {{ display: block; background-color: #2563eb; color: #ffffff !important; text-decoration: none; padding: 16px; border-radius: 8px; text-align: center; font-weight: 700; font-size: 15px; margin-bottom: 10px; }}
-            .btn-outline {{ display: inline-block; width: 48%; background-color: #ffffff; color: #0f172a !important; text-decoration: none; padding: 12px 0; border-radius: 8px; text-align: center; font-weight: 700; font-size: 13px; border: 1px solid #e2e8f0; }}
-            
-            .footer-graphic {{ background: #0f172a; padding: 20px; text-align: center; }}
-            .schematic {{ font-family: 'Courier New', monospace; font-size: 9px; color: #334155; line-height: 1.2; text-align: center; padding: 20px; }}
+            .btn-main {{ display: block; background-color: #2563eb; color: #ffffff !important; text-decoration: none; padding: 14px; border-radius: 8px; text-align: center; font-weight: 700; margin-bottom: 10px; }}
+            .btn-outline {{ display: inline-block; width: 48%; background-color: #ffffff; color: #0f172a !important; text-decoration: none; padding: 10px 0; border-radius: 8px; text-align: center; font-weight: 700; font-size: 12px; border: 1px solid #e2e8f0; }}
+            .schematic {{ font-family: monospace; font-size: 10px; color: #94a3b8; text-align: center; padding: 20px; background: #f8fafc; }}
         </style>
     </head>
     <body>
         <div class="container">
             <div class="header">
-                <h1 class="title">Technical Dossier(CV): Arpit Kumar</h1>
+                <div style="font-size: 10px; opacity: 0.6; letter-spacing: 2px;">LOG_ID: ARC-AUTO-{datetime.now().strftime('%H%M%S')}</div>
+                <h1 style="margin: 5px 0; font-size: 22px;">Technical Dossier: Arpit Kumar</h1>
             </div>
-            
             <div class="body">
                 <div class="intro">
                     Hello <b>{name}</b>,<br>
-                    Acknowledging your inquiry regarding <b>{subject.replace('CV Request: ', '')}</b> for <b>{company}</b>. 
-                    Please find my technical credentials attached.
+                    Transmission of technical credentials regarding <b>{subject.replace('CV Request: ', '')}</b> for <b>{company}</b> is complete.
                 </div>
-
-                <div class="matrix-title">Capabilities Portfolio</div>
-                
+                <div class="matrix-title">Why Arpit Kumar?</div>
                 <div class="value-item">
-                    <span class="value-label">01. Mathematical Rigor (IIT Kharagpur)</span>
-                    <p class="value-desc">Integrated Dual Degree candidate with a 8.46 CGPA. I build ML architectures from first-principles math, not just high-level wrappers.</p>
+                    <div class="value-label">✓ Mathematical Rigor (IIT Kharagpur)</div>
+                    <div class="value-desc">Integrated Dual Degree candidate. Implementing ML architectures from first-principles math.</div>
                 </div>
-
                 <div class="value-item">
-                    <span class="value-label">02. Engineering at Scale</span>
-                    <p class="value-desc">Expertise in deploying MLOps pipelines (Docker, FastAPI, Kubernetes) that bridge the gap between research code and production environments.</p>
+                    <div class="value-label">✓ Engineering at Scale</div>
+                    <div class="value-desc">Expertise in MLOps pipelines (Docker, FastAPI, Kubernetes) for production environments.</div>
                 </div>
-
-                <div class="value-item">
-                    <span class="value-label">03. Domain Breadth</span>
-                    <p class="value-desc">Proven impact across Deep Learning, Machine Learning, Full Stack Applications and Chemical Process Optimization.</p>
-                </div>
-
                 <div class="dashboard">
-                    <div style="font-size: 11px; font-weight: bold; color: #64748b;">CORE STACK PROFICIENCY</div>
-                    <div style="font-size: 12px; margin-top: 10px;">Deep Learning (PyTorch/JAX)</div>
+                    <div style="font-size: 11px; font-weight: bold; color: #64748b; margin-bottom: 10px;">CAPABILITY INDEX</div>
+                    <div style="font-size: 11px;">Deep Learning (PyTorch/JAX) - 95%</div>
                     <div class="stat-bar"><div class="stat-fill" style="width: 95%;"></div></div>
-                    <div style="font-size: 12px;">Machine Learning</div>
+                    <div style="font-size: 11px;">Quantitative Research - 88%</div>
                     <div class="stat-bar"><div class="stat-fill" style="width: 88%;"></div></div>
-                    <div style="font-size: 12px;">MLOps & Backend</div>
-                    <div class="stat-bar"><div class="stat-fill" style="width: 92%;"></div></div>
                 </div>
-
-                <div class="matrix-title">Recruiter Action Hub</div>
-                <div class="cta-hub">
-                    <a href="https://calendly.com/kumararpit17773/30min" class="btn-main">Schedule Technical Interview &rarr;</a>
-                    <div style="width: 100%;">
-                        <a href="{VITE_API_URL}" class="btn-outline">Browse Research</a>
-                        <a href="https://wa.me/{phone}" class="btn-outline" style="float: right;">Direct Chat</a>
-                    </div>
+                <div class="matrix-title">Action Hub</div>
+                <a href="https://calendly.com/kumararpit17773/30min" class="btn-main">Schedule Technical Sync &rarr;</a>
+                <div style="width: 100%;">
+                    <a href="{frontend_url}" class="btn-outline">Browse Portfolio</a>
+                    <a href="https://wa.me/{phone}" class="btn-outline" style="float: right;">Direct Chat</a>
                 </div>
             </div>
-
             <div class="schematic">
-                _______________________________________________________
-                <br>
-                <br>
-                 SYSTEM_ENCRYPTION: AES-256 <br>
-                 ORIGIN: ARPIT_KUMAR_SECURE_TERMINAL <br>
-                _______________________________________________________
-                <br>
-                <br>
-                AI_RESEARCHER // DATA_SCIENTIST // FULL_STACK_DEVELOPER
-                <br>
-                ________________________________________________________<br>
-            </div>
-
-            <div class="footer-graphic">
-                <div style="color: #64748b; font-size: 10px; font-family: monospace;">
-                    © {datetime.now().year} ARPIT KUMAR // ALL RIGHTS RESERVED // CONFIDENTIAL CV DISPATCH SYSTEM
-                </div>
+                SYSTEM_ENCRYPTION: AES-256 | ORIGIN: SECURE_TERMINAL<br>
+                AI_RESEARCHER // DATA_SCIENTIST // FULL_STACK
             </div>
         </div>
     </body>
     </html>
     """
 
-    # 3. Handle Attachment Path
-    # Ensure AK_CV.pdf is inside a folder named 'assets' in your backend directory
-    cv_path = os.path.join(os.getcwd(), "assets", "AK_CV.pdf")
-    
-    if not os.path.exists(cv_path):
-        raise HTTPException(status_code=500, detail="CV File not found on server. Contact admin.")
+    # 4. Define background task for sending
+    def send_resend_email():
+        try:
+            resend.Emails.send({
+                "from": "Arpit Kumar (IIT Kharagpur) <onboarding@resend.dev>",
+                "to": [email],
+                "subject": f"Technical CV - Arpit Kumar | {company}",
+                "html": html_content,
+                "attachments": [
+                    {
+                        "filename": "Arpit_Kumar_CV.pdf",
+                        "content": cv_content,
+                    }
+                ]
+            })
+        except Exception as e:
+            print(f"Resend Error: {e}")
 
-    # 4. Create Email Message
-    email_message = MessageSchema(
-        subject=f"Technical CV - Arpit Kumar | {company}",
-        recipients=[email],
-        body=html,
-        subtype=MessageType.html,
-        attachments=[cv_path]
-    )
+    # 5. Execute
+    background_tasks.add_task(send_resend_email)
 
-    # 5. Send Email in Background (So the user doesn't wait for SMTP to finish)
-    fm = FastMail(conf)
-    background_tasks.add_task(fm.send_message, email_message)
-
-    return {"status": "success", "detail": "Dispatch sequence initiated"}
+    return {"status": "success", "detail": "Dispatch sequence initiated via Resend API"}
 
 # 2. Endpoint for ADMIN to fetch all leads
 @app.get("/admin/leads")
