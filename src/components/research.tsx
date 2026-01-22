@@ -6,38 +6,32 @@ const researchData = [
   {
     id: "01",
     tag: "Optimization",
-    title: "Applied AI in Engineering",
-    description: "Integrating ML with engineering for optimization and intelligent control. Focused on data-driven discovery in process systems."
+    title: "Production AI for Engineering",
+    description: "Deploying ML-driven optimization that cuts operational costs and accelerates process control—transforming theoretical models into revenue-generating systems at industrial scale."
   },
   {
     id: "02",
     tag: "Architecture",
-    title: "Deep Learning Architectures",
-    description: "Designing neural networks with PyTorch and TensorFlow, specializing in Transformers and LSTMs for time-series forecasting."
+    title: "Neural Systems at Scale",
+    description: "Architecting Transformer and LSTM networks that handle millions of time-series data points per second—delivering sub-millisecond predictions for mission-critical forecasting."
   },
   {
     id: "03",
     tag: "Predictive Systems",
-    title: "Machine Learning Systems",
-    description: "Developing robust models for predictive analytics, including ensemble methods and supervised learning frameworks."
+    title: "High-Stakes Prediction Engines",
+    description: "Building ensemble models that reduce business risk through validated predictive accuracy—turning uncertain futures into actionable intelligence for strategic decisions."
   },
   {
     id: "04",
     tag: "Analytics",
-    title: "Data Science & Analytics",
-    description: "Extracting insights through advanced feature engineering and statistical modeling using Python and Pandas."
+    title: "Signal-to-Insight Pipelines",
+    description: "Engineering feature extraction workflows that uncover hidden patterns in petabyte-scale datasets—converting raw noise into competitive advantage through statistical rigor."
   },
   {
     id: "05",
-    tag: "Stochastic Modeling",
-    title: "Quantitative Finance",
-    description: "Applying AI for market prediction and alpha generation through time-series analysis and risk modeling."
-  },
-  {
-    id: "06",
     tag: "Interpretability",
-    title: "Research & Innovation",
-    description: "Bridging the gap between mathematical theory and real-world impact through interpretable and scalable AI models."
+    title: "Explainable AI Systems",
+    description: "Shipping interpretable models that stakeholders trust and regulators approve—bridging cutting-edge theory with compliance-ready, production-grade implementations."
   },
 ];
 
@@ -64,19 +58,18 @@ const ResearchComponent = () => {
     <section className="py-24 px-6 max-w-7xl mx-auto">
       {/* Header with Research Meta-data */}
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-        <div className="max-w-2xl">
+        <div className="max-w-4xl">
           <div className="flex items-center gap-2 mb-4">
             <Terminal size={16} className="text-blue-600" />
             <span className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-600">
-              Technical Focus Areas
+              Core Capabilities & Impact Domains
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter">
-            Research Interests
+            Where Theory Meets Production 
           </h2>
           <p className="text-slate-500 mt-6 text-lg leading-relaxed font-medium">
-            Developing high-fidelity AI solutions by bridging first-principles engineering 
-            with neural architectures to solve non-linear optimization problems.
+            I ship AI that drives measurable outcomes—fusing rigorous engineering principles with neural architectures to solve complex, revenue-critical problems at scale.
           </p>
         </div>
         

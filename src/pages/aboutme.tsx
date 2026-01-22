@@ -92,11 +92,11 @@ const AboutMe: React.FC = () => {
                             <div className="mt-8 grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                                     <p className="text-2xl font-black text-slate-900 tracking-tighter">8.46</p>
-                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">CGPA Foundation</p>
+                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">CGPA // Top Cohort</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                                     <p className="text-2xl font-black text-blue-600 tracking-tighter">09+</p>
-                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">Systems Deployed</p>
+                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">Prod Systems Shipped</p>
                                 </div>
                             </div>
 
@@ -137,12 +137,7 @@ const AboutMe: React.FC = () => {
                                 </h1>
                                 <div className="text-xl md:text-2xl font-mono text-blue-600 font-bold">
                                     &gt; <AniText
-                                        texts={[
-                                            "Deep Learning Researcher",
-                                            "Quantitative Analyst",
-                                            "Optimization Specialist",
-                                            "ML Systems Architect"
-                                        ]}
+                                        texts={["Deep Learning Researcher", "Applied ML Specialist", "Data Science Enthusiast", "AI Systems Developer", "First-Principles Engineer"]}
                                         typingSpeed={50}
                                         pauseTime={2000}
                                     />
@@ -151,10 +146,10 @@ const AboutMe: React.FC = () => {
 
                             <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 leading-relaxed space-y-6">
                                 <p>
-                                    I am an <strong>Integrated Dual Degree student at IIT Kharagpur</strong>, operating at the intersection of high-fidelity engineering and data-driven intelligence. My trajectory is defined by a <strong>first-principles approach</strong> to AI—understanding the underlying calculus and probability before implementation.
+                                    I am a undergraduate student at IIT Kharagpur, and as a <strong>first-principles ML systems engineer</strong>—linking mathematical rigor with deployable software. Trained in an <strong>Integrated Dual Degree at IIT Kharagpur</strong>, I build models with provable behavior, stress-test them against edge cases, and ship them into production with tight feedback loops.
                                 </p>
                                 <p>
-                                    Currently, I serve as a <strong>Technical Advisor at the Developers' Society (DevSoc)</strong>, where I orchestrate technical roadmaps and mentor future engineers. My focus lies in designing <strong>interpretable ML models</strong> that bridge the gap between black-box predictions and industrial reliability.
+                                    As a <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, I set AI/ML roadmaps, review architectures, and mentor engineers. I prioritize <strong>interpretable, fail-safe ML</strong> that meets SLA, latency, and observability requirements so products stay reliable under real traffic.
                                 </p>
                             </div>
 
@@ -169,25 +164,25 @@ const AboutMe: React.FC = () => {
                                         icon={GraduationCap} 
                                         date="2022 - 2027" 
                                         title="IIT Kharagpur" 
-                                        subtitle="Integrated Dual Degree in Chemical Engineering (Focus: Applied AI)" 
+                                        subtitle="Integrated Dual Degree (ChemE + AI). Top decile CGPA; research track in applied ML." 
                                     />
                                     <Milestone 
                                         icon={Briefcase} 
                                         date="2023 - Present" 
                                         title="Developers' Society (DevSoc)" 
-                                        subtitle="Technical Advisor & Former Full-Stack Development Head" 
+                                        subtitle="Technical Advisor & ex-Head: mentored 30+ devs, shipped 12+ releases/quarter, cut deployment time by 40%." 
                                     />
                                     <Milestone 
                                         icon={Trophy} 
                                         date="Ongoing" 
                                         title="Hackathon Champion" 
-                                        subtitle="Finalist in multiple national level ML & Software competitions" 
+                                        subtitle="Top 0.5% Amazon ML Challenge; 19th National in DTL Quant; multiple podium finishes in ML/software comps." 
                                     />
                                     <Milestone 
                                         icon={Microscope} 
                                         date="Research Track" 
                                         title="Applied ML Researcher" 
-                                        subtitle="Building neural frameworks for process optimization & finance" 
+                                        subtitle="Neural optimization for process systems (20% energy savings) and electrochemical modeling (40% savings)." 
                                     />
                                 </div>
                             </div>
@@ -202,12 +197,22 @@ const AboutMe: React.FC = () => {
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
                                         <Terminal className="text-blue-600 mb-4" size={28} />
                                         <h4 className="font-bold text-slate-900 mb-2">Math-First ML</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Implementation of backpropagation, optimizers (Adam/SGD), and loss functions from mathematical derivations without relying on high-level wrappers.</p>
+                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Derive and implement backprop, optimizers, and losses from scratch; control stability, initialization, and regularization for models that behave predictably under distribution shift.</p>
                                     </div>
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
                                         <Cpu className="text-blue-600 mb-4" size={28} />
                                         <h4 className="font-bold text-slate-900 mb-2">Systems Engineering</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Architecting scalable backend infrastructures (Node/Postgres/Docker) paired with low-latency model inference pipelines.</p>
+                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Designing low-latency inference stacks (FastAPI/Node, Postgres/Redis, Docker/K8s) with tracing, autoscaling, and CI/CD so models deploy safely and stay observable.</p>
+                                    </div>
+                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                        <Code2 className="text-blue-600 mb-4" size={28} />
+                                        <h4 className="font-bold text-slate-900 mb-2">Production MLOps</h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Ship models with feature stores, drift monitoring, canary releases, and rollbacks; align training-serving parity and keep p99 latency under target budgets.</p>
+                                    </div>
+                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                        <Microscope className="text-blue-600 mb-4" size={28} />
+                                        <h4 className="font-bold text-slate-900 mb-2">Research to Impact</h4>
+                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Translate papers into production-grade implementations; benchmark, ablate, and harden models until they deliver measurable ROI and withstand adversarial cases.</p>
                                     </div>
                                 </div>
                             </div>
@@ -220,9 +225,9 @@ const AboutMe: React.FC = () => {
                                 
                                 <div className="relative z-10">
                                     <span className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-[0.3em]">Direct Inquiry Channel</span>
-                                    <h3 className="text-3xl lg:text-4xl font-black mb-4 tracking-tight mt-2">Open for Research & R&D Roles</h3>
-                                    <p className="text-slate-400 mb-10 max-w-xl text-lg font-medium leading-relaxed">
-                                        Currently seeking Summer Internships (2026) and Research Collaborations in Machine Learning, Quantitative Finance, or Process Optimization.
+                                    <h3 className="text-3xl lg:text-4xl font-black mb-4 tracking-tight mt-2">Ready to Deliver Production-Grade ML</h3>
+                                    <p className="text-slate-300 mb-10 max-w-xl text-lg font-medium leading-relaxed">
+                                        Seeking Summer 2026 roles where measurable impact matters: 20-40% cost reduction, 10x decision speed, and resilient systems with defined SLAs. Strong fit for applied ML, quantitative research, and process optimization teams.
                                     </p>
 
                                     <div className="flex flex-col sm:flex-row gap-4">

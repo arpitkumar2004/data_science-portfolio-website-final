@@ -177,11 +177,11 @@ const RequestCV: React.FC = () => {
                   Automated Dispatch Terminal
                 </span>
               </motion.div>
-              <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-4 leading-none">
-                Download my CV <span className="text-blue-600 italic">Dossier.</span>
+              <h1 className="text-5xl md:text-5xl font-black tracking-tighter mb-4 leading-none">
+                Get the production-ready <span className="text-blue-600 italic">CV</span>
               </h1>
               <p className="text-slate-500 text-lg font-medium">
-                Fill out the form to receive a comprehensive technical CV dossier in a few seconds via email automatically to your inbox.
+                Tell me your context (hiring, research, build). I’ll auto-dispatch a detailed CV—outcomes, systems shipped, and research impact—straight to your inbox.
               </p>
             </div>
 
@@ -189,7 +189,7 @@ const RequestCV: React.FC = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full lg:w-auto">
               {[
                 {
-                  label: "Project Built",
+                  label: "Projects Built",
                   val: careerStats.totalProjects,
                   icon: <Cpu size={14} />,
                 },
@@ -204,7 +204,7 @@ const RequestCV: React.FC = () => {
                   icon: <Award size={14} />,
                 },
                 {
-                  label: "Skills Aquired",
+                  label: "Skills Shipped",
                   val: careerStats.technicalSkills,
                   icon: <Code2 size={14} />,
                 },
@@ -249,12 +249,10 @@ const RequestCV: React.FC = () => {
                   Technical Fulfillment
                 </h3>
                 <p className="text-blue-50 text-sm leading-relaxed mb-3 font-medium">
-                  Upon successful Submission of form, the dispatch system will
-                  transmit a PDF CV dossier directly to your provided work
-                  email. You will be notified upon completion.
+                  Submit once; the dispatch system emails a PDF CV with quantified outcomes, live systems, and research highlights in seconds.
                 </p>
-                <p className="text-red-500 text-sm leading-relaxed font-medium mb-6 flex items-center gap-2">
-                  <Info size={42} /> Please ensure your email address is valid and accessible.
+                <p className="text-red-400 text-sm leading-relaxed font-medium mb-6 flex items-center gap-2">
+                  <Info size={42} /> Use a valid work/institutional inbox for instant delivery.
                 </p>
 
                 <div className="space-y-3">
@@ -428,9 +426,9 @@ const RequestCV: React.FC = () => {
                         {...register("subject")}
                         className="w-full pl-12 pr-10 py-4 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
                       >
+                        <option>Hiring / Recruitment</option>
                         <option>Summer Internship 2026</option>
                         <option>Research Collaboration</option>
-                        <option>Full-time Opportunity</option>
                         <option>Technical Consultation</option>
                       </select>
                     </div>
@@ -445,7 +443,7 @@ const RequestCV: React.FC = () => {
                     rows={4}
                     {...register("message", { required: "Detail required" })}
                     className="w-full p-5 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
-                    placeholder="Provide context for the request..."
+                    placeholder="Role, goals, timelines, tech stack, evaluation criteria"
                   />
                 </div>
 

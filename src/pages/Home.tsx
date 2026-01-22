@@ -105,10 +105,10 @@ const Home: React.FC = () => {
     ).length;
 
     return [
-      { l: 'Years of Experience', v: yearsDisplay },
-      { l: 'Projects Deployed', v: String(projectsDeployedCount).padStart(2, '0') + '+' },
-      { l: 'Competitions Won', v: String(competitionsWonCount).padStart(2, '0') + '+' },
-      { l: 'Ongoing Projects', v: String(ongoingResearchCount).padStart(2, '0') + '+' },
+      { l: 'Years Shipping ML', v: yearsDisplay, d: 'Production & Research' },
+      { l: 'Live Deployments', v: String(projectsDeployedCount).padStart(2, '0') + '+', d: 'Real users & Impact' },
+      { l: 'Competition Podiums', v: String(competitionsWonCount).padStart(2, '0') + '+', d: 'Ranked outcomes' },
+      { l: 'Active Research', v: String(ongoingResearchCount).padStart(2, '0') + '+', d: 'In-flight experiments' },
     ];
   }, [projects]);
 
@@ -141,7 +141,7 @@ const Home: React.FC = () => {
               <motion.div variants={heroItem} className="h-10 flex items-center mb-6">
                 <span className="text-lg md:text-2xl font-mono font-bold text-blue-600">
                   &gt; <AniText
-                    texts={["Deep Learning Researcher", "Applied ML Specialist", "Quantitative Strategist", "Mathematical Modeler"]}
+                    texts={["Deep Learning Researcher", "Applied ML Specialist", "Data Science Enthusiast", "AI Systems Developer", "First-Principles Engineer"]}
                     typingSpeed={50}
                     pauseTime={1500}
                   />
@@ -149,28 +149,29 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.p variants={heroItem} className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
-                Developing high-fidelity AI systems by bridging <strong>First-Principles Engineering</strong> and <strong>Neural Architectures</strong>. Specializing in scalable optimization and predictive modeling.
+                I architect production-grade AI that fuses <strong>first-principles engineering</strong> rigor with <strong>neural systems</strong> agility—turning messy signals into deployable, revenue-driving intelligence. 
               </motion.p>
 
               <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 py-6">
                 {stats.map((s, i) => (
                   <div key={i} role="listitem" className="stat-card">
-                    <h3 className="text-3xl font-black text-slate-900">{s.v}</h3>
+                    <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">{s.v}</h3>
                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1">{s.l}</p>
+                    <p className="text-xs font-semibold text-slate-600">{s.d}</p>
                     <div className="w-8 h-1 bg-blue-600 mt-2" aria-hidden="true" />
                   </div>
                 ))}
               </div>
 
               <motion.div variants={heroItem} className="flex flex-wrap gap-4">
-                <Link to="/projects" aria-label="Review portfolio" className="group px-8 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
-                  Review Projects <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                <Link to="/projects" aria-label="Review portfolio" className="group px-8 py-4 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                  See Impact in Production <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link to="/request-cv" aria-label="Get technical CV" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
-                  <FileText size={18} />Download CV
+                  <FileText size={18} />Get Full Resume
                 </Link>
                 <Link to="/aboutme" aria-label="More about me" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
-                About Me <ShieldCheck size={18} />
+                Background & Story <ShieldCheck size={18} />
                 </Link>
               </motion.div>
             </motion.div>
@@ -268,13 +269,13 @@ const Home: React.FC = () => {
       </section>
 
       {/* --- FOOTER CTA --- */}
-      <section className="reveal-section pb-24 px-6">
-        <div className="max-w-7xl mx-auto bg-slate-900 border-10 border-blue-800 rounded-[3rem] p-12 text-center shadow-xl shadow-blue-200">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Let's solve complex problems.</h2>
-          <p className="text-slate-500 max-w-2xl mx-auto mb-10 text-lg">Currently accepting research collaborations and internship opportunities for Data science and AI roles in Summer 2026.</p>
+      <section className="reveal-section pb-24">
+        <div className="max-w-7xl mx-auto bg-slate-900 border-2 border-blue-600 rounded-3xl p-12 text-center shadow-xl shadow-blue-500/20">
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Scale Revenue with Production AI</h2>
+          <p className="text-slate-400 max-w-2xl mx-auto mb-10 text-lg leading-relaxed">Ship ML systems that reduce costs by 20-40%, accelerate decision-making by 10x, and unlock competitive intelligence. I build research-grade models that generate measurable ROI at industrial scale—from ideation through deployment.</p>
           <div className="flex flex-wrap justify-center gap-4">
-             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl">Discuss opportunities</Link>
-             <Link to="/aboutme" className="px-10 py-4 bg-white border border-slate-200 text-slate-900 font-bold rounded-2xl hover:bg-slate-100">More About Me</Link>
+             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">Start Strategic Collaboration</Link>
+             <Link to="/aboutme" className="px-10 py-4 bg-white border-2 border-slate-300 text-slate-900 font-bold rounded-lg hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">Explore Track Record</Link>
           </div>
         </div>
       </section>

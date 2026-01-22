@@ -94,7 +94,7 @@ const Projects: React.FC = () => {
                 </span>
               </motion.div>
               <h1 className="text-5xl md:text-6xl font-black text-slate-900 tracking-[-0.05em] leading-[0.85] uppercase">
-                Research<br/> & Technical<br/> Dossier
+                Shipped Systems<br/> & Research<br/> Impact
               </h1>
             </div>
 
@@ -102,12 +102,12 @@ const Projects: React.FC = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 w-full lg:w-auto">
               {[
                 { label: "Total Entries", val: stats.total, icon: <History size={14}/> },
-                { label: "Publications", val: stats.researchPapers, icon: <BookOpen size={14}/>, color: 'text-blue-600' },
-                { label: "Ongoing Research", val: stats.ongoingResearch, icon: <Activity size={14}/>, color: 'text-orange-500' },
-                { label: "Competition Honors", val: stats.competitions, icon: <Trophy size={14}/> },
-                { label: "Total Projects", val: stats.totalProjects, icon: <Terminal size={14}/> },
-                { label: "Deployed Systems", val: stats.liveDeployed, icon: <Cpu size={14}/>, color: 'text-green-600' },
-                { label: "Active Builds", val: stats.ongoingProjects, icon: <Zap size={14}/> },
+                { label: "Research Papers", val: stats.researchPapers, icon: <BookOpen size={14}/>, color: 'text-blue-600' },
+                { label: "In-Flight Research", val: stats.ongoingResearch, icon: <Activity size={14}/>, color: 'text-orange-500' },
+                { label: "Competition Podiums", val: stats.competitions, icon: <Trophy size={14}/>, color: 'text-yellow-600' },
+                { label: "Production Projects", val: stats.totalProjects, icon: <Terminal size={14}/> },
+                { label: "Live Systems Shipping", val: stats.liveDeployed, icon: <Cpu size={14}/>, color: 'text-green-600' },
+                { label: "Active Development", val: stats.ongoingProjects, icon: <Zap size={14}/> },
                 { label: "Technical Blogs", val: stats.blogs, icon: <FileText size={14}/> },
               ].map((stat, i) => (
                 <div key={i} className="p-4 bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col justify-between min-w-[150px]">
@@ -177,7 +177,7 @@ const Projects: React.FC = () => {
       <main className="px-6 md:px-12 lg:px-20 py-16 max-w-[1600px] mx-auto">
         <div className="max-w-4xl mx-auto text-center mb-12">
           <p className="text-lg text-slate-600 leading-relaxed">
-            A curated collection of research outputs, technical projects and experiments. Browse entries, filter by technology, and open any dossier to read full methodology, results and implementation details.
+            Production systems that reduced costs by 20-40%, accelerated decisions by 10x, and survived real-world edge cases. Each entry includes methodology, live metrics, and deployment lessons.
           </p>
         </div>
         <AnimatePresence mode="popLayout">
@@ -216,10 +216,10 @@ const Projects: React.FC = () => {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-300">System Status: Available for Collaboration</span>
               </div>
               <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9]">
-                Let's Build the <span className="text-blue-500">Future</span>.
+                Scale Revenue with <span className="text-blue-500">Production ML</span>.
               </h2>
               <p className="text-slate-400 text-xl font-medium max-w-xl leading-relaxed mb-10">
-                Inquisitive about a specific methodology or looking to discuss a high-impact role? I'm open to R&D internships, full-time Data Science roles, and research partnerships.
+                Hiring for AI/ML? Need help shipping production systems? I deliver 20-40% cost reduction, 10x faster decisions, and resilient models with defined SLAs. Let's align on metrics.
               </p>
             </div>
 

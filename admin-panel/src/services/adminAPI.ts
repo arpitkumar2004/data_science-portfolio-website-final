@@ -73,19 +73,19 @@ class AdminAPIClient {
   }
 
   private loadToken() {
-    this.token = sessionStorage.getItem("adminToken") || localStorage.getItem("adminToken");
+    this.token = sessionStorage.getItem("admin_token") || localStorage.getItem("admin_token");
   }
 
   private saveToken(token: string) {
     this.token = token;
-    sessionStorage.setItem("adminToken", token);
-    localStorage.setItem("adminToken", token);
+    sessionStorage.setItem("admin_token", token);
+    localStorage.setItem("admin_token", token);
   }
 
   private clearToken() {
     this.token = null;
-    sessionStorage.removeItem("adminToken");
-    localStorage.removeItem("adminToken");
+    sessionStorage.removeItem("admin_token");
+    localStorage.removeItem("admin_token");
   }
 
   private getHeaders(): Record<string, string> {
@@ -301,7 +301,7 @@ class AdminAPIClient {
    * Analyzes which "role" the visitor selected at gateway
    */
   getLeadIntent(lead: Lead): {
-    type: "developer" | "recruiter" | "founder" | "unknown";
+    type: "developer" | "recruiter" | "researcher" | "Guest" | "founder" | "unknown";
     confidence: "high" | "medium" | "low";
   } {
     const roleMap: Record<string, string> = {
@@ -312,7 +312,10 @@ class AdminAPIClient {
       "HR": "recruiter",
       "Founder": "founder",
       "CEO": "founder",
-      "CTO": "founder"
+      "CTO": "founder",
+      "Researcher": "researcher",
+      "Data Scientist": "researcher",
+      "Guest": "Guest"
     };
 
     const detectedRole = lead.role ? roleMap[lead.role] : null;
@@ -327,7 +330,7 @@ class AdminAPIClient {
    * Calculate quality score based on lead data completeness and engagement signals
    */
   calculateEnrichedQuality(lead: Lead): number {
-    let score = lead.quality_score || 0;
+    const score = lead.quality_score || 0;
     let bonus = 0;
 
     // Bonus points for complete information

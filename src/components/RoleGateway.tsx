@@ -269,7 +269,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     { 
         id: 'Recruiter', 
         icon: <Building2 className="w-6 h-6 md:w-8 md:h-8" />, 
-        title: 'Talent Scouter', 
+        title: 'Recruitment Lead', 
         desc: 'Download my verified Technical CV, analyze professional milestones, and evaluate my readiness for high-impact roles.',
         tag: '03_REC',
         action: "Access Professional CV"

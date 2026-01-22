@@ -124,16 +124,15 @@ const Contact: React.FC = () => {
           <motion.h1
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-[0.9]"
+            className="text-5xl md:text-5xl font-black tracking-tighter mb-6 leading-[0.9]"
           >
-            Let's build the
-            <span className="text-blue-600 italic ml-4">
-              Next Big Thing.
+            Build what's next—
+            <span className="text-blue-600 italic ml-2">
+              with production-grade ML.
             </span>
           </motion.h1>
           <p className="text-slate-500 max-w-2xl text-lg font-medium leading-relaxed">
-            Have a question or a proposal? Drop a message in the secure terminal
-            below.
+            Hiring, partnering, or exploring research? Share context and timelines—I'll respond with an actionable plan, not a generic reply.
           </p>
         </header>
 
@@ -218,12 +217,10 @@ const Contact: React.FC = () => {
                     </div>
                     <div>
                       <p className="text-sm font-bold">
-                        Cold Start in Progress
+                        Cold start in progress
                       </p>
                       <p className="text-xs opacity-90 leading-relaxed">
-                        The server is currently waking up from its eco-sleep.
-                        This first request might take about 45s. Thanks for your
-                        patience!
+                        The server is waking. First response can take ~45s while resources spin up. Thanks for your patience.
                       </p>
                     </div>
                   </motion.div>
@@ -267,7 +264,7 @@ const Contact: React.FC = () => {
                       <input
                         {...register("company")}
                         className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
-                        placeholder="Your Company or Institute or college Name"
+                        placeholder="Company / Institute"
                       />
                     </div>
                   </div>
@@ -284,8 +281,8 @@ const Contact: React.FC = () => {
                         {...register("subject")}
                         className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
                       >
-                        <option>Research Collaboration</option>
                         <option>Hiring / Recruitment</option>
+                        <option>Research Collaboration</option>
                         <option>Project Consultation</option>
                         <option>General Inquiry</option>
                       </select>
@@ -307,7 +304,7 @@ const Contact: React.FC = () => {
                         required: "Message body cannot be empty",
                       })}
                       className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
-                      placeholder="What's on your mind?"
+                      placeholder="Goals, success criteria, timelines, constraints"
                     />
                   </div>
                   {errors.message && (
@@ -340,7 +337,7 @@ const Contact: React.FC = () => {
                     ) : (
                       <>
                         <span className="uppercase tracking-[0.2em] text-xs">
-                          Send Message
+                          Send Secure Brief
                         </span>
                         <ArrowRight
                           size={18}
