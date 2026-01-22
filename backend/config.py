@@ -54,7 +54,7 @@ _default_cors: List[str] = [
     "http://localhost:5173",      # Main portfolio
     "http://localhost:5174",      # Admin panel
     "https://arpitkumar.dev",
-    "https://data-science-portfolio-website-final.vercel.app",
+    "https://admin.arpitkumar.dev/",
 ]
 CORS_ORIGINS = os.getenv("CORS_ORIGINS")
 if CORS_ORIGINS:
