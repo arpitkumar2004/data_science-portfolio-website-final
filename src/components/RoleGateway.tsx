@@ -1,7 +1,95 @@
 import React, { useState, useEffect } from 'react';
-import { Database, Binary, FileSearch, Globe, Lock, ArrowRight, Fingerprint, Building2 } from 'lucide-react';
+import { Binary, FileSearch, Globe, Lock, ArrowRight, Fingerprint, Building2 } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
-import { adminAPI } from "../services/adminAPI";
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
+
+// Simple auth API client for RoleGateway
+const adminAPI = {
+  async login(password: string) {
+    const url = buildApiUrl(API_ENDPOINTS.ADMIN_LOGIN);
+    console.log(' Admin Login Request:', { url, password: '***' });
+    
+    const formData = new FormData();
+    formData.append('password', password);
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
+      
+      console.log(' Login Response Status:', response.status);
+      
+      const data = await response.json();
+      console.log(' Login Response Data:', { access_token: data.access_token ? '***' : 'none', ...data });
+      
+      if (!response.ok) {
+        console.error(' Login Error:', data);
+        throw new Error(data.detail || data.message || `HTTP ${response.status}`);
+      }
+      
+      if (data.access_token) {
+        sessionStorage.setItem('admin_token', data.access_token);
+        localStorage.setItem('admin_token', data.access_token);
+        console.log(' Token saved to storage');
+      }
+      return data;
+    } catch (err) {
+      console.error(' Login Error:', err);
+      throw err;
+    }
+  },
+
+  async validateToken() {
+    const token = sessionStorage.getItem('admin_token') || localStorage.getItem('admin_token');
+    if (!token) {
+      console.log(' No token found');
+      return false;
+    }
+    
+    const url = buildApiUrl(API_ENDPOINTS.ADMIN_ME);
+    console.log(' Validating Token:', { url, token: '***' });
+    
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Authorization': `Bearer ${token}` },
+      });
+      
+      console.log(' Token Validation Response:', response.status);
+      return response.ok;
+    } catch (err) {
+      console.error(' Token Validation Error:', err);
+      return false;
+    }
+  },
+};
+
+// Resolve admin panel target once. Priority: env override > localhost default > same-origin /admin-panel/.
+const getAdminPanelUrl = (): string => {
+  const fromEnv = import.meta.env.VITE_ADMIN_PANEL_URL as string | undefined;
+  if (fromEnv && fromEnv.trim().length > 0) {
+    return fromEnv.replace(/\/+$|$/, "/");
+  }
+
+  if (typeof window !== 'undefined') {
+    const { origin, hostname } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:5174/';
+    }
+    if (origin) {
+      return `${origin}/admin-panel/`;
+    }
+  }
+
+  return '/admin-panel/';
+};
+
+const redirectToAdminPanel = () => {
+  if (typeof window !== 'undefined') {
+    window.location.href = getAdminPanelUrl();
+  }
+};
 
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
@@ -14,7 +102,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const savedRole = localStorage.getItem('userRole');
     if (savedRole === 'Admin') {
-      const token = sessionStorage.getItem('adminToken') || localStorage.getItem('adminToken');
+      const token = sessionStorage.getItem('admin_token') || localStorage.getItem('admin_token');
       if (token) {
         adminAPI
           .validateToken()
@@ -28,13 +116,21 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
           })
           .finally(() => setIsReady(true));
         return;
-      } else {
-        localStorage.removeItem('userRole');
       }
+
+      localStorage.removeItem('userRole');
     }
+
     if (savedRole) setRole(savedRole);
     setIsReady(true);
   }, []);
+
+  // Redirect to the dedicated admin SPA whenever admin role is active
+  useEffect(() => {
+    if (role === 'Admin') {
+      redirectToAdminPanel();
+    }
+  }, [role]);
 
   useEffect(() => {
     const openHandler = () => {
@@ -68,23 +164,33 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.setItem('roleNotifShown', '1');
     showToast(`Session Initialized: ${selectedRole}`, 'success', 5000, 'top');
     window.dispatchEvent(new Event('role:updated'));
+
+    // Route admins straight into the dedicated panel
+    if (selectedRole.toLowerCase() === 'admin') {
+      redirectToAdminPanel();
+    }
   };
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(' Admin Login Started');
     
     if (isBlocked) {
-      showToast('⛔ Access Blocked: Too many failed attempts. Try again in 3 hours.', 'error');
+      console.log(' Blocked - too many attempts');
+      showToast(' Access Blocked: Too many failed attempts. Try again in 3 hours.', 'error');
       return;
     }
 
     if (!password || password.trim() === '') {
+      console.log(' Empty password');
       showToast('Please enter admin password', 'error');
       return;
     }
 
     try {
+      console.log('Sending login to:', buildApiUrl(API_ENDPOINTS.ADMIN_LOGIN));
       const res = await adminAPI.login(password);
+      console.log('Got response:', res);
       if (res && res.access_token) {
         setFailedAttempts(0);
         setIsBlocked(false);
@@ -95,16 +201,17 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
       } else {
         showToast('Authentication failed - Invalid response', 'error');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Admin login error:', err);
       const newAttempts = failedAttempts + 1;
       setFailedAttempts(newAttempts);
       setPassword('');
 
       // Check if rate limited by backend (429)
-      if (err?.message?.includes('429') || err?.message?.toLowerCase().includes('rate limit')) {
+      const errorMsg = (err instanceof Error) ? err.message : '';
+      if (errorMsg.includes('429') || errorMsg.toLowerCase().includes('rate limit')) {
         setIsBlocked(true);
-        showToast('⛔ Access Blocked: Too many failed attempts. Your IP is blocked for 3 hours.', 'error');
+        showToast('Access Blocked: Too many failed attempts. Your IP is blocked for 3 hours.', 'error');
         setTimeout(() => {
           setIsBlocked(false);
           setFailedAttempts(0);
@@ -113,13 +220,13 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
       }
 
       const attemptsLeft = 10 - newAttempts;
-      const errorMessage = err?.message || 'Invalid Credentials';
+      const errorMessage = errorMsg || 'Invalid Credentials';
       
       if (attemptsLeft <= 3 && attemptsLeft > 0) {
-        showToast(`✗ Authentication Failed: ${errorMessage}\n⚠️ Warning: ${attemptsLeft} attempts remaining before 3-hour block`, 'error');
+        showToast(`Authentication Failed: ${errorMessage}\n Warning: ${attemptsLeft} attempts remaining before 3-hour block`, 'error');
       } else if (attemptsLeft <= 0) {
         setIsBlocked(true);
-        showToast('⛔ Access Blocked: Maximum attempts exceeded. Blocked for 3 hours.', 'error');
+        showToast('Access Blocked: Maximum attempts exceeded. Blocked for 3 hours.', 'error');
         setTimeout(() => {
           setIsBlocked(false);
           setFailedAttempts(0);
@@ -131,6 +238,15 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   };
 
   if (!isReady) return null;
+
+  if (role === 'Admin') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-slate-700">
+        <p className="font-mono text-xs uppercase tracking-[0.2em]">Redirecting to Admin Panel...</p>
+      </div>
+    );
+  }
+
   if (role) return <>{children}</>;
 
   const roles = [

@@ -7,7 +7,6 @@ import {
   MapPin,
   User,
   MessageSquare,
-  Send,
   Building2Icon,
   Terminal,
   Linkedin,
@@ -20,9 +19,7 @@ import {
 } from "lucide-react";
 import { SiKaggle } from "react-icons/si";
 import { Link } from "react-router-dom";
-
-// API Configuration
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/+$/, "");
+import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 
 type FormData = {
   name: string;
@@ -87,7 +84,7 @@ const Contact: React.FC = () => {
       bodyFormData.append("formType", "contacts");
       bodyFormData.append("role", localStorage.getItem("userRole") || "GUEST");
 
-      const response = await fetch(`${API_BASE_URL}/submit-contact`, {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.SUBMIT_CONTACT), {
         method: "POST",
         // IMPORTANT: Do NOT set Content-Type header when sending FormData,
         // the browser will set it automatically with the correct "boundary".
@@ -97,7 +94,7 @@ const Contact: React.FC = () => {
       if (!response.ok) throw new Error();
 
       showToast(
-        "Thankyou for reaching out!\nYour message has been sent, Arpit will get back to you soon",
+        "Thankyou for reaching out!\nCheck your Gmail inbox in a few minutes\nYour message has been sent, Arpit will get back to you soon",
         "success",
       );
       reset();
@@ -130,7 +127,7 @@ const Contact: React.FC = () => {
             className="text-5xl md:text-7xl font-black tracking-tighter mb-6 leading-[0.9]"
           >
             Let's build the
-            <span className="text-blue-600 italic tracking-widest ml-4">
+            <span className="text-blue-600 italic ml-4">
               Next Big Thing.
             </span>
           </motion.h1>

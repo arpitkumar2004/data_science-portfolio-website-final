@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-import axios from 'axios'; // Added axios
-// import { SpeedInsights } from '@vercel/speed-insights/react';
+import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -15,9 +14,7 @@ import { useLenis } from './hooks/useLenis';
 import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import RoleGateway from './components/RoleGateway';
-
-// --- ADDED: API BASE URL ---
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/+$/, "");
+import { buildApiUrl, API_ENDPOINTS } from './config/api';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -42,9 +39,9 @@ function App() {
     const wakeServer = async () => {
       try {
         // Hitting your /hello endpoint to trigger Render spin-up
-        await axios.get(`${API_BASE_URL}/hello`);
+        await axios.get(buildApiUrl(API_ENDPOINTS.HEALTH));
         console.log("⚡ Backend Connectivity: Active");
-      } catch (err) {
+      } catch {
         // If it fails, it's usually just the server still booting up
         console.log("⏳ System: Waiting for backend spin-up...");
       }

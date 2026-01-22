@@ -8,23 +8,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Mail,
-  Phone,
-  Calendar,
   MapPin,
   Clock,
   Tag,
-  Star,
   AlertCircle,
-  CheckCircle2,
-  ExternalLink,
   Linkedin,
   Globe,
+  Lead,
   Edit,
   Save,
-  Archive,
   Trash2,
 } from "lucide-react";
-import { Lead, LeadStatus, LeadPriority } from "../services/adminAPI";
 
 interface ActionDrawerProps {
   lead: Lead | null;

@@ -58,7 +58,7 @@ export function useLeadStats() {
 export function useLead(id: number | null) {
   const { data, error, isLoading, mutate } = useSWR<Lead>(
     id ? `admin/leads/${id}` : null,
-    () => (id ? adminAPI.getLead(id) : null),
+    id ? () => adminAPI.getLead(id) : null,
     {
       ...swrConfig,
       refreshInterval: 0, // Don't auto-refresh single lead

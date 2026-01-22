@@ -5,11 +5,8 @@ import { useToast } from "../hooks/useToast";
 import {
   Mail,
   User,
-  MessageSquare,
-  Send,
   Info,
   Activity,
-  Fingerprint,
   Layout,
   Globe,
   BookOpen,
@@ -17,7 +14,6 @@ import {
   Terminal,
   Linkedin,
   Github,
-  ExternalLink,
   Loader2,
   Clock,
   ShieldCheck,
@@ -27,7 +23,6 @@ import {
   Award,
   Code2,
   Database,
-  GraduationCap,
   Binary,
   ListFilter,
   AlertCircle,
@@ -41,8 +36,9 @@ import { Link } from "react-router-dom";
 import { projects } from "../data/projectsData";
 import { techData } from "../data/skillsData";
 import { achievementData } from "../data/AchievementData";
+import { API_ENDPOINTS, buildApiUrl } from "../config/api";
 
-const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000/api").replace(/\/+$/, "");
+// const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 type FormData = {
   name: string;
@@ -137,7 +133,7 @@ const RequestCV: React.FC = () => {
       bodyFormData.append("formType", "cv_dispatch");
       bodyFormData.append("role", localStorage.getItem("userRole") || "GUEST");
 
-      const response = await fetch(`${API_BASE_URL}/api/v1/request-cv`, {
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.REQUEST_CV), {
         method: "POST",
         body: bodyFormData,
       });
@@ -469,7 +465,7 @@ const RequestCV: React.FC = () => {
                     ) : (
                       <>
                         <span className="uppercase tracking-widest text-xs">
-                          Request Technical CV
+                          Get Technical CV
                         </span>
                         <ArrowRight size={18} />
                       </>
@@ -498,11 +494,10 @@ const RequestCV: React.FC = () => {
                   <CheckCircle size={24} />
                   <div>
                     <p className="text-sm font-bold uppercase tracking-tight">
-                      Transmission Complete
+                      Transmission Complete 
                     </p>
                     <p className="text-xs font-medium">
-                      Log entry created. The dossier is currently being routed
-                      to your inbox.
+                      The CV dossier has been sent to your email inbox.
                     </p>
                   </div>
                 </motion.div>

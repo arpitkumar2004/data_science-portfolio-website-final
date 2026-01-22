@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
 import { useLeads, useLeadStats, useOptimisticLeadUpdate } from "../hooks/useAdminData";
-import adminAPI, { Lead, LeadStats, LeadStatus, LeadPriority } from "../services/adminAPI";
+import adminAPI, { Lead, LeadStats } from "../services/adminAPI";
 import {
   LayoutDashboard,
   Users,
@@ -107,8 +107,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ onLogout }) => {
         : value;
 
     const serverCallMap: Record<string, () => Promise<unknown>> = {
-      status: () => adminAPI.updateLeadStatus(id, normalizedValue as string),
-      priority: () => adminAPI.updateLeadPriority(id, normalizedValue as string),
+      status: () => adminAPI.updateLeadStatus(id, normalizedValue as any),
+      priority: () => adminAPI.updateLeadPriority(id, normalizedValue as any),
       quality_score: () => adminAPI.updateLeadQualityScore(id, normalizedValue as number),
       internal_notes: () => adminAPI.updateLeadNotes(id, normalizedValue as string),
     };

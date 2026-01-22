@@ -7,7 +7,7 @@
  * - Single source of truth for all API calls
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+import { API_BASE_URL } from '../config/api';
 
 // Debug logging
 console.log("Admin API initialized with base URL:", API_BASE_URL);
@@ -142,7 +142,7 @@ class AdminAPIClient {
     const formData = new FormData();
     formData.append("password", password);
 
-    const response = await fetch(`${this.baseURL}/admin/login`, {
+    const response = await fetch(`${this.baseURL}/api/admin/login`, {
       method: "POST",
       body: formData,
     });
@@ -158,7 +158,7 @@ class AdminAPIClient {
 
   async validateToken(): Promise<boolean> {
     try {
-      await this.request("/admin/me");
+      await this.request("/api/admin/me");
       return true;
     } catch {
       return false;
@@ -172,86 +172,86 @@ class AdminAPIClient {
   // ============= Leads Management =============
 
   async getLeads(): Promise<Lead[]> {
-    return this.request<Lead[]>("/admin/leads");
+    return this.request<Lead[]>("/api/admin/leads");
   }
 
   async getLead(id: number): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}`);
+    return this.request<Lead>(`/api/admin/leads/${id}`);
   }
 
   async getStats(): Promise<LeadStats> {
-    return this.request<LeadStats>("/admin/leads/stats");
+    return this.request<LeadStats>("/api/admin/leads/stats");
   }
 
   async updateLeadStatus(id: number, status: LeadStatus): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/status`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/status`, {
       method: "PATCH",
       body: JSON.stringify({ status }),
     });
   }
 
   async updateLeadPriority(id: number, priority: LeadPriority): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/priority`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/priority`, {
       method: "PATCH",
       body: JSON.stringify({ priority }),
     });
   }
 
   async updateLeadQualityScore(id: number, quality_score: number): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/quality-score`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/quality-score`, {
       method: "PATCH",
       body: JSON.stringify({ quality_score }),
     });
   }
 
   async updateLeadNotes(id: number, notes: string): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/notes`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/notes`, {
       method: "PATCH",
       body: JSON.stringify({ internal_notes: notes }),
     });
   }
 
   async updateLeadTags(id: number, tags: string[]): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/tags`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/tags`, {
       method: "PATCH",
       body: JSON.stringify({ tags }),
     });
   }
 
   async flagLead(id: number): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/flag`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/flag`, {
       method: "POST",
     });
   }
 
   async unflagLead(id: number): Promise<Lead> {
-    return this.request<Lead>(`/admin/leads/${id}/unflag`, {
+    return this.request<Lead>(`/api/admin/leads/${id}/unflag`, {
       method: "POST",
     });
   }
 
   async deleteLead(id: number): Promise<void> {
-    await this.request(`/admin/leads/${id}`, {
+    await this.request(`/api/admin/leads/${id}`, {
       method: "DELETE",
     });
   }
 
   async bulkUpdateStatus(ids: number[], status: LeadStatus): Promise<void> {
-    await this.request("/admin/leads/bulk-status", {
+    await this.request("/api/admin/leads/bulk-status", {
       method: "PATCH",
       body: JSON.stringify({ lead_ids: ids, status }),
     });
   }
 
   async bulkDelete(ids: number[]): Promise<void> {
-    await this.request("/admin/leads/bulk-delete", {
+    await this.request("/api/admin/leads/bulk-delete", {
       method: "DELETE",
       body: JSON.stringify({ lead_ids: ids }),
     });
   }
 
   async exportLeads(format: "json" | "csv" = "csv"): Promise<Blob> {
-    const url = `${this.baseURL}/admin/leads/export?format=${format}`;
+    const url = `${this.baseURL}/api/admin/leads/export?format=${format}`;
     const response = await fetch(url, {
       headers: this.getHeaders(),
     });
@@ -264,7 +264,7 @@ class AdminAPIClient {
   }
 
   async searchLeads(query: string): Promise<Lead[]> {
-    return this.request<Lead[]>(`/admin/leads/search?q=${encodeURIComponent(query)}`);
+    return this.request<Lead[]>(`/api/admin/leads/search?q=${encodeURIComponent(query)}`);
   }
 
   // ============= Intelligence & Insights =============
