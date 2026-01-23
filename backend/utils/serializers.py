@@ -12,6 +12,7 @@ def serialize_contact_lead(lead):
         "email": lead.email,
         "subject": lead.subject,
         "company": lead.company,
+        "role": getattr(lead, "role", "Guest"),
         "message": lead.message,
         "lead_type": getattr(lead, "lead_type", None),
         "created_at": (lead.created_at or lead.timestamp).isoformat() if getattr(lead, "created_at", None) or getattr(lead, "timestamp", None) else None,
