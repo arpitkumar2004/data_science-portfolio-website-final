@@ -156,7 +156,7 @@ const Home: React.FC = () => {
                 {stats.map((s, i) => (
                   <div key={i} role="listitem" className="stat-card">
                     <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">{s.v}</h3>
-                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-1">{s.l}</p>
+                    <p className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest mb-1">{s.l}</p>
                     <p className="text-xs font-semibold text-slate-600">{s.d}</p>
                     <div className="w-8 h-1 bg-blue-600 mt-2" aria-hidden="true" />
                   </div>
@@ -241,16 +241,19 @@ const Home: React.FC = () => {
                 <Terminal size={18} />
               </div>
               <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-600">
-                Technical Capabilities Matrix
+                Production Portfolio
               </span>
             </div>              
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-2 tracking-tighter">Featured Research Projects</h2>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-2 tracking-tighter">Shipped Systems & Research</h2>
+          <p className="text-slate-600 text-base mt-3 max-w-4xl font-medium">
+            End-to-end ML projects demonstrating research-to-deployment rigor—from Kaggle competitions to production systems handling real users, with measurable impact and open-source contributions.
+          </p>
             </div>
-            <Link to="/projects" className="flex items-center gap-2 text-slate-900 font-bold hover:text-blue-600 transition-colors">
-              Explore All <ArrowRight size={20} />
+            <Link to="/projects" className="flex items-center gap-2 text-slate-900 font-bold hover:text-blue-600 transition-colors group">
+              View Full Portfolio <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {[12, 9, 8].map((id) => {
                 const p = projects.find((proj) => proj.id === id);

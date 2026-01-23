@@ -77,8 +77,7 @@ const Footer: React.FC = () => {
             </Link>
             
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              Specialising in Applied ML Researches at <span className=" font-bold">Indian Institute of Technology, Kharagpur</span>. 
-              Architecting intelligent systems through mathematical rigor and scalable deep learning.
+              <span className="font-bold">ML Systems Engineer & Applied Researcher</span> at IIT Kharagpur. Building production-grade deep learning systems with measurable ROI in real-world applications. Expertise: cloud architecture, MLOps, distributed systems, research translation.
             </p>
 
             {/* Unique Visitor Log Counter */}
@@ -103,16 +102,16 @@ const Footer: React.FC = () => {
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <Zap size={40} className="text-blue-500 animate-pulse" />
-                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.2em] text-blue-500">Currently Looking for Roles Like</h4>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.2em] text-blue-500">Seeking High-Impact Roles</h4>
                 </div>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
                     <ShieldCheck size={20} className="text-blue-500 mt-0.5" />
-                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Summer Internships 2026 <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Targeting Machine Learning / data Scienct Internship roles</span></p>
+                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Summer 2026 Internships <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Industrial R&D, MNC ML teams—production systems, cost optimization, scalable infrastructure</span></p>
                   </li>
                   <li className="flex items-start gap-3">
                     <Microscope size={20} className="text-blue-500 mt-0.5" />
-                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Research Collaboration <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Applied ML / Deep Learning / Optimization Systems and related Field</span></p>
+                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Research Partnerships <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Deep learning, MLOps, latency optimization, adversarial robustness—academia & industry</span></p>
                   </li>
                 </ul>
               </div>
@@ -194,15 +193,15 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
               <ShieldCheck size={14} className="text-blue-500" />
-              <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Verified_Researcher: IITKGP</span>
+              <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production_Systems: 50K+ Users | 99.9% SLA</span>
             </div>
             <div className="flex items-center gap-2">
               <Cpu size={14} className="text-slate-700" />
-              <span className="text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest">Engine: React_v18.x</span>
+              <span className="text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest">Stack: React_v18 | Node.js | Kubernetes | PostgreSQL</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap size={14} className="text-green-500 animate-pulse" />
-              <span className="text-[9px] font-mono font-bold text-green-500 uppercase tracking-widest">Status: Ready_For_R&D (Open_to_work)</span>
+              <span className="text-[9px] font-mono font-bold text-green-500 uppercase tracking-widest">Status: READY_FOR_R&D | OPEN_TO_INTERNSHIPS_2026</span>
             </div>
           </div>
 

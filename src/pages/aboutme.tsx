@@ -146,10 +146,10 @@ const AboutMe: React.FC = () => {
 
                             <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 leading-relaxed space-y-6">
                                 <p>
-                                    I am a undergraduate student at IIT Kharagpur, and as a <strong>first-principles ML systems engineer</strong>—linking mathematical rigor with deployable software. Trained in an <strong>Integrated Dual Degree at IIT Kharagpur</strong>, I build models with provable behavior, stress-test them against edge cases, and ship them into production with tight feedback loops.
+                                    I am an undergraduate at IIT Kharagpur who operates as a <strong>first-principles ML systems engineer</strong>. I bridge mathematical rigor with production realities: derive algorithms, reason about stability, then deliver code that meets latency and reliability budgets. My <strong>Integrated Dual Degree at IIT Kharagpur</strong> trains me to move from theory to deployment—designing models with provable behavior, adversarially testing edge cases, and running tight feedback loops until they earn trust in production.
                                 </p>
                                 <p>
-                                    As a <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, I set AI/ML roadmaps, review architectures, and mentor engineers. I prioritize <strong>interpretable, fail-safe ML</strong> that meets SLA, latency, and observability requirements so products stay reliable under real traffic.
+                                    As a <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, I set AI/ML roadmaps, review architectures, and mentor engineers. I champion <strong>interpretable, fail-safe ML</strong> with explicit SLAs, latency budgets, and observability baked in. That means guardrailed rollouts, regression tests on drifted data, and dashboards that surface leading indicators before users feel pain.
                                 </p>
                             </div>
 
@@ -195,24 +195,60 @@ const AboutMe: React.FC = () => {
                                 </h3>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
-                                        <Terminal className="text-blue-600 mb-4" size={28} />
-                                        <h4 className="font-bold text-slate-900 mb-2">Math-First ML</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Derive and implement backprop, optimizers, and losses from scratch; control stability, initialization, and regularization for models that behave predictably under distribution shift.</p>
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-2 text-blue-600">
+                                                <Terminal size={24} />
+                                                <h4 className="font-bold text-slate-900">Math-First ML</h4>
+                                            </div>
+                                            <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-blue-50 text-blue-700 border border-blue-100">Rigor</span>
+                                        </div>
+                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Derive backprop, optimizers, and custom losses; prove or bound stability via spectral analysis and initialization bounds.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Design for covariate and concept shift; calibrate predictions and detect OOD with confidence intervals.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Stress-test models with adversarial examples, synthetic distribution shifts, and edge-case pathologies.</span></li>
+                                        </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
-                                        <Cpu className="text-blue-600 mb-4" size={28} />
-                                        <h4 className="font-bold text-slate-900 mb-2">Systems Engineering</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Designing low-latency inference stacks (FastAPI/Node, Postgres/Redis, Docker/K8s) with tracing, autoscaling, and CI/CD so models deploy safely and stay observable.</p>
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-2 text-blue-600">
+                                                <Cpu size={24} />
+                                                <h4 className="font-bold text-slate-900">Systems Engineering</h4>
+                                            </div>
+                                            <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Reliability</span>
+                                        </div>
+                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Low-latency inference stacks (FastAPI, Node.js) with structured tracing, horizontal autoscaling, circuit breakers.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>p99 latency budgets with SLO/SLA monitoring; error budgets that trigger alerts before threshold breach.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Docker/K8s orchestration with resource limits, health checks, and graceful shutdown protocols.</span></li>
+                                        </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
-                                        <Code2 className="text-blue-600 mb-4" size={28} />
-                                        <h4 className="font-bold text-slate-900 mb-2">Production MLOps</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Ship models with feature stores, drift monitoring, canary releases, and rollbacks; align training-serving parity and keep p99 latency under target budgets.</p>
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-2 text-blue-600">
+                                                <Code2 size={24} />
+                                                <h4 className="font-bold text-slate-900">Production MLOps</h4>
+                                            </div>
+                                            <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-100">Safety</span>
+                                        </div>
+                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Feature stores with versioning; drift monitors (KS-test, KL-divergence); bias detectors for protected attributes.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Shadow traffic for safe validation; canary/blue-green releases with automatic rollbacks on SLA breach.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Training-serving parity checks; prediction logging for audit; continuous retraining with pipeline orchestration.</span></li>
+                                        </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
-                                        <Microscope className="text-blue-600 mb-4" size={28} />
-                                        <h4 className="font-bold text-slate-900 mb-2">Research to Impact</h4>
-                                        <p className="text-sm text-slate-500 leading-relaxed text-left">Translate papers into production-grade implementations; benchmark, ablate, and harden models until they deliver measurable ROI and withstand adversarial cases.</p>
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-2 text-blue-600">
+                                                <Microscope size={24} />
+                                                <h4 className="font-bold text-slate-900">Research to Impact</h4>
+                                            </div>
+                                            <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-purple-50 text-purple-700 border border-purple-100">Evidence</span>
+                                        </div>
+                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Translate papers to production code; competitive baselines, ablation studies with statistical significance testing.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Robustness suites: adversarial perturbations, corrupted inputs, long-tail distributions, class imbalance.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Measure performance delta vs. baselines with 95% confidence intervals; document decision boundaries before shipping.</span></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

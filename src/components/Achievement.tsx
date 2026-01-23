@@ -107,7 +107,7 @@ const Achievement: React.FC<AchievementSectionProps> = ({ categories }) => {
           
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
-              Awards & Recognitions
+              Verified Impact & Credentials
             </h2>
             
             {/* Interactive Badge/Toggle Icon */}
