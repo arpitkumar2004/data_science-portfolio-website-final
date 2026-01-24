@@ -123,7 +123,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 target="_blank"
                 rel="noreferrer"
                 title="View Code on GitHub"
-                className="text-slate-400 hover:text-slate-900 transition-colors"
+                className="text-slate-400 hover:text-white hover:bg-black hover:bg-opacity-70 p-1 rounded-md transition-colors"
               >
                 <Github size={16} />
               </a>
@@ -135,7 +135,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 target="_blank"
                 rel="noreferrer"
                 title="View Live Demo"
-                className="text-slate-400 hover:text-blue-600 transition-colors"
+                className="text-slate-400 hover:text-blue-600 transition-colors p-1 rounded"
               >
                 <ExternalLink size={16} />
               </a>
@@ -147,7 +147,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 target="_blank"
                 rel="noreferrer"
                 title="Read Article"
-                className="text-slate-400 hover:text-blue-600 transition-colors"
+                className="text-slate-400 hover:text-blue-600 transition-colors p-1 rounded"
               >
                 <FileText size={16} />
               </a>
