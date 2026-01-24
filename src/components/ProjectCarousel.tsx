@@ -30,8 +30,8 @@ const ProjectCarousel: React.FC<Props> = ({ projects, headerLeft, showGrid = fal
 
   return (
     <section className="py-8">
-      <div className="flex flex-col md:flex-row items-start justify-between gap-6 mb-6 ">
-        <div className="flex-1 max-w-4xl">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-1 mb-6 ">
+        <div className="flex-1 max-w-8xl mb-5">
           {headerLeft}
         </div>
 

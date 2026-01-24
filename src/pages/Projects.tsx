@@ -160,10 +160,34 @@ const Projects: React.FC = () => {
       {
         (() => {
           const sections = [
-            { key: 'project', label: 'Projects', title: 'Production Systems', desc: 'Production systems that reduced costs by 20-40%, accelerated decisions by 10x, and survived real-world edge cases.', icon: <Activity size={18} className="text-blue-600" /> },
-            { key: 'competition', label: 'Competitions', title: 'Competition Highlights', desc: 'Award-winning entries, benchmarks and technically rich challenge solutions.', icon: <Trophy size={18} className="text-yellow-600" /> },
-            { key: 'research', label: 'Research', title: 'Research & Papers', desc: 'Published research, ongoing studies, and production-focused methodology notes.', icon: <BookOpen size={18} className="text-blue-600" /> },
-            { key: 'website', label: 'Websites', title: 'Web & Blogs', desc: 'Technical write-ups, demo sites and documented deployment notes.', icon: <Globe size={18} className="text-green-600" /> },
+            {
+              key: 'project',
+              label: 'Projects',
+              title: 'Production ML Systems',
+              desc: 'Production-grade ML systems that deliver measurable impact — 20–40% cost reduction, 10× faster decisions, and robust performance under real-world edge cases.',
+              icon: <Activity size={18} className="text-blue-600" />
+            },
+            {
+              key: 'competition',
+              label: 'Competitions',
+              title: 'Competition Highlights',
+              desc: 'High-impact challenge solutions and benchmarked prototypes — concise technical writeups and award-winning implementations.',
+              icon: <Trophy size={18} className="text-yellow-600" />
+            },
+            {
+              key: 'research',
+              label: 'Research',
+              title: 'Research & Publications',
+              desc: 'Peer-reviewed papers and applied research that bridge theory and scalable systems, including reproducible experiments and methodology notes.',
+              icon: <BookOpen size={18} className="text-blue-600" />
+            },
+            {
+              key: 'website',
+              label: 'Websites',
+              title: 'Demos & Writeups',
+              desc: 'Interactive demos, technical blog posts, and deployment guides with reproducible artifacts and implementation tips.',
+              icon: <Globe size={18} className="text-green-600" />
+            },
           ];
 
           return sections.map((sec) => {
@@ -176,13 +200,13 @@ const Projects: React.FC = () => {
             if (items.length === 0) return null;
 
             const headerLeft = (
-              <div className="max-w-7xl">
-                <div className="flex items-center gap-3 mb-4 ml-4">
+              <div className="max-w-9xl">
+                <div className="flex items-center gap-2 mb-4 ml-4">
                   <div className="p-2 bg-white rounded-lg text-slate-800 shadow-sm">{sec.icon}</div>
                   <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-slate-600">{sec.label}</span>
                 </div>
                 <h3 className="text-3xl md:text-5xl font-black font-sans leading-tight ml-3 text-slate-900 tracking-tight mb-4">{sec.title}</h3>
-                <p className="text-slate-500 leading-relaxed font-sans ml-3">{sec.desc}</p>
+                <p className="max-w-8xl text-md text-slate-500 font-sans ml-3">{sec.desc}</p>
               </div>
             );
 

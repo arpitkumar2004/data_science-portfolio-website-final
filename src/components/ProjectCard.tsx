@@ -1,15 +1,15 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useNavigate, Link } from 'react-router-dom';
-import { 
-  Github, 
-  ArrowRight, 
-  Clock, 
-  FileText, 
+import React from "react";
+import { motion } from "framer-motion";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  Github,
+  ArrowRight,
+  Clock,
+  FileText,
   ExternalLink,
   Code2,
-  Database
-} from 'lucide-react';
+  Database,
+} from "lucide-react";
 
 interface ProjectCardProps {
   id: string | number;
@@ -59,7 +59,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         />
         {/* Subtle Overlay only on hover */}
         <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-all duration-300" />
-        
+
         {/* Simplified Type Tag */}
         <div className="absolute bottom-3 left-3">
           <span className="px-2 py-1 bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-slate-800 rounded shadow-sm border border-slate-200">
@@ -72,11 +72,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex items-center justify-between mb-2">
           <span className="text-[10px] font-mono font-bold text-blue-600 uppercase tracking-widest">
-            {id.toString().padStart(2, '0')} • {role?.toString() || "Contributor"} • {duration || "Jan 2023 - Present"}
+            {id.toString().padStart(2, "0")} •{" "}
+            {role?.toString() || "Contributor"} •{" "}
+            {duration || "Jan 2023 - Present"}
           </span>
           <div className="flex items-center gap-1 text-slate-400">
             <Clock size={10} />
-            <span className="text-[10px] font-bold uppercase tracking-tighter">{readingTime}</span>
+            <span className="text-[10px] font-bold uppercase tracking-tighter">
+              {readingTime}
+            </span>
           </div>
         </div>
 
@@ -91,7 +95,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* Minimal Tech Tags */}
         <div className="flex flex-wrap gap-1.5 mb-6">
           {tags?.slice(0, 3).map((tag) => (
-            <span key={tag} className="text-[9px] font-bold text-slate-400 uppercase">
+            <span
+              key={tag}
+              className="text-[9px] font-bold text-slate-400 uppercase"
+            >
               • {tag}
             </span>
           ))}
@@ -100,23 +107,48 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
           {/* Main Action */}
           <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-all">
-            Open Dossier <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            Open Dossier{" "}
+            <ArrowRight
+              size={14}
+              className="group-hover:translate-x-1 transition-transform"
+            />
           </button>
 
           {/* Icon Actions */}
           <div className="flex gap-3">
             {githubLink && (
-              <a href={githubLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-slate-900 transition-colors">
+              <a
+                href={githubLink}
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noreferrer"
+                title="View Code on GitHub"
+                className="text-slate-400 hover:text-slate-900 transition-colors"
+              >
                 <Github size={16} />
               </a>
             )}
             {liveDemoLink && (
-              <a href={liveDemoLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">
+              <a
+                href={liveDemoLink}
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noreferrer"
+                title="View Live Demo"
+                className="text-slate-400 hover:text-blue-600 transition-colors"
+              >
                 <ExternalLink size={16} />
               </a>
             )}
             {articleLink && (
-              <a href={articleLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">
+              <a
+                href={articleLink}
+                onClick={handleLinkClick}
+                target="_blank"
+                rel="noreferrer"
+                title="Read Article"
+                className="text-slate-400 hover:text-blue-600 transition-colors"
+              >
                 <FileText size={16} />
               </a>
             )}
