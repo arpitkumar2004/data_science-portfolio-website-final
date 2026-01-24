@@ -6,16 +6,11 @@ import {
   ArrowRight, 
   Clock, 
   FileText, 
-  Microscope,
+  ExternalLink,
   Code2,
-  Terminal,
-  Activity,
-  Search,
-  Database,
-  ExternalLink
+  Database
 } from 'lucide-react';
 
-// Technical Interface
 interface ProjectCardProps {
   id: string | number;
   title: string;
@@ -41,174 +36,93 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   githubLink,
   articleLink,
   liveDemoLink,
-  duration,
   role,
+  duration,
   readingTime = "5 min read",
 }) => {
   const navigate = useNavigate();
-  const brandBlue = "rgb(37 99 235)";
 
   const handleCardClick = () => navigate(`/projects/${String(id)}`);
   const handleLinkClick = (e: React.MouseEvent) => e.stopPropagation();
 
-  const TypeIcon = () => {
-    const t = type?.toLowerCase() || '';
-    if (t.includes('paper') || t.includes('research')) return <Microscope size={12} />;
-    if (t.includes('competition')) return <Activity size={12} />;
-    return <Code2 size={12} />;
-  };
-
   return (
     <motion.div
-      whileHover={{ y: -8 }}
       onClick={handleCardClick}
-      className="group flex flex-col bg-white rounded-[0.8rem] border-2 border-slate-100 overflow-hidden hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 cursor-pointer h-full relative"
+      className="group flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-blue-500 transition-all duration-300 cursor-pointer h-full"
     >
-      {/* 1. IMAGE AREA */}
-      <div className="relative h-64 overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100">
+      {/* 1. IMAGE AREA - Minimalist & Focused */}
+      <div className="relative h-48 overflow-hidden bg-slate-100">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110 grayscale group-hover:grayscale-0"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
+        {/* Subtle Overlay only on hover */}
+        <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/20 transition-all duration-300" />
         
-        {/* Type Badge - Top Left */}
-        <div className="absolute top-4 left-4">
-          <div className="bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-lg border border-white/40 flex items-center gap-2">
-            <TypeIcon />
-            <span className="text-[9px] font-mono font-black uppercase tracking-[0.15em] text-slate-700">
-              {type || "Project"}
-            </span>
-          </div>
+        {/* Simplified Type Tag */}
+        <div className="absolute bottom-3 left-3">
+          <span className="px-2 py-1 bg-white/90 backdrop-blur text-[10px] font-bold uppercase tracking-wider text-slate-800 rounded shadow-sm border border-slate-200">
+            {type || "Project"}
+          </span>
         </div>
-
-        {/* Reading Time Badge - Top Right */}
-        <div className="absolute top-4 right-4">
-          <div className="bg-slate-900/90 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-1.5">
-            <Clock size={11} className="text-blue-400" />
-            <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">{readingTime}</span>
-          </div>
-        </div>
-
-        {/* Duration/Role Badge - Bottom Left (if exists) */}
-        {(duration || role) && (
-          <div className="absolute bottom-4 left-4 flex gap-2">
-            {duration && (
-              <div className="bg-blue-600/95 backdrop-blur-sm px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-1.5">
-                <Activity size={11} className="text-white" />
-                <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">{duration}</span>
-              </div>
-            )}
-            {role && (
-              <div className="bg-slate-900/95 backdrop-blur-sm px-3 py-1.5 rounded-xl border border-white/10">
-                <span className="text-[9px] font-mono font-bold text-white uppercase tracking-wider">{role}</span>
-              </div>
-            )}
-          </div>
-        )}
       </div>
 
-      {/* 2. CONTENT SECTION */}
-      <div className="p-6 flex flex-col flex-grow">
-        
-        {/* Title */}
-        <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter mb-3 leading-[1.1] group-hover:text-blue-600 transition-colors">
+      {/* 2. CONTENT SECTION - Spaced & Clean */}
+      <div className="p-5 flex flex-col flex-grow">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[10px] font-mono font-bold text-blue-600 uppercase tracking-widest">
+            {id.toString().padStart(2, '0')} • {role?.toString() || "Contributor"} • {duration || "Jan 2023 - Present"}
+          </span>
+          <div className="flex items-center gap-1 text-slate-400">
+            <Clock size={10} />
+            <span className="text-[10px] font-bold uppercase tracking-tighter">{readingTime}</span>
+          </div>
+        </div>
+
+        <h3 className="text-xl font-bold text-slate-900 mb-2 leading-tight group-hover:text-blue-600 transition-colors">
           {title}
         </h3>
 
-        {/* Description with better readability */}
-        <p className="text-slate-600 text-[15px] leading-relaxed mb-5 line-clamp-3 font-medium">
+        <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-2">
           {description}
         </p>
 
-        {/* Tech Stack Tags - Improved visibility */}
-        {tags && tags.length > 0 && (
-          <div className="mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <Terminal size={12} className="text-blue-500" />
-              <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Tech Stack</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 5).map((tag) => (
-                <span 
-                  key={tag} 
-                  className="text-[10px] font-mono font-bold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg uppercase tracking-wider hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all"
-                >
-                  {tag}
-                </span>
-              ))}
-              {tags.length > 5 && (
-                <span className="text-[10px] font-mono font-bold text-slate-400 bg-slate-50 px-3 py-1.5 rounded-lg">
-                  +{tags.length - 5}
-                </span>
-              )}
-            </div>
-          </div>
-        )}
+        {/* Minimal Tech Tags */}
+        <div className="flex flex-wrap gap-1.5 mb-6">
+          {tags?.slice(0, 3).map((tag) => (
+            <span key={tag} className="text-[9px] font-bold text-slate-400 uppercase">
+              • {tag}
+            </span>
+          ))}
+        </div>
 
-        {/* Spacer */}
-        <div className="flex-grow" />
+        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+          {/* Main Action */}
+          <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-all">
+            Open Dossier <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
 
-        {/* Separator */}
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-5" />
-
-        {/* 3. ACTION ZONE - Improved layout */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          {/* Primary CTA */}
-          <Link
-            to={`/projects/${String(id)}`}
-            onClick={(e) => e.stopPropagation()}
-            className="flex-grow flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-900 text-white rounded-xl font-bold text-xs uppercase tracking-[0.15em] transition-all hover:bg-blue-600 shadow-lg shadow-slate-900/20 hover:shadow-blue-600/40 group/btn"
-          >
-            <span>View Details</span>
-            <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-          </Link>
-
-          {/* External Links */}
-          <div className="flex gap-2 justify-center sm:justify-start">
+          {/* Icon Actions */}
+          <div className="flex gap-3">
             {githubLink && (
-              <a 
-                href={githubLink} 
-                onClick={handleLinkClick}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl border-2 border-slate-200 text-slate-500 hover:text-white hover:bg-slate-900 hover:border-slate-900 transition-all group/icon"
-                title="Source Code"
-              >
-                <Github size={18} className="group-hover/icon:scale-110 transition-transform" />
+              <a href={githubLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-slate-900 transition-colors">
+                <Github size={16} />
               </a>
             )}
             {liveDemoLink && (
-              <a 
-                href={liveDemoLink} 
-                onClick={handleLinkClick}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl border-2 border-slate-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all group/icon"
-                title="Live Demo"
-              >
-                <ExternalLink size={18} className="group-hover/icon:scale-110 transition-transform" />
+              <a href={liveDemoLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">
+                <ExternalLink size={16} />
               </a>
             )}
             {articleLink && (
-              <a 
-                href={articleLink} 
-                onClick={handleLinkClick}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 rounded-xl border-2 border-slate-200 text-slate-500 hover:text-white hover:bg-blue-600 hover:border-blue-600 transition-all group/icon"
-                title="Article"
-              >
-                <FileText size={18} className="group-hover/icon:scale-110 transition-transform" />
+              <a href={articleLink} onClick={handleLinkClick} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-blue-600 transition-colors">
+                <FileText size={16} />
               </a>
             )}
           </div>
         </div>
       </div>
-
-      {/* Corner Accent - Subtle design element */}
-      <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
     </motion.div>
   );
 };

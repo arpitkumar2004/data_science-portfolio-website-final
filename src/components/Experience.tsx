@@ -315,11 +315,11 @@ export default function Experience() {
               </div>
 
               <div className="flex items-center gap-4">
-                <h2 className="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
                   Scaling Systems & Teams
                 </h2>
               </div>
-              <p className="text-slate-600 text-sm md:text-base font-medium max-w-2xl mt-3 leading-relaxed">
+              <p className="text-slate-600 text-sm md:text-base font-medium max-w-4xl mt-8 leading-relaxed">
                 Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—showcasing measurable impact across 4 organizations with 50K+ concurrent users, 99.9% SLA maintenance, and proven ability to scale teams and systems.
               </p>
 
@@ -397,7 +397,7 @@ export default function Experience() {
                 Want the Full Technical Dossier?
               </h4>
               <p className="text-slate-300 text-sm max-w-md font-medium leading-relaxed">
-                Extended CV includes: deep-dive research publications, quantified ROI across projects (cost reductions, latency improvements), security audit results, architectural decision logs, and references to open-source contributions—optimized for <b className="text-white">Industrial R&D teams, MNC interviews, and academic collaborators</b>.
+                Extended CV includes: deep-dive research publications, quantified ROI across projects (cost reductions, latency improvements), security audit results, architectural decision logs, and references to open-source contributions—optimized for <b className="text-white">Industrial R&D teams, startups, interviews, and academic collaborators</b>.
               </p>
             </div>
 

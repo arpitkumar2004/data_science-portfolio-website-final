@@ -35,7 +35,6 @@ export interface Project {
   challenges: string[];
   galleryImages?: string[];
   similarProjectIds?: number[];
-
 }
 
 
@@ -756,7 +755,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     longDescription:
       "Simulated multi-stage distillation columns, flash separations, and heat exchangers under Prof. Sourav Mondal and Prof. Nikita Saxena. Performed pinch analysis and COMSOL simulations to reduce utility costs by up to 30% and improve heat transfer efficiency by 15%. Integrated neural networks to predict boiling points (R² > 0.85) and automated multicomponent flash processes, increasing benzene recovery to 95%. Focused on sustainable and energy-efficient chemical process development.",
     image: "/projects/process-modelling.jpg",
-    "type": "Research Project",
+    "type": "Research",
     tags: ["Process Engineering", "Simulation", "Optimization", "Electrlyser Design","Completed Project"],
     objectives: [
       "Optimize chemical process efficiency and sustainability",

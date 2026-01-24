@@ -2,12 +2,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { projects } from '../data/projectsData';
 import ProjectCard from '../components/ProjectCard';
-import { 
-  Search, Filter, X, LayoutGrid, List, Columns, 
-  Database, Terminal, History, BookOpen, Trophy, 
-  Globe, Cpu, Activity, Zap, FileText, Download, 
-  Mail, ArrowUpRight, ShieldCheck 
-} from 'lucide-react';
+import ProjectCarousel from '../components/ProjectCarousel';
+import { Filter, Database, Terminal, History, BookOpen, Trophy, Globe, Cpu, Activity, Zap, FileText, Download, Mail, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // Logic: Sorting by date
@@ -65,13 +61,6 @@ const Projects: React.FC = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const filteredProjects = sortedProjects.filter(
-    (project) =>
-      (project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-       project.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedTags.length === 0 || selectedTags.some(tag => project.tags.includes(tag)))
-  );
-
   const allTags = Array.from(new Set(sortedProjects.flatMap((project) => project.tags)));
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
@@ -93,7 +82,7 @@ const Projects: React.FC = () => {
                   Technical Portfolio
                 </span>
               </motion.div>
-              <h1 className="text-5xl md:text-6xl font-black text-slate-900 tracking-[-0.05em] leading-[0.85] uppercase">
+              <h1 className="text-5xl md:text-6xl font-black font-sans text-slate-900 tracking-[-0.05em] leading-[0.85] uppercase">
                 Shipped Systems<br/> & Research<br/> Impact
               </h1>
             </div>
@@ -110,11 +99,11 @@ const Projects: React.FC = () => {
                 { label: "Active Development", val: stats.ongoingProjects, icon: <Zap size={14}/> },
                 { label: "Technical Blogs", val: stats.blogs, icon: <FileText size={14}/> },
               ].map((stat, i) => (
-                <div key={i} className="p-4 bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col justify-between min-w-[150px]">
-                  <div className={`mb-2 ${stat.color || 'text-slate-400'}`}>{stat.icon}</div>
+                <div key={i} className="p-4 bg-white border border-slate-400 rounded-2xl shadow-sm flex flex-col justify-between min-w-[150px]">
+                  <div className={`mb-2 ${stat.color || 'text-slate-900'}`}>{stat.icon}</div>
                   <div>
-                    <div className="text-2xl font-black text-slate-900 tracking-tight">{stat.val.toString().padStart(2, '0')}</div>
-                    <div className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1">{stat.label}</div>
+                    <div className="text-2xl font-black font-sans text-slate-900 tracking-tight">{stat.val.toString().padStart(2, '0')}</div>
+                    <div className="text-[9.5px] font-mono font-bold text-slate-900 uppercase tracking-widest mt-1">{stat.label}</div>
                   </div>
                 </div>
               ))}
@@ -149,12 +138,6 @@ const Projects: React.FC = () => {
               <span>Filters</span>
               {selectedTags.length > 0 && <span className="ml-1 px-2 py-0.5 bg-white/20 rounded text-[10px]">{selectedTags.length}</span>}
             </button>
-
-            <div className="hidden lg:flex items-center bg-slate-50 border border-slate-100 rounded-2xl p-1">
-                <button onClick={() => setLayout('list')} className={`p-3 rounded-xl transition-all ${layout === 'list' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}><List size={20} /></button>
-                <button onClick={() => setLayout('grid-2')} className={`p-3 rounded-xl transition-all ${layout === 'grid-2' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}><LayoutGrid size={20} /></button>
-                <button onClick={() => setLayout('grid-3')} className={`p-3 rounded-xl transition-all ${layout === 'grid-3' ? 'bg-white text-blue-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}><Columns size={20} /></button>
-            </div>
           </div>
         </div>
 
@@ -173,37 +156,49 @@ const Projects: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      {/* --- PROJECT GRID --- */}
-      <main className="px-6 md:px-12 lg:px-20 py-16 max-w-[1600px] mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <p className="text-lg text-slate-600 leading-relaxed">
-            Production systems that reduced costs by 20-40%, accelerated decisions by 10x, and survived real-world edge cases. Each entry includes methodology, live metrics, and deployment lessons.
-          </p>
-        </div>
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.length > 0 ? (
-            <motion.div layout className={layout === 'list' ? 'flex flex-col gap-12' : layout === 'grid-2' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'}>
-              {filteredProjects.map((project) => (
-                <motion.div key={project.id} layout initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} className="group relative">
-                  <div className="absolute -top-6 left-0 font-mono text-[9px] text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-[0.2em]">
-                    Log_Entry_Ref: {String(project.id).padStart(3, '0')}
-                  </div>
-                  <ProjectCard {...project} />
-                </motion.div>
-              ))}
-            </motion.div>
-          ) : (
-            <div className="py-32 text-center">
-              <History size={48} className="mx-auto text-slate-300 mb-6" />
-              <h3 className="text-3xl font-black text-slate-900 tracking-tighter mb-2">Null Set Returned</h3>
-              <p className="text-slate-400 font-mono text-xs uppercase tracking-widest">No matching entries found.</p>
-            </div>
-          )}
-        </AnimatePresence>
-      </main>
+      {/* --- Type Sections: Projects / Competitions / Research / Websites --- */}
+      {
+        (() => {
+          const sections = [
+            { key: 'project', label: 'Projects', title: 'Production Systems', desc: 'Production systems that reduced costs by 20-40%, accelerated decisions by 10x, and survived real-world edge cases.', icon: <Activity size={18} className="text-blue-600" /> },
+            { key: 'competition', label: 'Competitions', title: 'Competition Highlights', desc: 'Award-winning entries, benchmarks and technically rich challenge solutions.', icon: <Trophy size={18} className="text-yellow-600" /> },
+            { key: 'research', label: 'Research', title: 'Research & Papers', desc: 'Published research, ongoing studies, and production-focused methodology notes.', icon: <BookOpen size={18} className="text-blue-600" /> },
+            { key: 'website', label: 'Websites', title: 'Web & Blogs', desc: 'Technical write-ups, demo sites and documented deployment notes.', icon: <Globe size={18} className="text-green-600" /> },
+          ];
+
+          return sections.map((sec) => {
+            const items = sortedProjects.filter(p => {
+              const typeMatch = (p.type || '').toLowerCase().includes(sec.key);
+              const searchMatch = searchTerm.trim() === '' || p.title.toLowerCase().includes(searchTerm.toLowerCase()) || p.description.toLowerCase().includes(searchTerm.toLowerCase());
+              const tagMatch = selectedTags.length === 0 || selectedTags.some(tag => p.tags?.includes(tag));
+              return typeMatch && searchMatch && tagMatch;
+            });
+            if (items.length === 0) return null;
+
+            const headerLeft = (
+              <div className="max-w-7xl">
+                <div className="flex items-center gap-3 mb-4 ml-4">
+                  <div className="p-2 bg-white rounded-lg text-slate-800 shadow-sm">{sec.icon}</div>
+                  <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-slate-600">{sec.label}</span>
+                </div>
+                <h3 className="text-3xl md:text-5xl font-black font-sans leading-tight ml-3 text-slate-900 tracking-tight mb-4">{sec.title}</h3>
+                <p className="text-slate-500 leading-relaxed font-sans ml-3">{sec.desc}</p>
+              </div>
+            );
+
+            return (
+              <section key={sec.key} className="px-6 md:px-12 lg:px-20 mt-12">
+                <div className="max-w-[1600px] mx-auto">
+                  <ProjectCarousel projects={items} headerLeft={headerLeft} showGrid={true} />
+                </div>
+              </section>
+            );
+          });
+        })()
+      }
 
       {/* --- REFINED RECRUITER CTA SECTION --- */}
-      <section className="mx-6 md:mx-12 lg:mx-20 mb-20">
+      <section className="mx-6 mt-12 md:mx-12 lg:mx-20 mb-20">
         <div className="max-w-[1600px] mx-auto bg-slate-900 rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden group/cta">
           {/* Subtle Technical Pattern */}
           <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
@@ -215,10 +210,10 @@ const Projects: React.FC = () => {
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-300">System Status: Available for Collaboration</span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 leading-[0.9]">
+              <h2 className="text-5xl md:text-7xl font-black font-sans tracking-tighter mb-8 leading-[0.9]">
                 Scale Revenue with <span className="text-blue-500">Production ML</span>.
               </h2>
-              <p className="text-slate-400 text-xl font-medium max-w-xl leading-relaxed mb-10">
+              <p className="text-slate-400 text-xl font-medium font-sans max-w-xl leading-relaxed mb-10">
                 Hiring for AI/ML? Need help shipping production systems? I deliver 20-40% cost reduction, 10x faster decisions, and resilient models with defined SLAs. Let's align on metrics.
               </p>
             </div>

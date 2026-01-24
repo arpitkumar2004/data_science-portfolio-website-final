@@ -62,28 +62,6 @@ export const achievementData = [
   },
   {
     id: "03",
-    title: "Technical Projects & Applied AI",
-    icon: Binary,
-    category: "System Engineering",
-    items: [
-      {
-        description: "Automated document intelligence system processing 100K+ reports—slashing manual summarization workload by 60% and achieving 35% ROUGE-L F1 improvement, saving 200+ analyst hours monthly.",
-        links: [
-            { url: "/#projects", label: "Case Study" },
-            { url: "https://github.com/arpitkumar2004/Text-Summarizer-Project", label: "Git Repository" }
-        ]
-      },
-      {
-        description: "Real-time healthcare risk engine for Evva Health—ensemble model (BERT + Naive Bayes + Decision Tree) achieving 82.89% accuracy, enabling proactive patient interventions that reduce emergency admissions by 25%.",
-        links: [
-            { url: "https://github.com/arpitkumar2004/DA96_webapp", label: "Webapp Code" },
-            { url: "/#projects", label: "Project Brief" }
-        ]
-      }
-    ]
-  },
-  {
-    id: "04",
     title: "Global AI Competitions & Hackathons",
     icon: Trophy,
     category: "Competitive Excellence",
@@ -111,7 +89,7 @@ export const achievementData = [
     ]
   },
   {
-    id: "05",
+    id: "04",
     title: "Leadership & Strategy",
     icon: Users,
     category: "Technical Governance",

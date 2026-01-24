@@ -211,15 +211,15 @@ const RequestCV: React.FC = () => {
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="p-4 bg-white border border-slate-200 rounded-2xl text-center lg:text-left shadow-sm"
+                  className="p-4 bg-white border border-slate-900 rounded-2xl text-center lg:text-left shadow-sm"
                 >
-                  <div className="text-blue-600 mb-2 flex justify-center lg:justify-start">
+                  <div className="text-blue-700 mb-2 flex justify-center lg:justify-start">
                     {stat.icon}
                   </div>
                   <div className="text-2xl font-black text-slate-900 tracking-tighter">
-                    {stat.val}+
+                    {stat.val} +
                   </div>
-                  <div className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest mt-1">
+                  <div className="text-[9px] font-mono font-bold text-slate-900 uppercase tracking-widest mt-1">
                     {stat.label}
                   </div>
                 </div>

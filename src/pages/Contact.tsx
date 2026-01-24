@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
               with production-grade ML.
             </span>
           </motion.h1>
-          <p className="text-slate-500 max-w-2xl text-lg font-medium leading-relaxed">
+          <p className="text-slate-500 max-w-6xl text-lg font-medium leading-relaxed">
             Hiring, partnering, or exploring research? Share context and timelines—I'll respond with an actionable plan, not a generic reply.
           </p>
         </header>

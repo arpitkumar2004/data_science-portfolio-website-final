@@ -193,7 +193,7 @@ const AboutMe: React.FC = () => {
                                     <Binary className="text-blue-600" size={24} />
                                     Technical Archetype
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="flex flex-col gap-6">
                                     <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2 text-blue-600">

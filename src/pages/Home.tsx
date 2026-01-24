@@ -108,7 +108,7 @@ const Home: React.FC = () => {
       { l: 'Years Shipping ML', v: yearsDisplay, d: 'Production & Research' },
       { l: 'Live Deployments', v: String(projectsDeployedCount).padStart(2, '0') + '+', d: 'Real users & Impact' },
       { l: 'Competition Podiums', v: String(competitionsWonCount).padStart(2, '0') + '+', d: 'Ranked outcomes' },
-      { l: 'Active Research', v: String(ongoingResearchCount).padStart(2, '0') + '+', d: 'In-flight experiments' },
+      { l: 'Active Projects', v: String(ongoingResearchCount).padStart(2, '0') + '+', d: 'Building & Learning' },
     ];
   }, [projects]);
 

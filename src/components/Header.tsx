@@ -66,7 +66,7 @@ const Header: React.FC = () => {
               <span className="text-lg font-black tracking-tighter text-blue-600 leading-none">
                 ARPIT KUMAR
               </span>
-              <span className="text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase mt-0.5">
+              <span className="text-[10px] font-mono font-bold text-slate-900 tracking-widest uppercase mt-0.5">
                 IIT Kharagpur // AI
               </span>
             </div>

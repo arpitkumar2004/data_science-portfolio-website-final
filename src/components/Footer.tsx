@@ -77,7 +77,7 @@ const Footer: React.FC = () => {
             </Link>
             
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              <span className="font-bold">ML Systems Engineer & Applied Researcher</span> at IIT Kharagpur. Building production-grade deep learning systems with measurable ROI in real-world applications. Expertise: cloud architecture, MLOps, distributed systems, research translation.
+              <span className="font-bold">AI / ML Systems & Applied Researcher</span> at IIT Kharagpur. Building production-grade deep learning systems with measurable ROI in real-world applications. Expertise: cloud architecture, MLOps, distributed systems, research translation.
             </p>
 
             {/* Unique Visitor Log Counter */}
@@ -102,16 +102,22 @@ const Footer: React.FC = () => {
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <Zap size={40} className="text-blue-500 animate-pulse" />
-                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.2em] text-blue-500">Seeking High-Impact Roles</h4>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.18em] text-blue-400">Opportunities & Collaborations</h4>
                 </div>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
-                    <ShieldCheck size={20} className="text-blue-500 mt-0.5" />
-                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Summer 2026 Internships <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Industrial R&D, MNC ML teams—production systems, cost optimization, scalable infrastructure</span></p>
+                    <ShieldCheck size={50} className="text-blue-400 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-bold font-mono text-slate-200 tracking-tight">Summer 2026 Internships</p>
+                      <p className="text-[10px] text-slate-400 mt-1">Industrial R&D & MNC ML teams — production ML, cost and energy optimization, scalable inference.</p>
+                    </div>
                   </li>
                   <li className="flex items-start gap-3">
-                    <Microscope size={20} className="text-blue-500 mt-0.5" />
-                    <p className="text-xs font-bold font-mono text-slate-200 tracking-tight">Research Partnerships <span className="block text-[10px] text-slate-500 font-normal normal-case mt-1">Deep learning, MLOps, latency optimization, adversarial robustness—academia & industry</span></p>
+                    <Microscope size={50} className="text-blue-400 mt-0.5" />
+                    <div>
+                      <p className="text-sm font-bold font-mono text-slate-200 tracking-tight">Research Partnerships</p>
+                      <p className="text-[10px] text-slate-400 mt-1">Collaborative projects in deep learning, MLOps, latency & robustness — applied research with measurable impact.</p>
+                    </div>
                   </li>
                 </ul>
               </div>
