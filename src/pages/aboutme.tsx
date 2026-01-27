@@ -3,17 +3,13 @@ import { motion } from "framer-motion";
 import myphoto from "../data/img/me/my_photo2.png";
 import {
     Terminal,
-    Database,
-    Layers,
     Activity,
     Download,
     Mail,
-    ChevronRight,
     Briefcase,
     ShieldCheck,
     Cpu,
     GraduationCap,
-    FlaskConical,
     Trophy,
     Binary,
     Code2,
@@ -40,7 +36,7 @@ const Milestone = ({ icon: Icon, title, subtitle, date }: any) => (
         </div>
     </div>
 );
-
+const savedRole = localStorage.getItem('userRole') || 'guest';
 const AboutMe: React.FC = () => {
     const brandBlue = "rgb(37 99 235)";
 
@@ -146,7 +142,7 @@ const AboutMe: React.FC = () => {
 
                             <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 leading-relaxed space-y-6">
                                 <p>
-                                    I am an undergraduate at IIT Kharagpur who operates as a <strong>first-principles ML systems engineer</strong>. I bridge mathematical rigor with production realities: derive algorithms, reason about stability, then deliver code that meets latency and reliability budgets. My <strong>Integrated Dual Degree at IIT Kharagpur</strong> trains me to move from theory to deployment—designing models with provable behavior, adversarially testing edge cases, and running tight feedback loops until they earn trust in production.
+                                    Hello {savedRole.toUpperCase()}, I am an undergraduate at IIT Kharagpur who operates as a <strong>first-principles ML systems engineer</strong>. I bridge mathematical rigor with production realities: derive algorithms, reason about stability, then deliver code that meets latency and reliability budgets. My <strong>Integrated Dual Degree at IIT Kharagpur</strong> trains me to move from theory to deployment—designing models with provable behavior, adversarially testing edge cases, and running tight feedback loops until they earn trust in production.
                                 </p>
                                 <p>
                                     As a <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, I set AI/ML roadmaps, review architectures, and mentor engineers. I champion <strong>interpretable, fail-safe ML</strong> with explicit SLAs, latency budgets, and observability baked in. That means guardrailed rollouts, regression tests on drifted data, and dashboards that surface leading indicators before users feel pain.

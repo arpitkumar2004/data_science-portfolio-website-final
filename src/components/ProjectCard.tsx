@@ -48,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   return (
     <motion.div
       onClick={handleCardClick}
-      className="group flex flex-col bg-white border border-slate-200 rounded-xl overflow-hidden hover:border-blue-500 transition-all duration-300 cursor-pointer h-full"
+      className="group flex flex-col bg-white border border-slate-800 rounded-xl overflow-hidden hover:border-blue-500 transition-all duration-300 cursor-pointer h-full"
     >
       {/* 1. IMAGE AREA - Minimalist & Focused */}
       <div className="relative h-48 overflow-hidden bg-slate-100">
@@ -104,7 +104,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </div>
 
-        <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
+        <div className="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between hover:mt-auto transition-all group-hover:border-blue-500">
           {/* Main Action */}
           <button className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-900 group-hover:text-blue-600 transition-all">
             Open Dossier{" "}
