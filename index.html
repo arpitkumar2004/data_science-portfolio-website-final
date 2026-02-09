@@ -7,6 +7,16 @@
     <meta name="description" content="Data Science Portfolio showcasing projects, achievements, and expertise in machine learning and AI" />
     <title>Arpit Kumar | IIT Kharagpur | Data Science Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      // Restore SPA routes after 404 redirect on static hosts
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('redirect');
+        if (redirect) {
+          history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

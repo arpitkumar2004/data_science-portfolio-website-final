@@ -1,0 +1,33 @@
+[
+  {
+    "category": "General",
+    "items": [
+      { "title": "Overview", "path": "/docs/general/overview.md" },
+      { "title": "Quick Start", "path": "/docs/general/setup.md" },
+      { "title": "Usage", "path": "/docs/general/usage.md" },
+      { "title": "Deployment", "path": "/docs/general/deployment.md" },
+      { "title": "Troubleshooting", "path": "/docs/general/troubleshooting.md" }
+    ]
+  },
+  {
+    "category": "Admin Panel",
+    "items": [
+      { "title": "Admin Access", "path": "/docs/admin/admin-access.md" },
+      { "title": "Dashboard Guide", "path": "/docs/admin/dashboard.md" }
+    ]
+  },
+  {
+    "category": "Backend / API",
+    "items": [
+      { "title": "API Overview", "path": "/docs/backend/api-overview.md" },
+      { "title": "Auth (Admin)", "path": "/docs/backend/auth.md" },
+      { "title": "Leads API", "path": "/docs/backend/leads.md" }
+    ]
+  },
+  {
+    "category": "Architecture",
+    "items": [
+      { "title": "System Overview", "path": "/docs/architecture/system-overview.md" }
+    ]
+  }
+]

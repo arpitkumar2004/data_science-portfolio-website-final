@@ -7,6 +7,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
   { href: '/contact', label: 'Contact' },
+  // { href: '/docs', label: 'Docs' },
 ];
 
 const Header: React.FC = () => {

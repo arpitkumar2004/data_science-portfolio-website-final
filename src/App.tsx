@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -15,6 +15,8 @@ import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import RoleGateway from './components/RoleGateway';
 import { buildApiUrl, API_ENDPOINTS } from './config/api';
+import DocsLayout from './layouts/DocsLayout';
+import DocsViewer from './components/DocsViewer';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -31,7 +33,7 @@ const ScrollToTop = () => {
   return null;
 };
 
-function App() {
+const MainApp = () => {
   useLenis();
 
   // --- ADDED: RENDER WAKE-UP TRICK ---
@@ -54,31 +56,43 @@ function App() {
   }, []);
 
   return (
+    <ToastProvider>
+      {/* WRAP EVERYTHING INSIDE THE GATEWAY */}
+      <RoleGateway>
+        <div className="flex flex-col min-h-screen bg-gray-50">
+          <Header />
+          <main className="flex-grow">
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/projects/:id" element={<ProjectDetail />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/request-cv" element={<RequestCV />} />
+                <Route path="/aboutme" element={<AboutMe />} />
+                <Route path="/admin" element={<AdminDashboardPage />} />
+              </Routes>
+            </ErrorBoundary>
+          </main>
+          <Footer />
+          {/* <SpeedInsights /> */}
+        </div>
+      </RoleGateway>
+    </ToastProvider>
+  );
+};
+
+function App() {
+  return (
     <Router>
       <ScrollToTop />
-      <ToastProvider>
-        {/* WRAP EVERYTHING INSIDE THE GATEWAY */}
-        <RoleGateway>
-          <div className="flex flex-col min-h-screen bg-gray-50">
-            <Header />
-            <main className="flex-grow">
-              <ErrorBoundary>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/projects" element={<Projects />} />
-                  <Route path="/projects/:id" element={<ProjectDetail />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/request-cv" element={<RequestCV />} />
-                  <Route path="/aboutme" element={<AboutMe />} />
-                  <Route path="/admin" element={<AdminDashboardPage />} />
-                </Routes>
-              </ErrorBoundary>
-            </main>
-            <Footer />
-            {/* <SpeedInsights /> */}
-          </div>
-        </RoleGateway>
-      </ToastProvider>
+      <Routes>
+        <Route path="/docs" element={<DocsLayout />}>
+          <Route index element={<Navigate to="/docs/general/overview.md" replace />} />
+          <Route path="*" element={<DocsViewer />} />
+        </Route>
+        <Route path="/*" element={<MainApp />} />
+      </Routes>
     </Router>
   );
 }
