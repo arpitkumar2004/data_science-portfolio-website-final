@@ -283,12 +283,12 @@ export default function TechnicalProficiencies() {
                 {coursework.map((course, idx) => (
                   <div
                     key={idx}
-                    className="p-3 rounded-lg border border-slate-100 hover:border-blue-300 hover:bg-blue-50/30 transition-all"
+                    className="p-3 rounded-lg border flex flex-row gap-3 border-slate-100 hover:border-blue-300 hover:bg-blue-50/30 transition-all"
                   >
                     <p className="text-xs font-mono font-bold text-blue-600 mb-1 uppercase tracking-tight">
                       {course.id}
                     </p>
-                    <p className="text-sm font-bold text-slate-700">
+                    <p className="text-xs font-bold text-slate-700">
                       {course.name}
                     </p>
                   </div>
