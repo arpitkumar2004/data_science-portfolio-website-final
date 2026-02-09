@@ -26,15 +26,14 @@ export const techData = [
     category: "Revenue Multiplier",
     icon: <Sparkles className="w-5 h-5" />,
     description:
-      "Production RAG systems that slash inference latency by 70% and cut hallucinations by 85%. Fine-tuned LLMs delivering $2M+ annual cost savings through automation at enterprise scale.",
+      "Enterprise RAG and agent systems that cut latency 60-80%, improve factuality 80%+, and automate workflows for $2M+ annual savings. Built with evals, guardrails, and cost controls for production scale.",
     tools: [
       "LangChain",
-      "HuggingFace",
       "LlamaIndex",
-      "VectorDBs",
-      "JAX",
-      "NumPy",
-      "Pandas",
+      "vLLM",
+      "Vector DBs",
+      "HuggingFace",
+      "RAGAS",
     ],
   },
   {
@@ -42,15 +41,15 @@ export const techData = [
     category: "Competitive Edge",
     icon: <Brain className="w-5 h-5" />,
     description:
-      "Revenue-generating models outperforming benchmarks by 18-35%. Deployed vision systems reducing operational errors by 40% and quant models capturing 0.48+ real-time alpha.",
+      "Research-to-production models beating baselines by 15-35% across vision, NLP, and time series. Deployed CV reducing defects by 40% and quant models capturing 0.4+ real-time alpha.",
     tools: [
-      "TensorFlow",
       "PyTorch",
+      "TensorFlow",
       "Scikit-learn",
-      "SciPy",
-      "Keras",
       "XGBoost",
+      "LightGBM",
       "OpenCV",
+      "Optuna",
     ],
   },
   {
@@ -58,22 +57,22 @@ export const techData = [
     category: "Production Scaling",
     icon: <Network className="w-5 h-5" />,
     description:
-      "End-to-end ML infrastructure cutting deployment cycles by 40% and reducing inference latency by 60%. Containerized systems enabling 99.9% uptime at <100ms p99 response time.",
-    tools: ["Docker", "Kubernetes", "MLflow", "DVC", "Airflow", "FastAPI"],
+      "End-to-end ML platforms cutting deployment cycles by 40% and reducing inference latency by 60%. Containerized services enabling 99.9% uptime and sub-100ms p99 response time.",
+    tools: ["Docker", "Kubernetes", "MLflow", "Airflow", "FastAPI", "Terraform"],
   },
   {
     title: "Big Data & Science",
     category: "Data Advantage",
     icon: <BarChart3 className="w-5 h-5" />,
     description:
-      "Petabyte-scale processing delivering real-time competitive intelligence. 100K+ daily records → actionable insights in <2 minutes, enabling data-driven decisions at enterprise velocity.",
+      "Petabyte-scale pipelines delivering real-time intelligence. 100K+ daily records to actionable insights in under 2 minutes, enabling data-driven decisions at enterprise velocity.",
     tools: [
       "PySpark",
-      "GCP/AWS",
+      "SQL",
       "BigQuery",
       "Snowflake",
+      "Databricks",
       "Power BI",
-      "Tableau",
     ],
   },
   {
@@ -81,15 +80,15 @@ export const techData = [
     category: "Performance Capital",
     icon: <Code2 className="w-5 h-5" />,
     description:
-      "Microsecond-level optimization driving millions in trading profit. Memory-efficient systems processing 1M+ events/sec with <5% latency variance—competitive advantage in high-frequency markets.",
-    tools: ["Python", "C++", "SQL", "MATLAB", "JavaScript", "CUDA", "Git"],
+      "High-performance systems and clean, tested code for research and production. Memory-efficient services processing 1M+ events/sec with under 5% latency variance.",
+    tools: ["Python", "C++", "SQL", "MATLAB", "JavaScript", "CUDA", "Linux"],
   },
   {
     title: "Process Simulation",
     category: "Capital Risk Mitigation",
     icon: <FlaskConical className="w-5 h-5" />,
     description:
-      "De-risks $10M+ capital projects through digital twins. Delivered 20% energy optimization and 98% purity—translating to $500K+ annual operational cost savings at industrial scale.",
+      "Chemical engineering digital twins that de-risk $10M+ capital projects. Delivered 20% energy optimization and 98% purity, translating to $500K+ annual cost savings.",
     tools: ["Aspen Plus", "Aspen HYSYS", "COMSOL", "ANSYS", "OpenFOAM"],
   },
 ];
@@ -97,24 +96,26 @@ export const techData = [
 const coursework = [
   { id: "CS10001", name: "Programming & Data Structures" },
   { id: "MA20104", name: "Probability & Statistics" },
-  { id: "EE364A", name: "Convex Optimization (Stanford)" },
-  { id: "CS229", name: "Machine Learning (Stanford)" },
-  { id: "CS230", name: "Deep Learning (Stanford)" },
-  { id: "CS224N", name: "NLP with Deep Learning (Stanford)" },
-  { id: "CS329S", name: "ML Systems Design" },
+  { id: "EE364A", name: "Convex Optimization (Stanford Online)" },
+  { id: "CS229", name: "Machine Learning (Stanford Online)" },
+  { id: "CS230", name: "Deep Learning (Stanford Online)" },
+  { id: "CS224N", name: "NLP with Deep Learning (Stanford Online)" },
+  { id: "CS329S", name: "ML Systems Design (Stanford Online)" },
   { id: "CH61015", name: "Advanced Math Techniques" },
   { id: "CH62003", name: "Process Modeling & Simulation" },
   { id: "CH31011", name: "Instrumentation & Control" },
   { id: "MA20101", name: "Transform Calculus" },
   { id: "CH30016", name: "Numerical Methods" },
+  { id: "DS51001", name: "Experimental Design & A/B Testing" },
+  { id: "DS52004", name: "Causal Inference " },
 ];
 
 const domains = [
-  "LLM-at-Scale: $2M+ cost reduction through enterprise automation",
+  "LLM at Scale: $2M+ annual savings through enterprise automation",
+  "Applied Research: rigorous experiments, ablations, and reproducible results",
   "Predictive Analytics: 95%+ anomaly detection accuracy for risk mitigation",
-  "Industrial Computer Vision: 40% error reduction in manufacturing QA",
-  "Production ML: 99.9% uptime, <100ms latency at petabyte scale",
-  "Predictive Maintenance: $500K+ annual savings through digital twins",
+  "Industrial Computer Vision: 40% defect reduction in manufacturing QA",
+  "Production ML: 99.9% uptime and sub-100ms p99 latency at scale",
   "Process Optimization: 20% energy efficiency gains in industrial operations",
 ];
 

@@ -383,33 +383,33 @@ export default function Experience() {
         {/* --- RECRUITER FOOTNOTE (Remains Visible) --- */}
         <motion.div
           layout
-          className="mt-12 p-8 lg:p-12 bg-slate-900 border border-slate-200 text-slate-900 relative overflow-hidden rounded-[2.5rem] shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-500"
+          className="mt-12 p-8 lg:p-12 bg-slate-900 border border-slate-800 text-slate-100 relative overflow-hidden rounded-[2.5rem] shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-500"
         >
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
               <div className="flex items-center gap-2 mb-3 justify-center lg:justify-start">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold text-blue-600 uppercase tracking-widest">
+                <span className="text-[10px] font-mono font-bold text-emerald-300 uppercase tracking-widest">
                   Available for Summer 2026
                 </span>
               </div>
               <h4 className="text-3xl text-white font-black tracking-tighter mb-3">
-                Want the Full Technical Dossier?
+                Get Full Technical Dossier
               </h4>
               <p className="text-slate-300 text-sm max-w-md font-medium leading-relaxed">
-                Extended CV includes: deep-dive research publications, quantified ROI across projects (cost reductions, latency improvements), security audit results, architectural decision logs, and references to open-source contributions—optimized for <b className="text-white">Industrial R&D teams, startups, interviews, and academic collaborators</b>.
+                Includes: research publications, quantified ROI of Projects(cost, latency, revenue), security audit outcomes, architecture decision logs, and open-source references—optimized for <b className="text-white">R&D teams, hiring panels, founders, and academic collaborators</b>.
               </p>
             </div>
 
             <a
-              href="#/request-cv"
+              href="/request-cv"
               className="group px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all flex items-center gap-3 shadow-lg shadow-blue-600/40 hover:shadow-xl hover:shadow-blue-600/60"
             >
               <Terminal
                 size={18}
                 className="group-hover:translate-y-0.5 transition-transform"
               />
-              <span>Get Extended Dossier →</span>
+              <span>Get the Dossier →</span>
             </a>
           </div>
         </motion.div>

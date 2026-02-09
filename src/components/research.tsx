@@ -69,7 +69,7 @@ const ResearchComponent = () => {
             Where Theory Meets Production 
           </h2>
           <p className="text-slate-500 mt-6 text-lg leading-relaxed font-medium">
-            I ship AI that drives measurable outcomes—fusing rigorous engineering principles with neural architectures to solve complex, revenue-critical problems at scale.
+            I shiped AI that drives measurable outcomes—fusing rigorous engineering principles with neural architectures to solve complex, revenue-critical problems at scale. Like ...
           </p>
         </div>
         

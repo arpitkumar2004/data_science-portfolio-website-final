@@ -142,9 +142,9 @@ export default function Education() {
                 <div className="bg-blue-600 text-white p-6 rounded-2xl shadow-xl lg:w-64">
                   <div className="flex justify-between items-center mb-4">
                     <Award size={18} className="text-blue-200" />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-200">Cumulative GPA</span>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-200">SGPA</span>
                   </div>
-                  <p className="text-3xl font-black tracking-tight">8.46<span className="text-sm opacity-60">/10</span></p>
+                  <p className="text-3xl font-black tracking-tight">7.86<span className="text-sm opacity-60">/10</span></p>
                 </div>
               </div>
 
@@ -166,23 +166,61 @@ export default function Education() {
         </motion.div>
 
         {/* Scholarship / Achievement Callout */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="mt-12 flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left"
+          className="mt-12 grid grid-cols-1 lg:grid-cols-4 gap-6 items-stretch"
         >
-          <div className="flex items-center gap-3">
-             <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-blue-600 border border-slate-100">
-                <Binary size={20} />
-             </div>
-             <p className="text-sm font-medium text-slate-600 max-w-xl">
-               Deploying AI-driven optimization frameworks that reduce energy waste and accelerate convergence in industrial-scale chemical processes.
-             </p>
+          <div className="lg:col-span-2 flex items-start gap-4 rounded-2xl border border-slate-100 bg-slate-50/60 p-6">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-600 border border-slate-100">
+              <Binary size={20} />
+            </div>
+            <div>
+              <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
+                Research Focus
+              </p>
+              <p className="text-sm font-medium text-slate-600 mt-2">
+                Building AI-driven optimization frameworks to cut energy waste and speed convergence in industrial-scale chemical processes.
+              </p>
+              <ul className="mt-4 space-y-2 text-sm text-slate-600">
+                <li className="flex gap-2">
+                  <span className="text-blue-600 font-mono">01.</span>
+                  Closed-loop control with neural surrogates for stability and safety.
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-blue-600 font-mono">02.</span>
+                  Hybrid physics + data models to improve generalization across regimes.
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-blue-600 font-mono">03.</span>
+                  Real-time optimization under constraints using MPC-style objectives.
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-blue-600 font-mono">04.</span>
+                  Digital twin validation with sensitivity and uncertainty analysis.
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className="h-10 w-px bg-slate-200 hidden md:block" />
-          <p className="text-sm font-bold text-slate-900">
-            M.Tech Thesis: <span className="text-blue-600">Neural Process Control for Real-Time Optimization</span>
-          </p>
+
+          <div className="rounded-2xl border border-slate-100 bg-white p-6 lg:col-span-2">
+            <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400">
+              Thesis Track
+            </p>
+            <p className="text-sm font-bold text-slate-900 mt-2">
+              Expected M.Tech Thesis
+            </p>
+            <p className="text-sm text-blue-600 font-bold mt-1">
+              Applied Neural Architectures in Process Control for Real-Time Optimization in Industrial Processes 
+            </p>
+            <div className="h-px bg-slate-100 my-4" />
+            <p className="text-sm font-bold text-slate-900">
+              B.Tech Project
+            </p>
+            <p className="text-sm text-blue-600 font-bold mt-1">
+              Transport Analysis of Electrolytic Conversion of CO<sub>2</sub> to CH<sub>3</sub>OH in AEM and PEM types of Electrolyzers.
+            </p>
+          </div>
         </motion.div>
 
       </div>

@@ -87,8 +87,8 @@ const AboutMe: React.FC = () => {
                             {/* Rapid Stats Grid */}
                             <div className="mt-8 grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-                                    <p className="text-2xl font-black text-slate-900 tracking-tighter">8.46</p>
-                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">CGPA // Top Cohort</p>
+                                    <p className="text-2xl font-black text-slate-900 tracking-tighter">7.86</p>
+                                    <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">SGPA // Top Cohort</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
                                     <p className="text-2xl font-black text-blue-600 tracking-tighter">09+</p>

@@ -6,17 +6,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Github,
   Linkedin,
-  Mail,
   ArrowRight,
   FileText,
   Terminal,
   ShieldCheck,
-  History,
-  GraduationCap,
-  Award,
-  ChevronRight
 } from "lucide-react";
-import { SiKaggle, SiMedium } from "react-icons/si";
+
+import { SiKaggle} from "react-icons/si";
 
 // Components
 import ProjectCard from "../components/ProjectCard";
@@ -141,7 +137,7 @@ const Home: React.FC = () => {
               <motion.div variants={heroItem} className="h-10 flex items-center mb-6">
                 <span className="text-lg md:text-2xl font-mono font-bold text-blue-600">
                   &gt; <AniText
-                    texts={["Deep Learning Researcher", "Applied ML Specialist", "Data Science Enthusiast", "AI Systems Developer", "First-Principles Engineer"]}
+                    texts={["Deep Learning Researcher", "Applied ML Researcher", "Production ML Engineer", "AI Systems Builder", "First-Principles Engineer"]}
                     typingSpeed={50}
                     pauseTime={1500}
                   />
@@ -149,7 +145,7 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.p variants={heroItem} className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
-                I architect production-grade AI that fuses <strong>first-principles engineering</strong> rigor with <strong>neural systems</strong> agility—turning messy signals into deployable, revenue-driving intelligence. 
+                I have experience in architecting production-grade AI systems that fuses <strong>first-principles engineering</strong> rigor with <strong>neural systems</strong> agility—turning messy signals into deployable, revenue-driving intelligence. 
               </motion.p>
 
               <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 py-6">
@@ -165,10 +161,10 @@ const Home: React.FC = () => {
 
               <motion.div variants={heroItem} className="flex flex-wrap gap-4">
                 <Link to="/projects" aria-label="Review portfolio" className="group px-8 py-4 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
-                  See Impact in Production <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                  View Production Portfolio <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link to="/request-cv" aria-label="Get technical CV" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
-                  <FileText size={18} />Get Full Resume
+                  <FileText size={18} />Download Resume
                 </Link>
                 <Link to="/aboutme" aria-label="More about me" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
                 Background & Story <ShieldCheck size={18} />
