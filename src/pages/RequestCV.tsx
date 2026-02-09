@@ -161,10 +161,10 @@ const RequestCV: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 pb-20">
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
       <div className="max-w-7xl mx-auto px-6 py-16 lg:py-18">
         {/* --- HEADER ARCHIVE --- */}
-        <header className="mb-16 border-b border-slate-100 pb-12">
+        <header className="mb-16 border-b border-slate-100 dark:border-white/10 pb-12">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-12">
             <div className="max-w-2xl text-center lg:text-left">
               <motion.div
@@ -180,7 +180,7 @@ const RequestCV: React.FC = () => {
               <h1 className="text-5xl md:text-5xl font-black tracking-tighter mb-4 leading-none">
                 Get the production-ready <span className="text-blue-600 italic">CV</span>
               </h1>
-              <p className="text-slate-500 text-lg font-medium">
+              <p className="text-slate-500 dark:text-slate-300 text-lg font-medium">
                 Tell me your context (hiring, research, build). I’ll auto-dispatch a detailed CV—outcomes, systems shipped, and research impact—straight to your inbox.
               </p>
             </div>
@@ -211,15 +211,15 @@ const RequestCV: React.FC = () => {
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="p-4 bg-white border border-slate-900 rounded-2xl text-center lg:text-left shadow-sm"
+                  className="p-4 bg-white dark:bg-[#161616] border border-slate-900 dark:border-white/10 rounded-2xl text-center lg:text-left shadow-sm"
                 >
                   <div className="text-blue-700 mb-2 flex justify-center lg:justify-start">
                     {stat.icon}
                   </div>
-                  <div className="text-2xl font-black text-slate-900 tracking-tighter">
+                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">
                     {stat.val} +
                   </div>
-                  <div className="text-[9px] font-mono font-bold text-slate-900 uppercase tracking-widest mt-1">
+                  <div className="text-[9px] font-mono font-bold text-slate-900 dark:text-slate-200 uppercase tracking-widest mt-1">
                     {stat.label}
                   </div>
                 </div>
@@ -232,7 +232,7 @@ const RequestCV: React.FC = () => {
           {/* --- LEFT: SIDEBAR --- */}
           <div className="lg:col-span-4 space-y-8">
             {/* --- PRIMARY DISPATCH CARD --- */}
-            <section className="p-8 bg-slate-900 rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-blue-200">
+            <section className="p-8 bg-slate-900 dark:bg-[#0a0a0a] rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-blue-200 dark:shadow-blue-900/40">
               <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
                 <ShieldCheck size={140} />
               </div>
@@ -276,7 +276,7 @@ const RequestCV: React.FC = () => {
             <div className="space-y-6 pt-4">
               {/* Internal Repository Links */}
               <div>
-                <h4 className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
+                <h4 className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
                   <Layout size={12} /> Repository Index
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -301,7 +301,7 @@ const RequestCV: React.FC = () => {
 
               {/* External Technical Nodes */}
               <div>
-                <h4 className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
+                <h4 className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
                   <Globe size={12} /> External Nodes
                 </h4>
                 <div className="flex flex-wrap gap-2">
@@ -327,7 +327,7 @@ const RequestCV: React.FC = () => {
 
           {/* --- RIGHT: FORM --- */}
           <div className="lg:col-span-8">
-            <motion.div className="bg-slate-50 border border-slate-200/60 rounded-[3rem] p-8 lg:p-12 relative">
+            <motion.div className="bg-slate-50 border border-slate-200/60 dark:bg-[#111827] dark:border-white/10 rounded-[3rem] p-8 lg:p-12 relative">
               {/* FEEDBACK OVERLAYS */}
               <AnimatePresence>
                 {showWakeUpNotice && !submitStatus && (
@@ -335,7 +335,7 @@ const RequestCV: React.FC = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-700 flex items-start gap-4"
+                    className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-700 flex items-start gap-4 dark:bg-amber-500/10 dark:border-amber-500/30 dark:text-amber-200"
                   >
                     <Clock className="animate-pulse mt-1" size={20} />
                     <p className="text-xs font-bold uppercase tracking-tight">
@@ -349,10 +349,10 @@ const RequestCV: React.FC = () => {
                     ref={errorRef}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-8 p-6 bg-red-50 border border-red-200 rounded-3xl"
+                    className="mb-8 p-6 bg-red-50 border border-red-200 rounded-3xl dark:bg-red-500/10 dark:border-red-500/30"
                   >
                     <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3 text-red-700">
+                      <div className="flex items-center gap-3 text-red-700 dark:text-red-200">
                         <AlertCircle size={20} />
                         <p className="text-sm font-black uppercase tracking-tight">
                           Dispatch Failed
@@ -365,7 +365,7 @@ const RequestCV: React.FC = () => {
                         <RefreshCcw size={12} /> Retry
                       </button>
                     </div>
-                    <p className="text-xs text-red-600 mt-2 font-medium ml-8">
+                      <p className="text-xs text-red-600 dark:text-red-200 mt-2 font-medium ml-8">
                       {errorMessage}
                     </p>
                   </motion.div>
@@ -407,7 +407,7 @@ const RequestCV: React.FC = () => {
                       />
                       <input
                         {...register("company", { required: "Required" })}
-                        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold"
+                        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold"
                         placeholder="Company / University"
                       />
                     </div>
@@ -424,7 +424,7 @@ const RequestCV: React.FC = () => {
                       />
                       <select
                         {...register("subject")}
-                        className="w-full pl-12 pr-10 py-4 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-10 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
                       >
                         <option>Hiring / Recruitment</option>
                         <option>Summer Internship 2026</option>
@@ -442,7 +442,7 @@ const RequestCV: React.FC = () => {
                   <textarea
                     rows={4}
                     {...register("message", { required: "Detail required" })}
-                    className="w-full p-5 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
+                    className="w-full p-5 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
                     placeholder="Role, goals, timelines, tech stack, evaluation criteria"
                   />
                 </div>
@@ -451,7 +451,7 @@ const RequestCV: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-2xl ${isSubmitting ? "bg-slate-200 text-slate-500 cursor-not-allowed" : "bg-slate-900 text-white hover:bg-blue-600 shadow-blue-200"}`}
+                    className={`w-full py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-2xl ${isSubmitting ? "bg-slate-200 text-slate-500 cursor-not-allowed dark:bg-white/10 dark:text-slate-400" : "bg-slate-900 text-white hover:bg-blue-600 shadow-blue-200 dark:shadow-blue-900/40"}`}
                   >
                     {isSubmitting ? (
                       <>
@@ -471,7 +471,7 @@ const RequestCV: React.FC = () => {
                   </button>
 
                   {isSubmitting && (
-                    <div className="mt-6 h-0.5 w-full bg-slate-200 rounded-full overflow-hidden">
+                    <div className="mt-6 h-0.5 w-full bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: "95%" }}
@@ -487,7 +487,7 @@ const RequestCV: React.FC = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-8 p-6 bg-green-50 border border-green-100 rounded-3xl flex items-center gap-4 text-green-700"
+                  className="mt-8 p-6 bg-green-50 border border-green-100 rounded-3xl flex items-center gap-4 text-green-700 dark:bg-green-500/10 dark:border-green-500/30 dark:text-green-200"
                 >
                   <CheckCircle size={24} />
                   <div>
@@ -513,8 +513,8 @@ const RequestCV: React.FC = () => {
 const EcosystemLink = ({ to, href, icon, label, dark }: any) => {
   const styles = `px-4 py-3 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest border ${
     dark
-      ? "bg-slate-900 text-white border-slate-800 hover:bg-blue-600 shadow-lg shadow-slate-200"
-      : "bg-white text-slate-600 border-slate-200 hover:text-blue-600 hover:border-blue-200 shadow-sm"
+      ? "bg-slate-900 text-white border-slate-800 hover:bg-blue-600 shadow-lg shadow-slate-200 dark:shadow-blue-900/40"
+      : "bg-white dark:bg-[#161616] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:text-blue-600 hover:border-blue-200 shadow-sm"
   }`;
   return to ? (
     <Link to={to} className={styles}>
@@ -529,7 +529,7 @@ const EcosystemLink = ({ to, href, icon, label, dark }: any) => {
 
 const FormInput = ({ label, placeholder, error, icon, registration }: any) => (
   <div className="space-y-1.5 flex-1">
-    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
+    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-300 ml-1">
       {label}
     </label>
     <div className="relative">
@@ -538,7 +538,7 @@ const FormInput = ({ label, placeholder, error, icon, registration }: any) => (
       </div>
       <input
         {...registration}
-        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
+        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300 dark:placeholder:text-slate-500"
         placeholder={placeholder}
       />
     </div>

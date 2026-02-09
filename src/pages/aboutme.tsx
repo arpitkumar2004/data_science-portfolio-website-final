@@ -19,20 +19,20 @@ import { Link } from "react-router-dom";
 import AniText from "../components/AniText";
 
 const TechnicalBadge = ({ children }: { children: React.ReactNode }) => (
-    <span className="px-2 py-1 bg-blue-50 text-blue-700 border border-blue-100 rounded text-[10px] font-mono font-bold uppercase tracking-wider">
+    <span className="px-2 py-1 bg-blue-50 dark:bg-blue-600/10 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-500/20 rounded text-[10px] font-mono font-bold uppercase tracking-wider">
         {children}
     </span>
 );
 
 const Milestone = ({ icon: Icon, title, subtitle, date }: any) => (
-    <div className="flex gap-4 p-4 rounded-xl border border-slate-100 bg-white hover:border-blue-200 transition-all">
-        <div className="mt-1 p-2 rounded-lg bg-slate-50 text-blue-600">
+    <div className="flex gap-4 p-4 rounded-xl border border-slate-100 dark:border-white/10 bg-white dark:bg-[#161616] hover:border-blue-200 transition-all">
+        <div className="mt-1 p-2 rounded-lg bg-slate-50 dark:bg-[#0f172a] text-blue-600">
             <Icon size={20} />
         </div>
         <div>
             <p className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest">{date}</p>
-            <h4 className="font-bold text-slate-900 text-sm">{title}</h4>
-            <p className="text-xs text-slate-500">{subtitle}</p>
+            <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">{title}</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{subtitle}</p>
         </div>
     </div>
 );
@@ -41,9 +41,9 @@ const AboutMe: React.FC = () => {
     const brandBlue = "rgb(37 99 235)";
 
     return (
-        <div className="min-h-screen bg-white font-sans antialiased text-slate-900 selection:bg-blue-100">
+        <div className="min-h-screen bg-white font-sans antialiased text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 dark:bg-black dark:text-slate-100">
             {/* Minimalist Top Bar */}
-            <div className="sticky top-0 z-50 w-full h-1 bg-slate-100">
+            <div className="sticky top-0 z-50 w-full h-1 bg-slate-100 dark:bg-white/10">
                 <motion.div 
                     initial={{ width: 0 }} 
                     whileInView={{ width: "100%" }} 
@@ -64,8 +64,8 @@ const AboutMe: React.FC = () => {
                             className="relative"
                         >
                             <div className="relative group">
-                                <div className="absolute -inset-4 bg-slate-50 rounded-[2.5rem] -z-10 border border-slate-100" />
-                                <div className="overflow-hidden rounded-3xl bg-slate-200 aspect-[4/5] relative shadow-2xl">
+                                <div className="absolute -inset-4 bg-slate-50 dark:bg-[#161616] rounded-[2.5rem] -z-10 border border-slate-100 dark:border-white/10" />
+                                <div className="overflow-hidden rounded-3xl bg-slate-200 dark:bg-[#161600] aspect-[4/5] relative shadow-2xl">
                                     <img
                                         src={myphoto}
                                         alt="Arpit Kumar - IIT Kharagpur"
@@ -86,18 +86,18 @@ const AboutMe: React.FC = () => {
 
                             {/* Rapid Stats Grid */}
                             <div className="mt-8 grid grid-cols-2 gap-4">
-                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
-                                    <p className="text-2xl font-black text-slate-900 tracking-tighter">7.86</p>
+                                <div className="p-4 bg-slate-50 dark:bg-[#0f172a] rounded-2xl border border-slate-100 dark:border-white/10 text-center">
+                                    <p className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">7.86</p>
                                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">SGPA // Top Cohort</p>
                                 </div>
-                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+                                <div className="p-4 bg-slate-50 dark:bg-[#0f172a] rounded-2xl border border-slate-100 dark:border-white/10 text-center">
                                     <p className="text-2xl font-black text-blue-600 tracking-tighter">09+</p>
                                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">Prod Systems Shipped</p>
                                 </div>
                             </div>
 
                             {/* Verification Block */}
-                            <div className="mt-6 p-6 bg-slate-900 rounded-3xl text-white shadow-xl">
+                            <div className="mt-6 p-6 bg-slate-900 dark:bg-[#0a0a0a] rounded-3xl text-white shadow-xl">
                                 <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-4 text-blue-400">
                                     <ShieldCheck size={16} /> Institutional Status
                                 </h4>
@@ -128,7 +128,7 @@ const AboutMe: React.FC = () => {
                                     <TechnicalBadge>Stochastic Modeling</TechnicalBadge>
                                     <TechnicalBadge>IIT KGP Scholar</TechnicalBadge>
                                 </div>
-                                <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-4 leading-none">
+                                <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-4 leading-none">
                                     Arpit Kumar
                                 </h1>
                                 <div className="text-xl md:text-2xl font-mono text-blue-600 font-bold">
@@ -140,7 +140,7 @@ const AboutMe: React.FC = () => {
                                 </div>
                             </header>
 
-                            <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 leading-relaxed space-y-6">
+                            <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 dark:text-slate-300 leading-relaxed space-y-6">
                                 <p>
                                     Hello {savedRole.toUpperCase()}, I am an undergraduate at IIT Kharagpur who operates as a <strong>first-principles ML systems engineer</strong>. I bridge mathematical rigor with production realities: derive algorithms, reason about stability, then deliver code that meets latency and reliability budgets. My <strong>Integrated Dual Degree at IIT Kharagpur</strong> trains me to move from theory to deployment—designing models with provable behavior, adversarially testing edge cases, and running tight feedback loops until they earn trust in production.
                                 </p>
@@ -151,7 +151,7 @@ const AboutMe: React.FC = () => {
 
                             {/* SECTION: Career Milestones */}
                             <div className="mt-16">
-                                <h3 className="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                                <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3">
                                     <Activity className="text-blue-600" size={24} />
                                     Career Milestones
                                 </h3>
@@ -185,62 +185,62 @@ const AboutMe: React.FC = () => {
 
                             {/* SECTION: Core Expertise (The "Why Hire Me" Grid) */}
                             <div className="mt-16">
-                                <h3 className="text-xl font-black text-slate-900 mb-8 flex items-center gap-3">
+                                <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3">
                                     <Binary className="text-blue-600" size={24} />
                                     Technical Archetype
                                 </h3>
                                 <div className="flex flex-col gap-6">
-                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                    <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2 text-blue-600">
                                                 <Terminal size={24} />
-                                                <h4 className="font-bold text-slate-900">Math-First ML</h4>
+                                                <h4 className="font-bold text-slate-900 dark:text-slate-100">Math-First ML</h4>
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-blue-50 text-blue-700 border border-blue-100">Rigor</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Derive backprop, optimizers, and custom losses; prove or bound stability via spectral analysis and initialization bounds.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Design for covariate and concept shift; calibrate predictions and detect OOD with confidence intervals.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Stress-test models with adversarial examples, synthetic distribution shifts, and edge-case pathologies.</span></li>
                                         </ul>
                                     </div>
-                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                    <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2 text-blue-600">
                                                 <Cpu size={24} />
-                                                <h4 className="font-bold text-slate-900">Systems Engineering</h4>
+                                                <h4 className="font-bold text-slate-900 dark:text-slate-100">Systems Engineering</h4>
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Reliability</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Low-latency inference stacks (FastAPI, Node.js) with structured tracing, horizontal autoscaling, circuit breakers.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>p99 latency budgets with SLO/SLA monitoring; error budgets that trigger alerts before threshold breach.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Docker/K8s orchestration with resource limits, health checks, and graceful shutdown protocols.</span></li>
                                         </ul>
                                     </div>
-                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                    <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2 text-blue-600">
                                                 <Code2 size={24} />
-                                                <h4 className="font-bold text-slate-900">Production MLOps</h4>
+                                                <h4 className="font-bold text-slate-900 dark:text-slate-100">Production MLOps</h4>
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-100">Safety</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Feature stores with versioning; drift monitors (KS-test, KL-divergence); bias detectors for protected attributes.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Shadow traffic for safe validation; canary/blue-green releases with automatic rollbacks on SLA breach.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Training-serving parity checks; prediction logging for audit; continuous retraining with pipeline orchestration.</span></li>
                                         </ul>
                                     </div>
-                                    <div className="p-6 border border-slate-100 rounded-[2rem] bg-slate-50 hover:bg-white hover:border-blue-600 transition-all duration-500">
+                                    <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
                                         <div className="flex items-center justify-between mb-3">
                                             <div className="flex items-center gap-2 text-blue-600">
                                                 <Microscope size={24} />
-                                                <h4 className="font-bold text-slate-900">Research to Impact</h4>
+                                                <h4 className="font-bold text-slate-900 dark:text-slate-100">Research to Impact</h4>
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-purple-50 text-purple-700 border border-purple-100">Evidence</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 leading-relaxed text-left">
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Translate papers to production code; competitive baselines, ablation studies with statistical significance testing.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Robustness suites: adversarial perturbations, corrupted inputs, long-tail distributions, class imbalance.</span></li>
                                             <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Measure performance delta vs. baselines with 95% confidence intervals; document decision boundaries before shipping.</span></li>
@@ -250,7 +250,7 @@ const AboutMe: React.FC = () => {
                             </div>
 
                             {/* RECRUITER ACTION CENTER */}
-                            <div className="mt-20 bg-slate-900 rounded-[3rem] p-8 lg:p-12 text-white relative overflow-hidden shadow-2xl">
+                            <div className="mt-20 bg-slate-900 dark:bg-[#0a0a0a] rounded-[3rem] p-8 lg:p-12 text-white relative overflow-hidden shadow-2xl">
                                 <div className="absolute top-0 right-0 p-8 opacity-5">
                                     <Briefcase size={200} />
                                 </div>
@@ -273,7 +273,7 @@ const AboutMe: React.FC = () => {
 
                                         <Link
                                             to="/contact"
-                                            className="flex items-center justify-center gap-3 px-8 py-5 bg-white text-slate-900 font-bold rounded-2xl hover:bg-slate-100 transition-all"
+                                            className="flex items-center justify-center gap-3 px-8 py-5 bg-white dark:bg-[#161616] text-slate-900 dark:text-slate-100 font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-[#1c1c1c] transition-all"
                                         >
                                             <Mail size={20} />
                                             <span>Secure Message</span>

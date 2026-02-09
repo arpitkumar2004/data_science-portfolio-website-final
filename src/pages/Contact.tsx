@@ -106,7 +106,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 pb-20">
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
       <div className="max-w-7xl mx-auto px-6 py-16 lg:py-18">
         {/* --- HEADER --- */}
         <header className="mb-16">
@@ -131,7 +131,7 @@ const Contact: React.FC = () => {
               with production-grade ML.
             </span>
           </motion.h1>
-          <p className="text-slate-500 max-w-6xl text-lg font-medium leading-relaxed">
+          <p className="text-slate-500 dark:text-slate-300 max-w-6xl text-lg font-medium leading-relaxed">
             Hiring, partnering, or exploring research? Share context and timelines—I'll respond with an actionable plan, not a generic reply.
           </p>
         </header>
@@ -140,7 +140,7 @@ const Contact: React.FC = () => {
           {/* --- LEFT: CHANNELS & ECOSYSTEM --- */}
           <div className="lg:col-span-4 space-y-12">
             <section>
-              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+              <h3 className="text-xs font-mono font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                 <div className="w-8 h-px bg-slate-200" /> Secure Nodes
               </h3>
               <div className="space-y-4">
@@ -162,7 +162,7 @@ const Contact: React.FC = () => {
             </section>
 
             <section>
-              <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+              <h3 className="text-xs font-mono font-bold text-slate-400 dark:text-slate-300 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                 <div className="w-8 h-px bg-slate-200" /> Ecosystem
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -201,7 +201,7 @@ const Contact: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-slate-50 border border-slate-200/60 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden"
+              className="bg-slate-50 border border-slate-200/60 dark:bg-[#111827] dark:border-white/10 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden"
             >
               {/* Cold Start Notice */}
               <AnimatePresence>
@@ -263,7 +263,7 @@ const Contact: React.FC = () => {
                       </div>
                       <input
                         {...register("company")}
-                        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
+                        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300 dark:placeholder:text-slate-500"
                         placeholder="Company / Institute"
                       />
                     </div>
@@ -279,7 +279,7 @@ const Contact: React.FC = () => {
                       />
                       <select
                         {...register("subject")}
-                        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
                       >
                         <option>Hiring / Recruitment</option>
                         <option>Research Collaboration</option>
@@ -303,7 +303,7 @@ const Contact: React.FC = () => {
                       {...register("message", {
                         required: "Message body cannot be empty",
                       })}
-                      className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
+                      className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
                       placeholder="Goals, success criteria, timelines, constraints"
                     />
                   </div>
@@ -321,8 +321,8 @@ const Contact: React.FC = () => {
                     className={`w-full py-5 px-8 rounded-2xl font-black transition-all flex items-center justify-center gap-3 relative overflow-hidden group
                       ${
                         isSubmitting
-                          ? "bg-slate-200 text-slate-500 cursor-not-allowed"
-                          : "bg-blue-600 text-white hover:bg-slate-900 active:scale-[0.98] shadow-2xl shadow-blue-200"
+                          ? "bg-slate-200 text-slate-500 cursor-not-allowed dark:bg-white/10 dark:text-slate-400"
+                          : "bg-blue-600 text-white hover:bg-slate-900 active:scale-[0.98] shadow-2xl shadow-blue-200 dark:shadow-blue-900/40"
                       }`}
                   >
                     {isSubmitting ? (
@@ -350,7 +350,7 @@ const Contact: React.FC = () => {
                   {/* Submission Progress Simulation */}
                   {isSubmitting && (
                     <motion.div
-                      className="absolute -bottom-2 left-6 right-6 h-0.5 bg-slate-200 rounded-full overflow-hidden"
+                      className="absolute -bottom-2 left-6 right-6 h-0.5 bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                     >
@@ -365,7 +365,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 {isSubmitting && (
-                  <p className="text-center text-[9px] text-slate-400 font-mono uppercase tracking-[0.3em] mt-6">
+                  <p className="text-center text-[9px] text-slate-400 dark:text-slate-300 font-mono uppercase tracking-[0.3em] mt-6">
                     Connection Established • Do not interrupt
                   </p>
                 )}
@@ -385,7 +385,7 @@ const ContactLink = ({ href, icon, label, value, color }: any) => (
     href={href}
     target="_blank"
     rel="noreferrer"
-    className="group flex items-start gap-4 p-5 rounded-3xl bg-white border border-slate-100 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-50 transition-all"
+    className="group flex items-start gap-4 p-5 rounded-3xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-white/10 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-50 dark:hover:shadow-blue-900/40 transition-all"
   >
     <div
       className={`p-3 rounded-xl transition-all ${
@@ -397,10 +397,10 @@ const ContactLink = ({ href, icon, label, value, color }: any) => (
       {icon}
     </div>
     <div>
-      <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">
+      <p className="text-[10px] font-black text-slate-400 dark:text-slate-300 uppercase tracking-tighter">
         {label}
       </p>
-      <p className="text-sm font-bold text-slate-800 break-all">{value}</p>
+      <p className="text-sm font-bold text-slate-800 dark:text-slate-100 break-all">{value}</p>
     </div>
   </a>
 );
@@ -409,7 +409,7 @@ const EcosystemLink = ({ to, href, icon, label, dark }: any) => {
   const styles = `px-4 py-3 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest border ${
     dark
       ? "bg-slate-900 text-white border-slate-800 hover:bg-blue-600"
-      : "bg-white text-slate-600 border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
+      : "bg-white dark:bg-[#161616] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200"
   }`;
 
   if (to)
@@ -427,7 +427,7 @@ const EcosystemLink = ({ to, href, icon, label, dark }: any) => {
 
 const FormInput = ({ label, placeholder, error, icon, registration }: any) => (
   <div className="space-y-1.5 flex-1">
-    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
+    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-300 ml-1">
       {label}
     </label>
     <div className="relative">
@@ -436,7 +436,7 @@ const FormInput = ({ label, placeholder, error, icon, registration }: any) => (
       </div>
       <input
         {...registration}
-        className="w-full pl-12 pr-5 py-4 bg-white border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300"
+        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300 dark:placeholder:text-slate-500"
         placeholder={placeholder}
       />
     </div>

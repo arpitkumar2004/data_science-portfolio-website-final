@@ -17,6 +17,7 @@ import RoleGateway from './components/RoleGateway';
 import { buildApiUrl, API_ENDPOINTS } from './config/api';
 import DocsLayout from './layouts/DocsLayout';
 import DocsViewer from './components/DocsViewer';
+import ThemeToggle from './components/ThemeToggle';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -59,7 +60,7 @@ const MainApp = () => {
     <ToastProvider>
       {/* WRAP EVERYTHING INSIDE THE GATEWAY */}
       <RoleGateway>
-        <div className="flex flex-col min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-gray-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100">
           <Header />
           <main className="flex-grow">
             <ErrorBoundary>
@@ -75,6 +76,7 @@ const MainApp = () => {
             </ErrorBoundary>
           </main>
           <Footer />
+          <ThemeToggle />
           {/* <SpeedInsights /> */}
         </div>
       </RoleGateway>

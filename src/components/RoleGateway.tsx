@@ -241,7 +241,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
   if (role === 'Admin') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-slate-700">
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0a0a0a] text-slate-700 dark:text-slate-300">
         <p className="font-mono text-xs uppercase tracking-[0.2em]">Redirecting to Admin Panel...</p>
       </div>
     );
@@ -285,15 +285,15 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-[9998] bg-white text-slate-900 overflow-y-auto font-sans selection:bg-blue-100">
+    <div className="fixed inset-0 z-[9998] bg-[#020617] text-white overflow-y-auto font-sans selection:bg-cyan-200 selection:text-slate-950">
       
       {/* Background Layer */}
-      <div className="fixed inset-0 z-0 opacity-[0.05] pointer-events-none" 
-           style={{ backgroundImage: `radial-gradient(#2563eb 0.5px, transparent 0.5px)`, backgroundSize: '24px 24px' }}>
-      </div>
-      <div className="fixed inset-0 z-0 opacity-[0.03] pointer-events-none hidden sm:block">
-          <div className="absolute left-1/2 top-0 w-px h-full bg-blue-600"></div>
-          <div className="absolute top-1/2 left-0 w-full h-px bg-blue-600"></div>
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(16,185,129,0.18),_transparent_55%)]" />
+        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: `radial-gradient(#3b82f6 0.5px, transparent 0.5px)`, backgroundSize: '26px 26px' }} />
+        <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#3b82f6]/20 blur-3xl" />
+        <div className="absolute -bottom-28 right-0 h-80 w-80 rounded-full bg-[#6366f1]/15 blur-3xl" />
       </div>
 
       <div className="relative z-10 min-h-full flex flex-col items-center justify-center py-12 px-4 sm:px-6">
@@ -301,15 +301,16 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
           {!isAdminMode ? (
             <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
               {/* Header Section */}
-              <div className="mb-8 md:mb-16 text-center">
-                <div className="inline-block px-3 py-1 mb-4 border border-blue-200 bg-blue-50 text-blue-700 text-[10px] font-mono tracking-widest uppercase rounded">
+              <div className="mb-8 md:mb-14 text-center">
+                <div className="inline-flex items-center gap-2 px-4 py-2 mb-5 border border-white/10 bg-white/5 text-[#94a3b8] text-[10px] font-mono tracking-[0.3em] uppercase rounded-full">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
                   Select Interaction Mode
                 </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-slate-900 leading-tight">
-                  Optimize Your <span className="font-bold text-blue-600 block sm:inline">User Experience</span>
+                <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-[#f8fafc] leading-tight">
+                  Choose Your <span className="text-[#3b82f6]">Access Layer</span>
                 </h1>
-                <p className="mt-4 text-slate-500 font-mono text-[10px] sm:text-xs md:text-sm uppercase tracking-tighter max-w-md mx-auto leading-relaxed">
-                  Identify your objective to initialize the relevant technical data layer
+                <p className="mt-4 text-[#94a3b8] font-mono text-[10px] sm:text-xs md:text-sm uppercase tracking-widest max-w-md mx-auto leading-relaxed">
+                  Route into the right context for signal-rich review
                 </p>
               </div>
 
@@ -320,20 +321,20 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                     key={r.id}
                     onClick={() => handleSelect(r.id)}
                     data-role-button={idx === 0 ? 'true' : undefined}
-                    className="group relative flex flex-col items-start p-6 md:p-8 bg-white border border-slate-200 hover:border-blue-500 transition-all duration-300 text-left hover:shadow-[0_20px_40px_rgba(37,99,235,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                    className="group relative flex flex-col items-start p-6 md:p-8 rounded-2xl bg-[#161616] border border-white/10 hover:border-white/20 transition-all duration-300 text-left hover:bg-[#1c1c1c] hover:shadow-[0_22px_50px_rgba(59,130,246,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6]"
                   >
-                    <span className="absolute top-4 right-4 font-mono text-[10px] text-slate-300 group-hover:text-blue-400 transition-colors">
+                    <span className="absolute top-4 right-4 font-mono text-[10px] text-[#94a3b8] group-hover:text-white transition-colors">
                       {r.tag}
                     </span>
-                    
-                    <div className="p-3 mb-4 md:mb-6 bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 rounded-sm">
+
+                    <div className="p-3 mb-4 md:mb-6 bg-gradient-to-br from-white/10 to-white/5 text-[#94a3b8] group-hover:from-[#3b82f6]/30 group-hover:to-[#6366f1]/20 group-hover:text-white transition-all duration-500 rounded-2xl">
                       {r.icon}
                     </div>
-                    
-                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-blue-600 transition-colors tracking-tight uppercase">{r.title}</h3>
-                    <p className="text-slate-500 text-xs md:text-sm leading-relaxed mb-6 md:mb-8">{r.desc}</p>
-                    
-                    <div className="mt-auto flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 opacity-0 group-hover:opacity-100 transition-all transform translate-x-[-10px] group-hover:translate-x-0">
+
+                    <h3 className="text-lg md:text-xl font-bold mb-2 group-hover:text-[#f8fafc] transition-colors tracking-tight uppercase">{r.title}</h3>
+                    <p className="text-[#94a3b8] text-xs md:text-sm leading-relaxed mb-6 md:mb-8">{r.desc}</p>
+
+                    <div className="mt-auto flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest text-[#3b82f6] opacity-100 sm:opacity-0 group-hover:opacity-100 transition-all transform translate-x-0 sm:translate-x-[-10px] group-hover:translate-x-0">
                       <span>{r.action}</span><ArrowRight size={12} />
                     </div>
                   </button>
@@ -344,7 +345,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
               <div className="mt-12 md:mt-16 text-center">
                 <button
                   onClick={() => setIsAdminMode(true)}
-                  className="group flex items-center gap-3 mx-auto text-slate-400 hover:text-blue-600 transition-all font-mono text-[10px] md:text-xs uppercase tracking-[0.2em]"
+                  className="group flex items-center gap-3 mx-auto text-[#94a3b8] hover:text-[#3b82f6] transition-all font-mono text-[10px] md:text-xs uppercase tracking-[0.2em]"
                 >
                   <Lock size={14} className="group-hover:rotate-12 transition-transform" /> 
                   Initialize Root Access
@@ -353,19 +354,19 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
             </div>
           ) : (
             <div className="w-full max-w-md mx-auto animate-in fade-in zoom-in duration-500 px-4">
-              <div className="bg-white border border-slate-200 p-6 sm:p-10 shadow-2xl relative">
+              <div className="bg-[#161616] border border-white/10 p-6 sm:p-10 shadow-2xl relative rounded-2xl backdrop-blur">
                  {/* Decorative corner accents */}
-                 <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-blue-600"></div>
-                 <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blue-600"></div>
-                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-blue-600"></div>
-                 <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-blue-600"></div>
+                 <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#3b82f6]"></div>
+                 <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#3b82f6]"></div>
+                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#3b82f6]"></div>
+                 <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#3b82f6]"></div>
 
                   <div className="flex justify-center mb-6 md:mb-8">
-                    <Fingerprint size={48} className="text-blue-600 animate-pulse" />
+                    <Fingerprint size={48} className="text-[#3b82f6] animate-pulse" />
                   </div>
                   
-                  <h2 className="text-center font-bold text-xl md:text-2xl tracking-tight mb-2 uppercase">Root Access</h2>
-                  <p className="text-center text-slate-400 text-[10px] font-mono mb-6 md:mb-8 uppercase tracking-widest">Execute identity verification</p>
+                  <h2 className="text-center font-bold text-xl md:text-2xl tracking-tight mb-2 uppercase text-[#f8fafc]">Root Access</h2>
+                  <p className="text-center text-[#94a3b8] text-[10px] font-mono mb-6 md:mb-8 uppercase tracking-widest">Execute identity verification</p>
 
                   <form onSubmit={handleAdminLogin} className="space-y-4 md:space-y-6">
                     <div className="relative">
@@ -373,18 +374,18 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                         type="password"
                         placeholder="ACCESS_TOKEN"
                         autoFocus
-                        className="w-full px-4 py-3 md:py-4 bg-slate-50 border border-slate-200 font-mono text-sm focus:border-blue-500 outline-none transition-all placeholder:text-slate-300"
+                        className="w-full px-4 py-3 md:py-4 bg-[#1c1c1c] border border-white/10 text-[#f8fafc] font-mono text-sm focus:border-[#3b82f6] outline-none transition-all placeholder:text-[#94a3b8]"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <button className="w-full py-3 md:py-4 bg-slate-900 text-white font-mono text-xs font-bold uppercase tracking-[0.3em] hover:bg-blue-600 transition-all shadow-xl">
+                    <button className="w-full py-3 md:py-4 bg-gradient-to-br from-[#3b82f6] via-[#06b6d4] to-[#10b981] text-[#0a0a0a] font-mono text-xs font-bold uppercase tracking-[0.3em] hover:from-[#60a5fa] hover:via-[#22d3ee] hover:to-[#34d399] transition-all shadow-[0_18px_40px_rgba(59,130,246,0.3)]">
                       Authorize
                     </button>
                     <button
                       type="button"
                       onClick={() => setIsAdminMode(false)}
-                      className="w-full text-center text-slate-400 text-[10px] font-mono uppercase tracking-widest hover:text-slate-600"
+                      className="w-full text-center text-[#94a3b8] text-[10px] font-mono uppercase tracking-widest hover:text-[#f8fafc]"
                     >
                       Abort Authentication
                     </button>
@@ -397,7 +398,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
       {/* Footer Meta Data */}
       <div className="fixed bottom-6 left-6 hidden lg:block pointer-events-none">
-        <p className="text-[10px] font-mono text-slate-300 uppercase tracking-[0.5em]">
+        <p className="text-[10px] font-mono text-[#94a3b8] uppercase tracking-[0.5em]">
           Core Systems: Active | Data Streams: Encrypted
         </p>
       </div>

@@ -113,7 +113,7 @@ const OpenToWork: React.FC = () => {
             id="open-to-work-list"
             role="menu"
             aria-label="Open to work menu"
-            className={`absolute right-0 mt-2 w-80 bg-white text-slate-700 rounded-lg shadow-lg p-3 transform origin-top-right transition-all z-50 ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+            className={`absolute right-0 mt-2 w-80 bg-white dark:bg-[#161616] text-slate-700 dark:text-slate-200 rounded-lg shadow-lg p-3 transform origin-top-right transition-all z-50 ${open ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
             onMouseEnter={() => setOpen(true)}
             onMouseLeave={() => setOpen(false)}
           >
@@ -126,14 +126,14 @@ const OpenToWork: React.FC = () => {
                     to="/request-cv"
                     state={{ role: p.title }}
                     role="menuitem"
-                    className="flex items-center justify-between gap-3 px-3 py-2 rounded-md hover:bg-slate-50 transition-colors"
+                    className="flex items-center justify-between gap-3 px-3 py-2 rounded-md hover:bg-slate-50 dark:hover:bg-[#1c1c1c] transition-colors"
                     aria-label={`Request CV for ${p.title} in ${p.field}`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-semibold text-slate-900">{p.title}</span>
-                      <span className="text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">{p.field}</span>
+                      <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">{p.title}</span>
+                      <span className="text-xs text-emerald-700 dark:text-emerald-200 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded">{p.field}</span>
                     </div>
-                    {p.level && <span className="text-xs text-slate-500">{p.level}</span>}
+                    {p.level && <span className="text-xs text-slate-500 dark:text-slate-400">{p.level}</span>}
                   </Link>
                 </li>
               ))}
@@ -146,7 +146,7 @@ const OpenToWork: React.FC = () => {
               {isAdmin && (
                 <button
                   type="button"
-                  className="px-3 py-2 border rounded-md text-sm text-slate-600 hover:bg-slate-100"
+                  className="px-3 py-2 border rounded-md text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#1c1c1c]"
                   onClick={handleHideClick}
                 >
                   Hide
@@ -161,9 +161,9 @@ const OpenToWork: React.FC = () => {
       {showPinModal && (
         <div className="fixed inset-0 z-60 flex items-center justify-center">
           <div className="absolute inset-0 bg-black opacity-30" aria-hidden="true" />
-          <div role="dialog" aria-modal="true" className="relative bg-white rounded-lg shadow-xl p-6 w-full max-w-sm z-70">
-            <h3 className="text-lg font-bold mb-2">Confirm Hide</h3>
-            <p className="text-sm text-slate-600 mb-4">Enter admin PIN to hide the Open-to-work badge.</p>
+          <div role="dialog" aria-modal="true" className="relative bg-white dark:bg-[#161616] rounded-lg shadow-xl p-6 w-full max-w-sm z-70">
+            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-slate-100">Confirm Hide</h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">Enter admin PIN to hide the Open-to-work badge.</p>
             <label className="sr-only" htmlFor="pin-input">Admin PIN</label>
             <input
               id="pin-input"
@@ -172,16 +172,16 @@ const OpenToWork: React.FC = () => {
               onChange={(e) => setPin(e.target.value)}
               type="password"
               inputMode="numeric"
-              className="w-full px-3 py-2 border rounded-md mb-2"
+              className="w-full px-3 py-2 border rounded-md mb-2 bg-white dark:bg-[#0a0a0a] text-slate-900 dark:text-slate-100 border-slate-200 dark:border-white/10"
               placeholder="Enter PIN"
               onKeyDown={(e) => { if (e.key === 'Enter') submitPin(); }}
             />
             {pinError && <div className="text-sm text-red-600 mb-2">{pinError}</div>}
             <div className="flex justify-end gap-2">
-              <button className="px-3 py-2 rounded-md bg-slate-100" onClick={() => setShowPinModal(false)}>Cancel</button>
+              <button className="px-3 py-2 rounded-md bg-slate-100 dark:bg-white/10" onClick={() => setShowPinModal(false)}>Cancel</button>
               <button className="px-3 py-2 rounded-md bg-emerald-600 text-white" onClick={submitPin}>Confirm</button>
             </div>
-            {attempts > 0 && <div className="mt-3 text-xs text-slate-400">Attempts: {attempts}</div>}
+            {attempts > 0 && <div className="mt-3 text-xs text-slate-400 dark:text-slate-500">Attempts: {attempts}</div>}
           </div>
         </div>
       )}

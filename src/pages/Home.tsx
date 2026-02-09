@@ -112,7 +112,7 @@ const Home: React.FC = () => {
 
 
   return (
-    <div className="bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden">
+    <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       
       {/* --- HERO SECTION --- */}
       <section className="relative pt-20 pb-12 lg:pt-20 lg:pb-24 px-6 max-w-6xl mx-auto">
@@ -120,17 +120,17 @@ const Home: React.FC = () => {
           <motion.div className="lg:col-span-7" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { staggerChildren: 0.06 } } }}>
             <motion.div variants={heroItem} className="hero-content">
               <div className="flex flex-wrap gap-3 mb-6">
-                <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-100 rounded-full">
+                <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-100 dark:bg-white/5 dark:border-white/10 rounded-full">
                   <img src={iitkgplogo} alt="IIT KGP" className="w-4 h-4" />
-                  <span className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">IIT Kharagpur // Dual Degree</span>
+                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-300 uppercase tracking-widest">IIT Kharagpur // Dual Degree</span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 rounded-full">
+                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 dark:bg-blue-600/10 dark:border-blue-500/20 rounded-full">
                   <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" aria-hidden="true" />
-                  <span className="text-[10px] font-mono font-bold text-blue-700 uppercase tracking-widest">Active Researcher</span>
+                  <span className="text-[10px] font-mono font-bold text-blue-700 dark:text-blue-300 uppercase tracking-widest">Active Researcher</span>
                 </div>
               </div>
 
-              <motion.h1 variants={heroItem} className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-4 leading-tight">
+              <motion.h1 variants={heroItem} className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-4 leading-tight">
                 Arpit Kumar
               </motion.h1>
 
@@ -144,29 +144,29 @@ const Home: React.FC = () => {
                 </span>
               </motion.div>
 
-              <motion.p variants={heroItem} className="text-slate-600 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
+              <motion.p variants={heroItem} className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-8">
                 I have experience in architecting production-grade AI systems that fuses <strong>first-principles engineering</strong> rigor with <strong>neural systems</strong> agility—turning messy signals into deployable, revenue-driving intelligence. 
               </motion.p>
 
-              <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 py-6">
+              <div role="list" className="grid grid-cols-4 gap-6 mb-8 border-y border-slate-100 dark:border-white/10 py-6">
                 {stats.map((s, i) => (
                   <div key={i} role="listitem" className="stat-card">
-                    <h3 className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">{s.v}</h3>
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-1 tracking-tighter">{s.v}</h3>
                     <p className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest mb-1">{s.l}</p>
-                    <p className="text-xs font-semibold text-slate-600">{s.d}</p>
+                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-400">{s.d}</p>
                     <div className="w-8 h-1 bg-blue-600 mt-2" aria-hidden="true" />
                   </div>
                 ))}
               </div>
 
               <motion.div variants={heroItem} className="flex flex-wrap gap-4">
-                <Link to="/projects" aria-label="Review portfolio" className="group px-8 py-4 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                <Link to="/projects" aria-label="Review portfolio" className="group px-8 py-4 bg-slate-900 text-white font-bold rounded-xl flex items-center gap-3 hover:bg-blue-600 transition-all shadow-xl shadow-slate-900/10 hover:shadow-lg hover:shadow-blue-600/00 dark:shadow-blue-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
                   View Production Portfolio <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/request-cv" aria-label="Get technical CV" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                <Link to="/request-cv" aria-label="Get technical CV" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 dark:bg-[#161616] dark:border-white/10 dark:text-slate-100 dark:hover:border-blue-500 dark:hover:text-blue-400">
                   <FileText size={18} />Download Resume
                 </Link>
-                <Link to="/aboutme" aria-label="More about me" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2">
+                <Link to="/aboutme" aria-label="More about me" className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-900 font-bold rounded-xl flex items-center gap-3 hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:ring-offset-2 dark:bg-[#161616] dark:border-white/10 dark:text-slate-100 dark:hover:border-blue-500 dark:hover:text-blue-400">
                 Background & Story <ShieldCheck size={18} />
                 </Link>
               </motion.div>
@@ -175,8 +175,8 @@ const Home: React.FC = () => {
 
           <motion.div className="lg:col-span-5 relative profile-image-container" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { delay: 0.2 } } }}>
             <motion.div whileHover={!shouldReduceMotion ? { scale: 1.03 } : {}} className="relative z-10 mx-auto w-full max-w-[420px]">
-              <div className="absolute -inset-4 border border-slate-100 rounded-[3rem] -z-10" aria-hidden="true" />
-              <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 border-4 border-white shadow-2xl aspect-[4/5]">
+              <div className="absolute -inset-4 border border-slate-100 dark:border-white/10 rounded-[3rem] -z-10" aria-hidden="true" />
+              <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-[#111827] border-4 border-white dark:border-white/10 shadow-2xl aspect-[4/5]">
                 <img src={myphoto} alt="Arpit Kumar" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
               </div>
 
@@ -189,7 +189,7 @@ const Home: React.FC = () => {
                   { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle' },
                   { icon: GoogleScholar, href: "#", label: 'Google Scholar' }
                 ].map((item, i) => (
-                  <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} className="p-4 bg-white shadow-xl rounded-2xl text-slate-600 hover:text-blue-600 border border-slate-50 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+                  <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} className="p-4 bg-white dark:bg-[#161616] shadow-xl rounded-2xl text-slate-600 dark:text-slate-300 hover:text-blue-600 border border-slate-50 dark:border-white/10 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
                     <item.icon size={20} />
                   </a>
                 ))}
@@ -200,7 +200,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* --- RESEARCH SECTION --- */}
-      <section className="reveal-section bg-slate-50">
+      <section className="reveal-section bg-slate-50 dark:bg-[#161517] py-24">
         <div className="max-w-7xl mx-auto px-6">
           <ResearchComponent />
         </div>
@@ -208,7 +208,7 @@ const Home: React.FC = () => {
 
       {/* --- EXPERIENCE SECTION (PRIORITIZED FOR HIRING) --- */}
       <section className="reveal-section ">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto dark:bg-black px-6">
           <Experience />
         </div>
       </section>
@@ -221,14 +221,14 @@ const Home: React.FC = () => {
       </section>
 
       {/* --- ACHIEVEMENTS --- */}
-      <section className="reveal-section bg-slate-50 text-white py-24">
+      <section className="reveal-section bg-slate-50 dark:bg-[#161517] text-white py-24">
         <div className="max-w-7xl mx-auto px-6">
           <Achievements />
         </div>
       </section>
 
       {/* --- PROJECTS --- */}
-      <section className="reveal-section py-24 bg-white">
+      <section className="reveal-section py-24 bg-white dark:bg-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
             <div>
@@ -240,12 +240,12 @@ const Home: React.FC = () => {
                 Production Portfolio
               </span>
             </div>              
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mt-2 tracking-tighter">Shipped Systems & Research</h2>
-          <p className="text-slate-600 text-base mt-3 max-w-4xl font-medium">
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-slate-100 mt-2 tracking-tighter">Shipped Systems & Research</h2>
+          <p className="text-slate-600 dark:text-slate-400 text-base mt-3 max-w-4xl font-medium">
             End-to-end ML projects demonstrating research-to-deployment rigor—from Kaggle competitions to production systems handling real users, with measurable impact and open-source contributions.
           </p>
             </div>
-            <Link to="/projects" className="flex items-center gap-2 text-slate-900 font-bold hover:text-blue-600 transition-colors group">
+            <Link to="/projects" className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-bold hover:text-blue-600 transition-colors group">
               View Full Portfolio <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
@@ -262,19 +262,41 @@ const Home: React.FC = () => {
 
       {/* --- SKILLS --- */}
       <section className="reveal-section">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-6 py-24">
           <TechnicalProficiencies />
         </div>
       </section>
 
       {/* --- FOOTER CTA --- */}
       <section className="reveal-section pb-24">
-        <div className="max-w-7xl mx-auto bg-slate-900 border-2 border-blue-600 rounded-3xl p-12 text-center shadow-xl shadow-blue-500/20">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tighter">Scale Revenue with Production AI</h2>
-          <p className="text-slate-400 max-w-2xl mx-auto mb-10 text-lg leading-relaxed">Ship ML systems that reduce costs by 20-40%, accelerate decision-making by 10x, and unlock competitive intelligence. I build research-grade models that generate measurable ROI at industrial scale—from ideation through deployment.</p>
-          <div className="flex flex-wrap justify-center gap-4">
-             <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">Start Strategic Collaboration</Link>
-             <Link to="/aboutme" className="px-10 py-4 bg-white border-2 border-slate-300 text-slate-900 font-bold rounded-lg hover:border-blue-600 hover:text-blue-600 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">Explore Track Record</Link>
+        <div className="max-w-7xl mx-auto">
+          <div className="relative overflow-hidden rounded-[3rem] border border-blue-500/40 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-12 lg:p-20 text-white shadow-2xl shadow-blue-500/20">
+            <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
+            <div className="relative">
+              <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-300 mb-5">Strategic Collaboration</p>
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Scale Revenue with Production AI</h2>
+              <p className="text-slate-200/80 max-w-2xl mx-auto mb-8 text-lg leading-relaxed">
+                Ship ML systems that reduce costs by 20-40%, accelerate decision-making by 10x, and unlock competitive intelligence. I build research-grade models that generate measurable ROI at industrial scale.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 shadow-xl shadow-blue-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Start Strategic Collaboration</Link>
+                <Link to="/aboutme" className="px-10 py-4 bg-white/10 border border-white/15 text-white font-bold rounded-lg hover:border-blue-300 hover:text-blue-100 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Explore Track Record</Link>
+              </div>
+              <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
+                {[
+                  { v: "20-40%", l: "Cost reduction" },
+                  { v: "10x", l: "Faster decisions" },
+                  { v: "Prod-ready", l: "End-to-end ML" },
+                  { v: "Secure", l: "Enterprise-grade" },
+                ].map((item) => (
+                  <div key={item.l} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                    <div className="text-lg font-black text-white">{item.v}</div>
+                    <div className="text-[11px] font-mono uppercase tracking-widest text-slate-300">{item.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

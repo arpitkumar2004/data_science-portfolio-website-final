@@ -153,9 +153,9 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
   return (
     <div className="relative pl-8 pb-12 last:pb-0">
       {/* Vertical Rail */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-100" />
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-100 dark:bg-white/10" />
       {/* Dots on vertical rail */}
-      <div className="absolute left-[-6px] top-20 w-3 h-3 rounded-full bg-blue-600 shadow-lg shadow-blue-200" />
+      <div className="absolute left-[-6px] top-20 w-3 h-3 rounded-full bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900/40" />
 
       <motion.div
         initial={{ opacity: 0, x: 20 }}
@@ -163,16 +163,16 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
         viewport={{ once: true }}
         transition={{ delay: index * 0.1 }}
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`group cursor-pointer bg-white border rounded-3xl p-6 lg:p-8 transition-all duration-500 ${
+        className={`group cursor-pointer bg-white dark:bg-[#161616] border rounded-3xl p-6 lg:p-8 transition-all duration-500 ${
           isExpanded
             ? "border-blue-600 shadow-2xl shadow-blue-900/5"
-            : "border-slate-100 hover:border-blue-300 shadow-sm"
+            : "border-slate-100 dark:border-white/10 hover:border-blue-300 shadow-sm"
         }`}
       >
         <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
           <div className="flex-grow">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-[10px] font-mono font-black text-blue-600 uppercase tracking-widest bg-blue-50 px-2 py-0.5 rounded">
+              <span className="text-[10px] font-mono font-black text-blue-600 uppercase tracking-widest bg-blue-50 dark:bg-blue-600/10 px-2 py-0.5 rounded">
                 {exp.category}
               </span>
               <ExternalLink
@@ -183,7 +183,7 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
                 href={exp.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-slate-700 group-hover:text-blue-600 transition-colors"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 transition-colors"
               >
                 Visit Website
               </a>
@@ -196,15 +196,15 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
                 className={`w-6 h-6 rounded object-contain transition-all mt-1 ${isExpanded ? "scale-110" : "grayscale"}`}
               />
               {/* name of company */}
-              <h3 className="text-2xl font-black text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
                 {exp.company}
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-3">
-              <span className="text-sm font-bold text-slate-700">
+              <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
                 {exp.roles[0].title}
               </span>
-              <div className="flex items-center gap-1.5 text-slate-400">
+              <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
                 <MapPin size={14} />
                 <span className="text-xs font-medium">{exp.location}</span>
               </div>
@@ -212,15 +212,15 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
           </div>
 
           <div className="flex flex-col items-end shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-100">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-[#111827] rounded-lg border border-slate-100 dark:border-white/10">
               <Calendar size={14} className="text-blue-600" />
-              <span className="text-[10px] font-mono font-bold text-slate-600 uppercase tracking-tighter">
+              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tighter">
                 {exp.totalDuration}
               </span>
             </div>
             <motion.div
               animate={{ rotate: isExpanded ? 90 : 0 }}
-              className="mt-6 text-slate-300 hidden lg:block"
+              className="mt-6 text-slate-300 dark:text-slate-500 hidden lg:block"
             >
               <ChevronRight size={24} />
             </motion.div>
@@ -236,20 +236,20 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
-              <div className="mt-10 pt-8 border-t border-slate-100 space-y-12">
+              <div className="mt-10 pt-8 border-t border-slate-100 dark:border-white/10 space-y-12">
                 {exp.roles.map((role: any, idx: number) => (
                   <div key={role.id} className="relative pl-8">
                     {/* Role Connector */}
-                    <div className="absolute left-0 top-2 w-2 h-2 rounded-full bg-blue-600 shadow-lg shadow-blue-200" />
+                    <div className="absolute left-0 top-2 w-2 h-2 rounded-full bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900/40" />
                     {idx < exp.roles.length - 1 && (
-                      <div className="absolute left-[3px] top-4 bottom-[-48px] w-[2px] bg-slate-100" />
+                      <div className="absolute left-[3px] top-4 bottom-[-48px] w-[2px] bg-slate-100 dark:bg-white/10" />
                     )}
 
                     <div className="flex flex-col md:flex-row justify-between items-start gap-2 mb-4">
-                      <h4 className="font-bold text-slate-900 text-base">
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-base">
                         {role.title}
                       </h4>
-                      <span className="text-[10px] font-mono font-black text-slate-400 uppercase bg-slate-50 px-2 py-1 rounded tracking-tighter">
+                      <span className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase bg-slate-50 dark:bg-[#111827] px-2 py-1 rounded tracking-tighter">
                         {role.duration}
                       </span>
                     </div>
@@ -258,7 +258,7 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
                       {role.description.map((desc: string, i: number) => (
                         <li
                           key={i}
-                          className="text-slate-600 text-sm leading-relaxed flex gap-3"
+                          className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed flex gap-3"
                         >
                           <span className="text-blue-600 font-mono mt-0.5">
                             0{i + 1}.
@@ -275,7 +275,7 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
                   {exp.techStack.map((tech: string) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-slate-50 text-slate-500 border border-slate-200 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider"
+                      className="px-3 py-1 bg-slate-50 dark:bg-[#111827] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider"
                     >
                       {tech}
                     </span>
@@ -294,7 +294,7 @@ export default function Experience() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="py-24 bg-white font-sans overflow-hidden">
+    <div className="py-24 bg-white dark:bg-black font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         {/* --- INTERACTIVE HEADER SECTION --- */}
         <div className="relative mb-12">
@@ -315,11 +315,11 @@ export default function Experience() {
               </div>
 
               <div className="flex items-center gap-4">
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter group-hover:text-blue-600 transition-colors">
+                <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
                   Scaling Systems & Teams
                 </h2>
               </div>
-              <p className="text-slate-600 text-sm md:text-base font-medium max-w-4xl mt-8 leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base font-medium max-w-4xl mt-8 leading-relaxed">
                 Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—showcasing measurable impact across 4 organizations with 50K+ concurrent users, 99.9% SLA maintenance, and proven ability to scale teams and systems.
               </p>
 
@@ -331,12 +331,12 @@ export default function Experience() {
             {/* Visual Call-to-Action */}
             <div className="mt-8 md:mt-0 flex items-center gap-4">
               {!isExpanded && (
-                <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest animate-pulse">
+                <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-300 uppercase tracking-widest animate-pulse">
                   Click to Expand Sequence
                 </span>
               )}
               <div
-                className={`flex items-center justify-center w-14 h-14 rounded-2xl border-2 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white border-slate-200 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
+                className={`flex items-center justify-center w-14 h-14 rounded-2xl border-2 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
               >
                 <ChevronDown size={28} strokeWidth={3} />
               </div>
@@ -366,7 +366,7 @@ export default function Experience() {
                 {/* Close Trigger at the bottom for better UX */}
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="w-full py-4 border-t border-slate-100 text-[10px] font-mono font-bold text-slate-400 hover:text-blue-600 uppercase tracking-[0.4em] transition-colors"
+                  className="w-full py-4 border-t border-slate-100 dark:border-white/10 text-[10px] font-mono font-bold text-slate-400 dark:text-slate-300 hover:text-blue-600 uppercase tracking-[0.4em] transition-colors"
                 >
                   Collapse Timeline ^
                 </button>
@@ -376,14 +376,14 @@ export default function Experience() {
 
           {/* Background Placeholder when closed */}
           {!isExpanded && (
-            <div className="h-1 w-full bg-slate-50 rounded-full" />
+            <div className="h-1 w-full bg-slate-50 dark:bg-white/10 rounded-full" />
           )}
         </div>
 
         {/* --- RECRUITER FOOTNOTE (Remains Visible) --- */}
         <motion.div
           layout
-          className="mt-12 p-8 lg:p-12 bg-slate-900 border border-slate-800 text-slate-100 relative overflow-hidden rounded-[2.5rem] shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-500"
+          className="mt-12 p-8 lg:p-12 bg-slate-900 dark:bg-[#161616] border border-slate-800 dark:border-white/10 text-slate-100 relative overflow-hidden rounded-[2.5rem] shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-500"
         >
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">

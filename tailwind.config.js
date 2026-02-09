@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -23,10 +24,6 @@ module.exports = {
           900: '#0c4a6e',
         },
       },
-    },
-  },
-  theme: {
-    extend: {
       animation: {
         'spin-slow': 'spin 50s linear infinite',
         'spin-medium': 'spin 20s linear infinite',

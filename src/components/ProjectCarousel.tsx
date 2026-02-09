@@ -36,10 +36,10 @@ const ProjectCarousel: React.FC<Props> = ({ projects, headerLeft, showGrid = fal
         </div>
 
         <div className="hidden md:flex gap-3 items-center mt-20">
-          <button onClick={prev} className="p-3 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white transition-all">
+          <button onClick={prev} className="p-3 rounded-full border border-slate-200 dark:border-white/10 hover:bg-slate-900 hover:text-white transition-all">
             <ChevronLeft size={18} />
           </button>
-          <button onClick={next} className="p-3 rounded-full border border-slate-200 hover:bg-slate-900 hover:text-white transition-all">
+          <button onClick={next} className="p-3 rounded-full border border-slate-200 dark:border-white/10 hover:bg-slate-900 hover:text-white transition-all">
             <ChevronRight size={18} />
           </button>
         </div>
@@ -67,13 +67,13 @@ const ProjectCarousel: React.FC<Props> = ({ projects, headerLeft, showGrid = fal
         </div>
 
         <div className="flex md:hidden justify-center items-center mt-6 gap-4">
-          <button onClick={prev} className="p-3 rounded-full border border-slate-200"><ChevronLeft size={18} /></button>
+          <button onClick={prev} className="p-3 rounded-full border border-slate-200 dark:border-white/10"><ChevronLeft size={18} /></button>
           <div className="flex gap-1.5 items-center">
             {[...Array(maxIndex + 1)].map((_, i) => (
-              <div key={i} className={`h-1.5 rounded-full transition-all ${currentIndex === i ? 'w-6 bg-blue-600' : 'w-1.5 bg-slate-200'}`} />
+              <div key={i} className={`h-1.5 rounded-full transition-all ${currentIndex === i ? 'w-6 bg-blue-600' : 'w-1.5 bg-slate-200 dark:bg-white/10'}`} />
             ))}
           </div>
-          <button onClick={next} className="p-3 rounded-full border border-slate-200"><ChevronRight size={18} /></button>
+          <button onClick={next} className="p-3 rounded-full border border-slate-200 dark:border-white/10"><ChevronRight size={18} /></button>
         </div>
       </div>
 

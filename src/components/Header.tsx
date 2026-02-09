@@ -49,8 +49,8 @@ const Header: React.FC = () => {
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           scrolled 
-            ? 'py-3 bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-100' 
-            : 'py-6 bg-transparent'
+            ? 'py-3 bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-100 dark:bg-[#161616] dark:border-white/50' 
+            : 'py-7 bg-transparent dark:bg-[#161616] dark:border-white/10'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
               <span className="text-lg font-black tracking-tighter text-blue-600 leading-none">
                 ARPIT KUMAR
               </span>
-              <span className="text-[10px] font-mono font-bold text-slate-900 tracking-widest uppercase mt-0.5">
+              <span className="text-[10px] font-mono font-bold text-slate-900 dark:text-slate-200 tracking-widest uppercase mt-0.5">
                 IIT Kharagpur // AI
               </span>
             </div>
@@ -82,7 +82,7 @@ const Header: React.FC = () => {
                   key={link.href}
                   to={link.href}
                   className={`relative px-4 py-2 text-sm font-bold transition-colors ${
-                    isActive ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'
+                    isActive ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
                   }`}
                 >
                   {link.label}
@@ -101,7 +101,7 @@ const Header: React.FC = () => {
               <Link
                 to="/admin"
                 className={`relative px-4 py-2 text-sm font-bold transition-colors ${
-                  location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900'
+                  location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100'
                 }`}
               >
                 <ShieldCheck size={16} className="inline mr-1" />
@@ -115,11 +115,11 @@ const Header: React.FC = () => {
               </Link>
             )}
 
-            <div className="h-4 w-[1px] bg-slate-200 mx-4" />
+            <div className="h-4 w-[1px] bg-slate-200 dark:bg-white/10 mx-4" />
 
             <Link
               to="/request-cv"
-              className="group flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-200"
+              className="group flex items-center gap-2 px-5 py-2.5 rounded-xl text-white font-bold text-sm transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-200 dark:shadow-blue-900/40"
               style={{ backgroundColor: brandBlue }}
             >
               <Download size={16} />
@@ -131,7 +131,7 @@ const Header: React.FC = () => {
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+            className="md:hidden p-2 text-slate-900 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 rounded-lg transition-colors"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -146,7 +146,7 @@ const Header: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[90] bg-white pt-24 px-6 md:hidden"
+            className="fixed inset-0 z-[90] bg-white dark:bg-[#0a0a0a] pt-24 px-6 md:hidden"
           >
             <div className="flex flex-col gap-6">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Navigation Menu</span>
@@ -155,7 +155,7 @@ const Header: React.FC = () => {
                   key={link.href}
                   to={link.href}
                   className={`text-4xl font-black tracking-tighter ${
-                    location.pathname === link.href ? 'text-blue-600' : 'text-slate-300'
+                    location.pathname === link.href ? 'text-blue-600' : 'text-slate-300 dark:text-slate-200'
                   }`}
                 >
                   {link.label}
@@ -167,7 +167,7 @@ const Header: React.FC = () => {
                 <Link
                   to="/admin"
                   className={`text-4xl font-black tracking-tighter flex items-center gap-3 ${
-                    location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-300'
+                    location.pathname === '/admin' ? 'text-blue-600' : 'text-slate-300 dark:text-slate-200'
                   }`}
                 >
                   <ShieldCheck size={32} />
@@ -175,11 +175,11 @@ const Header: React.FC = () => {
                 </Link>
               )}
 
-              <div className="h-[1px] w-full bg-slate-100 my-4" />
+              <div className="h-[1px] w-full bg-slate-100 dark:bg-white/10 my-4" />
               
               <Link
                 to="/request-cv"
-                className="flex items-center justify-between p-6 rounded-2xl bg-slate-900 text-white"
+                className="flex items-center justify-between p-6 rounded-2xl bg-slate-900 text-white dark:bg-white/10"
               >
                 <div className="flex flex-col">
                   <span className="text-lg font-bold">Download CV</span>

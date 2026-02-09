@@ -55,7 +55,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               exit={{ opacity: 0, y: -8 }}
               className="pointer-events-auto"
             >
-              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border ${toast.type === 'success' ? 'bg-green-50 text-green-800 border-green-100' : toast.type === 'error' ? 'bg-red-50 text-red-800 border-red-100' : 'bg-slate-50 text-slate-800 border-slate-100'}`}>
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border ${toast.type === 'success' ? 'bg-green-50 text-green-800 border-green-100 dark:bg-emerald-500/10 dark:text-emerald-200 dark:border-emerald-500/30' : toast.type === 'error' ? 'bg-red-50 text-red-800 border-red-100 dark:bg-red-500/10 dark:text-red-200 dark:border-red-500/30' : 'bg-slate-50 text-slate-800 border-slate-100 dark:bg-[#161616] dark:text-slate-200 dark:border-white/10'}`}>
                 <div className="flex-shrink-0">
                   {toast.type === 'success' && <CheckCircle size={18} />}
                   {toast.type === 'error' && <AlertCircle size={18} />}
@@ -79,7 +79,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               exit={{ opacity: 0, y: 8 }}
               className="pointer-events-auto"
             >
-              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border ${toast.type === 'success' ? 'bg-green-50 text-green-800 border-green-100' : toast.type === 'error' ? 'bg-red-50 text-red-800 border-red-100' : 'bg-slate-50 text-slate-800 border-slate-100'}`}>
+              <div className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg border ${toast.type === 'success' ? 'bg-green-50 text-green-800 border-green-100 dark:bg-emerald-500/10 dark:text-emerald-200 dark:border-emerald-500/30' : toast.type === 'error' ? 'bg-red-50 text-red-800 border-red-100 dark:bg-red-500/10 dark:text-red-200 dark:border-red-500/30' : 'bg-slate-50 text-slate-800 border-slate-100 dark:bg-[#161616] dark:text-slate-200 dark:border-white/10'}`}>
                 <div className="flex-shrink-0">
                   {toast.type === 'success' && <CheckCircle size={18} />}
                   {toast.type === 'error' && <AlertCircle size={18} />}

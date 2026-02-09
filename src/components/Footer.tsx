@@ -58,9 +58,9 @@ const Footer: React.FC = () => {
   );
 
   return (
-    <footer className="bg-slate-950 text-white pt-20 pb-10 overflow-hidden relative border-t border-white/5">
+    <footer className="bg-white text-slate-900 dark:bg-[#161616] dark:text-white pt-20 pb-10 overflow-hidden relative border-t border-slate-900 dark:border-white/5">
       {/* Background Technical Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none dark:bg-white/5" 
            style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -76,20 +76,20 @@ const Footer: React.FC = () => {
               <span className="text-2xl font-black tracking-tighter uppercase">Arpit Kumar</span>
             </Link>
             
-            <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
+            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
               <span className="font-bold">AI / ML Systems & Applied Researcher</span> at IIT Kharagpur. Building production-grade deep learning systems with measurable ROI in real-world applications. Expertise: cloud architecture, MLOps, distributed systems, research translation.
             </p>
 
             {/* Unique Visitor Log Counter */}
-            <div className="p-4 bg-white/5 border border-white/10 rounded-2xl inline-flex gap-6 items-center">
+            <div className="p-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl inline-flex gap-6 items-center">
               <div>
-                <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter mb-1 font-bold">Visitors Count</p>
+                <p className="text-[9px] font-mono text-slate-500 dark:text-slate-500 uppercase tracking-tighter mb-1 font-bold">Visitors Count</p>
                 <p className="text-lg font-black font-mono text-blue-500 tracking-widest">{visitorCount.toString().padStart(6, '0')}</p>
               </div>
-              <div className="w-px bg-white/10 h-8" />
+              <div className="w-px bg-slate-200 dark:bg-white/10 h-8" />
               <div>
-                <p className="text-[9px] font-mono text-slate-500 uppercase tracking-tighter mb-1 font-bold">Local_Time</p>
-                <p className="text-sm font-black font-mono text-slate-300 uppercase">{time}</p>
+                <p className="text-[9px] font-mono text-slate-500 dark:text-slate-500 uppercase tracking-tighter mb-1 font-bold">Local_Time</p>
+                <p className="text-sm font-black font-mono text-slate-600 dark:text-slate-300 uppercase">{time}</p>
               </div>
             </div>
           </div>
@@ -98,25 +98,25 @@ const Footer: React.FC = () => {
 
           {/* COLUMN 2: OBJECTIVE HUB (4/12) */}
           <div className="lg:col-span-3">
-            <div className="p-6 bg-blue-600/5 border border-blue-600/10 rounded-[2rem] h-full flex flex-col justify-between">
+            <div className="p-6 bg-blue-600/5 border border-blue-600/10 dark:border-blue-600/20 rounded-[2rem] h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <Zap size={40} className="text-blue-500 animate-pulse" />
-                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.18em] text-blue-400">Opportunities & Collaborations</h4>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.18em] text-blue-500">Opportunities & Collaborations</h4>
                 </div>
                 <ul className="space-y-4 mb-8">
                   <li className="flex items-start gap-3">
                     <ShieldCheck size={50} className="text-blue-400 mt-0.5" />
                     <div>
-                      <p className="text-sm font-bold font-mono text-slate-200 tracking-tight">Summer 2026 Internships</p>
-                      <p className="text-[10px] text-slate-400 mt-1">Industrial R&D & MNC ML teams — production ML, cost and energy optimization, scalable inference.</p>
+                      <p className="text-sm font-bold font-mono text-slate-800 dark:text-slate-200 tracking-tight">Summer 2026 Internships</p>
+                      <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">Industrial R&D & MNC ML teams — production ML, cost and energy optimization, scalable inference.</p>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">
                     <Microscope size={50} className="text-blue-400 mt-0.5" />
                     <div>
-                      <p className="text-sm font-bold font-mono text-slate-200 tracking-tight">Research Partnerships</p>
-                      <p className="text-[10px] text-slate-400 mt-1">Collaborative projects in deep learning, MLOps, latency & robustness — applied research with measurable impact.</p>
+                      <p className="text-sm font-bold font-mono text-slate-800 dark:text-slate-200 tracking-tight">Research Partnerships</p>
+                      <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">Collaborative projects in deep learning, MLOps, latency & robustness — applied research with measurable impact.</p>
                     </div>
                   </li>
                 </ul>
@@ -131,14 +131,14 @@ const Footer: React.FC = () => {
           <div className="lg:col-span-2 ml-8 mt-8">
             <div className="flex items-center gap-3 mb-6">
               <Microscope size={14} className="text-blue-500" />
-              <h4 className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">Repository</h4>
+              <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Repository</h4>
             </div>
             <ul className="space-y-4 text-xs font-bold uppercase tracking-wider">
-              <li><Link to="/" className="text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Layout size={14} className="group-hover:scale-110 transition-transform"/> Home</Link></li>
-              <li><Link to="/projects" className="text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Microscope size={14} className="group-hover:scale-110 transition-transform"/> Research</Link></li>
-              <li><Link to="/aboutme" className="text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Fingerprint size={14} className="group-hover:scale-110 transition-transform"/> About Me</Link></li>
-              <li><Link to="/request-cv" className="text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><FileText size={14} className="group-hover:scale-110 transition-transform"/> Credentials</Link></li>
-              <li><Link to="/contact" className="text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Mail size={14} className="group-hover:scale-110 transition-transform"/> Contact</Link></li>
+              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Layout size={14} className="group-hover:scale-110 transition-transform"/> Home</Link></li>
+              <li><Link to="/projects" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Microscope size={14} className="group-hover:scale-110 transition-transform"/> Research</Link></li>
+              <li><Link to="/aboutme" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Fingerprint size={14} className="group-hover:scale-110 transition-transform"/> About Me</Link></li>
+              <li><Link to="/request-cv" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><FileText size={14} className="group-hover:scale-110 transition-transform"/> Credentials</Link></li>
+              <li><Link to="/contact" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Mail size={14} className="group-hover:scale-110 transition-transform"/> Contact</Link></li>
             </ul>
           </div>
 
@@ -149,18 +149,18 @@ const Footer: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-6">
                 <Microscope size={14} className="text-blue-500" />
-                <h4 className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">Research Nodes</h4>
+                <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Research Nodes</h4>
               </div>
               <div className="flex flex-col gap-3">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><GoogleScholar /> Google Scholar</div>
                   <ArrowUpRight size={12}/>
                 </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><SiArxiv size={14}/> arXiv Portfolio</div>
                   <ArrowUpRight size={12}/>
                 </a>
-                <a href="https://www.kaggle.com/kumararpitiitkgp" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="https://www.kaggle.com/kumararpitiitkgp" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><SiKaggle size={14}/> Kaggle Master</div>
                   <ArrowUpRight size={12}/>
                 </a>
@@ -171,18 +171,18 @@ const Footer: React.FC = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-6">
                 <Code2 size={14} className="text-blue-500" />
-                <h4 className="text-[10px] font-mono font-bold text-slate-500 uppercase tracking-widest">Technical Nodes</h4>
+                <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Technical Nodes</h4>
               </div>
               <div className="flex flex-col gap-3">
-                <a href="https://github.com/arpitkumar2004" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="https://github.com/arpitkumar2004" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><Github size={14}/> GitHub Source</div>
                   <ArrowUpRight size={12}/>
                 </a>
-                <a href="https://linkedin.com/in/arpit-kumar-shivam" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="https://linkedin.com/in/arpit-kumar-shivam" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><Linkedin size={14}/> LinkedIn Prof.</div>
                   <ArrowUpRight size={12}/>
                 </a>
-                <a href="https://medium.com/@kumararpit17773" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <a href="https://medium.com/@kumararpit17773" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><SiMedium size={14}/> Medium Articles</div>
                   <ArrowUpRight size={12}/>
                 </a>
@@ -193,7 +193,7 @@ const Footer: React.FC = () => {
         </div>
 
         {/* BOTTOM METADATA BAR */}
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
           
           {/* Professional Status Bar */}
           <div className="flex flex-wrap items-center justify-center gap-6">
@@ -202,8 +202,8 @@ const Footer: React.FC = () => {
               <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production_Systems: 50K+ Users | 99.9% SLA</span>
             </div>
             <div className="flex items-center gap-2">
-              <Cpu size={14} className="text-slate-700" />
-              <span className="text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest">Stack: React_v18 | Node.js | Kubernetes | PostgreSQL</span>
+              <Cpu size={14} className="text-slate-500 dark:text-slate-300" />
+              <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React_v18 | Node.js | Kubernetes | PostgreSQL</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap size={14} className="text-green-500 animate-pulse" />
@@ -218,7 +218,7 @@ const Footer: React.FC = () => {
               onClick={() => window.dispatchEvent(new Event('role:open'))}
               aria-label={userRole ? `Current role ${userRole}. Click to change.` : 'Set viewing role'}
               title={userRole ? `Viewing as ${userRole} — click to change` : 'Set viewing role'}
-              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-300 hover:text-white transition-all uppercase group bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all uppercase group bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
             >
               <Fingerprint size={14} className="text-blue-400" />
               <span>{userRole ?? 'Set role'}</span>
@@ -226,12 +226,12 @@ const Footer: React.FC = () => {
 
             <button 
               onClick={scrollToTop}
-              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-500 hover:text-white transition-all uppercase group bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30"
+              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-600 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-all uppercase group bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30"
             >
               <ChevronUp size={14} className="group-hover:-translate-y-1 transition-transform" />
               Reset System View
             </button>
-            <div className="text-right text-[9px] font-mono font-bold text-slate-600 uppercase tracking-widest">
+            <div className="text-right text-[9px] font-mono font-bold text-slate-500 dark:text-slate-600 uppercase tracking-widest">
               © {new Date().getFullYear()} Arpit Kumar // All Rights Reserved
             </div>
           </div>

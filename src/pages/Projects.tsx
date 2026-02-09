@@ -67,10 +67,10 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden">
+    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20">
       
       {/* --- REFINED DASHBOARD HEADER --- */}
-      <header className="pt-12 pb-12 px-6 md:px-12 lg:px-20 border-b border-slate-100 bg-slate-50/30 overflow-x-hidden relative ">
+      <header className="pt-12 pb-12 px-6 md:px-12 lg:px-20 border-b border-slate-100 bg-slate-50/30 dark:bg-white/5 dark:border-white/10 overflow-x-hidden relative ">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-12 mb-12">
             <div className="max-w-4xl">
@@ -99,7 +99,7 @@ const Projects: React.FC = () => {
                 { label: "Active Development", val: stats.ongoingProjects, icon: <Zap size={14}/> },
                 { label: "Technical Blogs", val: stats.blogs, icon: <FileText size={14}/> },
               ].map((stat, i) => (
-                <div key={i} className="p-4 bg-white border border-slate-400 rounded-2xl shadow-sm flex flex-col justify-between min-w-[150px]">
+                <div key={i} className="p-4 bg-white dark:bg-[#161616] border border-slate-400 dark:border-white/10 rounded-2xl shadow-sm flex flex-col justify-between min-w-[150px]">
                   <div className={`mb-2 ${stat.color || 'text-slate-900'}`}>{stat.icon}</div>
                   <div>
                     <div className="text-2xl font-black font-sans text-slate-900 tracking-tight">{stat.val.toString().padStart(2, '0')}</div>
@@ -113,7 +113,7 @@ const Projects: React.FC = () => {
       </header>
 
       {/* --- STICKY COMMAND CENTER --- */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-slate-100 py-6 px-6 md:px-12 lg:px-20">
+      <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-slate-100 dark:border-white/10 py-6 px-6 md:px-12 lg:px-20">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-6 items-center">
           <div className="relative flex-grow w-full group">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
@@ -122,7 +122,7 @@ const Projects: React.FC = () => {
             <input
               type="text"
               placeholder="Query technical repository..."
-              className="w-full pl-16 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all font-mono text-sm"
+              className="w-full pl-16 pr-4 py-4 bg-slate-50 dark:bg-[#111827] border border-slate-100 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all font-mono text-sm"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
@@ -131,7 +131,7 @@ const Projects: React.FC = () => {
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-sm transition-all border ${
-                selectedTags.length > 0 || showFilters ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white text-slate-900 border-slate-200'
+                selectedTags.length > 0 || showFilters ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-[#161616] text-slate-900 dark:text-slate-100 border-slate-200 dark:border-white/10'
               }`}
             >
               <Filter size={18} />
@@ -144,9 +144,9 @@ const Projects: React.FC = () => {
         <AnimatePresence>
           {showFilters && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mt-6 max-w-[1600px] mx-auto">
-              <div className="flex flex-wrap gap-2 p-6 bg-slate-50 rounded-[2.5rem] border border-slate-100">
+              <div className="flex flex-wrap gap-2 p-6 bg-slate-50 dark:bg-[#0f172a] rounded-[2.5rem] border border-slate-100 dark:border-white/10">
                 {allTags.map((tag) => (
-                  <button key={tag} onClick={() => toggleTag(tag)} className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-widest transition-all ${selectedTags.includes(tag) ? 'bg-blue-600 text-white shadow-md' : 'bg-white text-slate-500 border border-slate-200 hover:border-blue-600'}`}>
+                  <button key={tag} onClick={() => toggleTag(tag)} className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-widest transition-all ${selectedTags.includes(tag) ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-[#161616] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-blue-600'}`}>
                     {tag}
                   </button>
                 ))}
@@ -222,51 +222,79 @@ const Projects: React.FC = () => {
       }
 
       {/* --- REFINED RECRUITER CTA SECTION --- */}
-      <section className="mx-6 mt-12 md:mx-12 lg:mx-20 mb-20">
-        <div className="max-w-[1600px] mx-auto bg-slate-900 rounded-[3rem] p-12 lg:p-20 text-white relative overflow-hidden group/cta">
-          {/* Subtle Technical Pattern */}
-          <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-               style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '40px 40px' }} />
-          
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="mx-6 mt-16 md:mx-12 lg:mx-20 mb-20">
+        <div className="max-w-[1600px] mx-auto relative overflow-hidden rounded-[2.75rem] bg-slate-950 text-white border border-white/10 shadow-[0_40px_120px_-60px_rgba(2,132,199,0.85)]">
+          <div className="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-cyan-500/20 blur-3xl" />
+          <div className="absolute -bottom-32 right-0 h-80 w-80 rounded-full bg-emerald-400/20 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+               style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '36px 36px' }} />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 p-10 md:p-12 lg:p-16 items-center">
             <div className="lg:col-span-7">
               <div className="flex items-center gap-3 mb-8 px-4 py-2 bg-white/5 border border-white/10 rounded-full w-fit">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-300">System Status: Available for Collaboration</span>
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-300">Availability: Open for AI/ML Roles</span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-black font-sans tracking-tighter mb-8 leading-[0.9]">
-                Scale Revenue with <span className="text-blue-500">Production ML</span>.
+              <h2 className="text-5xl md:text-7xl font-black font-sans tracking-tight mb-6 leading-[0.9]">
+                Ship reliable ML systems that <span className="text-cyan-400">move revenue</span>.
               </h2>
-              <p className="text-slate-400 text-xl font-medium font-sans max-w-xl leading-relaxed mb-10">
-                Hiring for AI/ML? Need help shipping production systems? I deliver 20-40% cost reduction, 10x faster decisions, and resilient models with defined SLAs. Let's align on metrics.
+              <p className="text-slate-300 text-lg md:text-xl font-medium font-sans max-w-xl leading-relaxed mb-8">
+                I build production ML with clear SLAs, fast iteration loops, and measured lift. Expect 20-40% cost reduction, 10x faster decisions, and resilient deployments that hold under real traffic.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4 text-sm text-slate-300">
+                <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-2xl">
+                  <ShieldCheck size={16} className="text-cyan-400" />
+                  <span className="font-mono uppercase tracking-widest text-[10px]">SLA-first reliability</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-2xl">
+                  <Cpu size={16} className="text-emerald-400" />
+                  <span className="font-mono uppercase tracking-widest text-[10px]">Production MLOps</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-2xl">
+                  <Activity size={16} className="text-blue-400" />
+                  <span className="font-mono uppercase tracking-widest text-[10px]">Measured impact</span>
+                </div>
+              </div>
             </div>
 
             <div className="lg:col-span-5 flex flex-col gap-4">
-              <Link to="/contact" className="group flex items-center justify-between p-8 bg-blue-600 rounded-[2rem] hover:bg-blue-500 transition-all shadow-2xl shadow-blue-900/40">
-                <div className="flex items-center gap-6">
-                  <div className="p-4 bg-white/10 rounded-2xl"><Mail size={24} /></div>
+              <Link to="/contact" className="group flex items-center justify-between p-7 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2rem] hover:from-cyan-400 hover:to-blue-500 transition-all shadow-2xl shadow-cyan-900/30">
+                <div className="flex items-center gap-5">
+                  <div className="p-4 bg-white/15 rounded-2xl"><Mail size={24} /></div>
                   <div className="text-left">
-                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-blue-100 mb-1">Direct Channel</p>
-                    <p className="text-xl font-black">Initiate Discussion</p>
+                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-white/80 mb-1">Direct Channel</p>
+                    <p className="text-xl font-black">Start a scoped discussion</p>
                   </div>
                 </div>
                 <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Link>
 
-              <Link to="/request-cv" className="group flex items-center justify-between p-8 bg-white text-slate-900 rounded-[2rem] hover:bg-slate-50 transition-all shadow-xl">
-                <div className="flex items-center gap-6">
+              <Link to="/request-cv" className="group flex items-center justify-between p-7 bg-white text-slate-900 rounded-[2rem] hover:bg-slate-50 transition-all shadow-xl">
+                <div className="flex items-center gap-5">
                   <div className="p-4 bg-slate-900/5 rounded-2xl text-blue-600"><Download size={24} /></div>
                   <div className="text-left">
                     <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">Technical Dossier</p>
-                    <p className="text-xl font-black">Get Technical CV</p>
+                    <p className="text-xl font-black">Get the technical CV</p>
                   </div>
                 </div>
                 <FileText size={24} className="text-slate-300 group-hover:text-blue-600 transition-colors" />
               </Link>
 
-              <div className="flex items-center gap-2 mt-4 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl">
-                <ShieldCheck size={16} className="text-blue-500" />
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { label: 'Cost', value: '20-40%' },
+                  { label: 'Speed', value: '10x' },
+                  { label: 'Uptime', value: 'SLA' },
+                ].map((metric) => (
+                  <div key={metric.label} className="p-4 bg-white/5 border border-white/10 rounded-2xl text-center">
+                    <div className="text-lg font-black text-white">{metric.value}</div>
+                    <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 mt-1">{metric.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 px-5 py-4 bg-white/5 border border-white/10 rounded-2xl">
+                <ShieldCheck size={16} className="text-cyan-400" />
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Verified Researcher @ IIT Kharagpur</span>
               </div>
             </div>

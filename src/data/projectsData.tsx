@@ -1,6 +1,8 @@
 import portfolioimg from "../data/img/myDataSciencePortfolio.png"
 import cheaimg from "../data/img/ChemicalEngineeringAssociation.png"
 
+export type ProjectCategory = "data-science" | "web-app" | "system-design" | "chemical-research";
+
 export interface Project {
   id: number;
   title: string;
@@ -15,6 +17,7 @@ export interface Project {
   objectives: string[];
   technologies: string[];
   type: string;
+  category: ProjectCategory;
   methods: string[];
   implementation?: string[];
   results: string[];
@@ -53,6 +56,7 @@ export const projects: Project[] = [
     ],
     "technologies": ["Python", "ZenML", "MLflow", "Pandas", "Scikit-learn", "Pytest", "DVC"],
     "type": "Project",
+    "category": "data-science",
     "methods": [
       "Data preprocessing including handling missing values and normalization of numerical features",
       "Feature engineering to generate 15+ new predictive features from existing ones for enhanced accuracy",
@@ -98,6 +102,7 @@ export const projects: Project[] = [
     ],
     "technologies": ["Python", "ZenML", "Scikit-learn", "Pandas", "Hyperparameter Tuning"],
     "type": "Project",
+    "category": "data-science",
     "methods": [
       "Data splitting and preprocessing with imputation and outlier detection",
       "Feature engineering and scaling for optimized model input",
@@ -138,6 +143,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Data Analysis", "Python", "Scikit-learn", "Logistic Regression","Ongoing Project"],
     "type": "Project",
+    "category": "data-science",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -186,6 +192,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Anomaly Detection", "Apache Spark", "Machine Learning","Ongoing Project"],
     "type": "Project",
+    "category": "data-science",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -227,6 +234,7 @@ export const projects: Project[] = [
     "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "tags": ["Cricket Analytics", "Ensemble Learning", "LightGBM", "CatBoost","XGBoost","Completed Project"],
     "type": "Competition",
+    "category": "data-science",
     "objectives": [
       "Develop an accurate model for predicting T-20 cricket match outcomes",
       "Utilize player ratings and feature engineering to improve prediction",
@@ -263,6 +271,7 @@ export const projects: Project[] = [
     "image": "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
     "tags": ["Quantitative Finance", "Alpha Generation", "RSI", "Mean Reversion", "Volatility"],
     "type": "Competition",
+    "category": "data-science",
     "objectives": [
       "Develop a robust alpha model to perform in varying market conditions",
       "Enhance model adaptability by dynamically adjusting signal weights",
@@ -303,6 +312,7 @@ export const projects: Project[] = [
     "image": "https://www.commonwealthfund.org/sites/default/files/styles/horizontal_hero_desktop/public/2023_Scorecard_cvr_1800w.png?itok=5Pw9DyJF",
     "tags": ["Healthcare", "Data Analytics", "Social Risk Scorecard", "Ensemble Methods", "Web Scraping","Deployed","Completed Project"],
     "type": "Competition",
+    "category": "data-science",
     "objectives": [
       "Develop a risk scorecard to assess social and healthcare risk factors",
       "Utilize patient data and community resource data for informed resource allocation",
@@ -357,6 +367,7 @@ export const projects: Project[] = [
     "image": "https://imgs.search.brave.com/S8-YiFIU0XBX9jE91wgiHBftts4ZGFN46EVla9J2LJE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/dHJhZnN5cy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjQv/MDIvMi1XaGF0LUlz/LUZvb3RmYWxsLUFu/YWx5dGljcy5qcGc",
     "tags": ["Data Analytics", "Time Series", "Footfall Prediction", "Ensemble Modeling", "K-Means Clustering"],
     "type": "Competition",
+    "category": "data-science",
     "objectives": [
       "Predict city footfall using historical time-series data",
       "Improve forecasting accuracy through an ensemble approach",
@@ -417,6 +428,7 @@ export const projects: Project[] = [
       "https://images.unsplash.com/photo-1555421689-d68471e189f2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     tags: ["Recommendation Systems", "Collaborative Filtering", "Python","Ongoing Project"],
     "type": "Project",
+    "category": "data-science",
     objectives: [
       "Increase customer retention by identifying customers at risk of churning",
       "Improve targeted marketing strategies based on predictive insights",
@@ -489,6 +501,7 @@ export const projects: Project[] = [
       "Improve forecasting accuracy using advanced time-series models"
     ],
     "type": "Competition",
+    "category": "data-science",
     "technologies": ["Python", "LSTM", "Pandas", "Dynamic Time Warping", "SARIMAX", "CatBoost"],
     "methods": [
       "Exploratory Data Analysis for trend detection and outlier analysis",
@@ -550,6 +563,7 @@ export const projects: Project[] = [
     ],
     "technologies": ["React", "Tailwind CSS", "Node.js", "JavaScript"],
     "type": "Fest Website",
+    "category": "web-app",
     "methods": [
       "Developed interactive components using React",
       "Applied Tailwind CSS for rapid and responsive styling",
@@ -588,6 +602,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     "image": portfolioimg,
     "tags": ["Web Development", "Portfolio", "React", "Tailwind CSS", "Node.js","Ongoing Project"],
     "type": "Portfolio Website",
+    "category": "web-app",
     "objectives": [
       "Create a professional and visually engaging portfolio website",
       "Showcase projects and skills with a responsive design",
@@ -634,6 +649,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
     image: "/images/projects/volatility_curve_prediction.png",
     tags: ["Quantitative Research", "Financial Modeling", "Time Series", "Deep Learning", "Ensembling"],
     "type": "Competition",
+    "category": "data-science",
     objectives: [
       "Design an accurate volatility curve predictor using financial data.",
       "Integrate geometric and statistical methods in ensembling."
@@ -663,6 +679,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Developed a state-of-the-art multimodal ML system for the Amazon ML Challenge 2025. The project combines BERT-based text embeddings, CLIP image representations, and structured tabular data to predict product prices with high accuracy. Leveraged UMAP for dimensionality reduction and ensemble stacking (Linear, RF, LGBM, XGB, CatBoost) to boost predictive performance and robustness. Built a modular, OOP-driven, YAML-configured experimental pipeline enabling rapid cross-validation, meta-learning, and reproducible experiments.",
     image: "/projects/multimodal-price.jpg",
     "type": "Competition",
+    "category": "data-science",
     tags: ["Machine Learning", "Deep Learning", "Multimodal AI", "Ensemble Models","Deployed","Completed Project"],
     objectives: [
       "Integrate heterogeneous data modalities for accurate price prediction",
@@ -694,6 +711,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Built a deep learning pipeline to summarize 100K+ documents automatically, reducing average summary length by 75% while retaining over 92% of original information. Designed and automated preprocessing, training, and inference pipelines, increasing throughput from 5K to 25K documents per hour. The model improved summary quality by 35% ROUGE-L F1 over extractive baselines, drastically reducing manual review workload and enabling scalable document analysis.",
     image: "/projects/text-summarizer.jpg",
     "type": "Project",
+    "category": "data-science",
     tags: ["Deep Learning", "NLP", "Text Summarization", "Automation","Ongoing Project"],
     objectives: [
       "Reduce manual summarization workload for large document datasets",
@@ -725,6 +743,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Developed a voting ensemble AI model combining BERT, Naive Bayes, and Decision Tree to classify patient-reported health risks with 82.89% accuracy. Deployed a multipage Streamlit app providing real-time scoring and dynamic feedback for healthcare professionals. Scraped 1000+ patient entries using BeautifulSoup and Selenium, integrating Bifactor & MIRT modeling to optimize resource allocation across Indian healthcare case studies.",
     image: "/projects/evva-risk-score.jpg",
     "type": "Competition",
+    "category": "data-science",
     tags: ["Healthcare Analytics", "Machine Learning", "Web Application", "NLP","Deployed","Completed Project"],
     objectives: [
       "Predict patient risk profiles accurately using AI models",
@@ -756,6 +775,7 @@ For Live Demo Visit : https://arpitkumar2004.github.io/data_science-portfolio-we
       "Simulated multi-stage distillation columns, flash separations, and heat exchangers under Prof. Sourav Mondal and Prof. Nikita Saxena. Performed pinch analysis and COMSOL simulations to reduce utility costs by up to 30% and improve heat transfer efficiency by 15%. Integrated neural networks to predict boiling points (R² > 0.85) and automated multicomponent flash processes, increasing benzene recovery to 95%. Focused on sustainable and energy-efficient chemical process development.",
     image: "/projects/process-modelling.jpg",
     "type": "Research",
+    "category": "chemical-research",
     tags: ["Process Engineering", "Simulation", "Optimization", "Electrlyser Design","Completed Project"],
     objectives: [
       "Optimize chemical process efficiency and sustainability",
