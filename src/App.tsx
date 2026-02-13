@@ -17,7 +17,7 @@ import RoleGateway from './components/RoleGateway';
 import { buildApiUrl, API_ENDPOINTS } from './config/api';
 import DocsLayout from './layouts/DocsLayout';
 import DocsViewer from './components/DocsViewer';
-import ThemeToggle from './components/ThemeToggle';
+import ThemeButton from './components/themebuttonUI';
 
 const ScrollRestoration = () => {
   const { pathname } = useLocation();
@@ -100,7 +100,7 @@ const MainApp = () => {
             </ErrorBoundary>
           </main>
           <Footer />
-          <ThemeToggle />
+          <ThemeButton />
           {/* <SpeedInsights /> */}
         </div>
       </RoleGateway>

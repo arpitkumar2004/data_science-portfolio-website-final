@@ -327,7 +327,7 @@ const ProjectDetail: React.FC = () => {
         <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-[#0a0a0a] shadow-lg border border-slate-100 dark:border-white/10 p-7 md:p-10 mb-8">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-slate-50 dark:from-blue-600/10 dark:via-transparent dark:to-transparent pointer-events-none" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-8">
               <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full border text-[11px] font-semibold uppercase tracking-widest ${categoryBadgeClass}`}>
@@ -337,34 +337,12 @@ const ProjectDetail: React.FC = () => {
                     {project.type}
                   </span>
                 </div>
-                <div className="flex flex-wrap items-center gap-2">
-                  {project.githubLink && (
-                    <a
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-1.5 rounded-md text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 transition"
-                    >
-                      <Github className="mr-2" size={14} /> View Code
-                    </a>
-                  )}
-                  {project.liveDemoLink && (
-                    <a
-                      href={project.liveDemoLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-3 py-1.5 rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
-                    >
-                      <ExternalLink className="mr-2" size={14} /> Live Demo
-                    </a>
-                  )}
-                </div>
               </div>
 
               <h1 className="text-4xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-3 leading-tight">
                 {project.title}
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 text-md md:text-md max-w-2xl leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-md md:text-md max-w-5xl leading-relaxed">
                 {emphasizeNumbers(tldr)}
               </p>
 
@@ -408,6 +386,33 @@ const ProjectDetail: React.FC = () => {
                   <ArrowLeft className="mr-2" size={16} />
                   Back
                 </button>
+
+                {project.githubLink && (
+                  <a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-gray-800 hover:bg-gray-900 transition"
+                    aria-label="View code on GitHub"
+                  >
+                    <Github className="mr-2" size={14} />
+                    View Code
+                  </a>
+                )}
+
+                {project.liveDemoLink && (
+                  <a
+                    href={project.liveDemoLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
+                    aria-label="View live demo"
+                  >
+                    <ExternalLink className="mr-2" size={14} />
+                    Live Demo
+                  </a>
+                )}
+
                 <button
                   onClick={shareProject}
                   className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
@@ -419,7 +424,7 @@ const ProjectDetail: React.FC = () => {
               </div>
             </div>
 
-            <div className="lg:col-span-5 flex flex-col gap-4">
+            <div className="lg:col-span-4 flex flex-col gap-4 mt-10">
               <div className="bg-white dark:bg-[#161616] rounded-2xl shadow-lg border border-slate-100 dark:border-white/10 overflow-hidden relative">
                 {!imageLoaded && (
                   <div className="absolute inset-0 bg-gray-200 dark:bg-white/5 animate-pulse flex items-center justify-center">
@@ -429,7 +434,7 @@ const ProjectDetail: React.FC = () => {
                 <img
                   src={project.image}
                   alt={project.title}
-                  className={`w-full h-auto object-cover transition-transform duration-500 cursor-pointer hover:scale-[1.02] ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                  className={`flex-col items-center justify-center w-full h-auto object-cover transition-transform duration-500 cursor-pointer hover:scale-[1.02] ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
                   onLoad={() => setImageLoaded(true)}
                   onClick={() => openModal(project.image)}
                   onKeyDown={handleImageKeyDown(project.image)}
@@ -480,17 +485,27 @@ const ProjectDetail: React.FC = () => {
               </div>
 
               <div className="mb-6">
-                <h3 className="text-lg font-black text-slate-900 dark:text-slate-100 mb-2">Core Stack</h3>
-                <ul className="space-y-2">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">Core Stack</h3>
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
+                    {coreStack.length} items
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
                   {coreStack.map((tech) => (
-                    <li key={tech} className="flex items-center gap-3 text-sm text-slate-800 dark:text-slate-100">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100 dark:bg-[#1a1a1a]">
+                    <span
+                      key={tech}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-[#111111] px-2.5 py-1 text-[11px] font-semibold text-slate-700 dark:text-slate-200 shadow-sm hover:bg-white dark:hover:bg-[#1a1a1a] transition"
+                      title={tech}
+                    >
+                      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-slate-100 dark:bg-[#1a1a1a]">
                         <TechGlyph label={tech} />
-                      </div>
-                      <span className="font-semibold">{tech}</span>
-                    </li>
+                      </span>
+                      <span className="whitespace-nowrap">{tech}</span>
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
 
               {tools.length > 0 && (

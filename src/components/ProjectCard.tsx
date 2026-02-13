@@ -140,7 +140,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         {/* 3. BUTTON MATRIX */}
         <div className="flex items-center justify-between gap-4">
           {/* Primary Conversion Button */}
-          <button className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-md font-bold text-xs uppercase tracking-[0.2em] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-blue-600 shadow-lg shadow-slate-200 dark:shadow-blue-900/40 hover:shadow-blue-900/25 group/btn">
+          <button className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-md font-bold text-xs uppercase tracking-[0.2em] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-blue-600 shadow-sm shadow-slate-200 dark:shadow-blue-900/40 hover:shadow-blue-900/25 group/btn">
             <span>View Project</span>
             <ArrowRight
               size={16}
