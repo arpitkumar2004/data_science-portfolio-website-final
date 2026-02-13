@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useNavigationType } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,17 +19,45 @@ import DocsLayout from './layouts/DocsLayout';
 import DocsViewer from './components/DocsViewer';
 import ThemeToggle from './components/ThemeToggle';
 
-const ScrollToTop = () => {
+const ScrollRestoration = () => {
   const { pathname } = useLocation();
+  const navigationType = useNavigationType();
   const lenis = useLenis();
+  const lastPathRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (lenis) {
-      lenis.scrollTo(0, { immediate: true });
+    window.history.scrollRestoration = 'manual';
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      sessionStorage.setItem(`scroll:${pathname}`, String(window.scrollY));
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [pathname]);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem(`scroll:${pathname}`);
+    const targetY = stored ? Number(stored) : 0;
+
+    if (navigationType === 'POP' && lastPathRef.current !== pathname) {
+      if (lenis) {
+        lenis.scrollTo(targetY, { immediate: true });
+      } else {
+        window.scrollTo(0, targetY);
+      }
     } else {
-      window.scrollTo(0, 0);
+      if (lenis) {
+        lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
     }
-  }, [pathname, lenis]);
+
+    lastPathRef.current = pathname;
+  }, [pathname, navigationType, lenis]);
 
   return null;
 };
@@ -50,10 +78,6 @@ const MainApp = () => {
       }
     };
     wakeServer();
-  }, []);
-
-  useEffect(() => {
-    window.history.scrollRestoration = 'manual';
   }, []);
 
   return (
@@ -87,7 +111,7 @@ const MainApp = () => {
 function App() {
   return (
     <Router>
-      <ScrollToTop />
+      <ScrollRestoration />
       <Routes>
         <Route path="/docs" element={<DocsLayout />}>
           <Route index element={<Navigate to="/docs/general/overview.md" replace />} />

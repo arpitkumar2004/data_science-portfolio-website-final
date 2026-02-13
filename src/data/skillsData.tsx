@@ -11,7 +11,6 @@ import {
   Activity,
   FlaskConical,
   Terminal,
-  Database,
   Cloud,
   Sparkles,
   BarChart3,
@@ -31,9 +30,9 @@ export const techData = [
       "LangChain",
       "LlamaIndex",
       "vLLM",
+      "Transformers",
       "Vector DBs",
       "HuggingFace",
-      "RAGAS",
     ],
   },
   {
@@ -46,10 +45,10 @@ export const techData = [
       "PyTorch",
       "TensorFlow",
       "Scikit-learn",
+      "CatBoost",
       "XGBoost",
       "LightGBM",
       "OpenCV",
-      "Optuna",
     ],
   },
   {
@@ -58,21 +57,37 @@ export const techData = [
     icon: <Network className="w-5 h-5" />,
     description:
       "End-to-end ML platforms cutting deployment cycles by 40% and reducing inference latency by 60%. Containerized services enabling 99.9% uptime and sub-100ms p99 response time.",
-    tools: ["Docker", "Kubernetes", "MLflow", "Airflow", "FastAPI", "Terraform"],
+    tools: [
+      "Docker",
+      "GCP",
+      "MLflow",
+      "DVC",
+      "Airflow",
+      "Apache Kafka",
+      "FastAPI",
+      "Flask",
+      "CI/CD Workflows",
+      "Cron Jobs",
+      "YAML",
+      "Git",
+    ],
   },
   {
-    title: "Big Data & Science",
+    title: "Data Engineering",
     category: "Data Advantage",
     icon: <BarChart3 className="w-5 h-5" />,
     description:
       "Petabyte-scale pipelines delivering real-time intelligence. 100K+ daily records to actionable insights in under 2 minutes, enabling data-driven decisions at enterprise velocity.",
     tools: [
-      "PySpark",
-      "SQL",
-      "BigQuery",
-      "Snowflake",
-      "Databricks",
-      "Power BI",
+      "Polars",
+      "SciPy",
+      "Seaborn",
+      "Joblib",
+      "BeautifulSoup",
+      "Selenium",
+      "PostgreSQL",
+      "MongoDB",
+      "Redis",
     ],
   },
   {
@@ -81,7 +96,15 @@ export const techData = [
     icon: <Code2 className="w-5 h-5" />,
     description:
       "High-performance systems and clean, tested code for research and production. Memory-efficient services processing 1M+ events/sec with under 5% latency variance.",
-    tools: ["Python", "C++", "SQL", "MATLAB", "JavaScript", "CUDA", "Linux"],
+    tools: [
+      "Python",
+      "C",
+      "C++",
+      "SQL",
+      "JavaScript",
+      "CUDA",
+      "Linux",
+    ],
   },
   {
     title: "Process Simulation",
@@ -141,7 +164,7 @@ export default function TechnicalProficiencies() {
             ease: "power3.out",
             delay: i * 0.06,
             scrollTrigger: { trigger: card, start: "top 90%" },
-          }
+          },
         );
       });
 
@@ -274,7 +297,7 @@ export default function TechnicalProficiencies() {
                   </h3>
                 </div>
                 <p className="text-slate-500 text-sm font-medium">
-                  Top-Tier Coursework: IIT KGP + Stanford
+                  Featured Coursework from IIT Kharagpur and Stanford Online
                 </p>
               </div>
 

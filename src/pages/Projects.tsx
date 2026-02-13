@@ -112,7 +112,7 @@ const Projects: React.FC = () => {
         </div>
       </header>
 
-      {/* --- STICKY COMMAND CENTER --- */}
+      {/* --- STICKY COMMAND CENTER ---
       <div className="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-slate-100 dark:border-white/10 py-6 px-6 md:px-12 lg:px-20">
         <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-6 items-center">
           <div className="relative flex-grow w-full group">
@@ -122,7 +122,7 @@ const Projects: React.FC = () => {
             <input
               type="text"
               placeholder="Query technical repository..."
-              className="w-full pl-16 pr-4 py-4 bg-slate-50 dark:bg-[#111827] border border-slate-100 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all font-mono text-sm"
+              className="w-full pl-16 pr-4 py-4 bg-grey-50 dark:bg-[#111827] border border-slate-100 dark:border-white/10 rounded-2xl focus:ring-4 focus:ring-blue-600/5 focus:border-blue-600 outline-none transition-all font-mono text-sm"
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
@@ -154,7 +154,7 @@ const Projects: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </div> */}
 
       {/* --- Type Sections: Projects / Competitions / Research / Websites --- */}
       {

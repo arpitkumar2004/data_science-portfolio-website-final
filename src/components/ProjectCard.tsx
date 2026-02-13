@@ -15,6 +15,7 @@ interface ProjectCardProps {
   description: string;
   image: string;
   type?: string;
+  standings?: string;
   tags?: string[];
   githubLink?: string;
   articleLink?: string;
@@ -35,6 +36,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   liveDemoLink,
   role,
   duration,
+  type,
+  standings,
   readingTime = "5 min read",
 }) => {
   const navigate = useNavigate();
@@ -67,6 +70,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           className="w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 grayscale group-hover:grayscale-0"
         />
         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
+        
+        {/* Standings Badge */}
+        {type === "Competition" && standings && (
+          <div className="absolute top-3 right-3 z-20">
+            {standings === "Gold" && (
+              <div className="px-3 py-1.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 text-xs font-black rounded-full shadow-lg">
+                🥇 {standings}
+              </div>
+            )}
+            {standings === "Silver" && (
+              <div className="px-3 py-1.5 bg-gradient-to-r from-gray-300 to-gray-400 text-slate-900 text-xs font-black rounded-full shadow-lg">
+                🥈 {standings}
+              </div>
+            )}
+            {standings === "Bronze" && (
+              <div className="px-3 py-1.5 bg-gradient-to-r from-orange-400 to-orange-500 text-slate-900 text-xs font-black rounded-full shadow-lg">
+                🥉 {standings}
+              </div>
+            )}
+            {standings === "Platinum" && (
+              <div className="px-3 py-1.5 bg-gradient-to-r from-cyan-300 to-blue-400 text-slate-900 text-xs font-black rounded-full shadow-lg">
+                💎 {standings}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* 2. CORE INFORMATION */}
