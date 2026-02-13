@@ -281,7 +281,7 @@ const ProjectDetail: React.FC = () => {
   };
 
   return (
-    <div className="bg-slate-50 dark:bg-[#161616] min-h-screen font-sans relative">
+    <div className="bg-slate-50 dark:bg-[#161616] min-h-screen font-body relative">
       {/* <div className="absolute inset-x-0 -top-24 h-72 bg-gradient-to-br from-blue-50 via-white to-slate-50 opacity-80 pointer-events-none" /> */}
       {/* Breadcrumb Navigation */}
       <div className="bg-white dark:bg-[#161616] border-b border-slate-100 dark:border-white/10 sticky top-16 z-50">

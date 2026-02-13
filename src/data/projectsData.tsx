@@ -48,106 +48,106 @@ export interface Project {
 }
 
 export const projects: Project[] = [
-  {
-    id: 1,
-    title: "Prediction of T-20 Cricket Match Winner",
-    tldr: "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
-    description:
-      "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
-    longDescription:
-      "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    tags: [
-      "Cricket Analytics",
-      "Ensemble Learning",
-      "LightGBM",
-      "CatBoost",
-      "XGBoost",
-      "Completed Project",
-    ],
-    type: "Competition",
-    category: "data-science",
-    objectives: [
-      "Develop an accurate model for predicting T-20 cricket match outcomes",
-      "Utilize player ratings and feature engineering to improve prediction",
-      "Combine multiple models for optimal performance using an ensemble approach",
-    ],
-    technologies: ["Python", "LightGBM", "XGBoost", "CatBoost", "Pandas"],
-    methods: [
-      "Feature extraction and engineering from batsman, bowler, and match data",
-      "Player rating calculations and data imputation",
-      "Training of classification models and ensemble learning",
-    ],
-    results: [
-      "Achieved an accuracy of 86.42% and a recall of 74.28%",
-      "Developed a reliable model for T-20 cricket match predictions",
-      "Validated model effectiveness through ensemble predictions",
-    ],
-    githubLink: "https://github.com/arpitkumar2004/American_Express_Project",
-    // "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
-    // "liveDemoLink": "https://website.com",
-    role: "Data Scientist",
-    duration: "Aug 2023 - Oct 2023",
-    company: "American Express",
-    challenges: [
-      "Feature engineering from diverse cricket data sources",
-      "Combining multiple models into an effective ensemble",
-      "Handling missing values and ensuring data integrity",
-    ],
-    // "similarProjectIds": [2, 3, 4]
-  },
-  {
-    id: 2,
-    title: "DTL Quant Challenge 2024 - Alpha Generation Model",
-    description:
-      "Developed a dynamic alpha generation model that ranked in the top 20 nationally, achieving strong scores across in-sample, out-sample, and real-time performance.",
-    longDescription:
-      "This project involved building a sophisticated alpha generation model for the DTL Quant Challenge 2024. The model integrated multiple financial signals, including RSI, mean reversion, volatility, and trend indicators. We dynamically adjusted weights based on the model's previous alpha performance, enhancing adaptability to changing market conditions. This approach achieved scores of 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time, proving its robustness across different market scenarios. Placing 19th nationally highlighted the model's strong predictive ability and innovative approach to quantitative trading.",
-    image:
-      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
-    tags: [
-      "Quantitative Finance",
-      "Alpha Generation",
-      "RSI",
-      "Mean Reversion",
-      "Volatility",
-    ],
-    type: "Competition",
-    category: "data-science",
-    standings: "Bronze",
-    objectives: [
-      "Develop a robust alpha model to perform in varying market conditions",
-      "Enhance model adaptability by dynamically adjusting signal weights",
-      "Achieve high ranking in a competitive quantitative finance simulation",
-    ],
-    technologies: ["Python", "Pandas", "NumPy", "Financial Indicators"],
-    methods: [
-      "Combining financial signals (RSI, mean reversion, volatility, trend)",
-      "Dynamic weight adjustment based on alpha performance",
-      "Performance validation across in-sample, out-sample, and real-time data",
-    ],
-    results: [
-      "Scored 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time",
-      "Ranked 19th nationally in the DTL Quant Challenge",
-      "Validated model's reliability and adaptability in dynamic markets",
-    ],
-    githubLink: "https://github.com/yourusername/alpha-generation-model",
-    // "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
-    // "liveDemoLink": "https://website.com",
-    role: "Data Scientist",
-    duration: "Dec 2023 - Feb 2024",
-    challenges: [
-      "Integrating multiple financial signals effectively for alpha generation",
-      "Dynamically adjusting model parameters based on performance and market conditions",
-      "Validating model robustness across different market conditions and scenarios",
-    ],
-    // "similarProjectIds": [2, 3, 4],
-    galleryImages: [
-      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
-      "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
-    ],
-  },
+  // {
+  //   id: 1,
+  //   title: "Prediction of T-20 Cricket Match Winner",
+  //   tldr: "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
+  //   description:
+  //     "Developed a predictive model to forecast T-20 cricket match outcomes with 86.42% accuracy, utilizing player ratings and ensemble modeling.",
+  //   longDescription:
+  //     "This project, guided by an American Express mentor, focused on predicting the outcomes of T-20 cricket matches. Key features were engineered from batsman, bowler, and match data, including custom player ratings and correlation-based feature selection. Missing values were imputed using the mean to maintain data integrity. Three high-performing classification models—LightGBM, XGBoost, and CatBoost—were trained on these features, and an ensemble layer combining all models further enhanced prediction accuracy. The final ensemble model achieved an 86.42% accuracy and 74.28% recall, demonstrating its effectiveness in match outcome prediction.",
+  //   image:
+  //     "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2015&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   tags: [
+  //     "Cricket Analytics",
+  //     "Ensemble Learning",
+  //     "LightGBM",
+  //     "CatBoost",
+  //     "XGBoost",
+  //     "Completed Project",
+  //   ],
+  //   type: "Competition",
+  //   category: "data-science",
+  //   objectives: [
+  //     "Develop an accurate model for predicting T-20 cricket match outcomes",
+  //     "Utilize player ratings and feature engineering to improve prediction",
+  //     "Combine multiple models for optimal performance using an ensemble approach",
+  //   ],
+  //   technologies: ["Python", "LightGBM", "XGBoost", "CatBoost", "Pandas"],
+  //   methods: [
+  //     "Feature extraction and engineering from batsman, bowler, and match data",
+  //     "Player rating calculations and data imputation",
+  //     "Training of classification models and ensemble learning",
+  //   ],
+  //   results: [
+  //     "Achieved an accuracy of 86.42% and a recall of 74.28%",
+  //     "Developed a reliable model for T-20 cricket match predictions",
+  //     "Validated model effectiveness through ensemble predictions",
+  //   ],
+  //   githubLink: "https://github.com/arpitkumar2004/American_Express_Project",
+  //   // "articleLink": "https://medium.com/@yourusername/t20-cricket-match-prediction",
+  //   // "liveDemoLink": "https://website.com",
+  //   role: "Data Scientist",
+  //   duration: "Aug 2023 - Oct 2023",
+  //   company: "American Express",
+  //   challenges: [
+  //     "Feature engineering from diverse cricket data sources",
+  //     "Combining multiple models into an effective ensemble",
+  //     "Handling missing values and ensuring data integrity",
+  //   ],
+  //   // "similarProjectIds": [2, 3, 4]
+  // },
+  // {
+  //   id: 2,
+  //   title: "DTL Quant Challenge 2024 - Alpha Generation Model",
+  //   description:
+  //     "Developed a dynamic alpha generation model that ranked in the top 20 nationally, achieving strong scores across in-sample, out-sample, and real-time performance.",
+  //   longDescription:
+  //     "This project involved building a sophisticated alpha generation model for the DTL Quant Challenge 2024. The model integrated multiple financial signals, including RSI, mean reversion, volatility, and trend indicators. We dynamically adjusted weights based on the model's previous alpha performance, enhancing adaptability to changing market conditions. This approach achieved scores of 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time, proving its robustness across different market scenarios. Placing 19th nationally highlighted the model's strong predictive ability and innovative approach to quantitative trading.",
+  //   image:
+  //     "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+  //   tags: [
+  //     "Quantitative Finance",
+  //     "Alpha Generation",
+  //     "RSI",
+  //     "Mean Reversion",
+  //     "Volatility",
+  //   ],
+  //   type: "Competition",
+  //   category: "data-science",
+  //   standings: "Bronze",
+  //   objectives: [
+  //     "Develop a robust alpha model to perform in varying market conditions",
+  //     "Enhance model adaptability by dynamically adjusting signal weights",
+  //     "Achieve high ranking in a competitive quantitative finance simulation",
+  //   ],
+  //   technologies: ["Python", "Pandas", "NumPy", "Financial Indicators"],
+  //   methods: [
+  //     "Combining financial signals (RSI, mean reversion, volatility, trend)",
+  //     "Dynamic weight adjustment based on alpha performance",
+  //     "Performance validation across in-sample, out-sample, and real-time data",
+  //   ],
+  //   results: [
+  //     "Scored 2.42 in-sample, 1.32 out-sample, and 0.48 in real-time",
+  //     "Ranked 19th nationally in the DTL Quant Challenge",
+  //     "Validated model's reliability and adaptability in dynamic markets",
+  //   ],
+  //   // githubLink: "https://github.com/yourusername/alpha-generation-model",
+  //   // "articleLink": "https://medium.com/@yourusername/quant-challenge-alpha-model",
+  //   // "liveDemoLink": "https://website.com",
+  //   role: "Data Scientist",
+  //   duration: "Dec 2023 - Feb 2024",
+  //   challenges: [
+  //     "Integrating multiple financial signals effectively for alpha generation",
+  //     "Dynamically adjusting model parameters based on performance and market conditions",
+  //     "Validating model robustness across different market conditions and scenarios",
+  //   ],
+  //   // "similarProjectIds": [2, 3, 4],
+  //   // galleryImages: [
+  //   //   "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+  //   //   "https://imgs.search.brave.com/zMH71WLFV1gkEVz40RlyYgHxXdWWQMbkYg0ZNR0jX9Q/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzA3LzU5LzM2LzM2/LzM2MF9GXzc1OTM2/MzYzNV8zc2czbld5/a2pmMnk0NTQ3S1Y1/SWpSZXNNMkVUWGFH/eC5qcGc",
+  //   // ],
+  // },
   {
     id: 3,
     title:
@@ -540,14 +540,15 @@ For Live Demo Visit : https://arpitkumar.dev
     title: "Deep Learning Based Text Summarization System",
     description:
       "Automated summarization of large-scale documents with deep learning for improved efficiency and comprehension.",
-    tldr: "Summarized 100K+ documents with 75% shorter outputs and +35% ROUGE-L F1, boosting throughput 5x via automated pipelines.",
+    tldr: "Improved ROUGE-L by +5 on SAMSum, cut training time 3x with mixed-precision + distributed PyTorch, and scaled ETL throughput 5x with Kafka-backed pipelines.",
     keyImpactMetrics: [
-      "75% shorter summaries",
-      "35% ROUGE-L F1",
-      "5x throughput",
+      "+5 ROUGE-L on SAMSum",
+      "3x faster training",
+      "5x ETL throughput",
+      "40% lower p95 latency",
     ],
     longDescription:
-      "Built a deep learning pipeline to summarize 100K+ documents automatically, reducing average summary length by 75% while retaining over 92% of original information. Designed and automated preprocessing, training, and inference pipelines, increasing throughput from 5K to 25K documents per hour. The model improved summary quality by 35% ROUGE-L F1 over extractive baselines, drastically reducing manual review workload and enabling scalable document analysis.",
+      "Built an end-to-end NLP summarization system focused on both model quality and production performance. On SAMSum, I fine-tuned transformer models using curriculum sampling and mixed-precision (Apex/AMP), improving ROUGE-L by 5 points while reducing training time by 3x through distributed PyTorch pipelines. For data engineering, I designed a parallel ETL flow using Kafka streams and containerized workers orchestrated via Docker Compose, lifting throughput 5x for large-scale preprocessing. I also deployed a TorchServe-based inference stack with MLflow tracking and GitHub Actions CI/CD, cutting p95 latency by 40% and ensuring fully reproducible experiments and releases.",
     image: "/projects/text-summarizer.jpg",
     type: "Project",
     category: "data-science",
@@ -555,6 +556,8 @@ For Live Demo Visit : https://arpitkumar.dev
       "Deep Learning",
       "NLP",
       "Text Summarization",
+      "MLOps",
+      "Streaming",
       "Automation",
       "Ongoing Project",
     ],
@@ -566,28 +569,44 @@ For Live Demo Visit : https://arpitkumar.dev
     technologies: [
       "Python",
       "PyTorch",
-      "TensorFlow",
       "Transformers",
-      "NLTK",
-      "Streamlit",
+      "Apache Kafka",
+      "Docker",
+      "TorchServe",
+      "MLflow",
+      "GitHub Actions",
     ],
     coreStack: ["Python", "PyTorch", "Transformers"],
-    tools: ["TensorFlow", "NLTK", "Streamlit"],
+    tools: [
+      "Apex/AMP",
+      "Distributed PyTorch",
+      "Docker Compose",
+      "MLflow",
+      "TorchServe",
+    ],
     methods: [
       "Sequence-to-Sequence Modeling",
+      "Curriculum Sampling",
+      "Mixed-Precision Training",
+      "Distributed Training",
+      "Streaming ETL",
+      "Experiment Tracking",
       "Pipeline Automation",
       "ROUGE Evaluation",
       "Data Preprocessing",
     ],
     implementation: [
-      "Built a seq2seq summarizer with attention and length controls",
-      "Automated preprocessing, batching, and tokenization for long documents",
-      "Deployed an inference pipeline with caching for high-throughput scoring",
+      "Fine-tuned Transformer summarizers on SAMSum with curriculum sampling",
+      "Enabled mixed-precision training (Apex/AMP) and distributed PyTorch execution",
+      "Built a Kafka-backed ETL pipeline with containerized workers via Docker Compose",
+      "Deployed TorchServe inference with MLflow tracking and CI/CD automation",
     ],
     results: [
-      "75% reduction in summary length",
-      "35% improvement in ROUGE-L F1",
-      "5× increase in processing throughput",
+      "+5 ROUGE-L on SAMSum",
+      "3x faster training time",
+      "5x data throughput",
+      "40% lower p95 inference latency",
+      "100% experiment reproducibility",
     ],
     codeSnippet: "",
     githubLink: "https://github.com/arpitkumar2004/Text-Summarizer-Project",
@@ -598,9 +617,24 @@ For Live Demo Visit : https://arpitkumar.dev
     ProblemStatement:
       "Manual summarization of large document volumes was slow, inconsistent, and expensive; extractive baselines lost critical context.",
     challenges: [
-      "Processing and summarizing large-scale text datasets efficiently",
-      "Maintaining abstraction quality and reducing information loss",
-      "Designing automated pipelines for large-scale deployment",
+      "Improving ROUGE-L without increasing training cost",
+      "Scaling preprocessing and ETL throughput for large text corpora",
+      "Reducing inference latency while keeping deployments reproducible",
+    ],
+    solutions: [
+      "Applied curriculum sampling with mixed-precision to accelerate convergence",
+      "Introduced Kafka-based streaming ETL with containerized workers",
+      "Standardized TorchServe + MLflow + CI/CD for consistent releases",
+    ],
+    discussion: [
+      "Curriculum sampling stabilized training and improved ROUGE-L more than larger batch sizes.",
+      "Streaming ETL separated ingestion from preprocessing, eliminating throughput bottlenecks.",
+      "Reproducible MLOps tooling reduced regression risk across experiments and releases.",
+    ],
+    futureWork: [
+      "Add retrieval-augmented summarization for long-document grounding.",
+      "Benchmark quantized inference (INT8/FP8) for additional latency gains.",
+      "Expand dataset coverage beyond SAMSum to multi-domain corpora.",
     ],
     galleryImages: [],
     // similarProjectIds: [14, 16]
@@ -826,11 +860,11 @@ For Live Demo Visit : https://arpitkumar.dev
       "This project involved engineering a comprehensive AI-driven platform to enhance employee welfare monitoring. The system features a multi-stage AI pipeline that integrates ensemble anomaly detection (using Isolation Forest and Local Outlier Factor) to flag behavioral deviations indicative of burnout or stress. \n\nTo bridge the gap between raw data and actionable HR insights, a LangChain-powered LLM pipeline was architected to generate context-aware well-being summaries, replacing manual reporting. The entire ecosystem was built for enterprise scalability, utilizing a modern full-stack architecture with Next.js and Expo clients, supported by containerized FastAPI microservices orchestrated on Google Cloud Platform.",
     image: "/images/employee-welfare-ai-dashboard.png",
     tags: [
-      "Artificial Intelligence",
-      "Full-Stack Development",
+      "AI for HR",
+      "Full-Stack",
       "Cloud Computing",
       "Anomaly Detection",
-      "Natural Language Processing (NLP)",
+      "NLP",
       "Employee Welfare",
     ],
     objectives: [
@@ -890,7 +924,7 @@ For Live Demo Visit : https://arpitkumar.dev
     ],
     references: [],
     role: "Lead Developer",
-    duration: "Mar 2024 - Ongoing",
+    duration: "Mar 2024 - Aug 2024",
       // company: "Confidential",
     challenges: [
       "Ensuring the robustness of anomaly detection across diverse behavioral patterns.",

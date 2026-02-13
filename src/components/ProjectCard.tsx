@@ -99,36 +99,31 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       </div>
 
       {/* 2. CORE INFORMATION */}
-      <div className="relative z-10 p-6 flex flex-col flex-grow bg-white/85 dark:bg-[#0a0a0a]/85 backdrop-blur-md border-t border-white/40 dark:border-white/10">
+      <div className="relative z-10 p-4 flex flex-col flex-grow bg-white/85 dark:bg-[#0a0a0a]/85 backdrop-blur-md border-t border-white/40 dark:border-white/10">
         {/* Metadata Row */}
-        <div className="flex justify-between items-center mb-5">
+        <div className="flex justify-between items-center mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-[9px] font-mono font-bold text-slate-500 dark:text-slate-300 uppercase tracking-widest">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-300 tracking-widest">
               {role || "Contributor"} 
             </span>
-            <span className="text-[9px] font-mono font-medium text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
+            <span className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
               {duration || "2024"}
             </span>
           </div>
-          <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
-            <Clock size={12} />
-            <span className="text-[9px] font-mono font-bold uppercase">
-              {readingTime}
-            </span>
-          </div>
+          
         </div>
 
         {/* Title & Abstract */}
-        <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-3 leading-tight transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-blue-600">
+        <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-2 leading-tight transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-blue-600">
           {title}
         </h3>
 
-        <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-5 line-clamp-2 font-medium transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-slate-600 dark:group-hover:text-slate-300">
+        <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-3 line-clamp-2 font-medium transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-slate-600 dark:group-hover:text-slate-300">
           {description}
         </p>
 
         {/* Technology DNA */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-3">
           {tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
@@ -140,12 +135,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         </div>
 
         {/* --- ACTION ZONE SEPARATOR --- */}
-        <div className="w-full h-px bg-slate-100/80 dark:bg-white/10 mb-5 mt-auto" />
+        <div className="w-full h-px bg-slate-100/80 dark:bg-white/10 mb-3 mt-auto" />
 
         {/* 3. BUTTON MATRIX */}
         <div className="flex items-center justify-between gap-4">
           {/* Primary Conversion Button */}
-          <button className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-blue-600 shadow-lg shadow-slate-200 dark:shadow-blue-900/40 hover:shadow-blue-900/25 group/btn">
+          <button className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-md font-bold text-xs uppercase tracking-[0.2em] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-blue-600 shadow-lg shadow-slate-200 dark:shadow-blue-900/40 hover:shadow-blue-900/25 group/btn">
             <span>View Project</span>
             <ArrowRight
               size={16}
