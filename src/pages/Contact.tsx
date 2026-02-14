@@ -20,6 +20,7 @@ import {
 import { SiKaggle } from "react-icons/si";
 import { Link } from "react-router-dom";
 import { buildApiUrl, API_ENDPOINTS } from '../config/api';
+import { trackContactForm } from '../utils/analytics';
 
 type FormData = {
   name: string;
@@ -73,6 +74,7 @@ const Contact: React.FC = () => {
   // 3. Submission Handler (Updated for JSON Backend)
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
+    trackContactForm('form_submitted', { role: userRole || 'GUEST', subject: data.subject });
     try {
       // We must use the FormData API to match your backend's Form(...) requirements
       const bodyFormData = new FormData();
@@ -93,12 +95,14 @@ const Contact: React.FC = () => {
 
       if (!response.ok) throw new Error();
 
+      trackContactForm('form_success', { role: userRole || 'GUEST' });
       showToast(
         "Thankyou for reaching out!\nCheck your Gmail inbox in a few minutes\nYour message has been sent, Arpit will get back to you soon",
         "success",
       );
       reset();
     } catch (error) {
+      trackContactForm('form_error', { role: userRole || 'GUEST', error: String(error) });
       showToast("Transmission Failed, Please Try Again", "error");
     } finally {
       setIsSubmitting(false);
@@ -204,7 +208,7 @@ const Contact: React.FC = () => {
               className="bg-slate-50 border border-slate-200/60 dark:bg-[#111827] dark:border-white/10 rounded-[2.5rem] p-8 lg:p-12 relative overflow-hidden"
             >
               {/* Cold Start Notice */}
-              <AnimatePresence>
+              <AnimatePresence mode="wait">
                 {showWakeUpNotice && (
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}

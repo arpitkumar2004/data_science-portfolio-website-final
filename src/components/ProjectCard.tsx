@@ -7,7 +7,9 @@ import {
   Clock,
   FileText,
   ExternalLink,
+  TrendingUp,
 } from "lucide-react";
+import { trackProjectView } from "../utils/analytics";
 
 interface ProjectCardProps {
   id: string | number;
@@ -23,6 +25,7 @@ interface ProjectCardProps {
   readingTime?: string;
   duration?: string;
   role?: string;
+  keyImpactMetrics?: string[];
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -38,11 +41,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   duration,
   type,
   standings,
-  readingTime = "5 min read",
+  // readingTime = "5 min read",
+  keyImpactMetrics,
 }) => {
   const navigate = useNavigate();
 
-  const handleCardClick = () => navigate(`/projects/${String(id)}`);
+  const handleCardClick = () => {
+    trackProjectView(Number(id), title, 'card_click');
+    navigate(`/projects/${String(id)}`);
+  };
   const handleLinkClick = (e: React.MouseEvent) => e.stopPropagation();
   
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -67,6 +74,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <img
           src={image}
           alt={title}
+          width={800}
+          height={600}
+          loading="lazy"
           className="w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 grayscale group-hover:grayscale-0"
         />
         <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
@@ -121,6 +131,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-3 line-clamp-2 font-medium transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-slate-600 dark:group-hover:text-slate-300">
           {description}
         </p>
+
+        {/* Key Impact Metrics
+        {keyImpactMetrics && keyImpactMetrics.length > 0 && (
+          <div className="mb-3 p-3 bg-gradient-to-r from-blue-50 to-blue-50/50 dark:from-blue-950/30 dark:to-blue-950/10 rounded-lg border border-blue-100 dark:border-blue-900/30">
+            <div className="flex items-center gap-1.5 mb-2">
+              <TrendingUp size={12} className="text-blue-600 dark:text-blue-400" />
+              <span className="text-[9px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Impact Metrics</span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {keyImpactMetrics.slice(0, 2).map((metric, i) => (
+                <div key={i} className="text-[10px] font-mono font-semibold text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-950/50 px-2 py-1 rounded border border-blue-200 dark:border-blue-800/50">
+                  {metric}
+                </div>
+              ))}
+            </div>
+          </div>
+        )} */}
 
         {/* Technology DNA */}
         <div className="flex flex-wrap gap-2 mb-3">

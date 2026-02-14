@@ -5,6 +5,7 @@ import ProjectCard from '../components/ProjectCard';
 import ProjectCarousel from '../components/ProjectCarousel';
 import { Filter, Database, Terminal, History, BookOpen, Trophy, Globe, Cpu, Activity, Zap, FileText, Download, Mail, ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { trackResumeDownload } from '../utils/analytics';
 
 // Logic: Sorting by date
 const parseEndDate = (duration: string): Date => {
@@ -74,12 +75,13 @@ const Projects: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex-1">
             <p className="font-bold text-lg mb-1">👋 Hiring for ML/AI roles?</p>
-            <p className="text-sm text-blue-100">15+ production projects • Top 0.5% Amazon ML • 50k+ users served • Available May 2027</p>
+            <p className="text-sm text-blue-100">5+ production projects • Top 0.5% Amazon ML • 10k+ users served • Available for Summer Internship 2026</p>
           </div>
           <div className="flex gap-3 shrink-0">
             <a
               href="/Arpit_Kumar_Resume.pdf"
               download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+              onClick={() => trackResumeDownload('projects_page_banner')}
               className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors shadow-lg flex items-center gap-2"
             >
               <FileText size={16} />
@@ -168,7 +170,7 @@ const Projects: React.FC = () => {
           </div>
         </div>
 
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {showFilters && (
             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden mt-6 max-w-[1600px] mx-auto">
               <div className="flex flex-wrap gap-2 p-6 bg-slate-50 dark:bg-[#0f172a] rounded-[2.5rem] border border-slate-100 dark:border-white/10">

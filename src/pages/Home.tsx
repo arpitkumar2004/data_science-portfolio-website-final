@@ -9,6 +9,7 @@ import {
   Terminal,
   ShieldCheck,
 } from "lucide-react";
+import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
 
 import { SiKaggle} from "react-icons/si";
 
@@ -109,7 +110,7 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.p variants={heroItem} className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
-                <strong>Applied ML Engineer who ships code that matters.</strong> Top 0.5% in Amazon ML Challenge. Built production systems serving 50,000+ concurrent users at IIT Kharagpur. Expert in PyTorch, TensorFlow, React, Node.js, and cloud infrastructure.
+                <strong>Applied ML Engineer who ships code that matters.</strong> Top 0.5% in Amazon ML Challenge. Built production systems serving approx 10,000+ concurrent users at IIT Kharagpur. Expert in PyTorch, TensorFlow, React, Node.js, and cloud infrastructure.
               </motion.p>
 
               <motion.p variants={heroItem} className="inline-flex items-center gap-2 text-sm md:text-base text-blue-600 dark:text-blue-400 font-semibold mb-4 bg-blue-50 dark:bg-blue-600/10 px-4 py-2 rounded-lg border border-blue-100 dark:border-blue-500/20">
@@ -133,6 +134,7 @@ const Home: React.FC = () => {
                 <a 
                   href="/Arpit_Kumar_Resume.pdf" 
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+                  onClick={() => trackResumeDownload('hero_primary_cta')}
                   aria-label="Download resume PDF immediately" 
                   className="group px-4 py-3 bg-blue-600 text-white font-black text-lg rounded-xl flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 animate-pulse hover:animate-none"
                 >
@@ -172,19 +174,34 @@ const Home: React.FC = () => {
             <motion.div whileHover={!shouldReduceMotion ? { scale: 1.03 } : {}} className="relative z-10 mx-auto w-full max-w-[420px]">
               <div className="absolute -inset-4 border border-slate-100 dark:border-white/10 rounded-[3rem] -z-10" aria-hidden="true" />
               <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-[#111827] border-4 border-white dark:border-white/10 shadow-2xl aspect-[4/5]">
-                <img src={myphoto} alt="Arpit Kumar" loading="lazy" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" />
+                <img 
+                  src={myphoto} 
+                  alt="Arpit Kumar" 
+                  width={420}
+                  height={525}
+                  loading="lazy" 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
+                />
               </div>
 
               <OpenToWork />
 
               <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
                 {[
-                  { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub' },
-                  { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn' },
-                  { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle' },
-                  { icon: GoogleScholar, href: "#", label: 'Google Scholar' }
+                  { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub', platform: 'github' },
+                  { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn', platform: 'linkedin' },
+                  { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle', platform: 'kaggle' },
+                  { icon: GoogleScholar, href: "#", label: 'Google Scholar', platform: 'scholar' }
                 ].map((item, i) => (
-                  <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label} className="p-4 bg-white dark:bg-[#161616] shadow-xl rounded-2xl text-slate-600 dark:text-slate-300 hover:text-blue-600 border border-slate-50 dark:border-white/10 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300">
+                  <a 
+                    key={i} 
+                    href={item.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    onClick={() => trackExternalLink(item.platform, 'hero_sidebar')}
+                    aria-label={item.label} 
+                    className="p-4 bg-white dark:bg-[#161616] shadow-xl rounded-2xl text-slate-600 dark:text-slate-300 hover:text-blue-600 border border-slate-50 dark:border-white/10 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                  >
                     <item.icon size={20} />
                   </a>
                 ))}
@@ -224,7 +241,7 @@ const Home: React.FC = () => {
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Production Experience, Not Just Theory</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Built systems serving 50k+ concurrent users with 99.9% SLA. I ship code, not just papers.</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Built systems serving 10k+ concurrent users with 99.9% SLA. I ship code, not just papers.</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -248,7 +265,7 @@ const Home: React.FC = () => {
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Leadership Experience</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Mentored 30+ developers, led technical roadmaps, shipped 12+ features per quarter as Technical Advisor.</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Mentored 30+ developers, led technical roadmaps, shipped 8+ features per quarter as Technical Advisor.</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
@@ -261,8 +278,8 @@ const Home: React.FC = () => {
                 <div className="flex gap-3">
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Available May 2027</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Open to full-time roles globally. Can start immediately after graduation. Excited about relocation.</p>
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Available Summer internship 2026</h3>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Open to summer internship roles globally. Can start full-time immediately after graduation.</p>
                   </div>
                 </div>
               </div>
@@ -276,6 +293,7 @@ const Home: React.FC = () => {
                 <a
                   href="/Arpit_Kumar_Resume.pdf"
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+                  onClick={() => trackResumeDownload('recruiter_section_cta')}
                   className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg flex items-center gap-2"
                 >
                   <FileText size={16} />
@@ -369,7 +387,7 @@ const Home: React.FC = () => {
                 <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Uptime SLA</div>
               </div>
               <div>
-                <div className="text-3xl font-black text-purple-600 mb-1">8</div>
+                <div className="text-3xl font-black text-purple-600 mb-1">8+</div>
                 <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Features/Quarter</div>
               </div>
               <div>

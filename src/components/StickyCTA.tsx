@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FileText, Mail, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { trackResumeDownload } from '../utils/analytics';
 
 const StickyCTA: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -40,7 +41,7 @@ const StickyCTA: React.FC = () => {
   if (isDismissed) return null;
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       {isVisible && (
         <motion.div
           initial={{ y: 100, opacity: 0 }}
@@ -60,6 +61,7 @@ const StickyCTA: React.FC = () => {
                 <a
                   href="/Arpit_Kumar_Resume.pdf"
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+                  onClick={() => trackResumeDownload('sticky_mobile_cta')}
                   className="bg-white text-blue-600 px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-1.5 hover:bg-blue-50 transition-colors shadow-lg"
                   aria-label="Download resume"
                 >
