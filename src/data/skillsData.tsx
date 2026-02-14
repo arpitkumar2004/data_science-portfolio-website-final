@@ -1,7 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   Brain,
   Code2,
@@ -143,52 +141,24 @@ const domains = [
 ];
 
 export default function TechnicalProficiencies() {
-  const sectionRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
 
-  useEffect(() => {
-    try {
-      gsap.registerPlugin(ScrollTrigger);
-    } catch (err) {
-      console.warn("gsap.registerPlugin failed", err);
-    }
-    const ctx = gsap.context(() => {
-      const cards = gsap.utils.toArray(".skill-card");
-      cards.forEach((card: any, i: number) => {
-        gsap.fromTo(
-          card,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: i * 0.06,
-            scrollTrigger: { trigger: card, start: "top 90%" },
-          },
-        );
-      });
-
-      // Fallback: ensure visibility if ScrollTrigger didn't run (fast nav / SSR case)
-      setTimeout(() => {
-        cards.forEach((c: any) => {
-          try {
-            if (getComputedStyle(c).opacity === "0") {
-              c.style.opacity = "1";
-              c.style.transform = "none";
-            }
-          } catch (e) {
-            // ignore
-          }
-        });
-      }, 1200);
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        delay: shouldReduceMotion ? 0 : i * 0.06,
+        ease: "easeOut"
+      }
+    })
+  };
 
   return (
     <section
-      ref={sectionRef}
-      className="bg-white font-sans selection:bg-blue-100 relative overflow-visible"
+      className="bg-white dark:bg-black font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 relative overflow-visible"
     >
       {/* Background Technical Grid Pattern */}
       <div
@@ -218,9 +188,14 @@ export default function TechnicalProficiencies() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
           {techData.map((item, idx) => (
-            <div
+            <motion.div
               key={idx}
-              className="group relative bg-white border border-slate-200 p-7 rounded-2xl transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/5"
+              custom={idx}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={cardVariants}
+              className="group relative bg-white border border-slate-200 p-7 rounded-2xl transition-all duration-300 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/5 dark:bg-[#161616] dark:border-white/10"
             >
               {/* Subtle Blueprint Grid Pattern on Hover */}
               <div
@@ -277,7 +252,7 @@ export default function TechnicalProficiencies() {
               <div className="absolute top-4 right-6 font-mono text-[8px] text-slate-300 group-hover:text-blue-200 uppercase tracking-widest">
                 Ref // 00{idx + 1}
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

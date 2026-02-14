@@ -69,6 +69,7 @@ const AboutMe: React.FC = () => {
                                     <img
                                         src={myphoto}
                                         alt="Arpit Kumar - IIT Kharagpur"
+                                        loading="lazy"
                                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
                                     />
                                     <div className="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl border border-white/10">
@@ -141,11 +142,17 @@ const AboutMe: React.FC = () => {
                             </header>
 
                             <div className="prose prose-slate lg:prose-lg max-w-3xl text-slate-600 dark:text-slate-300 leading-relaxed space-y-6">
-                                <p>
-                                    Hello {savedRole.toUpperCase()}, I am an undergraduate at IIT Kharagpur who operates as a <strong>first-principles ML systems engineer</strong>. I bridge mathematical rigor with production realities: derive algorithms, reason about stability, then deliver code that meets latency and reliability budgets. My <strong>Integrated Dual Degree at IIT Kharagpur</strong> trains me to move from theory to deployment—designing models with provable behavior, adversarially testing edge cases, and running tight feedback loops until they earn trust in production.
+                                <p className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                                    Hi! I'm Arpit — a Chemical Engineer who fell in love with AI and never looked back.
                                 </p>
                                 <p>
-                                    As a <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, I set AI/ML roadmaps, review architectures, and mentor engineers. I champion <strong>interpretable, fail-safe ML</strong> with explicit SLAs, latency budgets, and observability baked in. That means guardrailed rollouts, regression tests on drifted data, and dashboards that surface leading indicators before users feel pain.
+                                    I'm finishing my <strong>Integrated Dual Degree at IIT Kharagpur</strong> (graduating May 2027), where I learned to build ML systems that don't just work in notebooks — they scale to 50,000+ users with 99.9% uptime. My background in Chemical Engineering taught me to think in first principles: design for edge cases, measure everything, and never ship code you can't explain.
+                                </p>
+                                <p>
+                                    Currently, I'm <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, where I mentor 30+ developers, review system architectures, and ship production features every sprint. I've competed in ML challenges (Top 0.5% in Amazon ML), built full-stack applications, and published research on optimizing industrial processes with neural networks.
+                                </p>
+                                <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
+                                    🎯 What I'm looking for: Full-time roles in Production ML Engineering, Quant Research, or AI Infrastructure starting May 2027. Excited about companies building AI systems that create real value — not just demos.
                                 </p>
                             </div>
 
@@ -198,10 +205,10 @@ const AboutMe: React.FC = () => {
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-blue-50 text-blue-700 border border-blue-100">Rigor</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Derive backprop, optimizers, and custom losses; prove or bound stability via spectral analysis and initialization bounds.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Design for covariate and concept shift; calibrate predictions and detect OOD with confidence intervals.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Stress-test models with adversarial examples, synthetic distribution shifts, and edge-case pathologies.</span></li>
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Design and implement deep learning models with focus on real-world performance and stability.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Handle data drift and distribution shifts with confidence intervals and monitoring.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-blue-500" /><span>Test models with edge cases and ensure robust behavior in production.</span></li>
                                         </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
@@ -212,10 +219,10 @@ const AboutMe: React.FC = () => {
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">Reliability</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Low-latency inference stacks (FastAPI, Node.js) with structured tracing, horizontal autoscaling, circuit breakers.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>p99 latency budgets with SLO/SLA monitoring; error budgets that trigger alerts before threshold breach.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Docker/K8s orchestration with resource limits, health checks, and graceful shutdown protocols.</span></li>
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Build low-latency inference APIs (FastAPI, Node.js) with monitoring and auto-scaling.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Track p99 latency and SLA compliance; set up alerts before issues escalate.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-emerald-500" /><span>Deploy with Docker/Kubernetes with proper health checks and resource limits.</span></li>
                                         </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
@@ -226,10 +233,10 @@ const AboutMe: React.FC = () => {
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-amber-50 text-amber-700 border border-amber-100">Safety</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Feature stores with versioning; drift monitors (KS-test, KL-divergence); bias detectors for protected attributes.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Shadow traffic for safe validation; canary/blue-green releases with automatic rollbacks on SLA breach.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Training-serving parity checks; prediction logging for audit; continuous retraining with pipeline orchestration.</span></li>
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Set up feature stores and drift monitoring; detect bias in model predictions.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Safe deployments with shadow traffic testing and automatic rollbacks on errors.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-500" /><span>Ensure training-serving consistency; log predictions for audits; automate retraining pipelines.</span></li>
                                         </ul>
                                     </div>
                                     <div className="p-6 border border-slate-100 dark:border-white/10 rounded-[1rem] bg-slate-50 dark:bg-[#161616] hover:bg-white dark:hover:bg-[#0f172a] hover:border-blue-600 transition-all duration-500">
@@ -240,10 +247,10 @@ const AboutMe: React.FC = () => {
                                             </div>
                                             <span className="px-2 py-1 text-[11px] font-mono font-bold uppercase rounded-full bg-purple-50 text-purple-700 border border-purple-100">Evidence</span>
                                         </div>
-                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed text-left">
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Translate papers to production code; competitive baselines, ablation studies with statistical significance testing.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Robustness suites: adversarial perturbations, corrupted inputs, long-tail distributions, class imbalance.</span></li>
-                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Measure performance delta vs. baselines with 95% confidence intervals; document decision boundaries before shipping.</span></li>
+                                        <ul className="space-y-2 text-sm text-slate-500 dark:text-slate-500 leading-relaxed text-left">
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Convert research papers to production code with proper baselines and statistical testing.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Test model robustness against adversarial inputs and edge cases.</span></li>
+                                            <li className="flex gap-2"><span className="mt-2 h-1.5 w-1.5 rounded-full bg-purple-500" /><span>Measure performance improvements with confidence intervals before deploying.</span></li>
                                         </ul>
                                     </div>
                                 </div>

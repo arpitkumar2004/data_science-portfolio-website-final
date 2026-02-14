@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useNavig
 import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import StickyCTA from './components/StickyCTA';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
@@ -101,6 +102,7 @@ const MainApp = () => {
           </main>
           <Footer />
           <ThemeButton />
+          <StickyCTA />
           {/* <SpeedInsights /> */}
         </div>
       </RoleGateway>

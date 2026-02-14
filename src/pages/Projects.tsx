@@ -67,8 +67,35 @@ const Projects: React.FC = () => {
   };
 
   return (
-    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20">
+    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20 dark:bg-black">
       
+      {/* --- RECRUITER CTA BANNER --- */}
+      <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 text-white py-4 px-6 md:px-12 lg:px-20">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex-1">
+            <p className="font-bold text-lg mb-1">👋 Hiring for ML/AI roles?</p>
+            <p className="text-sm text-blue-100">15+ production projects • Top 0.5% Amazon ML • 50k+ users served • Available May 2027</p>
+          </div>
+          <div className="flex gap-3 shrink-0">
+            <a
+              href="/Arpit_Kumar_Resume.pdf"
+              download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors shadow-lg flex items-center gap-2"
+            >
+              <FileText size={16} />
+              Download Resume
+            </a>
+            <Link
+              to="/contact"
+              className="bg-slate-900 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2"
+            >
+              <Mail size={16} />
+              Contact Me
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* --- REFINED DASHBOARD HEADER --- */}
       <header className="pt-12 pb-12 px-6 md:px-12 lg:px-20 border-b border-slate-100 bg-slate-50/30 dark:bg-white/5 dark:border-white/10 overflow-x-hidden relative ">
         <div className="max-w-7xl mx-auto">
