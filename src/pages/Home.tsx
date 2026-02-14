@@ -515,13 +515,10 @@ const Home: React.FC = () => {
             <div className="relative">
               <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-300 mb-5">Strategic Collaboration</p>
               <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter">Scale Revenue with Production AI</h2>
-              <p className="text-slate-200/80 max-w-2xl mx-auto mb-8 text-lg leading-relaxed">
+              <p className="text-slate-200/80 max-w-6xl mx-auto mb-8 text-lg leading-relaxed ">
                 Ship ML systems that reduce costs by 20-40%, accelerate decision-making by 10x, and unlock competitive intelligence. I build research-grade models that generate measurable ROI at industrial scale.
               </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 shadow-xl shadow-blue-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Let's Discuss Your Project</Link>
-                <Link to="/projects" className="px-10 py-4 bg-white/10 border border-white/15 text-white font-bold rounded-lg hover:border-blue-300 hover:text-blue-100 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Explore Track Record</Link>
-              </div>
+              
               <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
                 {[
                   { v: "20-40%", l: "Cost reduction" },
@@ -534,6 +531,10 @@ const Home: React.FC = () => {
                     <div className="text-[11px] font-mono uppercase tracking-widest text-slate-300">{item.l}</div>
                   </div>
                 ))}
+              </div>
+              <div className="flex flex-wrap justify-center gap-4 mt-10">
+                <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 shadow-xl shadow-blue-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Let's Discuss Your Project</Link>
+                <Link to="/projects" className="px-10 py-4 bg-white/10 border border-white/15 text-white font-bold rounded-lg hover:border-blue-300 hover:text-blue-100 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Explore Track Record</Link>
               </div>
             </div>
           </div>

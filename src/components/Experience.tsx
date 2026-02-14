@@ -396,7 +396,7 @@ export default function Experience() {
               <h4 className="text-3xl text-white font-black tracking-tighter mb-3">
                 Get Full Technical Dossier
               </h4>
-              <p className="text-slate-300 text-sm max-w-md font-medium leading-relaxed">
+              <p className="text-slate-300 text-sm max-w-2xl font-medium leading-relaxed">
                 Includes: research publications, quantified ROI of Projects(cost, latency, revenue), security audit outcomes, architecture decision logs, and open-source references—optimized for <b className="text-white">R&D teams, hiring panels, founders, and academic collaborators</b>.
               </p>
             </div>

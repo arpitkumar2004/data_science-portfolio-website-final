@@ -92,7 +92,7 @@ const AboutMe: React.FC = () => {
                                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">SGPA // Top Cohort</p>
                                 </div>
                                 <div className="p-4 bg-slate-50 dark:bg-[#0f172a] rounded-2xl border border-slate-100 dark:border-white/10 text-center">
-                                    <p className="text-2xl font-black text-blue-600 tracking-tighter">09+</p>
+                                    <p className="text-2xl font-black text-blue-600 tracking-tighter">05+</p>
                                     <p className="text-[10px] font-mono font-bold text-slate-400 uppercase">Prod Systems Shipped</p>
                                 </div>
                             </div>
@@ -146,13 +146,13 @@ const AboutMe: React.FC = () => {
                                     Hi! I'm Arpit — a Chemical Engineer who fell in love with AI and never looked back.
                                 </p>
                                 <p>
-                                    I'm finishing my <strong>Integrated Dual Degree at IIT Kharagpur</strong> (graduating May 2027), where I learned to build ML systems that don't just work in notebooks — they scale to 50,000+ users with 99.9% uptime. My background in Chemical Engineering taught me to think in first principles: design for edge cases, measure everything, and never ship code you can't explain.
+                                    I'm finishing my <strong>Integrated Dual Degree at IIT Kharagpur</strong> (graduating May 2027), where I learned to build ML systems that don't just work in notebooks — they scale to 10,000+ users with 99.9% uptime. My background in Chemical Engineering taught me to think in first principles: design for edge cases, measure everything, and never ship code you can't explain. I'm passionate about <strong>building systems that create real value</strong> for real customers.
                                 </p>
                                 <p>
                                     Currently, I'm <strong>Technical Advisor at Developers' Society (DevSoc)</strong>, where I mentor 30+ developers, review system architectures, and ship production features every sprint. I've competed in ML challenges (Top 0.5% in Amazon ML), built full-stack applications, and published research on optimizing industrial processes with neural networks.
                                 </p>
                                 <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">
-                                    🎯 What I'm looking for: Full-time roles in Production ML Engineering, Quant Research, or AI Infrastructure starting May 2027. Excited about companies building AI systems that create real value — not just demos.
+                                    🎯 What I'm looking for: Internship roles in Production ML Engineering, Data Science Research or AI Infrastructure starting Summer 2026. Excited about companies building AI systems that create real value — not just demos.
                                 </p>
                             </div>
 
