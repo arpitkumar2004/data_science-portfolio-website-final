@@ -110,12 +110,7 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.p variants={heroItem} className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
-                <strong>Applied ML Engineer who ships code that matters.</strong> Top 0.5% in Amazon ML Challenge. Built production systems serving approx 10,000+ concurrent users at IIT Kharagpur. Expert in PyTorch, TensorFlow, React, Node.js, and cloud infrastructure.
-              </motion.p>
-
-              <motion.p variants={heroItem} className="inline-flex items-center gap-2 text-sm md:text-base text-blue-600 dark:text-blue-400 font-semibold mb-4 bg-blue-50 dark:bg-blue-600/10 px-4 py-2 rounded-lg border border-blue-100 dark:border-blue-500/20">
-                {/*<span>Seeking full-time roles in <strong>ML Engineering</strong> / <strong>Data Science</strong> (May 2027 grad) • Open to relocation</span> */}
-                <span>Seeking Summer internship roles <strong>ML Engineering</strong> / <strong>Data Science</strong> • Open to relocation</span>
+                <strong>Applied ML Engineer who ships code that matters.</strong> Built production systems serving high-traffic applications at IIT Kharagpur. Expert in PyTorch, TensorFlow, React, Node.js, and cloud infrastructure.
               </motion.p>
 
               <motion.h2 variants={heroItem} className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-4">Impact Metrics</motion.h2>
@@ -129,6 +124,11 @@ const Home: React.FC = () => {
                   </div>
                 ))}
               </div>
+
+              <motion.p variants={heroItem} className="inline-flex items-center gap-2 text-sm md:text-base text-blue-600 dark:text-blue-400 font-semibold mb-4 bg-blue-50 dark:bg-blue-600/10 px-4 py-2 rounded-lg border border-blue-100 dark:border-blue-500/20">
+                {/*<span>Seeking full-time roles in <strong>ML Engineering</strong> / <strong>Data Science</strong> (May 2027 grad) • Open to relocation</span> */}
+                <span>Seeking Summer internship roles <strong>ML Engineering</strong> / <strong>Data Science</strong> • Open to relocation</span>
+              </motion.p>
 
               <motion.div variants={heroItem} className="flex flex-col sm:flex-row flex-wrap gap-4">
                 <a 
@@ -241,21 +241,21 @@ const Home: React.FC = () => {
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Production Experience, Not Just Theory</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Built systems serving 10k+ concurrent users with 99.9% SLA. I ship code, not just papers.</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Built production systems serving high-traffic applications. I ship code, not just papers.</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Proven Under Pressure</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Top 0.5% among 100k+ in Amazon ML Challenge. Proven ability to deliver under tight deadlines.</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">Ranked 42nd/8,690 teams (Top 0.5%) in Amazon ML Challenge 2025. Proven ability to deliver under tight deadlines.</p>
                   </div>
                 </div>
                 <div className="flex gap-3">
                   <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
                   <div>
                     <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Full-Stack + ML = Rare Combo</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">React, Node.js, Docker, Kubernetes, PyTorch, TensorFlow. I build the entire pipeline, end-to-end.</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">React, Node.js, Docker, PyTorch, TensorFlow. I build the entire pipeline, end-to-end.</p>
                   </div>
                 </div>
               </div>
@@ -337,7 +337,7 @@ const Home: React.FC = () => {
               </div>
               <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">Top 0.5%</h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                Amazon ML Challenge 2025 among 100,000+ participants
+                Amazon ML Challenge 2025 (42nd/8,690 teams globally)
               </p>
             </div>
 
@@ -346,9 +346,9 @@ const Home: React.FC = () => {
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300 rounded-full text-xs font-bold mb-4">
                 🚀 Production
               </div>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">10k+ Users</h3>
+              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">Production Scale</h3>
               <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                Built systems serving concurrent users at 99.9% SLA
+                Built systems designed for high availability with zero critical bugs
               </p>
             </div>
 
@@ -383,8 +383,8 @@ const Home: React.FC = () => {
                 <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Projects Shipped</div>
               </div>
               <div>
-                <div className="text-3xl font-black text-green-600 mb-1">99.9%</div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Uptime SLA</div>
+                <div className="text-3xl font-black text-green-600 mb-1">Reliable</div>
+                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">High Availability</div>
               </div>
               <div>
                 <div className="text-3xl font-black text-purple-600 mb-1">8+</div>
@@ -479,7 +479,7 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
-              {[12, 9, 8].map((id) => {
+              {[12, 7, 10].map((id) => {
                 const p = projects.find((proj) => proj.id === id);
                 return p ? <ProjectCard key={p.id} {...p} /> : null;
               })}

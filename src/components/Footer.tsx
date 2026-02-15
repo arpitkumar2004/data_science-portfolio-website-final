@@ -199,11 +199,11 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
               <ShieldCheck size={14} className="text-blue-500" />
-              <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production_Systems: 50K+ Users | 99.9% SLA</span>
+              <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production_Systems: High-Traffic Applications | Designed for Reliability</span>
             </div>
             <div className="flex items-center gap-2">
               <Cpu size={14} className="text-slate-500 dark:text-slate-300" />
-              <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React_v18 | Node.js | Kubernetes | PostgreSQL</span>
+              <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React_v18 | Node.js | Docker | PostgreSQL</span>
             </div>
             <div className="flex items-center gap-2">
               <Zap size={14} className="text-green-500 animate-pulse" />

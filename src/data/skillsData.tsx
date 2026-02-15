@@ -23,7 +23,7 @@ export const techData = [
     category: "Revenue Multiplier",
     icon: <Sparkles className="w-5 h-5" />,
     description:
-      "Enterprise RAG and agent systems that cut latency 60-80%, improve factuality 80%+, and automate workflows for $2M+ annual savings. Built with evals, guardrails, and cost controls for production scale.",
+      "Enterprise RAG and agent systems that cut latency 60-80%, improve factuality 80%+, and automate complex workflows at scale. Built with evals, guardrails, and cost controls for production deployment.",
     tools: [
       "LangChain",
       "LlamaIndex",
@@ -54,14 +54,10 @@ export const techData = [
     category: "Production Scaling",
     icon: <Network className="w-5 h-5" />,
     description:
-      "End-to-end ML platforms cutting deployment cycles by 40% and reducing inference latency by 60%. Containerized services enabling 99.9% uptime and sub-100ms p99 response time.",
+      "End-to-end ML platforms cutting deployment cycles by 40% and reducing inference latency by 60%. Containerized services designed for high availability with optimized response times.",
     tools: [
       "Docker",
       "GCP",
-      "MLflow",
-      "DVC",
-      "Airflow",
-      "Apache Kafka",
       "FastAPI",
       "Flask",
       "CI/CD Workflows",
@@ -75,14 +71,12 @@ export const techData = [
     category: "Data Advantage",
     icon: <BarChart3 className="w-5 h-5" />,
     description:
-      "Petabyte-scale pipelines delivering real-time intelligence. 100K+ daily records to actionable insights in under 2 minutes, enabling data-driven decisions at enterprise velocity.",
+      "Large-scale data pipelines processing hundreds of thousands of records efficiently. Transform raw data to actionable insights in under 2 minutes, enabling real-time decision-making.",
     tools: [
       "Polars",
       "SciPy",
       "Seaborn",
       "Joblib",
-      "BeautifulSoup",
-      "Selenium",
       "PostgreSQL",
       "MongoDB",
       "Redis",
@@ -93,14 +87,13 @@ export const techData = [
     category: "Performance Capital",
     icon: <Code2 className="w-5 h-5" />,
     description:
-      "High-performance systems and clean, tested code for research and production. Memory-efficient services processing 1M+ events/sec with under 5% latency variance.",
+      "High-performance systems and clean, tested code for research and production. Memory-efficient services optimized for throughput with consistent low-latency performance.",
     tools: [
       "Python",
       "C",
       "C++",
       "SQL",
       "JavaScript",
-      "CUDA",
       "Linux",
     ],
   },
@@ -132,11 +125,11 @@ const coursework = [
 ];
 
 const domains = [
-  "LLM at Scale: $2M+ annual savings through enterprise automation",
+  "LLM at Scale: enterprise automation with RAG systems and multi-agent workflows",
   "Applied Research: rigorous experiments, ablations, and reproducible results",
   "Predictive Analytics: 95%+ anomaly detection accuracy for risk mitigation",
   "Industrial Computer Vision: 40% defect reduction in manufacturing QA",
-  "Production ML: 99.9% uptime and sub-100ms p99 latency at scale",
+  "Production ML: designed for high availability with sub-100ms p99 latency",
   "Process Optimization: 20% energy efficiency gains in industrial operations",
 ];
 

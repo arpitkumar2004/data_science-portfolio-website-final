@@ -184,7 +184,7 @@ const AboutMe: React.FC = () => {
                                 </h1>
                                 <div className="text-xl md:text-2xl font-mono text-blue-600 font-bold">
                                     &gt; <AniText
-                                        texts={["ML Engineer", "Deep Learning Researcher", "Full-Stack Developer", "Data Scientist", "Chemical Engineer turned AI Builder"]}
+                                        texts={["ML Engineer", "Deep Learning Researcher", "ML Infrastructure Engineer", "Data Scientist", "Chemical Engineer turned AI Builder"]}
                                         typingSpeed={50}
                                         pauseTime={2000}
                                     />
@@ -199,10 +199,10 @@ const AboutMe: React.FC = () => {
                                     <strong>The Origin Story:</strong> It started in my sophomore year when I tried to optimize a distillation column using spreadsheets. After hours of manual calculations, I thought, "There has to be a better way." That weekend, I learned Python and built my first neural network to predict optimal operating conditions. The model wasn't great (MAE of 15%!), but I was hooked. I realized I could combine engineering intuition with ML to solve real problems.
                                 </p>
                                 <p>
-                                    Fast forward to today: I'm finishing my <strong>5-year Integrated Dual Degree at IIT Kharagpur</strong> (graduating May 2027), specializing in Chemical Engineering with a deep focus on AI/ML. I've built production systems serving thousands of users, competed in national ML challenges (Top 0.5% in Amazon ML Challenge 2023), and published research on using neural networks for industrial process optimization.
+                                    Fast forward to today: I'm finishing my <strong>5-year Integrated Dual Degree at IIT Kharagpur</strong> (graduating May 2027), specializing in Chemical Engineering with a deep focus on AI/ML. I've built production systems serving thousands of users, competed in national ML challenges (Top 0.5% in Amazon ML Challenge 2025), and published research on using neural networks for industrial process optimization.
                                 </p>
                                 <p>
-                                    At <strong>Developers' Society (DevSoc)</strong>, IIT Kharagpur's premier tech club, I serve as Technical Advisor—mentoring 30+ developers, architecting scalable systems, and shipping features every sprint. Before that, I led the entire tech team, where we reduced deployment time from 45 minutes to 27 minutes and implemented CI/CD pipelines that are still in use.
+                                    At <strong>Developers' Society (DevSoc)</strong>, IIT Kharagpur's premier tech club, I serve as Technical Advisor—mentoring 30+ developers, architecting scalable systems, and shipping features every sprint. Before that, I led the entire tech team, where we dramatically improved deployment efficiency and implemented CI/CD pipelines that are still in use.
                                 </p>
                                 <p>
                                     <strong>What I bring to the table:</strong> Strong fundamentals in math and engineering, hands-on experience building and deploying ML systems (PyTorch, TensorFlow, FastAPI, Docker), and the ability to translate business problems into technical solutions. I don't just build models—I build systems that work in production.
@@ -229,13 +229,13 @@ const AboutMe: React.FC = () => {
                                         icon={Briefcase} 
                                         date="2023 - Present" 
                                         title="Developers' Society (DevSoc), IIT KGP" 
-                                        subtitle="Technical Advisor (ex-Head of Tech). Mentor 30+ developers, review PRs, architect systems. Cut deployment time 45min→27min via CI/CD automation." 
+                                        subtitle="Technical Advisor (ex-Head of Tech). Mentor 30+ developers, review PRs, architect systems. Dramatically improved deployment efficiency via CI/CD automation and best practices." 
                                     />
                                     <Milestone 
                                         icon={Trophy} 
                                         date="2023-2024" 
                                         title="Competitive ML & Quant" 
-                                        subtitle="Top 0.5% (Rank 287/60,000+) Amazon ML Challenge 2023. Rank 19 (National) DTL Quant Competition. Multiple hackathon wins." 
+                                        subtitle="Ranked 42nd/8,690 teams (Top 0.5%) in Amazon ML Challenge 2025. Rank 19 (National) DTL Quant Competition. Multiple hackathon wins." 
                                     />
                                     <Milestone 
                                         icon={Microscope} 
@@ -337,13 +337,13 @@ const AboutMe: React.FC = () => {
                                     <div className="p-6 border border-slate-200 dark:border-white/10 rounded-2xl bg-white dark:bg-[#161616] hover:shadow-lg transition-all">
                                         <div className="flex items-start justify-between mb-3">
                                             <div>
-                                                <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">Amazon ML Challenge Solution</h4>
-                                                <p className="text-sm text-slate-500 dark:text-slate-400">Product length prediction from images and metadata</p>
+                                                <h4 className="text-lg font-bold text-slate-900 dark:text-slate-100">Amazon ML Challenge 2025 Solution</h4>
+                                                <p className="text-sm text-slate-500 dark:text-slate-400">Product price prediction from images and metadata</p>
                                             </div>
                                             <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-xs font-bold rounded-full">Top 0.5%</span>
                                         </div>
                                         <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-                                            Ranked 287/60,000+ participants. Built ensemble model combining ResNet50 (image features) + BERT (text embeddings) + XGBoost. Achieved RMSE of 0.23 on test set with extensive feature engineering.
+                                            Ranked 42nd/8,690 teams globally (Top 0.5%). Built ensemble model combining ResNet50 (image features) + BERT (text embeddings) + XGBoost. Achieved RMSE of 0.23 on test set with extensive feature engineering.
                                         </p>
                                         <div className="flex flex-wrap gap-2">
                                             <span className="px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs rounded">TensorFlow</span>

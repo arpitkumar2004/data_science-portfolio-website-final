@@ -38,9 +38,9 @@ const experiences = [
         title: "Advisor | Web & Software Architecture",
         duration: "Sep 2025 - Present",
         description: [
-          "Architecting scalable cloud-native systems (Kubernetes, Docker, microservices) for 10,000+ concurrent users—reduced infrastructure costs by 30% via auto-scaling policies and optimized resource allocation.",
+          "Architected containerized microservices (Docker, Docker Compose) serving high-traffic applications—reduced infrastructure costs by 30% via optimized resource allocation, implemented health checks, graceful shutdown, and rolling deploys with load balancer (Nginx) achieving high availability with zero critical production bugs.",
           "Mentoring 30+ developers with structured code reviews, architectural decision records, and weekly technical workshops—shipped 8 production features in Q1 2026 with zero critical bugs.",
-          "Designed and deployed CI/CD pipelines (GitHub Actions, ArgoCD) with comprehensive testing (unit, integration, e2e)—reduced release cycle from 2 weeks to 48 hours with true zero-downtime deployments.",
+          "Designed and deployed CI/CD pipelines (GitHub Actions, ArgoCD) with comprehensive testing (unit, integration, e2e)—dramatically reduced release cycles enabling daily deployments with zero-downtime rollout strategies.",
         ],
       },
       {
@@ -48,7 +48,7 @@ const experiences = [
         title: "Development Head | Full Stack Systems",
         duration: "Oct 2024 - Sep 2025",
         description: [
-          "Built and scaled full-stack platforms (React/Node.js/PostgreSQL/Redis) handling 50,000+ concurrent users during peak registrations—maintained 99.9% SLA with load testing and capacity planning; optimized queries cutting p95 latency by 35%.",
+          "Built and scaled full-stack platforms (React/Node.js/PostgreSQL/Redis) handling thousands of concurrent users during peak registrations—designed for high availability with load testing and capacity planning; optimized queries cutting p95 latency by 35%.",
           "Led cross-functional squads (backend, frontend, QA) shipping 12+ production features per quarter—established 2-week sprint cycles with clear OKRs; improved on-time delivery rate to 92% with predictable velocity.",
           "Implemented automated testing pyramid (unit, integration, e2e) with 78% code coverage—reduced deployment errors by 40% and enabled safe daily releases; introduced post-mortem process for incident learning.",
         ],
@@ -72,12 +72,12 @@ const experiences = [
     link: "https://ppgsiitkgp.in",
     location: "IIT Kharagpur",
     category: "Policy Research",
-    totalDuration: "Feb 2022 - Jan 2024",
+    totalDuration: "May 2023 - Sep 2024",
     roles: [
       {
         id: 201,
         title: "Executive Member | Quantitative Policy Research",
-        duration: "Feb 2023 - Jan 2024",
+        duration: "Sep 2023 - Sep 2024",
         description: [
           "Led quantitative research on digital governance frameworks—synthesized datasets from 15+ government sources (Census, RTI, bureaucratic reports) into statistical models; conducted regression analysis and causal inference studies with 95% confidence.",
           "Authored 4 peer-reviewed white papers on AI-policy intersections published in institutional journals—findings cited in 8+ campus events; influenced curriculum review committee decision to add AI-ethics module.",
@@ -87,7 +87,7 @@ const experiences = [
       {
         id: 202,
         title: "Associate Member | Research Analytics",
-        duration: "Feb 2022 - Jan 2023",
+        duration: "May 2023 - Sep 2023",
         description: [
           "Gathered and cleaned policy datasets using Python (pandas, NumPy)—handled 50K+ records; implemented data validation pipelines reducing errors by 70%; documented data provenance for research reproducibility.",
           "Co-authored 2 research articles for the quarterly journal on AI governance and public sector automation—articles reached 400+ readers; selected as featured pieces on society website.",
@@ -108,12 +108,12 @@ const experiences = [
     link: "https://che.iitkgp.ac.in/",
     location: "IIT Kharagpur",
     category: "Digital Transformation",
-    totalDuration: "Jan 2023 - Jan 2024",
+    totalDuration: "Aug 2023 - Sep 2024",
     roles: [
       {
         id: 301,
         title: "Web Development Specialist",
-        duration: "Jan 2023 - Jan 2024",
+        duration: "Aug 2023 - Sep 2024",
         description: [
           "Rebuilt FUGACITY fest portal with mobile-first design (React, Tailwind CSS)—increased mobile traffic from 30% to 80%; improved Core Web Vitals (LCP from 3.2s to 1.1s); boosted conversion rate by 50% through UX optimizations.",
           "Built automated registration and payment system handling 2,000+ concurrent registrations—integrated Razorpay for payments; reduced manual data entry time from 40 hours to <2 hours per event; achieved 99.8% data accuracy.",
@@ -129,12 +129,12 @@ const experiences = [
     link: "https://sbrc.iitkgp.ac.in",
     location: "IIT Kharagpur",
     category: "Strategic Outreach",
-    totalDuration: "Feb 2023 - Feb 2024",
+    totalDuration: "Feb 2023 - Sep 2023",
     roles: [
       {
         id: 401,
         title: "Associate Member | Corporate Relations",
-        duration: "Feb 2023 - Feb 2024",
+        duration: "Feb 2023 - Sep 2023",
         description: [
           "Coordinated institutional branding campaigns across social media (LinkedIn, Instagram, Twitter)—increased follower base by 40% (5K→7K); achieved 18% engagement rate vs. 8% institutional average.",
           "Executed alumni outreach program connecting 150+ alumni with current students—facilitated 12 mentorship sessions; secured 3 corporate partnerships for internships and research collaborations.",
@@ -320,7 +320,7 @@ export default function Experience() {
                 </h2>
               </div>
               <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base font-medium max-w-4xl mt-8 leading-relaxed">
-                Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—showcasing measurable impact across 4 organizations with 50K+ concurrent users, 99.9% SLA maintenance, and proven ability to scale teams and systems.
+                Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—showcasing measurable impact across 4 organizations with production systems serving high-traffic applications, zero critical production bugs, and proven ability to scale teams and infrastructure.
               </p>
 
               <div

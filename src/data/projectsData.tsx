@@ -540,15 +540,14 @@ For Live Demo Visit : https://arpitkumar.dev
     title: "Deep Learning Based Text Summarization System",
     description:
       "Automated summarization of large-scale documents with deep learning for improved efficiency and comprehension.",
-    tldr: "Improved ROUGE-L by +5 on SAMSum, cut training time 3x with mixed-precision + distributed PyTorch, and scaled ETL throughput 5x with Kafka-backed pipelines.",
+    tldr: "Improved ROUGE-L by +5 on SAMSum, cut training time 3x with mixed-precision + distributed PyTorch, and experimented with parallel ETL pipelines for preprocessing.",
     keyImpactMetrics: [
       "+5 ROUGE-L on SAMSum",
       "3x faster training",
-      "5x ETL throughput",
       "40% lower p95 latency",
     ],
     longDescription:
-      "Built an end-to-end NLP summarization system focused on both model quality and production performance. On SAMSum, I fine-tuned transformer models using curriculum sampling and mixed-precision (Apex/AMP), improving ROUGE-L by 5 points while reducing training time by 3x through distributed PyTorch pipelines. For data engineering, I designed a parallel ETL flow using Kafka streams and containerized workers orchestrated via Docker Compose, lifting throughput 5x for large-scale preprocessing. I also deployed a TorchServe-based inference stack with MLflow tracking and GitHub Actions CI/CD, cutting p95 latency by 40% and ensuring fully reproducible experiments and releases.",
+      "Built an end-to-end NLP summarization system focused on both model quality and production performance. On SAMSum, I fine-tuned transformer models using curriculum sampling and mixed-precision (Apex/AMP), improving ROUGE-L by 5 points while reducing training time by 3x through distributed PyTorch pipelines. For data engineering, I designed a parallel ETL flow using containerized workers orchestrated via Docker Compose. I also experimented with serving infrastructure and model tracking tools to learn deployment best practices, cutting p95 latency by 40% through optimization and ensuring reproducible experiments.",
     image: "/projects/text-summarizer.jpg",
     type: "Project",
     category: "data-science",
@@ -570,10 +569,7 @@ For Live Demo Visit : https://arpitkumar.dev
       "Python",
       "PyTorch",
       "Transformers",
-      "Apache Kafka",
       "Docker",
-      "TorchServe",
-      "MLflow",
       "GitHub Actions",
     ],
     coreStack: ["Python", "PyTorch", "Transformers"],
@@ -581,8 +577,6 @@ For Live Demo Visit : https://arpitkumar.dev
       "Apex/AMP",
       "Distributed PyTorch",
       "Docker Compose",
-      "MLflow",
-      "TorchServe",
     ],
     methods: [
       "Sequence-to-Sequence Modeling",
@@ -598,13 +592,12 @@ For Live Demo Visit : https://arpitkumar.dev
     implementation: [
       "Fine-tuned Transformer summarizers on SAMSum with curriculum sampling",
       "Enabled mixed-precision training (Apex/AMP) and distributed PyTorch execution",
-      "Built a Kafka-backed ETL pipeline with containerized workers via Docker Compose",
-      "Deployed TorchServe inference with MLflow tracking and CI/CD automation",
+      "Built parallel ETL pipeline with containerized workers via Docker Compose",
+      "Experimented with model serving and tracking for deployment learning",
     ],
     results: [
       "+5 ROUGE-L on SAMSum",
       "3x faster training time",
-      "5x data throughput",
       "40% lower p95 inference latency",
       "100% experiment reproducibility",
     ],
@@ -618,18 +611,18 @@ For Live Demo Visit : https://arpitkumar.dev
       "Manual summarization of large document volumes was slow, inconsistent, and expensive; extractive baselines lost critical context.",
     challenges: [
       "Improving ROUGE-L without increasing training cost",
-      "Scaling preprocessing and ETL throughput for large text corpora",
+      "Building efficient preprocessing for large text datasets",
       "Reducing inference latency while keeping deployments reproducible",
     ],
     solutions: [
       "Applied curriculum sampling with mixed-precision to accelerate convergence",
-      "Introduced Kafka-based streaming ETL with containerized workers",
-      "Standardized TorchServe + MLflow + CI/CD for consistent releases",
+      "Built parallel preprocessing with containerized workers for efficient ETL",
+      "Experimented with deployment tools to learn production best practices",
     ],
     discussion: [
       "Curriculum sampling stabilized training and improved ROUGE-L more than larger batch sizes.",
-      "Streaming ETL separated ingestion from preprocessing, eliminating throughput bottlenecks.",
-      "Reproducible MLOps tooling reduced regression risk across experiments and releases.",
+      "Parallel preprocessing with Docker Compose separated concerns and eliminated bottlenecks.",
+      "Learning deployment tooling provided valuable experience for future production systems.",
     ],
     futureWork: [
       "Add retrieval-augmented summarization for long-document grounding.",

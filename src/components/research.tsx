@@ -25,7 +25,7 @@ const researchData = [
     id: "04",
     tag: "Analytics",
     title: "Signal-to-Insight Pipelines",
-    description: "Engineering feature extraction workflows that uncover hidden patterns in petabyte-scale datasets—converting raw noise into competitive advantage through statistical rigor."
+    description: "Engineering feature extraction workflows that uncover hidden patterns in large-scale datasets—converting raw noise into competitive advantage through statistical rigor."
   },
   {
     id: "05",

@@ -150,7 +150,7 @@ def get_cv_request_email(name: str, company: str, subject_line: str, frontend_ur
                 <div class="spec-item">
                     <span class="spec-label">&lt;production_ml&gt;</span>
                     <p class="spec-value">Architecting at Scale (MLOps)</p>
-                    <p class="spec-detail">Bridging research and production using Docker, Kubernetes, and FastAPI to handle high-concurrency data streams.</p>
+                    <p class="spec-detail">Bridging research and production using Docker, containerization, and FastAPI to handle high-concurrency data streams.</p>
                 </div>
 
                 <div class="dashboard">

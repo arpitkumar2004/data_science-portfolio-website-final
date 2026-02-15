@@ -75,7 +75,7 @@ const Projects: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex-1">
             <p className="font-bold text-lg mb-1">👋 Hiring for ML/AI roles?</p>
-            <p className="text-sm text-blue-100">5+ production projects • Top 0.5% Amazon ML • 10k+ users served • Available for Summer Internship 2026</p>
+            <p className="text-sm text-blue-100">5+ production projects • Top 0.5% Amazon ML • High-traffic systems • Available for Summer Internship 2026</p>
           </div>
           <div className="flex gap-3 shrink-0">
             <a
@@ -200,7 +200,7 @@ const Projects: React.FC = () => {
               key: 'competition',
               label: 'Competitions',
               title: 'Competition Highlights',
-              desc: 'High-impact challenge solutions and benchmarked prototypes — concise technical writeups and award-winning implementations.',
+              desc: 'Top-tier placements in global ML competitions, showcasing applied machine learning skills, innovative feature engineering, and the ability to optimize models for real-world performance.',
               icon: <Trophy size={18} className="text-yellow-600" />
             },
             {
@@ -213,8 +213,8 @@ const Projects: React.FC = () => {
             {
               key: 'website',
               label: 'Websites',
-              title: 'Demos & Writeups',
-              desc: 'Interactive demos, technical blog posts, and deployment guides with reproducible artifacts and implementation tips.',
+              title: 'Websites & Blogs',
+              desc: 'Personal and professional websites, blogs, and documentation for open-source projects — focused on clarity, design, and technical depth.',
               icon: <Globe size={18} className="text-green-600" />
             },
           ];
@@ -235,7 +235,7 @@ const Projects: React.FC = () => {
                   <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-slate-600">{sec.label}</span>
                 </div>
                 <h3 className="text-3xl md:text-5xl font-black font-sans leading-tight ml-3 text-slate-900 tracking-tight mb-4">{sec.title}</h3>
-                <p className="max-w-8xl text-md text-slate-500 font-sans ml-3">{sec.desc}</p>
+                <p className="max-w-6xl text-md text-slate-500 font-sans ml-3">{sec.desc}</p>
               </div>
             );
 
