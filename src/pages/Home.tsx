@@ -110,7 +110,7 @@ const Home: React.FC = () => {
               </motion.div>
 
               <motion.p variants={heroItem} className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
-                <strong>Applied ML Engineer who ships code that matters.</strong> Built production systems serving high-traffic applications at IIT Kharagpur. Expert in PyTorch, TensorFlow, React, Node.js, and cloud infrastructure.
+                <strong>Applied ML Engineer who builds end-to-end—from research to production.</strong> Ranked Top 0.5% in Amazon ML Challenge while architecting full-stack systems. Deep learning + scalable infrastructure: PyTorch, TensorFlow, React, Node.js, Docker.
               </motion.p>
 
               <motion.h2 variants={heroItem} className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-4">Impact Metrics</motion.h2>
