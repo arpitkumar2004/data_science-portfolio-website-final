@@ -122,3 +122,29 @@
     animation: codeScroll 12s linear infinite;
   }
 }
+
+/* Custom scrollbar for OpenToWork dropdown */
+#open-to-work-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#open-to-work-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#open-to-work-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+#open-to-work-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+.dark #open-to-work-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+}
+
+.dark #open-to-work-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}

@@ -1,0 +1,335 @@
+## 📋 COMPLETE PORTFOLIO INVENTORY
+
+### **🌐 Main Pages (8 Pages)**
+
+1. **Home** (`/`) - Multi-section landing page
+2. **Projects** (`/projects`) - Portfolio showcase with filtering
+3. **Project Detail** (`/projects/:id`) - Individual project deep-dives
+4. **About Me** (`/aboutme`) - Personal story & journey
+5. **Contact** (`/contact`) - Contact form with backend integration
+6. **Request CV** (`/request-cv`) - CV request form with custom messaging
+7. **Open to Work** (`/open-to-work`) - Job seeking status & preferences
+8. **Admin Dashboard** (`/admin`) - Lead management system
+
+### **📚 Documentation System**
+- **Docs Viewer** (`/docs`) with sections:
+  - General documentation
+  - Architecture guides
+  - Backend documentation
+  - Admin documentation
+
+---
+
+## 🏠 HOME PAGE SECTIONS (13 Sections)
+
+1. **Hero Section**
+   - Profile photo with social links (GitHub, LinkedIn, Kaggle, Google Scholar)
+   - Name, role, animated tagline (5 role variations)
+   - Impact metrics (4 dynamic stats)
+   - CTA buttons (Resume, Projects, Contact, About)
+   - IIT Kharagpur & "Active Researcher" badges
+
+2. **Why Recruiters Should Care (TL;DR)**
+   - 6 key differentiators
+   - Production experience highlights
+   - Competition achievements
+   - Full-stack + ML combo
+   - Leadership experience
+   - IIT pedigree
+   - Availability status
+
+3. **Recognition & Results (Social Proof)**
+   - Competition wins (Amazon ML Challenge Top 0.5%)
+   - Production scale metrics
+   - Academic excellence (7.86 CGPA)
+   - Leadership stats (30+ devs mentored)
+   - Quick stats bar with 4 metrics
+
+4. **Research Focus Areas**
+   - 5 research domains (carousel):
+     - Production AI for Engineering
+     - Neural Systems at Scale
+     - High-Stakes Prediction Engines
+     - Signal-to-Insight Pipelines
+     - Explainable AI Systems
+
+5. **Experience Timeline**
+   - Multiple companies/organizations
+   - Hierarchical role structure
+   - Expandable descriptions
+   - Technical achievements per role
+   - Logos and links
+
+6. **Education**
+   - IIT Kharagpur Dual Degree
+   - CGPA with progress bar
+   - Relevant coursework
+   - Academic achievements
+
+7. **Achievements & Honors**
+   - Academic & Research Profile
+   - Algorithmic & Technical Credentials
+   - Competition achievements
+   - Certifications
+   - Conference participations
+
+8. **Featured Projects**
+   - 3 handpicked projects (IDs: 12, 7, 10)
+   - Links to full portfolio
+
+9. **Technical Proficiencies**
+   - Gen AI & LLM Ops
+   - Deep Learning & AI
+   - Full-stack development tools
+   - Data engineering tools
+   - Cloud & DevOps
+   - Multiple skill categories with tool lists
+
+10. **Footer CTA Section**
+    - "Scale Revenue with Production AI"
+    - Value propositions (4 metrics)
+    - Dual CTAs (Discuss Project, Track Record)
+
+11. **Open to Work Badge**
+    - Fixed position indicator
+    - Dynamic visibility
+
+12. **Sticky Mobile CTA**
+    - Resume download
+    - Contact quick access
+    - Dismissible
+
+13. **Theme Toggle**
+    - Dark/Light mode switcher
+
+---
+
+## 🎯 PROJECTS PAGE FEATURES
+
+### **Functionality:**
+- Dynamic statistics dashboard (7 stats)
+- Search functionality
+- Tag-based filtering (multi-select)
+- Layout options (List, Grid-2, Grid-3)
+- Sort by date (most recent first)
+- Recruiter CTA banner
+- Project cards with:
+  - Type badges
+  - Tags
+  - Duration
+  - Results/outcomes
+  - Tech stack
+  - Links (GitHub, Live, Paper, etc.)
+
+### **Project Types Tracked:**
+- Research papers
+- Competitions
+- Blogs/Articles
+- Engineering projects
+- Live deployments
+- Ongoing work
+
+---
+
+## 📖 ABOUT ME PAGE SECTIONS
+
+1. **Identity Card** (Sticky sidebar)
+   - Profile photo
+   - Availability badge
+   - Location info
+   - Quick stats grid (8 metrics)
+
+2. **Professional Identity**
+   - Journey narrative
+   - Core competencies
+
+3. **Timeline/Milestones**
+   - Key career moments
+   - Dated achievements
+
+4. **Philosophy & Values**
+   - First principles approach
+   - Technical badges
+
+5. **Social Links**
+   - GitHub, LinkedIn, Kaggle
+   - Contact options
+
+---
+
+## 📞 CONTACT PAGE FEATURES
+
+1. **Contact Form**
+   - Name, Email, Company
+   - Subject (dropdown)
+   - Message
+   - Form type tracking
+   - Role-based submission
+
+2. **Social Links Grid**
+   - LinkedIn, GitHub, Kaggle, Medium, arXiv
+   - External link tracking
+
+3. **Real-time Features**
+   - Cold-start notice (15s timer)
+   - Submission status
+   - Toast notifications
+   - Analytics tracking
+
+4. **Alternative Contact Methods**
+   - Email link
+   - Social media
+   - Request CV option
+
+---
+
+## 📄 REQUEST CV PAGE
+
+1. **Dynamic Career Dashboard**
+   - Total projects count
+   - Research papers count
+   - Technical skills count
+   - Total honors count
+
+2. **CV Request Form**
+   - Personal info
+   - Company details
+   - Subject selection (6 options)
+   - Custom message
+   - Role tracking
+
+3. **Why Request CV Section**
+   - Benefits listed
+   - Personalization promise
+
+4. **Auto-calculated Stats**
+   - From projects data
+   - From skills data
+   - From achievements data
+
+---
+
+## 💼 OPEN TO WORK PAGE
+
+1. **Premium Hero** with animated background
+2. **Status Badge** (Available/Not Available)
+3. **Quick Stats** (4 premium metrics)
+4. **Position Preferences**
+   - Multiple roles listed
+   - Availability timeline
+   - Location preferences
+   - Commitment type
+5. **Skills Highlight**
+6. **Why Hire Me** section
+7. **CTAs** (Resume, Contact, Schedule)
+
+---
+
+## 🔒 ADMIN FEATURES
+
+### **Backend API Endpoints:**
+1. `/submit-contact` - Contact form submission
+2. `/v1/request-cv` - CV request handling
+3. `/admin/leads` - Get all leads
+4. `/admin/leads/stats` - Lead statistics
+5. `/admin/leads/search` - Search leads
+6. `/admin/leads/filter` - Filter leads
+7. `/admin/leads/export` - Export leads (CSV)
+8. `/admin/leads/filtered` - Filtered leads list
+9. `/admin/leads/{id}` - Individual lead
+10. `/admin/leads/{id}` (DELETE) - Delete lead
+
+### **Admin Panel:**
+- Separate React app
+- Lead intelligence system
+- Email service integration
+- Role-based access (ADMIN/GUEST/RECRUITER)
+- Session management
+
+---
+
+## 🎨 GLOBAL FEATURES
+
+### **Navigation:**
+- Header with logo
+- Mobile menu
+- Dark mode toggle
+- Admin indicator (when logged in)
+- Scroll-based styling
+
+### **Footer:**
+- Social links (6+ platforms)
+- Quick navigation
+- Real-time clock
+- Visitor counter (session-protected)
+- Role indicator
+- System status
+
+### **Utilities:**
+- Smooth scroll (Lenis)
+- Scroll restoration
+- Error boundaries
+- Toast notifications
+- Loading states
+- Analytics tracking
+- Backend wake-up ping
+
+### **Performance:**
+- Lazy loading
+- Reduced motion support
+- Responsive layouts
+- SEO optimization (sitemap, robots.txt)
+
+---
+
+## 📊 DATA SOURCES
+
+1. **Projects Data** (projectsData.tsx)
+2. **Skills Data** (skillsData.tsx)
+3. **Achievements Data** (AchievementData.tsx)
+4. **Open to Work Data** (`openToWorkData.ts`)
+5. **Experience Data** (in component)
+6. **Education Data** (in component)
+7. **Research Data** (in component)
+
+---
+
+## 🎯 PERSONALIZATION STRATEGY OPPORTUNITIES
+
+Now that we have this inventory, here are **key personalization vectors**:
+
+### **1. Role-Based Personalization** (Already implemented)
+- GUEST vs RECRUITER vs ADMIN
+- Different CTAs
+- Different content emphasis
+
+### **2. Content Personalization**
+- Job seekers see: Achievements, competitions, education
+- Recruiters see: Production experience, ROI metrics, availability
+- Technical peers see: Architecture, code, technical depth
+- Researchers see: Papers, methodologies, ongoing work
+
+### **3. Dynamic Content**
+- Personalized hero taglines
+- Custom project recommendations
+- Filtered achievements by interest
+- Tailored skill highlights
+
+### **4. Behavioral Personalization**
+- Track which sections users spend time on
+- Show related projects
+- Personalized CTAs based on journey
+- Custom CV versions
+
+### **5. Source-Based Personalization**
+- Different landing pages for LinkedIn, GitHub, Indeed
+- UTM tracking
+- Referral-specific content
+
+### **6. Industry-Specific Views**
+- Finance: Quantitative projects, risk models
+- Tech: Full-stack, DevOps, scalability
+- Research: Papers, methodologies, citations
+- Startups: End-to-end ownership, shipping speed
+
+---

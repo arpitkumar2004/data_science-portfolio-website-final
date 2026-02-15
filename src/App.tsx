@@ -11,10 +11,12 @@ import Contact from './pages/Contact';
 import RequestCV from './pages/RequestCV';
 import AboutMe from './pages/aboutme';
 import AdminDashboardPage from './pages/AdminDashboard';
+import OpenToWorkPage from './pages/OpenToWork';
 import { useLenis } from './hooks/useLenis';
 import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import RoleGateway from './components/RoleGateway';
+import ProtectedRoute from './components/ProtectedRoute';
 import { buildApiUrl, API_ENDPOINTS } from './config/api';
 import DocsLayout from './layouts/DocsLayout';
 import DocsViewer from './components/DocsViewer';
@@ -96,6 +98,11 @@ const MainApp = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/request-cv" element={<RequestCV />} />
                 <Route path="/aboutme" element={<AboutMe />} />
+                <Route path="/open-to-work" element={
+                  <ProtectedRoute allowedRoles={['Recruiter', 'Admin']} requireAdminToken={true}>
+                    <OpenToWorkPage />
+                  </ProtectedRoute>
+                } />
                 <Route path="/admin" element={<AdminDashboardPage />} />
               </Routes>
             </ErrorBoundary>

@@ -21,7 +21,7 @@ import ResearchComponent from "../components/research";
 import TechnicalProficiencies from "../data/skillsData";
 import Achievements from "../data/AchievementData";
 import AniText from "../components/AniText";
-import OpenToWork from "../components/OpenToWork";
+import OpenToWorkBadge from "../components/OpenToWorkBadge";
 
 // Data & Assets
 import { projects } from "../data/projectsData";
@@ -79,6 +79,9 @@ const Home: React.FC = () => {
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       
+      {/* Open to Work Badge - Fixed Position */}
+      <OpenToWorkBadge />
+
       {/* --- HERO SECTION --- */}
       <section className="relative pt-20 pb-12 lg:pt-20 lg:pb-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
@@ -184,8 +187,6 @@ const Home: React.FC = () => {
                 />
               </div>
 
-              <OpenToWork />
-
               <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
                 {[
                   { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub', platform: 'github' },
@@ -212,7 +213,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* --- QUICK FACTS FOR RECRUITERS (TL;DR) --- */}
-      <motion.section
+      {/* <motion.section
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -309,10 +310,10 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* --- SOCIAL PROOF / TRUST SIGNALS SECTION --- */}
-      <motion.section
+      {/* <motion.section
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -330,7 +331,7 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Competition Win */}
+
             <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/10 dark:to-amber-900/10 rounded-2xl border border-yellow-200 dark:border-yellow-800/30">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-800/30 text-yellow-800 dark:text-yellow-300 rounded-full text-xs font-bold mb-4">
                 🏆 Competition
@@ -341,7 +342,6 @@ const Home: React.FC = () => {
               </p>
             </div>
 
-            {/* Production Scale */}
             <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-2xl border border-green-200 dark:border-green-800/30">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300 rounded-full text-xs font-bold mb-4">
                 🚀 Production
@@ -352,7 +352,6 @@ const Home: React.FC = () => {
               </p>
             </div>
 
-            {/* Academic Excellence */}
             <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-2xl border border-blue-200 dark:border-blue-800/30">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 rounded-full text-xs font-bold mb-4">
                 🎓 Academic
@@ -363,7 +362,6 @@ const Home: React.FC = () => {
               </p>
             </div>
 
-            {/* Open Source */}
             <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 rounded-2xl border border-purple-200 dark:border-purple-800/30">
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-800/30 text-purple-800 dark:text-purple-300 rounded-full text-xs font-bold mb-4">
                 👨‍💻 Leadership
@@ -375,7 +373,6 @@ const Home: React.FC = () => {
             </div>
           </div>
 
-          {/* Quick Stats Bar */}
           <div className="mt-10 p-6 bg-slate-50 dark:bg-[#0f172a] rounded-2xl border border-slate-100 dark:border-white/10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div>
@@ -397,7 +394,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* --- RESEARCH SECTION --- */}
       <motion.section 
