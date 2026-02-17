@@ -31,7 +31,6 @@ const redirectToAdminPanel = () => {
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
   const [isReady, setIsReady] = useState(false);
-  const [pendingRole, setPendingRole] = useState<string | null>(null);
 
   useEffect(() => {
     const savedRole = localStorage.getItem('userRole');
@@ -67,10 +66,6 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     sessionStorage.setItem('roleNotifShown', '1');
     showToast(`Session Initialized: ${selectedRole}`, 'success', 5000, 'top');
     window.dispatchEvent(new Event('role:updated'));
-  };
-
-  const handleRolePreview = (selectedRole: string) => {
-    setPendingRole(selectedRole);
   };
 
 
@@ -136,7 +131,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                   Choose Your <span className="text-[#3b82f6]">Access Layer</span>
                 </h1>
                 <p className="mt-4 text-[#94a3b8] font-mono text-[10px] sm:text-xs md:text-sm uppercase tracking-widest max-w-md mx-auto leading-relaxed">
-                  Review the role details and confirm before entering
+                  Select a role to enter the portfolio
                 </p>
               </div>
 
@@ -145,7 +140,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                 {roles.map((r, idx) => (
                   <button
                     key={r.id}
-                    onClick={() => handleRolePreview(r.id)}
+                    onClick={() => handleSelect(r.id)}
                     data-role-button={idx === 0 ? 'true' : undefined}
                     className={
                       `group relative flex flex-col items-start p-5 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] ${
@@ -176,57 +171,12 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                     </ul>
 
                     <div className="mt-auto flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#cbd5f5]">
-                      <span className={r.id === 'Recruiter' ? 'text-amber-200' : undefined}>Review</span>
+                      <span className={r.id === 'Recruiter' ? 'text-amber-200' : undefined}>Enter</span>
                       <ArrowRight size={12} />
                     </div>
                   </button>
                 ))}
               </div>
-
-              {pendingRole && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 px-4">
-                  <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#0b1220] p-6 text-left shadow-2xl">
-                    {(() => {
-                      const roleConfig = roles.find((item) => item.id === pendingRole);
-                      if (!roleConfig) return null;
-                      return (
-                        <>
-                          <div className="flex items-center gap-3 text-[#e2e8f0]">
-                            {roleConfig.icon}
-                            <h3 className="text-lg font-semibold tracking-tight">{roleConfig.title}</h3>
-                          </div>
-                          <p className="mt-3 text-[#94a3b8] text-sm">{roleConfig.desc}</p>
-                          <ul className="mt-4 space-y-2 text-sm text-[#cbd5f5]">
-                            {roleConfig.bullets.map((item) => (
-                              <li key={item} className="flex items-center gap-2">
-                                <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                                <span>{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          <div className="mt-6 flex items-center justify-between">
-                            <button
-                              onClick={() => setPendingRole(null)}
-                              className="text-xs font-mono uppercase tracking-widest text-[#94a3b8] hover:text-[#e2e8f0]"
-                            >
-                              Back
-                            </button>
-                            <button
-                              onClick={() => {
-                                handleSelect(roleConfig.id);
-                                setPendingRole(null);
-                              }}
-                              className="rounded-full bg-[#3b82f6] px-4 py-2 text-xs font-mono uppercase tracking-widest text-[#0a0a0a] hover:bg-[#60a5fa]"
-                            >
-                              Continue
-                            </button>
-                          </div>
-                        </>
-                      );
-                    })()}
-                  </div>
-                </div>
-              )}
 
               {/* Admin Bypass */}
               <div className="mt-12 md:mt-16 text-center">
