@@ -15,7 +15,7 @@ const getAdminPanelUrl = (): string => {
       return 'http://localhost:5174/';
     }
     if (origin) {
-      return `${origin}/admin-panel/`;
+      return `https://admin.arpitkumar.dev/`;
     }
   }
 
