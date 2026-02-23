@@ -87,13 +87,15 @@ const Projects: React.FC = () => {
               <FileText size={16} />
               Download Resume
             </a>
-            <Link
-              to="/contact"
+            <a
+              href="https://calendly.com/kumararpit17773/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-slate-900 text-white px-6 py-3 rounded-lg font-bold text-sm hover:bg-slate-800 transition-colors flex items-center gap-2"
             >
               <Mail size={16} />
-              Contact Me
-            </Link>
+              Schedule Meeting
+            </a>
           </div>
         </div>
       </div>
@@ -287,7 +289,7 @@ const Projects: React.FC = () => {
             </div>
 
             <div className="lg:col-span-5 flex flex-col gap-4">
-              <Link to="/contact" className="group flex items-center justify-between p-7 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2rem] hover:from-cyan-400 hover:to-blue-500 transition-all shadow-2xl shadow-cyan-900/30">
+              <a href="https://calendly.com/kumararpit17773/30min" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between p-7 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-[2rem] hover:from-cyan-400 hover:to-blue-500 transition-all shadow-2xl shadow-cyan-900/30">
                 <div className="flex items-center gap-5">
                   <div className="p-4 bg-white/15 rounded-2xl"><Mail size={24} /></div>
                   <div className="text-left">
@@ -296,14 +298,14 @@ const Projects: React.FC = () => {
                   </div>
                 </div>
                 <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Link>
+              </a>
 
               <Link to="/request-cv" className="group flex items-center justify-between p-7 bg-white text-slate-900 rounded-[2rem] hover:bg-slate-50 transition-all shadow-xl">
                 <div className="flex items-center gap-5">
                   <div className="p-4 bg-slate-900/5 rounded-2xl text-blue-600"><Download size={24} /></div>
                   <div className="text-left">
-                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">Technical Dossier</p>
-                    <p className="text-xl font-black">Get the technical CV</p>
+                    <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">Extended Resource Pack</p>
+                    <p className="text-xl font-black">Get CV + Deep-Dives</p>
                   </div>
                 </div>
                 <FileText size={24} className="text-slate-300 group-hover:text-blue-600 transition-colors" />

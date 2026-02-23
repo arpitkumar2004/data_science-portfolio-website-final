@@ -9,6 +9,7 @@ import {
   History,
   Layers,
   MapPin,
+  Download,
 } from "lucide-react";
 
 // Logos (Assumed paths from your previous code)
@@ -405,11 +406,11 @@ export default function Experience() {
               href="/request-cv"
               className="group px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all flex items-center gap-3 shadow-lg shadow-blue-600/40 hover:shadow-xl hover:shadow-blue-600/60"
             >
-              <Terminal
+              <Download
                 size={18}
                 className="group-hover:translate-y-0.5 transition-transform"
               />
-              <span>Get the Dossier →</span>
+              <span>Get CV + Deep-Dives →</span>
             </a>
           </div>
         </motion.div>

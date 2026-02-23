@@ -62,7 +62,7 @@ const OpenToWorkBadge: React.FC = () => {
         {/* Badge Content */}
         <div className="relative flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-2xl transition-all group-hover:scale-105">
           <Sparkles size={16} className="animate-pulse" />
-          <span className="text-sm whitespace-nowrap">Open to Work</span>
+          <span className="text-sm whitespace-nowrap">Currently Open to Work</span>
           <Briefcase size={16} />
         </div>
       </div>
@@ -70,7 +70,7 @@ const OpenToWorkBadge: React.FC = () => {
       {/* Tooltip on hover */}
       <div className="absolute top-full right-0 mt-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
         <div className="px-3 py-2 bg-slate-900 text-white text-xs rounded-lg shadow-xl whitespace-nowrap">
-          Click to view internship details →
+          Click to view complete details →
         </div>
       </div>
     </Link>

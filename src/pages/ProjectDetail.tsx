@@ -413,6 +413,19 @@ const ProjectDetail: React.FC = () => {
                   </a>
                 )}
 
+                {project.articleLink && (
+                  <a
+                    href={project.articleLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-green-600 hover:bg-green-700 transition"
+                    aria-label="Read detailed article"
+                  >
+                    <FileText className="mr-2" size={14} />
+                    Read Report
+                  </a>
+                )}
+
                 <button
                   onClick={shareProject}
                   className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
@@ -886,8 +899,8 @@ const ProjectDetail: React.FC = () => {
                   <div className="flex items-center gap-6">
                     <div className="p-4 bg-white/10 rounded-2xl text-blue-200"><Download size={24} /></div>
                     <div className="text-left">
-                      <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300 mb-1">Technical Dossier</p>
-                      <p className="text-xl font-black">Get Technical CV</p>
+                      <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300 mb-1">Extended Resource Pack</p>
+                      <p className="text-xl font-black">Get CV + Deep-Dives</p>
                     </div>
                   </div>
                   <FileText size={24} className="text-slate-300 group-hover:text-blue-200 transition-colors" />

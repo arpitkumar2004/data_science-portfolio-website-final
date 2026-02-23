@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -262,8 +261,10 @@ const OpenToWorkPage: React.FC = () => {
                 />
               </div>
             </a>
-            <Link
-              to="/contact"
+            <a
+              href="https://calendly.com/kumararpit17773/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group px-8 py-5 bg-white dark:bg-slate-800 border-3 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 font-bold rounded-2xl hover:bg-blue-50 dark:hover:bg-slate-700 shadow-xl hover:shadow-2xl transition-all duration-300"
             >
               <div className="flex items-center gap-3">
@@ -274,7 +275,7 @@ const OpenToWorkPage: React.FC = () => {
                   className="group-hover:translate-y-[-4px] transition-transform duration-300"
                 />
               </div>
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -915,8 +916,10 @@ const OpenToWorkPage: React.FC = () => {
               </div>
             </a>
 
-            <Link
-              to="/contact"
+            <a
+              href="https://calendly.com/kumararpit17773/30min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative px-10 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-black text-lg rounded-2xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 border-2 border-white/20"
             >
               <div className="flex items-center justify-center gap-3">
@@ -929,7 +932,7 @@ const OpenToWorkPage: React.FC = () => {
                   <Rocket size={24} />
                 </motion.div>
               </div>
-            </Link>
+            </a>
           </motion.div>
 
           {/* Premium Social Links */}

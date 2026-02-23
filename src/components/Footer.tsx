@@ -121,9 +121,9 @@ const Footer: React.FC = () => {
                   </li>
                 </ul>
               </div>
-              <Link to="/contact" className="flex items-center justify-between w-full bg-blue-600 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all">
-                Initiate Secure Inquiry <ArrowUpRight size={14} />
-              </Link>
+              <a href="https://calendly.com/kumararpit17773/30min" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full bg-blue-600 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all">
+                Schedule Meeting <ArrowUpRight size={14} />
+              </a>
             </div>
           </div>
 
@@ -137,7 +137,7 @@ const Footer: React.FC = () => {
               <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Layout size={14} className="group-hover:scale-110 transition-transform"/> Home</Link></li>
               <li><Link to="/projects" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Microscope size={14} className="group-hover:scale-110 transition-transform"/> Research</Link></li>
               <li><Link to="/aboutme" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Fingerprint size={14} className="group-hover:scale-110 transition-transform"/> About Me</Link></li>
-              <li><Link to="/request-cv" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><FileText size={14} className="group-hover:scale-110 transition-transform"/> Credentials</Link></li>
+              <li><Link to="/request-cv" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><FileText size={14} className="group-hover:scale-110 transition-transform"/> CV Pack</Link></li>
               <li><Link to="/contact" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Mail size={14} className="group-hover:scale-110 transition-transform"/> Contact</Link></li>
             </ul>
           </div>

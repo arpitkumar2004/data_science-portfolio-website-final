@@ -123,7 +123,7 @@ const Header: React.FC = () => {
               style={{ backgroundColor: brandBlue }}
             >
               <Download size={16} />
-              <span>Resume</span>
+              <span>Get CV Pack</span>
             </Link>
 
           </nav>
@@ -179,13 +179,13 @@ const Header: React.FC = () => {
               
               <Link
                 to="/request-cv"
-                className="flex items-center justify-between p-6 rounded-2xl bg-slate-900 text-white dark:bg-white/10"
+                className="flex items-center justify-between p-6 rounded-2xl bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white shadow-lg"
               >
                 <div className="flex flex-col">
-                  <span className="text-lg font-bold">Download CV</span>
-                  <span className="text-xs text-slate-400">Latest Research PDF</span>
+                  <span className="text-lg font-bold">Get CV + Deep-Dives</span>
+                  <span className="text-xs text-blue-100">Extended resource pack</span>
                 </div>
-                <Download size={24} className="text-blue-500" />
+                <Download size={24} className="text-white" />
               </Link>
 
               <div className="mt-auto pb-12">

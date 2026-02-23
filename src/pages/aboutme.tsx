@@ -82,17 +82,30 @@ const AboutMe: React.FC = () => {
                                         src={myphoto}
                                         alt="Arpit Kumar - IIT Kharagpur"
                                         loading="lazy"
-                                        className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                                        className="w-full h-full object-cover grayscale-[80%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.02]"
                                     />
-                                    <div className="absolute bottom-4 left-4 right-4 bg-slate-900/80 backdrop-blur-md p-4 rounded-2xl border border-white/10">
-                                        <div className="flex items-center gap-3 mb-2 border-b border-white/20 pb-2">
-                                            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                                            <span className="text-[12px] font-mono text-white font-bold uppercase tracking-widest">Available for Summer 2026</span>
+                                    
+                                    {/* Subtle gradient overlay on hover */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                    
+                                    {/* Name overlay - slides in from bottom on hover */}
+                                    <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                        <div className="bg-gradient-to-t from-slate-900/95 via-slate-900/90 to-transparent dark:from-black/95 dark:via-black/90 backdrop-blur-sm pt-12 pb-6 px-6">
+                                            <div className="text-center space-y-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                                <h3 className="text-2xl font-black text-white tracking-tight">
+                                                    Arpit Kumar
+                                                </h3>
+                                                <p className="text-sm font-semibold text-blue-300 tracking-wide">
+                                                    Applied ML Engineer • IIT Kharagpur '27
+                                                </p>
+                                                <div className="flex items-center justify-center gap-2 pt-1">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                                                    <span className="text-xs font-medium text-emerald-300">
+                                                        Available for Summer 2026
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p className="text-white/80 font-mono text-[10px] leading-tight uppercase tracking-tighter">
-                                            IIT Kharagpur, India <br />
-                                            ML Engineering • Research
-                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -153,14 +166,14 @@ const AboutMe: React.FC = () => {
                             </div>
 
                             {/* Currently Learning */}
-                            <div className="mt-6 p-6 bg-blue-50 dark:bg-blue-950/20 rounded-3xl border border-blue-100 dark:border-blue-900/30">
+                            {/* <div className="mt-6 p-6 bg-blue-50 dark:bg-blue-950/20 rounded-3xl border border-blue-100 dark:border-blue-900/30">
                                 <h4 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest mb-3 text-blue-600 dark:text-blue-400">
                                     <BookOpen size={16} /> Currently Exploring
                                 </h4>
                                 <p className="text-sm text-slate-700 dark:text-slate-300">
                                     LLM fine-tuning, Retrieval-Augmented Generation (RAG), and scaling ML systems to handle production traffic.
                                 </p>
-                            </div>
+                            </div> */}
                         </motion.div>
                     </div>
 
@@ -172,13 +185,7 @@ const AboutMe: React.FC = () => {
                             transition={{ delay: 0.2 }}
                         >
                             <header className="mb-10">
-                                <div className="flex flex-wrap gap-2 mb-4">
-                                    <TechnicalBadge>PyTorch</TechnicalBadge>
-                                    <TechnicalBadge>TensorFlow</TechnicalBadge>
-                                    <TechnicalBadge>FastAPI</TechnicalBadge>
-                                    <TechnicalBadge>PostgreSQL</TechnicalBadge>
-                                    <TechnicalBadge>Docker</TechnicalBadge>
-                                </div>
+                                
                                 <h1 className="text-5xl md:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-4 leading-none">
                                     Arpit Kumar
                                 </h1>
@@ -440,16 +447,18 @@ const AboutMe: React.FC = () => {
                                             className="flex items-center justify-center gap-3 px-8 py-5 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-500 transition-all shadow-xl shadow-blue-900/40 group"
                                         >
                                             <Download size={20} className="group-hover:translate-y-0.5 transition-transform" />
-                                            <span>Download Resume</span>
+                                            <span>Get CV + Deep-Dives</span>
                                         </Link>
 
-                                        <Link
-                                            to="/contact"
+                                        <a
+                                            href="https://calendly.com/kumararpit17773/30min"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                             className="flex items-center justify-center gap-3 px-8 py-5 bg-white dark:bg-[#161616] text-slate-900 dark:text-slate-100 font-bold rounded-2xl hover:bg-slate-100 dark:hover:bg-[#1c1c1c] transition-all"
                                         >
                                             <Mail size={20} />
-                                            <span>Get in Touch</span>
-                                        </Link>
+                                            <span>Schedule Meeting</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

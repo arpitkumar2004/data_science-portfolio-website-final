@@ -7,7 +7,7 @@ import {
   ArrowRight,
   FileText,
   Terminal,
-  ShieldCheck,
+
 } from "lucide-react";
 import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
 
@@ -87,22 +87,12 @@ const Home: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <motion.div className="lg:col-span-7" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { staggerChildren: 0.06 } } }}>
             <motion.div variants={heroItem} className="hero-content">
-              <div className="flex flex-wrap gap-3 mb-4">
-                <div className="flex items-center gap-2 px-3 py-1 bg-slate-50 border border-slate-100 dark:bg-white/5 dark:border-white/10 rounded-full">
-                  <img src={iitkgplogo} alt="IIT KGP" className="w-4 h-4" />
-                  <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-300 uppercase tracking-widest">IIT Kharagpur // Dual Degree</span>
-                </div>
-                <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 border border-blue-100 dark:bg-blue-600/10 dark:border-blue-500/20 rounded-full">
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" aria-hidden="true" />
-                  <span className="text-[10px] font-mono font-bold text-blue-700 dark:text-blue-300 uppercase tracking-widest">Active Researcher</span>
-                </div>
-              </div>
 
-              <motion.h1 variants={heroItem} className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-2 leading-tight">
+              <motion.h1 variants={heroItem} className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-3 leading-tight">
                 Arpit Kumar
               </motion.h1>
 
-              <motion.div variants={heroItem} className="h-10 flex items-center mb-2">
+              <motion.div variants={heroItem} className="h-10 flex items-center mb-4">
                 <span className="text-lg md:text-2xl font-mono font-bold text-blue-600">
                   &gt; <AniText
                     texts={["Deep Learning Researcher", "Applied ML Researcher", "Production ML Engineer", "AI Systems Builder", "First-Principles Engineer"]}
@@ -112,289 +102,183 @@ const Home: React.FC = () => {
                 </span>
               </motion.div>
 
-              <motion.p variants={heroItem} className="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed max-w-2xl mb-4">
-                <strong>Applied ML Engineer who builds end-to-end—from research to production.</strong> Ranked Top 0.5% in Amazon ML Challenge while architecting full-stack systems. Deep learning + scalable infrastructure: PyTorch, TensorFlow, React, Node.js, Docker.
-              </motion.p>
+              <motion.div variants={heroItem} className="max-w-2xl mb-6 space-y-3">
+                <p className="text-slate-700 dark:text-slate-200 text-base md:text-lg leading-relaxed font-semibold">
+                  Applied ML Engineer who builds end-to-end—from <span className="text-blue-600 dark:text-blue-400">research to production</span>.
+                </p>
+                <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                  Full-stack systems architect • Deep learning + scalable infrastructure
+                </p>
+                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-mono">
+                  PyTorch • TensorFlow • React • Node.js • Docker
+                </p>
+              </motion.div>
 
-              <motion.h2 variants={heroItem} className="text-sm font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-4">Impact Metrics</motion.h2>
-              <div role="list" className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-8 border-y border-slate-100 dark:border-white/10 py-6">
+              <motion.h2 variants={heroItem} className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <span className="w-6 h-px bg-blue-600"></span>
+                Impact Metrics
+              </motion.h2>
+              <div role="list" className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-4 pb-6">
                 {stats.map((s, i) => (
-                  <div key={i} role="listitem" className="stat-card">
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-1 tracking-tighter">{s.v}</h3>
+                  <motion.div 
+                    key={i} 
+                    role="listitem" 
+                    whileHover={!shouldReduceMotion ? { y: -2 } : {}}
+                    className="stat-card group cursor-default rounded-xl p-4 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-800/30 ring-1 ring-slate-900/5 dark:ring-white/10 hover:ring-blue-500/20 transition-all"
+                  >
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-1 tracking-tighter group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{s.v}</h3>
                     <p className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest mb-1">{s.l}</p>
-                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-500">{s.d}</p>
-                    <div className="w-8 h-1 bg-blue-600 mt-2" aria-hidden="true" />
-                  </div>
+                    <p className="text-xs font-medium text-slate-600 dark:text-slate-400">{s.d}</p>
+                    <div className="w-8 h-1 bg-blue-600 mt-2 group-hover:w-full transition-all duration-300" aria-hidden="true" />
+                  </motion.div>
                 ))}
               </div>
 
-              <motion.p variants={heroItem} className="inline-flex items-center gap-2 text-sm md:text-base text-blue-600 dark:text-blue-400 font-semibold mb-4 bg-blue-50 dark:bg-blue-600/10 px-4 py-2 rounded-lg border border-blue-100 dark:border-blue-500/20">
-                {/*<span>Seeking full-time roles in <strong>ML Engineering</strong> / <strong>Data Science</strong> (May 2027 grad) • Open to relocation</span> */}
-                <span>Seeking Summer internship roles <strong>ML Engineering</strong> / <strong>Data Science</strong> • Open to relocation</span>
-              </motion.p>
-
-              <motion.div variants={heroItem} className="flex flex-col sm:flex-row flex-wrap gap-4">
+              {/* Primary CTAs */}
+              <motion.div variants={heroItem} className="flex flex-col sm:flex-row flex-wrap gap-3 mb-6">
                 <a 
                   href="/Arpit_Kumar_Resume.pdf" 
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
                   onClick={() => trackResumeDownload('hero_primary_cta')}
                   aria-label="Download resume PDF immediately" 
-                  className="group px-4 py-3 bg-blue-600 text-white font-black text-lg rounded-xl flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 animate-pulse hover:animate-none"
+                  className="group relative px-6 py-3.5 bg-blue-600 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2.5 hover:bg-blue-700 transition-all hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 overflow-hidden"
                 >
-                  <FileText size={15} className="group-hover:rotate-12 transition-transform" />
-                  Download Resume
-                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <FileText size={18} className="relative group-hover:rotate-12 transition-transform" />
+                  <span className="relative">Download Resume</span>
+                  <ArrowRight size={18} className="relative group-hover:translate-x-1 transition-transform" />
                 </a>
+                
                 <Link 
                   to="/projects" 
-                  aria-label="Contact for opportunities" 
-                  className="px-4 py-3 bg-slate-900 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
+                  aria-label="View all projects" 
+                  className="group px-6 py-3.5 bg-slate-900 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2.5 hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 hover:scale-[1.02]"
                 >
                   View Projects
-                  {/* <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" /> */}
-                </Link>
-
-                <Link to="/contact" className="px-4 py-3 bg-slate-900 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100">
-                  Contact Me
-                </Link>
-                <Link to="/aboutme" className="px-4 py-3 bg-slate-900 text-white font-bold text-lg rounded-xl flex items-center justify-center gap-3 hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100">
-                  My Story
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
 
-              {/* <motion.div variants={heroItem} className="flex flex-wrap gap-4 mt-4">
-                <Link to="/projects" className="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
-                  View 15+ Projects →
+              {/* Secondary Links */}
+              <motion.div variants={heroItem} className="flex flex-wrap items-center gap-4 px-4">
+                <Link 
+                  to="/contact" 
+                  className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
+                >
+                  Contact Me
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
-                <Link to="/aboutme" className="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1">
-                  My Story →
+                <span className="text-slate-300 dark:text-slate-700">•</span>
+                <Link 
+                  to="/aboutme" 
+                  className="text-sm font-semibold text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 group"
+                >
+                  My Story
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </Link>
-              </motion.div> */}
+                <span className="text-slate-300 dark:text-slate-700">•</span>
+                <Link 
+                  to="/request-cv" 
+                  className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1.5 group"
+                >
+                  Get Extended CV Pack
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+              </motion.div>
             </motion.div>
           </motion.div>
 
-          <motion.div className="lg:col-span-5 relative profile-image-container" initial={shouldReduceMotion ? 'show' : 'hidden'} animate="show" variants={{ show: { transition: { delay: 0.2 } } }}>
-            <motion.div whileHover={!shouldReduceMotion ? { scale: 1.03 } : {}} className="relative z-10 mx-auto w-full max-w-[420px]">
-              <div className="absolute -inset-4 border border-slate-100 dark:border-white/10 rounded-[3rem] -z-10" aria-hidden="true" />
-              <div className="relative rounded-[2.5rem] overflow-hidden bg-slate-100 dark:bg-[#111827] border-4 border-white dark:border-white/10 shadow-2xl aspect-[4/5]">
-                <img 
-                  src={myphoto} 
-                  alt="Arpit Kumar" 
-                  width={420}
-                  height={525}
-                  loading="lazy" 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" 
-                />
-              </div>
+          <motion.div 
+            className="lg:col-span-5 relative" 
+            initial={shouldReduceMotion ? 'show' : 'hidden'} 
+            animate="show" 
+            variants={{ show: { transition: { delay: 0.2 } } }}
+          >
+            <div className="relative mx-auto w-full max-w-[420px]">
+              {/* Background decorative elements */}
+              <div className="absolute -inset-6 bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-[3.5rem] -z-10 opacity-60" aria-hidden="true" />
+              
+              {/* Main image container */}
+              <motion.div 
+                whileHover={!shouldReduceMotion ? { y: -4 } : {}} 
+                transition={{ duration: 0.3 }}
+                className="relative group"
+              >
+                {/* Image wrapper with professional shadow */}
+                <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 shadow-2xl shadow-slate-900/10 dark:shadow-black/40 aspect-[4/5] ring-1 ring-slate-900/5 dark:ring-white/10">
+                  <img 
+                    src={myphoto} 
+                    alt="Arpit Kumar - ML Engineer & Applied AI Researcher at IIT Kharagpur" 
+                    width={420}
+                    height={525}
+                    loading="lazy" 
+                    className="w-full h-full object-cover grayscale-[80%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.02]" 
+                  />
+                  
+                  {/* Subtle gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  
+                  {/* Name overlay - slides in from bottom on hover */}
+                  <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                    <div className="bg-gradient-to-t from-slate-900/95 via-slate-900/90 to-transparent dark:from-black/95 dark:via-black/90 backdrop-blur-sm pt-12 pb-6 px-6">
+                      <div className="text-center space-y-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        <h3 className="text-2xl font-black text-white tracking-tight">
+                          Arpit Kumar
+                        </h3>
+                        <p className="text-sm font-semibold text-blue-300 tracking-wide">
+                          Applied ML Engineer • IIT Kharagpur '27
+                        </p>
+                        <div className="flex items-center justify-center gap-2 pt-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="text-xs font-medium text-emerald-300">
+                            Available for Opportunities
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-              <div className="absolute -right-6 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+              </motion.div>
+
+              {/* Social Links - Refined Side Bar */}
+              <div className="absolute -right-3 lg:-right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2.5 z-10">
                 {[
-                  { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub', platform: 'github' },
-                  { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn', platform: 'linkedin' },
-                  { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle', platform: 'kaggle' },
-                  { icon: GoogleScholar, href: "#", label: 'Google Scholar', platform: 'scholar' }
+                  { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub', platform: 'github', gradient: 'from-slate-900 to-slate-700' },
+                  { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn', platform: 'linkedin', gradient: 'from-blue-600 to-blue-500' },
+                  { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle', platform: 'kaggle', gradient: 'from-cyan-500 to-blue-500' },
+                  { icon: GoogleScholar, href: "#", label: 'Google Scholar', platform: 'scholar', gradient: 'from-blue-500 to-indigo-500' }
                 ].map((item, i) => (
-                  <a 
-                    key={i} 
+                  <motion.a
+                    key={i}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + i * 0.08, duration: 0.3 }}
                     href={item.href} 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     onClick={() => trackExternalLink(item.platform, 'hero_sidebar')}
-                    aria-label={item.label} 
-                    className="p-4 bg-white dark:bg-[#161616] shadow-xl rounded-2xl text-slate-600 dark:text-slate-300 hover:text-blue-600 border border-slate-50 dark:border-white/10 transition-all hover:-translate-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-300"
+                    aria-label={item.label}
+                    className="group/social relative"
                   >
-                    <item.icon size={20} />
-                  </a>
+                    {/* Tooltip */}
+                    <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-semibold rounded-lg opacity-0 group-hover/social:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-lg">
+                      {item.label}
+                    </div>
+                    
+                    {/* Icon Button */}
+                    <div className="p-3.5 bg-white dark:bg-slate-900 shadow-lg hover:shadow-xl rounded-xl ring-1 ring-slate-900/5 dark:ring-white/10 hover:ring-slate-900/10 dark:hover:ring-white/20 transition-all duration-300 hover:-translate-x-1 hover:scale-105">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover/social:opacity-10 rounded-xl transition-opacity duration-300`} />
+                      <item.icon size={18} className="relative text-slate-700 dark:text-slate-300 group-hover/social:text-slate-900 dark:group-hover/social:text-white transition-colors duration-300" />
+                    </div>
+                  </motion.a>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* --- QUICK FACTS FOR RECRUITERS (TL;DR) --- */}
-      {/* <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="py-12 bg-gradient-to-br from-blue-50 via-white to-indigo-50 dark:from-blue-950/20 dark:via-black dark:to-indigo-950/20"
-      >
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="bg-white dark:bg-[#0f172a] rounded-3xl shadow-2xl border-2 border-blue-500/20 p-8 md:p-12">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="p-3 bg-blue-600 rounded-xl shadow-lg">
-                <ShieldCheck size={28} className="text-white" />
-              </div>
-              <div>
-                <h2 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-2 tracking-tight">
-                  Why Recruiters Should Care
-                </h2>
-                <p className="text-slate-600 dark:text-slate-400 text-sm">
-                  TL;DR — What makes me different from other ML candidates
-                </p>
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Production Experience, Not Just Theory</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Built production systems serving high-traffic applications. I ship code, not just papers.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Proven Under Pressure</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Ranked 42nd/8,690 teams (Top 0.5%) in Amazon ML Challenge 2025. Proven ability to deliver under tight deadlines.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Full-Stack + ML = Rare Combo</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">React, Node.js, Docker, PyTorch, TensorFlow. I build the entire pipeline, end-to-end.</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Leadership Experience</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Mentored 30+ developers, led technical roadmaps, shipped 8+ features per quarter as Technical Advisor.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">IIT Kharagpur Pedigree</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Dual Degree from India's top engineering institute with 7.86 CGPA. Rigorous training in first principles.</p>
-                  </div>
-                </div>
-                <div className="flex gap-3">
-                  <div className="shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-bold">✓</div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-1">Available Summer internship 2026</h3>
-                    <p className="text-sm text-slate-600 dark:text-slate-400">Open to summer internship roles globally. Can start full-time immediately after graduation.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-slate-200 dark:border-white/10 flex flex-col md:flex-row gap-4 items-center justify-between">
-              <p className="text-sm text-slate-600 dark:text-slate-400">
-                <strong className="text-slate-900 dark:text-slate-100">Bottom line:</strong> I'm a rare blend of ML researcher + production engineer + full-stack developer who actually ships.
-              </p>
-              <div className="flex gap-3 shrink-0">
-                <a
-                  href="/Arpit_Kumar_Resume.pdf"
-                  download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
-                  onClick={() => trackResumeDownload('recruiter_section_cta')}
-                  className="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-blue-700 transition-colors shadow-lg flex items-center gap-2"
-                >
-                  <FileText size={16} />
-                  Get Resume
-                </a>
-                <Link
-                  to="/contact"
-                  className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-xl font-bold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors flex items-center gap-2"
-                >
-                  Schedule Call
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.section> */}
-
-      {/* --- SOCIAL PROOF / TRUST SIGNALS SECTION --- */}
-      {/* <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="py-16 bg-white dark:bg-black border-y border-slate-100 dark:border-white/10"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <p className="text-sm font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-3">
-              Validated by Competition & Production
-            </p>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">
-              Recognition & Results
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <div className="p-6 bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/10 dark:to-amber-900/10 rounded-2xl border border-yellow-200 dark:border-yellow-800/30">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 dark:bg-yellow-800/30 text-yellow-800 dark:text-yellow-300 rounded-full text-xs font-bold mb-4">
-                🏆 Competition
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">Top 0.5%</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                Amazon ML Challenge 2025 (42nd/8,690 teams globally)
-              </p>
-            </div>
-
-            <div className="p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10 rounded-2xl border border-green-200 dark:border-green-800/30">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300 rounded-full text-xs font-bold mb-4">
-                🚀 Production
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">Production Scale</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                Built systems designed for high availability with zero critical bugs
-              </p>
-            </div>
-
-            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-2xl border border-blue-200 dark:border-blue-800/30">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 dark:bg-blue-800/30 text-blue-800 dark:text-blue-300 rounded-full text-xs font-bold mb-4">
-                🎓 Academic
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">7.86 CGPA</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                IIT Kharagpur Dual Degree - Top cohort performance
-              </p>
-            </div>
-
-            <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 rounded-2xl border border-purple-200 dark:border-purple-800/30">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 dark:bg-purple-800/30 text-purple-800 dark:text-purple-300 rounded-full text-xs font-bold mb-4">
-                👨‍💻 Leadership
-              </div>
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2">30+ Devs</h3>
-              <p className="text-sm text-slate-600 dark:text-slate-400 font-medium">
-                Mentored engineers as Technical Advisor at DevSoc
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-10 p-6 bg-slate-50 dark:bg-[#0f172a] rounded-2xl border border-slate-100 dark:border-white/10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              <div>
-                <div className="text-3xl font-black text-blue-600 mb-1">6+</div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Projects Shipped</div>
-              </div>
-              <div>
-                <div className="text-3xl font-black text-green-600 mb-1">Reliable</div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">High Availability</div>
-              </div>
-              <div>
-                <div className="text-3xl font-black text-purple-600 mb-1">8+</div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Features/Quarter</div>
-              </div>
-              <div>
-                <div className="text-3xl font-black text-amber-600 mb-1">3+</div>
-                <div className="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">Years Shipping</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.section> */}
 
       {/* --- RESEARCH SECTION --- */}
       <motion.section 
@@ -530,7 +414,7 @@ const Home: React.FC = () => {
                 ))}
               </div>
               <div className="flex flex-wrap justify-center gap-4 mt-10">
-                <Link to="/contact" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 shadow-xl shadow-blue-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Let's Discuss Your Project</Link>
+                <a href="https://calendly.com/kumararpit17773/30min" target="_blank" rel="noopener noreferrer" className="px-10 py-4 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 shadow-xl shadow-blue-500/30 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Let's Discuss Your Project</a>
                 <Link to="/projects" className="px-10 py-4 bg-white/10 border border-white/15 text-white font-bold rounded-lg hover:border-blue-300 hover:text-blue-100 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-200">Explore Track Record</Link>
               </div>
             </div>

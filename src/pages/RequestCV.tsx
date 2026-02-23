@@ -1,44 +1,27 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
 import {
   Mail,
   User,
-  Info,
-  Activity,
-  Layout,
-  Globe,
-  BookOpen,
   Building2Icon,
-  Terminal,
   Linkedin,
   Github,
   Loader2,
   Clock,
-  ShieldCheck,
   ArrowRight,
-  Cpu,
-  Microscope,
-  Award,
-  Code2,
-  Database,
-  Binary,
-  ListFilter,
+  Briefcase,
   AlertCircle,
   CheckCircle,
-  RefreshCcw,
+  Download,
 } from "lucide-react";
 import { SiKaggle } from "react-icons/si";
-import { Link } from "react-router-dom";
 
-// Data Imports
 import { projects } from "../data/projectsData";
 import { techData } from "../data/skillsData";
 import { achievementData } from "../data/AchievementData";
 import { API_ENDPOINTS, buildApiUrl } from "../config/api";
-
-// const API_BASE_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 type FormData = {
   name: string;
@@ -140,18 +123,18 @@ const RequestCV: React.FC = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.detail || "Server transmission failed");
+        throw new Error(errorData.detail || "Failed to send request");
       }
 
       showToast(
-        "Verification Successful. Check your inbox for the complete CV dossier.",
+        "Package sent! Check your inbox.",
         "success",
       );
       setSubmitStatus("success");
       reset();
-    } catch (error: any) {
+    } catch (error) {
       const msg =
-        error.message || "Network Timeout. Server might be initializing.";
+        error instanceof Error ? error.message : "Network error. Please try again.";
       setSubmitStatus("error");
       setErrorMessage(msg);
       showToast(msg, "error");
@@ -161,389 +144,334 @@ const RequestCV: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
-      <div className="max-w-7xl mx-auto px-6 py-16 lg:py-18">
-        {/* --- HEADER ARCHIVE --- */}
-        <header className="mb-16 border-b border-slate-100 dark:border-white/10 pb-12">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-12">
-            <div className="max-w-2xl text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600 mb-6 shadow-xl"
-              >
-                <Terminal size={12} className="text-blue-400" />
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest bg-blue-600 text-slate-50">
-                  Automated Dispatch Terminal
-                </span>
-              </motion.div>
-              <h1 className="text-5xl md:text-5xl font-black tracking-tighter mb-4 leading-none">
-                Get the production-ready <span className="text-blue-600 italic">CV</span>
-              </h1>
-              <p className="text-slate-500 dark:text-slate-300 text-lg font-medium">
-                Tell me your context (hiring, research, build). I’ll auto-dispatch a detailed CV—outcomes, systems shipped, and research impact—straight to your inbox.
-              </p>
-            </div>
-
-            {/* DASHBOARD */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full lg:w-auto">
-              {[
-                {
-                  label: "Projects Built",
-                  val: careerStats.totalProjects,
-                  icon: <Cpu size={14} />,
-                },
-                {
-                  label: "Research Papers",
-                  val: careerStats.researchPapers,
-                  icon: <Microscope size={14} />,
-                },
-                {
-                  label: "Awards & Honors",
-                  val: careerStats.totalHonors,
-                  icon: <Award size={14} />,
-                },
-                {
-                  label: "Skills Shipped",
-                  val: careerStats.technicalSkills,
-                  icon: <Code2 size={14} />,
-                },
-              ].map((stat, i) => (
-                <div
-                  key={i}
-                  className="p-4 bg-white dark:bg-[#161616] border border-slate-900 dark:border-white/10 rounded-2xl text-center lg:text-left shadow-sm"
-                >
-                  <div className="text-blue-700 mb-2 flex justify-center lg:justify-start">
-                    {stat.icon}
-                  </div>
-                  <div className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">
-                    {stat.val} +
-                  </div>
-                  <div className="text-[9px] font-mono font-bold text-slate-900 dark:text-slate-200 uppercase tracking-widest mt-1">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] font-sans text-slate-900 dark:text-slate-100 pb-20">
+      <div className="max-w-5xl mx-auto px-6 py-12 lg:py-16">
+        {/* --- HEADER --- */}
+        <header className="mb-10 max-w-2xl mx-auto">
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl md:text-4xl font-bold tracking-tight mb-3 text-slate-900 dark:text-slate-100"
+          >
+            Get Extended Portfolio Package
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="text-slate-600 dark:text-slate-400 leading-relaxed"
+          >
+            Get comprehensive project documentation, technical details, and research publications delivered to your inbox.
+          </motion.p>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          {/* --- LEFT: SIDEBAR --- */}
-          <div className="lg:col-span-4 space-y-8">
-            {/* --- PRIMARY DISPATCH CARD --- */}
-            <section className="p-8 bg-slate-900 dark:bg-[#0a0a0a] rounded-[2.5rem] text-white relative overflow-hidden group shadow-2xl shadow-blue-200 dark:shadow-blue-900/40">
-              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                <ShieldCheck size={140} />
-              </div>
-
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-6 px-3 py-1 bg-white/10 border border-white/20 rounded-full w-fit">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-100">
-                    System: Active
-                  </span>
-                </div>
-
-                <h3 className="text-2xl font-black mb-3 tracking-tighter uppercase">
-                  Technical Fulfillment
-                </h3>
-                <p className="text-blue-50 text-sm leading-relaxed mb-3 font-medium">
-                  Submit once; the dispatch system emails a PDF CV with quantified outcomes, live systems, and research highlights in seconds.
-                </p>
-                <p className="text-red-400 text-sm leading-relaxed font-medium mb-6 flex items-center gap-2">
-                  <Info size={42} /> Use a valid work/institutional inbox for instant delivery.
-                </p>
-
-                <div className="space-y-3">
-                  <div className="p-3 bg-white/10 border border-white/20 rounded-xl flex items-center gap-3">
-                    <Binary className="text-white" size={16} />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
-                      SSL_ENCRYPTED_PIPELINE
-                    </span>
+        {/* --- MAIN CONTENT --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-5xl mx-auto">
+          {/* --- LEFT: STATS (Dynamic Data) --- */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="lg:col-span-2 space-y-4"
+          >
+            {/* Portfolio Overview */}
+            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                Portfolio Overview
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { label: "Total Projects", value: careerStats.totalProjects },
+                  { label: "Research Papers", value: careerStats.researchPapers },
+                  { label: "Technical Skills", value: careerStats.technicalSkills },
+                  { label: "Awards & Honors", value: careerStats.totalHonors },
+                ].map((stat, i) => (
+                  <div key={i} className="flex items-center justify-between text-sm">
+                    <span className="text-slate-600 dark:text-slate-400">{stat.label}</span>
+                    <span className="font-bold text-slate-900 dark:text-slate-100 text-base">{stat.value}</span>
                   </div>
-                  <div className="p-3 bg-white/10 border border-white/20 rounded-xl flex items-center gap-3">
-                    <Activity className="text-white" size={16} />
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider">
-                      AUTO_MAIL_TRIGGER: ENABLED
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* --- CATEGORIZED NAVIGATION --- */}
-            <div className="space-y-6 pt-4">
-              {/* Internal Repository Links */}
-              <div>
-                <h4 className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
-                  <Layout size={12} /> Repository Index
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  <EcosystemLink
-                    to="/"
-                    icon={<Terminal size={14} />}
-                    label="Home"
-                    dark
-                  />
-                  <EcosystemLink
-                    to="/projects"
-                    icon={<Database size={14} />}
-                    label="Research"
-                  />
-                  <EcosystemLink
-                    to="/aboutme"
-                    icon={<BookOpen size={14} />}
-                    label="Dossier"
-                  />
-                </div>
-              </div>
-
-              {/* External Technical Nodes */}
-              <div>
-                <h4 className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase tracking-[0.3em] mb-4 ml-2 flex items-center gap-2">
-                  <Globe size={12} /> External Nodes
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  <EcosystemLink
-                    href="https://github.com/arpitkumar2004"
-                    icon={<Github size={14} />}
-                    label="GitHub"
-                  />
-                  <EcosystemLink
-                    href="https://linkedin.com/in/arpit-kumar-shivam"
-                    icon={<Linkedin size={14} />}
-                    label="LinkedIn"
-                  />
-                  <EcosystemLink
-                    href="https://kaggle.com/kumararpitiitkgp"
-                    icon={<SiKaggle size={14} />}
-                    label="Kaggle"
-                  />
-                </div>
+                ))}
               </div>
             </div>
-          </div>
+
+            {/* What's Included */}
+            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">
+                Package Contents
+              </h3>
+              <ul className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400">
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <span>Extended CV with full project details</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <span>Technical architecture breakdowns</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <span>Research publications & citations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle size={16} className="text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                  <span>Performance metrics & impact analysis</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Connect */}
+            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">
+                Connect
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <EcosystemLink
+                  href="https://github.com/arpitkumar2004"
+                  icon={<Github size={14} />}
+                  label="GitHub"
+                />
+                <EcosystemLink
+                  href="https://linkedin.com/in/arpit-kumar-shivam"
+                  icon={<Linkedin size={14} />}
+                  label="LinkedIn"
+                />
+                <EcosystemLink
+                  href="https://kaggle.com/kumararpitiitkgp"
+                  icon={<SiKaggle size={14} />}
+                  label="Kaggle"
+                />
+              </div>
+            </div>
+          </motion.div>
 
           {/* --- RIGHT: FORM --- */}
-          <div className="lg:col-span-8">
-            <motion.div className="bg-slate-50 border border-slate-200/60 dark:bg-[#111827] dark:border-white/10 rounded-[3rem] p-8 lg:p-12 relative">
-              {/* FEEDBACK OVERLAYS */}
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15 }}
+            className="lg:col-span-3"
+          >
+            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 md:p-8">
+              {/* FEEDBACK MESSAGES */}
               <AnimatePresence>
                 {showWakeUpNotice && !submitStatus && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="mb-8 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-amber-700 flex items-start gap-4 dark:bg-amber-500/10 dark:border-amber-500/30 dark:text-amber-200"
+                    className="mb-5 p-3.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-900 dark:text-blue-100 flex items-start gap-2"
                   >
-                    <Clock className="animate-pulse mt-1" size={20} />
-                    <p className="text-xs font-bold uppercase tracking-tight">
-                      System Wake-up in progress. Please remain connected.
-                    </p>
+                    <Clock size={16} className="flex-shrink-0 mt-0.5" />
+                    <div>
+                      <p className="font-medium">Server warming up</p>
+                      <p className="text-xs opacity-80 mt-0.5">First request may take 30-45 seconds.</p>
+                    </div>
                   </motion.div>
                 )}
 
                 {submitStatus === "error" && (
                   <motion.div
                     ref={errorRef}
-                    initial={{ opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-8 p-6 bg-red-50 border border-red-200 rounded-3xl dark:bg-red-500/10 dark:border-red-500/30"
+                    className="mb-5 p-3.5 bg-red-50 border border-red-200 rounded-lg dark:bg-red-500/10 dark:border-red-500/30"
                   >
-                    <div className="flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3 text-red-700 dark:text-red-200">
-                        <AlertCircle size={20} />
-                        <p className="text-sm font-black uppercase tracking-tight">
-                          Dispatch Failed
-                        </p>
+                    <div className="flex items-start gap-2 text-red-700 dark:text-red-200">
+                      <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium">Request failed</p>
+                        <p className="text-xs mt-0.5 opacity-80">{errorMessage}</p>
                       </div>
-                      <button
-                        onClick={() => onSubmit(lastAttemptData.current!)}
-                        className="flex items-center gap-2 px-3 py-1 bg-red-600 text-white rounded-lg text-[10px] font-bold uppercase hover:bg-red-700 transition-all"
-                      >
-                        <RefreshCcw size={12} /> Retry
-                      </button>
                     </div>
-                      <p className="text-xs text-red-600 dark:text-red-200 mt-2 font-medium ml-8">
-                      {errorMessage}
-                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                {/* Name & Email */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormInput
-                    label="Full Name"
-                    placeholder="Dr. John Doe"
+                    label="Name"
+                    placeholder="Your full name"
                     error={errors.name?.message}
-                    icon={<User size={18} />}
+                    icon={<User size={16} />}
                     registration={register("name", {
-                      required: "Identity required",
+                      required: "Name is required",
                     })}
                   />
                   <FormInput
-                    label="Destination Email"
-                    placeholder="official@org.com"
+                    label="Email"
+                    placeholder="your@email.com"
                     error={errors.email?.message}
-                    icon={<Mail size={18} />}
+                    icon={<Mail size={16} />}
                     registration={register("email", {
-                      required: "Email required",
-                      pattern: /^\S+@\S+$/i,
+                      required: "Email is required",
+                      pattern: {
+                        value: /^\S+@\S+$/i,
+                        message: "Invalid email address",
+                      },
                     })}
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1.5 flex-1">
-                    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
-                      Organization
+                {/* Company & Interest */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      Company/Organization
                     </label>
                     <div className="relative">
                       <Building2Icon
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                        size={18}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                        size={16}
                       />
                       <input
-                        {...register("company", { required: "Required" })}
-                        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold"
-                        placeholder="Company / University"
+                        {...register("company", { required: "Company is required" })}
+                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
+                        placeholder="Your company or university"
                       />
                     </div>
+                    {errors.company && (
+                      <p className="text-red-500 text-xs">{errors.company.message}</p>
+                    )}
                   </div>
 
-                  <div className="space-y-1.5 flex-1">
-                    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
-                      Context
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                      I'm interested in
                     </label>
                     <div className="relative">
-                      <ListFilter
-                        className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
-                        size={18}
+                      <Briefcase
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                        size={16}
                       />
                       <select
                         {...register("subject")}
-                        className="w-full pl-12 pr-10 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold appearance-none cursor-pointer"
+                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
                       >
-                        <option>Hiring / Recruitment</option>
+                        <option>Full-Time Hiring</option>
                         <option>Summer Internship 2026</option>
                         <option>Research Collaboration</option>
-                        <option>Technical Consultation</option>
+                        <option>Contract/Freelance Work</option>
+                        <option>General Portfolio Review</option>
                       </select>
                     </div>
                   </div>
                 </div>
 
+                {/* Message */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-mono font-bold uppercase text-slate-400 ml-1">
-                    Briefing Purpose
+                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Additional context <span className="text-slate-400 font-normal">(optional)</span>
                   </label>
                   <textarea
-                    rows={4}
-                    {...register("message", { required: "Detail required" })}
-                    className="w-full p-5 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-medium resize-none"
-                    placeholder="Role, goals, timelines, tech stack, evaluation criteria"
+                    rows={3}
+                    {...register("message", { required: false })}
+                    className="w-full p-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm resize-none"
+                    placeholder="Tell me more about the opportunity or what you're looking for..."
                   />
                 </div>
 
-                <div className="pt-4">
+                {/* Submit Button */}
+                <div className="pt-2">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`w-full py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-2xl ${isSubmitting ? "bg-slate-200 text-slate-500 cursor-not-allowed dark:bg-white/10 dark:text-slate-400" : "bg-slate-900 text-white hover:bg-blue-600 shadow-blue-200 dark:shadow-blue-900/40"}`}
+                    className={`w-full py-3 px-6 rounded-lg font-semibold transition-all flex items-center justify-center gap-2
+                      ${isSubmitting
+                        ? "bg-slate-300 text-slate-500 cursor-not-allowed dark:bg-slate-700 dark:text-slate-400"
+                        : "bg-blue-600 text-white hover:bg-blue-700 active:scale-[0.98] shadow-md hover:shadow-lg"
+                      }`}
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="animate-spin" size={18} />{" "}
-                        <span className="uppercase tracking-widest text-xs">
-                          Transmitting...
-                        </span>
+                        <Loader2 className="animate-spin" size={18} />
+                        <span>Sending...</span>
                       </>
                     ) : (
                       <>
-                        <span className="uppercase tracking-widest text-xs">
-                          Get Technical CV
-                        </span>
+                        <Download size={18} />
+                        <span>Request Portfolio Package</span>
                         <ArrowRight size={18} />
                       </>
                     )}
                   </button>
-
-                  {isSubmitting && (
-                    <div className="mt-6 h-0.5 w-full bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: "95%" }}
-                        transition={{ duration: 45 }}
-                        className="h-full bg-blue-600"
-                      />
-                    </div>
-                  )}
+                  <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-2">
+                    Instant delivery • No spam
+                  </p>
                 </div>
               </form>
 
+              {/* Success Message */}
               {submitStatus === "success" && (
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-8 p-6 bg-green-50 border border-green-100 rounded-3xl flex items-center gap-4 text-green-700 dark:bg-green-500/10 dark:border-green-500/30 dark:text-green-200"
+                  className="mt-5 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3 text-green-700 dark:bg-green-500/10 dark:border-green-500/30 dark:text-green-200"
                 >
-                  <CheckCircle size={24} />
+                  <CheckCircle size={18} className="flex-shrink-0 mt-0.5" />
                   <div>
-                    <p className="text-sm font-bold uppercase tracking-tight">
-                      Transmission Complete 
-                    </p>
-                    <p className="text-xs font-medium">
-                      The CV dossier has been sent to your email inbox.
+                    <p className="text-sm font-semibold">Package sent successfully!</p>
+                    <p className="text-xs mt-1 opacity-90">
+                      Check your inbox for the extended portfolio package. It should arrive within 2 minutes.
                     </p>
                   </div>
                 </motion.div>
               )}
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>
   );
 };
 
-// --- REUSABLE HELPERS ---
+// --- HELPER COMPONENTS ---
 
-const EcosystemLink = ({ to, href, icon, label, dark }: any) => {
-  const styles = `px-4 py-3 rounded-xl transition-all flex items-center gap-2 text-[10px] font-black uppercase tracking-widest border ${
-    dark
-      ? "bg-slate-900 text-white border-slate-800 hover:bg-blue-600 shadow-lg shadow-slate-200 dark:shadow-blue-900/40"
-      : "bg-white dark:bg-[#161616] text-slate-600 dark:text-slate-300 border-slate-200 dark:border-white/10 hover:text-blue-600 hover:border-blue-200 shadow-sm"
-  }`;
-  return to ? (
-    <Link to={to} className={styles}>
-      {icon} {label}
-    </Link>
-  ) : (
-    <a href={href} target="_blank" rel="noreferrer" className={styles}>
-      {icon} {label}
+interface EcosystemLinkProps {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+}
+
+const EcosystemLink = ({ href, icon, label }: EcosystemLinkProps) => {
+  return (
+    <a 
+      href={href} 
+      target="_blank" 
+      rel="noreferrer" 
+      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all border border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+    >
+      {icon} <span>{label}</span>
     </a>
   );
 };
 
-const FormInput = ({ label, placeholder, error, icon, registration }: any) => (
-  <div className="space-y-1.5 flex-1">
-    <label className="text-[10px] font-mono font-bold uppercase text-slate-400 dark:text-slate-300 ml-1">
+interface FormInputProps {
+  label: string;
+  placeholder: string;
+  error?: string;
+  icon: React.ReactNode;
+  registration: UseFormRegisterReturn;
+}
+
+const FormInput = ({ label, placeholder, error, icon, registration }: FormInputProps) => (
+  <div className="space-y-1.5">
+    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
       {label}
     </label>
     <div className="relative">
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
         {icon}
       </div>
       <input
         {...registration}
-        className="w-full pl-12 pr-5 py-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl focus:border-blue-600 outline-none transition-all text-sm font-bold placeholder:text-slate-300 dark:placeholder:text-slate-500"
+        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
         placeholder={placeholder}
       />
     </div>
     {error && (
-      <p className="text-red-500 text-[9px] font-mono uppercase mt-1 ml-1">
+      <p className="text-red-500 text-xs">
         {error}
       </p>
     )}

@@ -4,10 +4,8 @@ import { useNavigate } from "react-router-dom";
 import {
   Github,
   ArrowRight,
-  Clock,
   FileText,
   ExternalLink,
-  TrendingUp,
 } from "lucide-react";
 import { trackProjectView } from "../utils/analytics";
 
@@ -22,10 +20,8 @@ interface ProjectCardProps {
   githubLink?: string;
   articleLink?: string;
   liveDemoLink?: string;
-  readingTime?: string;
   duration?: string;
   role?: string;
-  keyImpactMetrics?: string[];
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -41,10 +37,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   duration,
   type,
   standings,
-  // readingTime = "5 min read",
-  keyImpactMetrics,
 }) => {
   const navigate = useNavigate();
+  const [mousePosition, setMousePosition] = React.useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = React.useState(false);
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  // Track mouse position for cursor-following animation
+  const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    setMousePosition({ x, y });
+  }, []);
+
+  const handleMouseEnter = React.useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = React.useCallback(() => {
+    setIsHovered(false);
+  }, []);
 
   const handleCardClick = () => {
     trackProjectView(Number(id), title, 'card_click');
@@ -61,46 +77,67 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   return (
     <motion.div
+      ref={cardRef}
       onClick={handleCardClick}
       onKeyDown={handleKeyDown}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       role="button"
       tabIndex={0}
-      whileHover={{ y: -4 }}
-      className="group relative flex flex-col bg-white dark:bg-[#0a0a0a] border border-slate-900/10 dark:border-white/10 rounded-xl overflow-hidden cursor-pointer h-full will-change-transform transition-[transform,box-shadow,border-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] shadow-[0_18px_50px_-40px_rgba(15,23,42,0.45)] dark:shadow-[0_18px_50px_-40px_rgba(2,6,23,0.9)] hover:shadow-[0_24px_70px_-35px_rgba(37,99,235,0.25)] hover:border-blue-600/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500/70 focus-visible:outline-offset-2"
+      whileHover={{ y: -8 }}
+      className="group relative flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden cursor-pointer h-full transition-all duration-300 ease-out shadow-sm hover:shadow-xl hover:border-blue-500 dark:hover:border-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-blue-600/12 via-blue-600/0 to-transparent origin-bottom scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" />
-      {/* 1. VISUAL HEADER - Editorial Style */}
-      <div className="relative h-56 overflow-hidden bg-slate-100 dark:bg-[#111827]">
+      {/* Radial blue fill animation from cursor position */}
+      <div 
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
+            rgba(37, 99, 235, 1) 0%, 
+            rgb(9, 83, 240) 15%, 
+            rgb(37, 117, 247) 30%, 
+            rgb(60, 145, 248) 50%,
+            rgba(110, 177, 253, 0.95) 70%,
+            transparent 85%)`,
+          opacity: isHovered ? 1 : 0,
+          transform: isHovered ? 'scale(3)' : 'scale(0.3)',
+          transition: 'transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease-out',
+        }}
+      />
+      
+      {/* Subtle overlay for better text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out pointer-events-none z-[1]" />
+      {/* Image Section */}
+      <div className="relative h-48 overflow-hidden bg-slate-100 dark:bg-slate-800 z-10">
         <img
           src={image}
           alt={title}
           width={800}
           height={600}
           loading="lazy"
-          className="w-full h-full object-cover transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110 grayscale group-hover:grayscale-0"
+          className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors duration-500" />
         
         {/* Standings Badge */}
         {type === "Competition" && standings && (
           <div className="absolute top-3 right-3 z-20">
             {standings === "Gold" && (
-              <div className="px-3 py-1.5 bg-gradient-to-r from-yellow-400 to-yellow-500 text-slate-900 text-xs font-black rounded-full shadow-lg">
+              <div className="px-3 py-1.5 bg-yellow-400 text-slate-900 text-xs font-bold rounded-lg shadow-lg backdrop-blur-sm">
                 🥇 {standings}
               </div>
             )}
             {standings === "Silver" && (
-              <div className="px-3 py-1.5 bg-gradient-to-r from-gray-300 to-gray-400 text-slate-900 text-xs font-black rounded-full shadow-lg">
+              <div className="px-3 py-1.5 bg-gray-300 text-slate-900 text-xs font-bold rounded-lg shadow-lg backdrop-blur-sm">
                 🥈 {standings}
               </div>
             )}
             {standings === "Bronze" && (
-              <div className="px-3 py-1.5 bg-gradient-to-r from-orange-400 to-orange-500 text-slate-900 text-xs font-black rounded-full shadow-lg">
+              <div className="px-3 py-1.5 bg-orange-400 text-slate-900 text-xs font-bold rounded-lg shadow-lg backdrop-blur-sm">
                 🥉 {standings}
               </div>
             )}
             {standings === "Platinum" && (
-              <div className="px-3 py-1.5 bg-gradient-to-r from-cyan-300 to-blue-400 text-slate-900 text-xs font-black rounded-full shadow-lg">
+              <div className="px-3 py-1.5 bg-cyan-400 text-slate-900 text-xs font-bold rounded-lg shadow-lg backdrop-blur-sm">
                 💎 {standings}
               </div>
             )}
@@ -108,74 +145,56 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
       </div>
 
-      {/* 2. CORE INFORMATION */}
-      <div className="relative z-10 p-4 flex flex-col flex-grow bg-white/85 dark:bg-[#0a0a0a]/85 backdrop-blur-md border-t border-white/40 dark:border-white/10">
-        {/* Metadata Row */}
-        <div className="flex justify-between items-center mb-2">
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-300 tracking-widest">
-              {role || "Contributor"} 
-            </span>
-            <span className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
-              {duration || "2024"}
-            </span>
-          </div>
-          
+      {/* Content Section */}
+      <div className="relative z-10 p-6 flex flex-col flex-grow">
+        {/* Metadata */}
+        <div className="flex items-center gap-3 mb-3">
+          <span className="text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:text-white transition-colors duration-300">
+            {role || "Contributor"}
+          </span>
+          <span className="text-slate-300 dark:text-slate-600">•</span>
+          <span className="text-xs text-slate-500 dark:text-slate-500 group-hover:text-blue-100 transition-colors duration-300">
+            {duration || "2024"}
+          </span>
         </div>
 
-        {/* Title & Abstract */}
-        <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-2 leading-tight transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-blue-600">
+        {/* Title */}
+        <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-3 leading-tight group-hover:text-white transition-colors duration-300">
           {title}
         </h3>
 
-        <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-3 line-clamp-2 font-medium transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-slate-600 dark:group-hover:text-slate-300">
+        {/* Description */}
+        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2 group-hover:text-white/90 transition-colors duration-300">
           {description}
         </p>
 
-        {/* Key Impact Metrics
-        {keyImpactMetrics && keyImpactMetrics.length > 0 && (
-          <div className="mb-3 p-3 bg-gradient-to-r from-blue-50 to-blue-50/50 dark:from-blue-950/30 dark:to-blue-950/10 rounded-lg border border-blue-100 dark:border-blue-900/30">
-            <div className="flex items-center gap-1.5 mb-2">
-              <TrendingUp size={12} className="text-blue-600 dark:text-blue-400" />
-              <span className="text-[9px] font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">Impact Metrics</span>
-            </div>
-            <div className="flex flex-wrap gap-1.5">
-              {keyImpactMetrics.slice(0, 2).map((metric, i) => (
-                <div key={i} className="text-[10px] font-mono font-semibold text-blue-700 dark:text-blue-300 bg-white dark:bg-blue-950/50 px-2 py-1 rounded border border-blue-200 dark:border-blue-800/50">
-                  {metric}
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
-
-        {/* Technology DNA */}
-        <div className="flex flex-wrap gap-2 mb-3">
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mb-4">
           {tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="px-2 py-0.5 bg-white/80 dark:bg-[#161616]/80 border border-slate-100/80 dark:border-white/10 rounded text-[8px] font-mono font-bold text-slate-400 dark:text-slate-500 tracking-widest transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:text-blue-600 group-hover:border-blue-200"
+              className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:bg-white/20 group-hover:text-white group-hover:border-white/30 border border-transparent transition-all duration-300"
             >
-              #{tag}
+              {tag}
             </span>
           ))}
         </div>
 
-        {/* --- ACTION ZONE SEPARATOR --- */}
-        <div className="w-full h-px bg-slate-100/80 dark:bg-white/10 mb-3 mt-auto" />
+        {/* Spacer */}
+        <div className="flex-grow" />
 
-        {/* 3. BUTTON MATRIX */}
-        <div className="flex items-center justify-between gap-4">
-          {/* Primary Conversion Button */}
-          <button className="flex items-center gap-2 px-5 py-3 bg-slate-900 text-white rounded-md font-bold text-xs uppercase tracking-[0.2em] transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-blue-600 shadow-sm shadow-slate-200 dark:shadow-blue-900/40 hover:shadow-blue-900/25 group/btn">
-            <span>View Project</span>
+        {/* Actions */}
+        <div className="flex items-center justify-between gap-4 pt-4 border-t border-slate-200 dark:border-slate-800 group-hover:border-white/20 transition-colors duration-300">
+          {/* View Project Button */}
+          <button className="flex items-center gap-2 px-4 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-lg font-semibold text-sm transition-all duration-300 group-hover:bg-white group-hover:text-blue-600 group-hover:scale-105 group/btn">
+            <span>View Details</span>
             <ArrowRight
               size={16}
-              className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/btn:translate-x-1"
+              className="transition-transform duration-300 group-hover/btn:translate-x-1"
             />
           </button>
 
-          {/* Secondary Inline Links */}
+          {/* Quick Links */}
           <div className="flex items-center gap-3">
             {githubLink && (
               <a
@@ -183,10 +202,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 onClick={handleLinkClick}
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-blue-600 transition-[color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 group-hover:text-white transition-colors duration-300"
                 title="Source Repository"
               >
-                <Github size={18} />
+                <Github size={20} />
               </a>
             )}
             {articleLink && (
@@ -195,10 +214,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 onClick={handleLinkClick}
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-blue-600 transition-[color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 group-hover:text-white transition-colors duration-300"
                 title="Full Documentation"
               >
-                <FileText size={18} />
+                <FileText size={20} />
               </a>
             )}
             {liveDemoLink && (
@@ -207,10 +226,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 onClick={handleLinkClick}
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-blue-600 transition-[color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 group-hover:text-white transition-colors duration-300"
                 title="Live System"
               >
-                <ExternalLink size={18} />
+                <ExternalLink size={20} />
               </a>
             )}
           </div>

@@ -68,14 +68,16 @@ const StickyCTA: React.FC = () => {
                   <FileText size={16} />
                   Resume
                 </a>
-                <Link
-                  to="/contact"
+                <a
+                  href="https://calendly.com/kumararpit17773/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-slate-900 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-1.5 hover:bg-slate-800 transition-colors shadow-lg"
-                  aria-label="Contact"
+                  aria-label="Schedule Meeting"
                 >
                   <Mail size={16} />
-                  Contact
-                </Link>
+                  Schedule
+                </a>
                 <button
                   onClick={handleDismiss}
                   className="p-2 hover:bg-blue-500 rounded-lg transition-colors"

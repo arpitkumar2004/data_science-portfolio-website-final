@@ -743,9 +743,8 @@ For Live Demo Visit : https://arpitkumar.dev
       "This research project conducts a rigorous systems-level engineering analysis of the direct electrochemical reduction of Carbon Dioxide (CO₂) to Methanol (CH₃OH). Moving beyond traditional catalyst discovery, the study isolates transport phenomena—specifically mass, charge, and heat transfer—as the primary bottleneck preventing this technology from advancing beyond its current Laboratory Readiness Level (TRL 3). \n\nKey findings reveal that the reaction proceeds via a mobile *CO intermediate, transforming the system into a complex 3D reaction-diffusion problem where fluid dynamics dictate selectivity. The study quantifies a specific 'rate gap'—the inability to transport reactants and heat fast enough to support commercial current densities. \n\nTo solve this, the project proposes a novel Zero-Gap Membrane Electrode Assembly (MEA) architecture with a liquid anolyte loop. This design minimizes ohmic resistance (boosting EE) while actively managing the thermal loads and carbonate crossover that currently cause system failure at high currents.",
     image: "/images/co2-methanol-reactor-schematic.png",
     tags: [
-      "Chemical Engineering",
+      "Chem Engg.",
       "Electrochemistry",
-      "Transport Phenomena",
       "Sustainable Energy",
       "Carbon Capture & Utilization (CCUS)",
       "Reaction Engineering",
@@ -834,6 +833,7 @@ For Live Demo Visit : https://arpitkumar.dev
       "Conducting heat and mass transfer simulations to design the optimal liquid anolyte cooling strategy.",
       "Performing parametric optimization of GDE geometry (tortuosity, porosity) to balance reactant supply and water removal.",
     ],
+    articleLink: "https://arpitkumar.dev/projects/10"
   },
   {
     id: 12,
