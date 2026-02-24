@@ -24,9 +24,9 @@ const InfoSection: React.FC<InfoSectionProps> = ({ title, icon, children }) => (
       <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-white/10 shadow-sm">
         {icon}
       </span>
-      <h3 className="text-2xl md:text-[1.7rem] font-black text-slate-900 dark:text-slate-100 ml-3 tracking-tight">{title}</h3>
+      <h3 className="text-lg md:text-xl font-black text-slate-900 dark:text-slate-100 ml-3 tracking-tight">{title}</h3>
     </div>
-    <div className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 text-[1.02rem] md:text-[1.08rem]">
+    <div className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 text-sm md:text-base">
       {children}
     </div>
   </div>
@@ -339,10 +339,10 @@ const ProjectDetail: React.FC = () => {
                 </div>
               </div>
 
-              <h1 className="text-4xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-3 leading-tight">
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-3 leading-tight">
                 {project.title}
               </h1>
-              <p className="text-slate-600 dark:text-slate-300 text-md md:text-md max-w-5xl leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base max-w-5xl leading-relaxed">
                 {emphasizeNumbers(tldr)}
               </p>
 
@@ -581,12 +581,12 @@ const ProjectDetail: React.FC = () => {
             {/* --- Main Details Card --- */}
             <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-lg border border-slate-100 dark:border-white/10 p-6 sm:p-8 animate-fade-in">
               <InfoSection title={sectionConfig.labels.abstract} icon={<FileText size={22} className="text-blue-500" />}>
-                <p className="text-[1.05rem] md:text-[1.12rem] leading-relaxed text-slate-600 dark:text-slate-300">{project.description}</p>
+                <p className="text-sm md:text-base leading-relaxed text-slate-600 dark:text-slate-300">{project.description}</p>
               </InfoSection>
 
               {project.longDescription?.trim() && (
                 <InfoSection title={sectionConfig.labels.introduction} icon={<BookOpen size={22} className="text-blue-500" />}>
-                  <p className="text-[1.05rem] md:text-[1.12rem] leading-relaxed text-slate-600 dark:text-slate-300">{project.longDescription}</p>
+                  <p className="text-sm md:text-base leading-relaxed text-slate-600 dark:text-slate-300">{project.longDescription}</p>
                 </InfoSection>
               )}
 
@@ -596,9 +596,9 @@ const ProjectDetail: React.FC = () => {
                     <div className="rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 shadow-sm">
                       <div className="flex items-center gap-2 mb-3">
                         <AlertTriangle size={20} className="text-blue-500" />
-                        <h3 className="text-xl font-black text-slate-900 dark:text-slate-100">The Challenge</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">The Challenge</h3>
                       </div>
-                      <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
                         {problemStatement}
                       </p>
                     </div>
@@ -607,9 +607,9 @@ const ProjectDetail: React.FC = () => {
                     <div className="rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 shadow-sm">
                       <div className="flex items-center gap-2 mb-3">
                         <Cpu size={20} className="text-blue-500" />
-                        <h3 className="text-xl font-black text-slate-900 dark:text-slate-100">The Engineering Solution</h3>
+                        <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">The Engineering Solution</h3>
                       </div>
-                      <ul className="list-disc list-inside space-y-2 text-slate-600 dark:text-slate-300">
+                      <ul className="list-disc list-inside space-y-2 text-sm md:text-base text-slate-600 dark:text-slate-300">
                         {solutionSteps.map((step, i) => (
                           <li key={i} className="leading-relaxed">{step}</li>
                         ))}
@@ -621,7 +621,7 @@ const ProjectDetail: React.FC = () => {
 
               {objectives.length > 0 && (
                 <InfoSection title={sectionConfig.labels.objectives} icon={<Target size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {objectives.map((obj, i) => (
                       <li key={i} className="leading-relaxed">{obj}</li>
                     ))}
@@ -631,7 +631,7 @@ const ProjectDetail: React.FC = () => {
 
               {methods.length > 0 && (
                 <InfoSection title={sectionConfig.labels.methodology} icon={<Wrench size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {methods.map((method, i) => (
                       <li key={i} className="leading-relaxed">{method}</li>
                     ))}
@@ -641,7 +641,7 @@ const ProjectDetail: React.FC = () => {
 
               {results.length > 0 && (
                 <InfoSection title={sectionConfig.labels.results} icon={<BarChart3 size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {results.map((res, i) => (
                       <li key={i} className="leading-relaxed">{emphasizeNumbers(res)}</li>
                     ))}
@@ -651,7 +651,7 @@ const ProjectDetail: React.FC = () => {
 
               {challenges.length > 0 && (
                 <InfoSection title="Challenges" icon={<AlertTriangle size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {challenges.map((item, i) => (
                       <li key={i} className="leading-relaxed">{item}</li>
                     ))}
@@ -661,7 +661,7 @@ const ProjectDetail: React.FC = () => {
 
               {solutions.length > 0 && (
                 <InfoSection title="Solutions" icon={<Target size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {solutions.map((item, i) => (
                       <li key={i} className="leading-relaxed">{item}</li>
                     ))}
@@ -671,7 +671,7 @@ const ProjectDetail: React.FC = () => {
 
               {project.acknowledgements && project.acknowledgements.length > 0 && (
                 <InfoSection title="Acknowledgements" icon={<BookOpen size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-[1.02rem] md:text-[1.08rem] dark:text-slate-200">
+                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
                     {project.acknowledgements.map((item, i) => (
                       <li key={i} className="leading-relaxed">{item}</li>
                     ))}
@@ -680,7 +680,7 @@ const ProjectDetail: React.FC = () => {
               )}
               {project.codeSnippet && project.codeSnippet.trim().length > 0 && (
                 <InfoSection title="Code Snapshot" icon={<Cpu size={22} className="text-blue-500" />}>
-                  <p className="text-[0.95rem] text-gray-500 dark:text-slate-400 mb-4">
+                  <p className="text-xs md:text-sm text-gray-500 dark:text-slate-400 mb-4">
                     Focused snippet from the most critical logic path.
                   </p>
                   {project.codeSnippet.trim().startsWith('http') ? (
@@ -713,11 +713,11 @@ const ProjectDetail: React.FC = () => {
               {(project.LiteratureReview || project.discussion?.length || project.references?.length || project.conclusion?.length || project.limitations?.length || project.futureWork?.length) && (
                 <div className="mb-10 rounded-2xl border border-slate-100 dark:border-white/10 bg-slate-50/60 dark:bg-[#111827] p-6 md:p-7 shadow-sm">
                   <details className="group">
-                    <summary className="flex cursor-pointer items-center justify-between text-lg font-black text-slate-900 dark:text-slate-100">
+                    <summary className="flex cursor-pointer items-center justify-between text-base md:text-lg font-black text-slate-900 dark:text-slate-100">
                       Advanced Details
                       <span className="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
                     </summary>
-                    <div className="mt-6 space-y-6 text-slate-600 dark:text-slate-300">
+                    <div className="mt-6 space-y-6 text-sm md:text-base text-slate-600 dark:text-slate-300">
                       {project.LiteratureReview && (
                         <div>
                           <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Literature Review</h4>
@@ -810,7 +810,7 @@ const ProjectDetail: React.FC = () => {
 
         {/* --- NEXT PROJECTS SECTION --- */}
         <div className="mt-20 pt-12 border-t border-slate-100 dark:border-white/10">
-          <h2 className="text-2xl md:text-3xl font-black text-center mb-8 text-slate-900 dark:text-slate-100 tracking-tight">
+          <h2 className="text-xl md:text-2xl font-black text-center mb-8 text-slate-900 dark:text-slate-100 tracking-tight">
             {nextProjects.length > 0 ? 'Next Projects' : 'Explore More ...'}
           </h2>
 
@@ -862,10 +862,10 @@ const ProjectDetail: React.FC = () => {
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-7">
                 <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-300 mb-5">Strategic Collaboration</p>
-                <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[0.95]">
+                <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-6 leading-[0.95]">
                   Build the Next <span className="text-blue-400">Production-Grade</span> System.
                 </h2>
-                <p className="text-slate-200/80 text-lg md:text-xl font-medium max-w-2xl leading-relaxed mb-8">
+                <p className="text-slate-200/80 text-base md:text-lg font-medium max-w-2xl leading-relaxed mb-8">
                   Curious about architecture choices, evaluation strategy, or delivery scope? I partner on research, production ML, and system design that ships measurable outcomes.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -876,8 +876,8 @@ const ProjectDetail: React.FC = () => {
                     { v: "Rigor", l: "Research-grade" },
                   ].map((item) => (
                     <div key={item.l} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                      <div className="text-lg font-black text-white">{item.v}</div>
-                      <div className="text-[11px] font-mono uppercase tracking-widest text-slate-300">{item.l}</div>
+                      <div className="text-base font-black text-white">{item.v}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-300">{item.l}</div>
                     </div>
                   ))}
                 </div>
@@ -889,7 +889,7 @@ const ProjectDetail: React.FC = () => {
                     <div className="p-4 bg-white/10 rounded-2xl"><Mail size={24} /></div>
                     <div className="text-left">
                       <p className="text-xs font-mono font-bold uppercase tracking-widest text-blue-100 mb-1">Direct Channel</p>
-                      <p className="text-xl font-black">Initiate Discussion</p>
+                      <p className="text-lg font-black">Initiate Discussion</p>
                     </div>
                   </div>
                   <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -900,7 +900,7 @@ const ProjectDetail: React.FC = () => {
                     <div className="p-4 bg-white/10 rounded-2xl text-blue-200"><Download size={24} /></div>
                     <div className="text-left">
                       <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300 mb-1">Extended Resource Pack</p>
-                      <p className="text-xl font-black">Get CV + Deep-Dives</p>
+                      <p className="text-lg font-black">Get CV + Deep-Dives</p>
                     </div>
                   </div>
                   <FileText size={24} className="text-slate-300 group-hover:text-blue-200 transition-colors" />

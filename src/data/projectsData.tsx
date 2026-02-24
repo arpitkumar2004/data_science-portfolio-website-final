@@ -833,7 +833,7 @@ For Live Demo Visit : https://arpitkumar.dev
       "Conducting heat and mass transfer simulations to design the optimal liquid anolyte cooling strategy.",
       "Performing parametric optimization of GDE geometry (tortuosity, porosity) to balance reactant supply and water removal.",
     ],
-    articleLink: "https://arpitkumar.dev/projects/10"
+    articleLink: "https://arpitkumar.dev/BTP%201-%20CO%E2%82%82%20to%20CH%E2%82%83OH%20Conversion%20Report.pdf"
   },
   {
     id: 12,
