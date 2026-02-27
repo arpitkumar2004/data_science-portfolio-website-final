@@ -228,7 +228,7 @@ const Contact: React.FC = () => {
                   value="kumararpit17773@gmail.com"
                 />
                 <ContactLink
-                  href="https://www.google.com/maps"
+                  href="https://www.google.com/maps/place/India"
                   icon={<MapPin size={18} />}
                   label="Location"
                   value="India (Remote)"
@@ -307,8 +307,8 @@ const Contact: React.FC = () => {
                     registration={register("email", {
                       required: "Email is required",
                       pattern: {
-                        value: /^\S+@\S+$/i,
-                        message: "Invalid email address",
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
+                        message: "Please enter a valid email address",
                       },
                     })}
                   />
@@ -316,14 +316,15 @@ const Contact: React.FC = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label htmlFor="contact-company" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       Company (Optional)
                     </label>
                     <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">
                         <Building2Icon size={18} />
                       </div>
                       <input
+                        id="contact-company"
                         {...register("company")}
                         className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm placeholder:text-slate-400"
                         placeholder="Your company"
@@ -332,7 +333,7 @@ const Contact: React.FC = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label htmlFor="contact-subject" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       Subject
                     </label>
                     <div className="relative">
@@ -341,6 +342,7 @@ const Contact: React.FC = () => {
                         size={18}
                       />
                       <select
+                        id="contact-subject"
                         {...register("subject")}
                         className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
                       >
@@ -354,7 +356,7 @@ const Contact: React.FC = () => {
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label htmlFor="contact-message" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     Message
                   </label>
                   <div className="relative">
@@ -363,6 +365,7 @@ const Contact: React.FC = () => {
                       size={18}
                     />
                     <textarea
+                      id="contact-message"
                       rows={5}
                       {...register("message", {
                         required: "Message is required",
@@ -424,7 +427,7 @@ const ContactLink = ({ href, icon, label, value }: ContactLinkProps) => (
   <a
     href={href}
     target="_blank"
-    rel="noreferrer"
+    rel="noopener noreferrer"
     className="group flex items-center gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all"
   >
     <div className="text-slate-400 group-hover:text-blue-600 transition-colors">
@@ -448,7 +451,7 @@ const EcosystemLink = ({ href, icon, label }: EcosystemLinkProps) => {
     <a 
       href={href} 
       target="_blank" 
-      rel="noreferrer" 
+      rel="noopener noreferrer" 
       className="inline-flex items-center gap-2 px-3 py-2 text-sm text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all"
     >
       {icon} <span>{label}</span>
@@ -464,27 +467,31 @@ interface FormInputProps {
   registration: UseFormRegisterReturn;
 }
 
-const FormInput = ({ label, placeholder, error, icon, registration }: FormInputProps) => (
-  <div className="space-y-2 flex-1">
-    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-      {label}
-    </label>
-    <div className="relative">
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-        {icon}
+const FormInput = ({ label, placeholder, error, icon, registration }: FormInputProps) => {
+  const inputId = `contact-${registration.name}`;
+  return (
+    <div className="space-y-2 flex-1">
+      <label htmlFor={inputId} className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        {label}
+      </label>
+      <div className="relative">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">
+          {icon}
+        </div>
+        <input
+          id={inputId}
+          {...registration}
+          className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm placeholder:text-slate-400"
+          placeholder={placeholder}
+        />
       </div>
-      <input
-        {...registration}
-        className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm placeholder:text-slate-400"
-        placeholder={placeholder}
-      />
+      {error && (
+        <p className="text-red-500 text-xs mt-1" role="alert">
+          {error}
+        </p>
+      )}
     </div>
-    {error && (
-      <p className="text-red-500 text-xs mt-1">
-        {error}
-      </p>
-    )}
-  </div>
-);
+  );
+};
 
 export default Contact;

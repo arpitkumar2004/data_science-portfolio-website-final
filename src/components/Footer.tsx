@@ -101,7 +101,7 @@ const Footer: React.FC = () => {
             <div className="p-6 bg-blue-600/5 border border-blue-600/10 dark:border-blue-600/20 rounded-[2rem] h-full flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <Zap size={40} className="text-blue-500 animate-pulse" />
+                  <Zap size={40} className="text-blue-500" />
                   <h4 className="text-sm font-mono font-bold uppercase tracking-[0.18em] text-blue-500">Opportunities & Collaborations</h4>
                 </div>
                 <ul className="space-y-4 mb-8">
@@ -152,14 +152,14 @@ const Footer: React.FC = () => {
                 <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Research Nodes</h4>
               </div>
               <div className="flex flex-col gap-3">
-                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                <span className="text-slate-400 dark:text-slate-500 flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent cursor-default" title="Coming soon">
                   <div className="flex items-center gap-2"><GoogleScholar /> Google Scholar</div>
-                  <ArrowUpRight size={12}/>
-                </a>
-                <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
+                  <span className="text-[9px] text-slate-400">Coming soon</span>
+                </span>
+                <span className="text-slate-400 dark:text-slate-500 flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent cursor-default" title="Coming soon">
                   <div className="flex items-center gap-2"><SiArxiv size={14}/> arXiv Portfolio</div>
-                  <ArrowUpRight size={12}/>
-                </a>
+                  <span className="text-[9px] text-slate-400">Coming soon</span>
+                </span>
                 <a href="https://www.kaggle.com/kumararpitiitkgp" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
                   <div className="flex items-center gap-2"><SiKaggle size={14}/> Kaggle Master</div>
                   <ArrowUpRight size={12}/>
@@ -199,15 +199,15 @@ const Footer: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-6">
             <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
               <ShieldCheck size={14} className="text-blue-500" />
-              <span className="text-[9px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production_Systems: High-Traffic Applications | Designed for Reliability</span>
+              <span className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production ML Systems | Designed for Reliability</span>
             </div>
             <div className="flex items-center gap-2">
               <Cpu size={14} className="text-slate-500 dark:text-slate-300" />
-              <span className="text-[9px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React_v18 | Node.js | Docker | PostgreSQL</span>
+              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React | Node.js | Docker | PostgreSQL</span>
             </div>
             <div className="flex items-center gap-2">
-              <Zap size={14} className="text-green-500 animate-pulse" />
-              <span className="text-[9px] font-mono font-bold text-green-500 uppercase tracking-widest">Status: READY_FOR_R&D | OPEN_TO_INTERNSHIPS_2026</span>
+              <Zap size={14} className="text-green-500" />
+              <span className="text-[10px] font-mono font-bold text-green-500 uppercase tracking-widest">Open to Internships 2026</span>
             </div>
           </div>
 
@@ -238,8 +238,8 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* Visual Terminal Progress Glow */}
-      <div className="absolute bottom-0 left-0 h-1 bg-blue-600 w-full shadow-[0_0_20px_rgba(37,99,235,1)] opacity-70" />
+      {/* Subtle bottom accent line */}
+      <div className="absolute bottom-0 left-0 h-[2px] bg-blue-600 w-full opacity-40" />
     </footer>
   );
 };

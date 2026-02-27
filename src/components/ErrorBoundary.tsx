@@ -43,13 +43,13 @@ export default class ErrorBoundary extends React.Component<React.PropsWithChildr
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
-          <div className="max-w-xl w-full bg-white rounded-2xl shadow-lg border p-8 text-center">
-            <div className="mx-auto w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4 text-red-700">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#020617] p-6">
+          <div className="max-w-xl w-full bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 p-8 text-center">
+            <div className="mx-auto w-12 h-12 rounded-full bg-red-50 dark:bg-red-900/30 flex items-center justify-center mb-4 text-red-700 dark:text-red-400">
               <X size={20} />
             </div>
-            <h2 className="text-xl font-bold mb-2">Something went wrong</h2>
-            <p className="text-sm text-slate-500 mb-6">An unexpected error occurred. You can reload the page or return home.</p>
+            <h2 className="text-xl font-bold mb-2 text-slate-900 dark:text-white">Something went wrong</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">An unexpected error occurred. You can reload the page or return home.</p>
             {/* Only show error details in development */}
             {import.meta.env.DEV && this.state.error && (
               <pre className="text-xs text-left mt-4 bg-slate-50 p-3 rounded text-red-700 whitespace-pre-wrap overflow-auto max-h-48">

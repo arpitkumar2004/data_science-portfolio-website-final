@@ -211,17 +211,18 @@ const Home: React.FC = () => {
                     alt="Arpit Kumar - ML Engineer & Applied AI Researcher at IIT Kharagpur" 
                     width={420}
                     height={525}
-                    loading="lazy" 
-                    className="w-full h-full object-cover grayscale-[80%] group-hover:grayscale-0 transition-all duration-500 group-hover:scale-[1.02]" 
+                    loading="eager" 
+                    fetchPriority="high"
+                    className="w-full h-full object-cover grayscale-[80%] group-hover:grayscale-0 group-focus-within:grayscale-0 transition-all duration-500 group-hover:scale-[1.02]" 
                   />
                   
                   {/* Subtle gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
-                  {/* Name overlay - slides in from bottom on hover */}
-                  <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  {/* Name overlay - visible on mobile by default, slides in on hover for desktop */}
+                  <div className="absolute inset-x-0 bottom-0 translate-y-0 lg:translate-y-full lg:group-hover:translate-y-0 transition-transform duration-500 ease-out">
                     <div className="bg-gradient-to-t from-slate-900/95 via-slate-900/90 to-transparent dark:from-black/95 dark:via-black/90 backdrop-blur-sm pt-12 pb-6 px-6">
-                      <div className="text-center space-y-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                      <div className="text-center space-y-1.5 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 delay-100">
                         <h3 className="text-2xl font-black text-white tracking-tight">
                           Arpit Kumar
                         </h3>
@@ -247,7 +248,7 @@ const Home: React.FC = () => {
                   { icon: Github, href: "https://github.com/arpitkumar2004", label: 'GitHub', platform: 'github', gradient: 'from-slate-900 to-slate-700' },
                   { icon: Linkedin, href: "https://linkedin.com/in/arpit-kumar-shivam/", label: 'LinkedIn', platform: 'linkedin', gradient: 'from-blue-600 to-blue-500' },
                   { icon: SiKaggle, href: "https://kaggle.com/kumararpitiitkgp", label: 'Kaggle', platform: 'kaggle', gradient: 'from-cyan-500 to-blue-500' },
-                  { icon: GoogleScholar, href: "#", label: 'Google Scholar', platform: 'scholar', gradient: 'from-blue-500 to-indigo-500' }
+                  { icon: GoogleScholar, href: "https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID", label: 'Google Scholar', platform: 'scholar', gradient: 'from-blue-500 to-indigo-500' }
                 ].map((item, i) => (
                   <motion.a
                     key={i}

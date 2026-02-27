@@ -36,7 +36,7 @@ const ThemeToggle: React.FC = () => {
       type="button"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="fixed bottom-6 right-6 z-[120] flex items-center gap-3 rounded-full border border-white/10 bg-white/90 px-4 py-3 text-slate-900 shadow-[0_18px_40px_rgba(59,130,246,0.18)] backdrop-blur transition-all hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(59,130,246,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-[#161616]/90 dark:text-[#f8fafc] dark:shadow-[0_18px_40px_rgba(15,23,42,0.6)]"
+      className="fixed bottom-6 right-6 z-50 flex items-center gap-3 rounded-full border border-white/10 bg-white/90 px-4 py-3 text-slate-900 shadow-[0_18px_40px_rgba(59,130,246,0.18)] backdrop-blur transition-all hover:scale-[1.02] hover:shadow-[0_20px_50px_rgba(59,130,246,0.25)] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 dark:bg-[#161616]/90 dark:text-[#f8fafc] dark:shadow-[0_18px_40px_rgba(15,23,42,0.6)]"
     >
       <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-blue-600 dark:bg-white/10 dark:text-blue-400">
         {isDark ? <Moon size={18} /> : <Sun size={18} />}

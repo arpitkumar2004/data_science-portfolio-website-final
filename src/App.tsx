@@ -99,7 +99,7 @@ const MainApp = () => {
                 <Route path="/request-cv" element={<RequestCV />} />
                 <Route path="/aboutme" element={<AboutMe />} />
                 <Route path="/open-to-work" element={
-                  <ProtectedRoute allowedRoles={['Recruiter', 'Admin']} requireAdminToken={true}>
+                  <ProtectedRoute allowedRoles={['Recruiter', 'Admin']} requireAdminToken={false}>
                     <OpenToWorkPage />
                   </ProtectedRoute>
                 } />

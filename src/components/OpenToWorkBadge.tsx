@@ -2,26 +2,29 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Sparkles, Briefcase } from "lucide-react";
 import { trackEvent } from "../utils/analytics";
+import { getRecruiterProfile } from "../utils/recruiterProfile";
 
 /**
  * Simple badge component that links to the dedicated Open to Work page
  * Displays a pulsing badge in the top-right corner
- * Only visible to Recruiter and Admin roles
+ * Only visible to verified Recruiters and Admin roles
  */
 const OpenToWorkBadge: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  // Check if user has authorized role (Recruiter or Admin)
+  // Check if user has authorized role (verified Recruiter or Admin)
   useEffect(() => {
     const checkAuthorization = () => {
       const userRole = localStorage.getItem("userRole");
-      const isRecruiterOrAdmin = userRole === "Recruiter" || userRole === "Admin";
-      setIsAuthorized(isRecruiterOrAdmin);
+      const isAdmin = userRole === "Admin";
+      const isVerifiedRecruiter = userRole === "Recruiter" && !!getRecruiterProfile();
+      const authorized = isAdmin || isVerifiedRecruiter;
+      setIsAuthorized(authorized);
       
       // Also check visibility preference
       const savedState = localStorage.getItem("openToWorkBadge");
-      setVisible(isRecruiterOrAdmin && savedState !== "hidden");
+      setVisible(authorized && savedState !== "hidden");
     };
 
     checkAuthorization();
@@ -52,17 +55,13 @@ const OpenToWorkBadge: React.FC = () => {
     >
       {/* Main Badge */}
       <div className="relative">
-        {/* Pulse Animation Rings */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 animate-ping opacity-75" />
-        <div
-          className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 animate-pulse opacity-50"
-          style={{ animationDelay: "0.5s" }}
-        />
+        {/* Subtle pulse ring — single animation instead of 3 */}
+        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-500 animate-pulse opacity-30" />
 
         {/* Badge Content */}
-        <div className="relative flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-2xl transition-all group-hover:scale-105">
-          <Sparkles size={16} className="animate-pulse" />
-          <span className="text-sm whitespace-nowrap">Currently Open to Work</span>
+        <div className="relative flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all group-hover:scale-105">
+          <Sparkles size={16} />
+          <span className="text-sm whitespace-nowrap">Open to Work</span>
           <Briefcase size={16} />
         </div>
       </div>

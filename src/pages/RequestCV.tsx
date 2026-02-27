@@ -307,8 +307,8 @@ const RequestCV: React.FC = () => {
                     registration={register("email", {
                       required: "Email is required",
                       pattern: {
-                        value: /^\S+@\S+$/i,
-                        message: "Invalid email address",
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
+                        message: "Please enter a valid email address",
                       },
                     })}
                   />
@@ -317,7 +317,7 @@ const RequestCV: React.FC = () => {
                 {/* Company & Interest */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label htmlFor="cv-company" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       Company/Organization
                     </label>
                     <div className="relative">
@@ -326,6 +326,7 @@ const RequestCV: React.FC = () => {
                         size={16}
                       />
                       <input
+                        id="cv-company"
                         {...register("company", { required: "Company is required" })}
                         className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
                         placeholder="Your company or university"
@@ -337,7 +338,7 @@ const RequestCV: React.FC = () => {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <label htmlFor="cv-subject" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       I'm interested in
                     </label>
                     <div className="relative">
@@ -346,6 +347,7 @@ const RequestCV: React.FC = () => {
                         size={16}
                       />
                       <select
+                        id="cv-subject"
                         {...register("subject")}
                         className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
                       >
@@ -361,10 +363,11 @@ const RequestCV: React.FC = () => {
 
                 {/* Message */}
                 <div className="space-y-1.5">
-                  <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                  <label htmlFor="cv-message" className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     Additional context <span className="text-slate-400 font-normal">(optional)</span>
                   </label>
                   <textarea
+                    id="cv-message"
                     rows={3}
                     {...register("message", { required: false })}
                     className="w-full p-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm resize-none"
@@ -397,7 +400,7 @@ const RequestCV: React.FC = () => {
                     )}
                   </button>
                   <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-2">
-                    Instant delivery • No spam
+                    Delivered to your inbox • No spam
                   </p>
                 </div>
               </form>
@@ -455,27 +458,31 @@ interface FormInputProps {
   registration: UseFormRegisterReturn;
 }
 
-const FormInput = ({ label, placeholder, error, icon, registration }: FormInputProps) => (
-  <div className="space-y-1.5">
-    <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-      {label}
-    </label>
-    <div className="relative">
-      <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-        {icon}
+const FormInput = ({ label, placeholder, error, icon, registration }: FormInputProps) => {
+  const inputId = `cv-${registration.name}`;
+  return (
+    <div className="space-y-1.5">
+      <label htmlFor={inputId} className="text-sm font-medium text-slate-700 dark:text-slate-300">
+        {label}
+      </label>
+      <div className="relative">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" aria-hidden="true">
+          {icon}
+        </div>
+        <input
+          id={inputId}
+          {...registration}
+          className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
+          placeholder={placeholder}
+        />
       </div>
-      <input
-        {...registration}
-        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
-        placeholder={placeholder}
-      />
+      {error && (
+        <p className="text-red-500 text-xs" role="alert">
+          {error}
+        </p>
+      )}
     </div>
-    {error && (
-      <p className="text-red-500 text-xs">
-        {error}
-      </p>
-    )}
-  </div>
-);
+  );
+};
 
 export default RequestCV;

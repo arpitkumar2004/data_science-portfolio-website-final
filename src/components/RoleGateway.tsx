@@ -1,204 +1,355 @@
-import React, { useState, useEffect } from 'react';
-import { Binary, FileSearch, Globe, Lock, ArrowRight, Building2, CheckCircle2 } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Binary, FileSearch, Globe, Lock, ArrowRight, Building2, CheckCircle2, X, Sparkles, ShieldCheck, Download, Briefcase, BookOpen, Code2, Eye } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
+import { trackEvent } from '../utils/analytics';
+import RecruiterGate from './RecruiterGate';
+import { getRecruiterProfile, clearRecruiterProfile } from '../utils/recruiterProfile';
 
-// Resolve admin panel target once. Priority: env override > localhost default > same-origin /admin-panel/.
+// Resolve admin panel target once.
 const getAdminPanelUrl = (): string => {
   const fromEnv = import.meta.env.VITE_ADMIN_PANEL_URL as string | undefined;
   if (fromEnv && fromEnv.trim().length > 0) {
     return fromEnv.replace(/\/+$|$/, "/");
   }
-
   if (typeof window !== 'undefined') {
-    const { origin, hostname } = window.location;
+    const { hostname } = window.location;
     if (hostname === 'localhost' || hostname === '127.0.0.1') {
       return 'http://localhost:5174/';
     }
-    if (origin) {
-      return `https://admin.arpitkumar.dev/`;
-    }
   }
-
-  return 'https://admin.arpitkumar.dev/'; // Fallback URL
+  return 'https://admin.arpitkumar.dev/';
 };
 
-const redirectToAdminPanel = () => {
-  if (typeof window !== 'undefined') {
-    window.location.href = getAdminPanelUrl();
-  }
+const roles = [
+  {
+    id: 'Recruiter',
+    icon: <Building2 className="h-6 w-6" />,
+    title: 'Recruiter / Hiring',
+    desc: 'Everything you need to evaluate candidacy and make a hiring decision.',
+    color: 'amber' as const,
+    access: [
+      { icon: <Briefcase size={14} />, text: 'Open-to-work page with availability & preferences' },
+      { icon: <Download size={14} />, text: 'Downloadable CV & portfolio package' },
+      { icon: <Sparkles size={14} />, text: 'Impact metrics & career highlights' },
+      { icon: <Eye size={14} />, text: 'Compensation expectations & logistics' },
+    ],
+  },
+  {
+    id: 'Researcher',
+    icon: <FileSearch className="h-6 w-6" />,
+    title: 'Research Peer',
+    desc: 'Deep dive into research methodology and academic contributions.',
+    color: 'purple' as const,
+    access: [
+      { icon: <BookOpen size={14} />, text: 'Research papers & publications' },
+      { icon: <Code2 size={14} />, text: 'Technical methodology breakdowns' },
+      { icon: <Eye size={14} />, text: 'Experiment results & datasets' },
+      { icon: <Sparkles size={14} />, text: 'Novelty highlights & key findings' },
+    ],
+  },
+  {
+    id: 'Developer',
+    icon: <Binary className="h-6 w-6" />,
+    title: 'Developer',
+    desc: 'Explore system design, code architecture, and tech stack choices.',
+    color: 'cyan' as const,
+    access: [
+      { icon: <Code2 size={14} />, text: 'Architecture & system design docs' },
+      { icon: <Eye size={14} />, text: 'Live project demos & source code' },
+      { icon: <BookOpen size={14} />, text: 'Tech stack deep dives' },
+      { icon: <Sparkles size={14} />, text: 'Engineering impact & performance wins' },
+    ],
+  },
+  {
+    id: 'Guest',
+    icon: <Globe className="h-6 w-6" />,
+    title: 'General Visitor',
+    desc: 'Browse the portfolio with a high-level overview of everything.',
+    color: 'slate' as const,
+    access: [
+      { icon: <Eye size={14} />, text: 'Projects showcase & case studies' },
+      { icon: <BookOpen size={14} />, text: 'About page & contact info' },
+      { icon: <Sparkles size={14} />, text: 'Featured highlights & achievements' },
+      { icon: <Code2 size={14} />, text: 'Simple overview of skills & tools' },
+    ],
+  },
+];
+
+const colorMap = {
+  amber: { text: 'text-amber-400', iconBg: 'bg-amber-500/15' },
+  purple: { text: 'text-purple-400', iconBg: 'bg-purple-500/15' },
+  cyan: { text: 'text-cyan-400', iconBg: 'bg-cyan-500/15' },
+  slate: { text: 'text-slate-400', iconBg: 'bg-white/10' },
 };
 
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
+  const [showFullModal, setShowFullModal] = useState(false);
+  const [showRecruiterGate, setShowRecruiterGate] = useState(false);
+  const [recruiterGateSource, setRecruiterGateSource] = useState<'banner' | 'modal'>('banner');
   const [isReady, setIsReady] = useState(false);
+  const firstBtnRef = useRef<HTMLButtonElement>(null);
 
+  const { showToast } = useToast();
+
+  // Initialize from localStorage
   useEffect(() => {
     const savedRole = localStorage.getItem('userRole');
-    if (savedRole) setRole(savedRole);
-    setIsReady(true);
+    if (savedRole) {
+      // Returning visitor — use their saved role
+      setRole(savedRole);
+      setIsReady(true);
+    } else {
+      // First-time visitor — render the page but show the role picker after 2s
+      // Do NOT set Guest yet; only persist a role when the user makes a choice
+      setRole('Guest');       // in-memory only so children can render
+      setIsReady(true);
+      const timer = setTimeout(() => setShowFullModal(true), 2000);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
+  // Mark ready after role is set
+  useEffect(() => {
+    if (role) setIsReady(true);
+  }, [role]);
+
+  // Listen for re-open event (from footer "Set role" button)
   useEffect(() => {
     const openHandler = () => {
-      setRole(null);
-      sessionStorage.removeItem('roleNotifShown');
-      setTimeout(() => {
-        const btn = document.querySelector('[data-role-button]') as HTMLElement | null;
-        if (btn) btn.focus();
-      }, 50);
+      setShowFullModal(true);
+      setTimeout(() => firstBtnRef.current?.focus(), 50);
     };
     window.addEventListener('role:open', openHandler);
     return () => window.removeEventListener('role:open', openHandler);
   }, []);
 
-  const { showToast } = useToast();
-
+  // Show info toast on first session visit
   useEffect(() => {
-    if (role && !sessionStorage.getItem('roleNotifShown')) {
-      showToast(`Interface Optimized for ${role}`, 'info', 5000, 'top');
+    if (role && role !== 'Guest' && !sessionStorage.getItem('roleNotifShown')) {
+      showToast(`Viewing as ${role}`, 'info', 4000, 'top');
       sessionStorage.setItem('roleNotifShown', '1');
     }
   }, [role, showToast]);
 
-  const handleSelect = (selectedRole: string) => {
+  // Close the modal and commit Guest role to localStorage
+  const handleCloseModal = useCallback(() => {
+    setShowFullModal(false);
+    // If user has never explicitly chosen a role, persist Guest now
+    if (!localStorage.getItem('userRole')) {
+      localStorage.setItem('userRole', 'Guest');
+      window.dispatchEvent(new Event('role:updated'));
+      trackEvent('role_modal_dismissed', { defaulted_to: 'Guest' });
+    }
+  }, []);
+
+  // Escape key to close modal
+  useEffect(() => {
+    if (!showFullModal) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') handleCloseModal(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [showFullModal, handleCloseModal]);
+
+  const handleSelect = useCallback((selectedRole: string) => {
+    // If selecting Recruiter and not already verified, show the gate form
+    if (selectedRole === 'Recruiter' && !getRecruiterProfile()) {
+      setRecruiterGateSource(showFullModal ? 'modal' : 'banner');
+      setShowRecruiterGate(true);
+      return;
+    }
+
+    // If switching AWAY from Recruiter, clear the stored profile
+    if (selectedRole !== 'Recruiter') {
+      clearRecruiterProfile();
+    }
+
     localStorage.setItem('userRole', selectedRole);
     setRole(selectedRole);
+    setShowFullModal(false);
+    setShowRecruiterGate(false);
     sessionStorage.setItem('roleNotifShown', '1');
-    showToast(`Session Initialized: ${selectedRole}`, 'success', 5000, 'top');
+    showToast(`Viewing as ${selectedRole}`, 'success', 4000, 'top');
     window.dispatchEvent(new Event('role:updated'));
-  };
+    trackEvent('role_selected', { role: selectedRole, source: showFullModal ? 'modal' : 'banner' });
+  }, [showToast, showFullModal]);
 
+  /** Called after recruiter passes the gate form */
+  const handleRecruiterVerified = useCallback(() => {
+    localStorage.setItem('userRole', 'Recruiter');
+    setRole('Recruiter');
+    setShowFullModal(false);
+    setShowRecruiterGate(false);
+    sessionStorage.setItem('roleNotifShown', '1');
+    showToast('Verified! Viewing as Recruiter', 'success', 4000, 'top');
+    window.dispatchEvent(new Event('role:updated'));
+    trackEvent('role_selected', { role: 'Recruiter', source: recruiterGateSource, verified: true });
+  }, [showToast, recruiterGateSource]);
 
   if (!isReady) return null;
 
-  if (role) return <>{children}</>;
-
-  const roles = [
-    {
-      id: 'Researcher',
-      icon: <FileSearch className="h-6 w-6" />,
-      title: 'Research Peer',
-      desc: 'Methods, derivations, and results.',
-      action: 'Research View',
-      bullets: ['Derivations', 'Methods', 'Results'],
-    },
-    {
-      id: 'Developer',
-      icon: <Binary className="h-6 w-6" />,
-      title: 'Developer Meetup',
-      desc: 'Architecture and code walk-throughs.',
-      action: 'Source View',
-      bullets: ['Architecture', 'APIs & SDKs', 'Implementation'],
-    },
-    {
-      id: 'Recruiter',
-      icon: <Building2 className="h-6 w-6" />,
-      title: 'Recruitment Lead',
-      desc: 'My CV, impact, and role fit analysis.',
-      action: 'CV View',
-      bullets: ['Verified CV', 'Impact Metrics', 'Culture Fit'],
-    },
-    {
-      id: 'Guest',
-      icon: <Globe className="h-6 w-6" />,
-      title: 'General Explorer',
-      desc: 'Projects and public highlights overview.',
-      action: 'Public View',
-      bullets: ['Projects Overview', 'Writing Samples', 'About Me'],
-    },
-  ];
-
   return (
-    <div className="fixed inset-0 z-[9998] bg-[#060b16] text-white overflow-y-auto font-sans selection:bg-cyan-200 selection:text-slate-950">
-      
-      {/* Background Layer */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.16),_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(34,197,94,0.12),_transparent_65%)]" />
-        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: `radial-gradient(#94a3b8 0.6px, transparent 0.6px)`, backgroundSize: '30px 30px' }} />
-      </div>
+    <>
+      {children}
 
-      <div className="relative z-10 min-h-full flex flex-col items-center justify-center py-12 px-4 sm:px-6">
-        <div className="w-full max-w-6xl">
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-              {/* Header Section */}
-              <div className="mb-8 md:mb-14 text-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 mb-5 border border-white/10 bg-white/5 text-[#94a3b8] text-[10px] font-mono tracking-[0.3em] uppercase rounded-full">
-                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-                  Select Interaction Mode
-                </div>
-                <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-[#f8fafc] leading-tight">
-                  Choose Your <span className="text-[#3b82f6]">Access Layer</span>
-                </h1>
-                <p className="mt-4 text-[#94a3b8] font-mono text-[10px] sm:text-xs md:text-sm uppercase tracking-widest max-w-md mx-auto leading-relaxed">
-                  Select a role to enter the portfolio
-                </p>
-              </div>
+      {/* FULL-SCREEN MODAL — first visit or footer "Set role" */}
+      <AnimatePresence>
+        {showFullModal && !showRecruiterGate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[80] bg-[#060b16]/95 backdrop-blur-md text-white font-sans"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Select interaction mode"
+          >
+            <div className="h-full flex flex-col items-center justify-center px-4 sm:px-6 overflow-y-auto">
+              {/* Close */}
+              <motion.button
+                onClick={handleCloseModal}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/10 z-10"
+                aria-label="Close role selection"
+              >
+                <X size={20} />
+              </motion.button>
 
-              {/* Role Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                {roles.map((r, idx) => (
-                  <button
-                    key={r.id}
-                    onClick={() => handleSelect(r.id)}
-                    data-role-button={idx === 0 ? 'true' : undefined}
-                    className={
-                      `group relative flex flex-col items-start p-5 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-left transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] ${
-                        r.id === 'Recruiter'
-                          ? 'hover:border-amber-300/70 hover:bg-white/10 hover:shadow-[0_18px_40px_rgba(251,191,36,0.25)]'
-                          : r.id === 'Developer'
-                            ? 'hover:border-sky-300/60 hover:bg-white/8 hover:shadow-[0_18px_40px_rgba(56,189,248,0.18)]'
-                            : r.id === 'Researcher'
-                              ? 'hover:border-emerald-300/60 hover:bg-white/8 hover:shadow-[0_18px_40px_rgba(52,211,153,0.18)]'
-                              : 'hover:border-slate-200/50 hover:bg-white/7 hover:shadow-[0_18px_40px_rgba(226,232,240,0.12)]'
-                      }`
-                    }
-                  >
-                    <div className="flex items-center gap-3 mb-3 text-[#e2e8f0]">
-                      {r.icon}
-                      <h3 className="text-base md:text-lg font-semibold tracking-tight">{r.title}</h3>
-                    </div>
-
-                    <p className="text-[#94a3b8] text-xs md:text-sm leading-relaxed mb-4">{r.desc}</p>
-
-                    <ul className="space-y-2 text-xs md:text-sm text-[#cbd5f5] mb-5">
-                      {r.bullets.map((item) => (
-                        <li key={item} className="flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4 text-emerald-300" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-auto flex items-center gap-2 text-[10px] font-mono uppercase tracking-widest text-[#cbd5f5]">
-                      <span className={r.id === 'Recruiter' ? 'text-amber-200' : undefined}>Enter</span>
-                      <ArrowRight size={12} />
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Admin Bypass */}
-              <div className="mt-12 md:mt-16 text-center">
-                <button
-                  onClick={redirectToAdminPanel}
-                  className="group flex items-center gap-3 mx-auto text-[#94a3b8] hover:text-[#3b82f6] transition-all font-mono text-[10px] md:text-xs uppercase tracking-[0.2em]"
+              <div className="w-full max-w-7xl">
+                {/* Header — compact */}
+                <motion.div
+                  className="text-center mb-5"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <Lock size={14} className="group-hover:rotate-12 transition-transform" /> 
-                  Initialize Root Access
-                </button>
+                  <p className="text-blue-400/80 text-[10px] font-mono uppercase tracking-[0.25em] mb-2">Portfolio</p>
+                  <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-white leading-snug">
+                    How would you like to{' '}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400">
+                      explore?
+                    </span>
+                  </h2>
+                  <p className="mt-1.5 text-slate-400 text-xs max-w-md mx-auto">
+                    Choose a role to personalize your experience.
+                  </p>
+                </motion.div>
+
+                {/* Cards — simplified and professional */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+                  {roles.map((r, idx) => {
+                    const c = colorMap[r.color];
+                    const isCurrent = role === r.id;
+                    return (
+                      <motion.button
+                        key={r.id}
+                        ref={idx === 0 ? firstBtnRef : undefined}
+                        onClick={() => handleSelect(r.id)}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{
+                          delay: 0.08 + idx * 0.05,
+                          duration: 0.28,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        whileHover={{ y: -1 }}
+                        whileTap={{ scale: 0.99 }}
+                        className={`group relative flex items-start gap-3 text-left p-3 rounded-lg border transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400
+                          ${isCurrent ? 'border-blue-500/70 bg-blue-500/10 ring-1 ring-blue-500/30' : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'}
+                        `}
+                      >
+                        {/* Icon */}
+                        {/* <div className={`p-2 rounded-md ${c.iconBg} shrink-0`}>
+                          <span className={c.text}>{r.icon}</span>
+                        </div> */}
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <h3 className="text-md font-semibold text-white leading-tight truncate">{r.title}</h3>
+                            {r.id === 'Recruiter' && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-semibold uppercase tracking-wide bg-blue-500/20 text-blue-300">
+                                <ShieldCheck size={10} /> Verified
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[13px] text-slate-400 mt-0.5 line-clamp-2">{r.desc}</p>
+                          <ul className="mt-1.5 space-y-1">
+                            {r.access.slice(0, 4).map((item, index) => (
+                              <li key={index} className="flex items-center gap-1.5 text-[12px] text-slate-300">
+                                <CheckCircle2 className="h-5 w-5 text-emerald-400/90 shrink-0" />
+                                <span className="line-clamp-2">{item.text}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="shrink-0">
+                          {isCurrent ? (
+                            <CheckCircle2 className="h-4 w-4 text-blue-400" />
+                          ) : (
+                            <ArrowRight size={14} className="text-slate-500 group-hover:text-slate-300 transition-colors" />
+                          )}
+                        </div>
+                      </motion.button>
+                    );
+                  })}
+                </div>
+
+                {/* Admin link */}
+                <motion.div
+                  className="mt-4 text-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.35 }}
+                >
+                  <a
+                    href={getAdminPanelUrl()}
+                    className="inline-flex items-center gap-1.5 text-slate-600 hover:text-blue-400 transition-colors font-mono text-[10px] uppercase tracking-widest"
+                  >
+                    <Lock size={10} /> Admin
+                  </a>
+                </motion.div>
               </div>
             </div>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Footer Meta Data */}
-      <div className="fixed bottom-6 left-6 hidden lg:block pointer-events-none">
-        <p className="text-[10px] font-mono text-[#94a3b8] uppercase tracking-[0.5em]">
-          Core Systems: Active | Data Streams: Encrypted
-        </p>
-      </div>
-    </div>
+      {/* RECRUITER VERIFICATION GATE — shown when user clicks "Recruiter" */}
+      <AnimatePresence>
+        {showRecruiterGate && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[85] bg-[#060b16]/95 backdrop-blur-sm overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Recruiter verification"
+          >
+            <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6">
+              <motion.div
+                initial={{ scale: 0.95, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              >
+                <RecruiterGate
+                  variant="modal"
+                  onVerified={handleRecruiterVerified}
+                  onCancel={() => setShowRecruiterGate(false)}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

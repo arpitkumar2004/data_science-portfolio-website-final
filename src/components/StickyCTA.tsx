@@ -48,7 +48,7 @@ const StickyCTA: React.FC = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-[9999] md:hidden"
+          className="fixed bottom-0 left-0 right-0 z-[60] md:hidden"
         >
           <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 text-white px-4 py-3 shadow-2xl border-t-4 border-blue-400">
             <div className="flex items-center justify-between gap-3">

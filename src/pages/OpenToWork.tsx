@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Calendar,
@@ -13,7 +13,8 @@ import {
   Brain,
   Trophy,
 } from "lucide-react";
-import { trackResumeDownload } from "../utils/analytics";
+import { trackResumeDownload, trackEvent } from "../utils/analytics";
+import { getRecruiterProfile } from "../utils/recruiterProfile";
 import {
   heroData,
   trackRecordMetrics,
@@ -27,6 +28,18 @@ import {
 } from "../data/openToWorkPageData";
 
 const OpenToWorkPage: React.FC = () => {
+  // Track recruiter page view for GA4 with verified profile info
+  useEffect(() => {
+    const role = localStorage.getItem('userRole') || 'unknown';
+    const profile = getRecruiterProfile();
+    trackEvent('open_to_work_page_view', {
+      role,
+      company: profile?.company || 'unknown',
+      email_domain: profile?.email?.split('@')[1] || 'unknown',
+      recruiter_name: profile?.fullName || 'unknown',
+      source: document.referrer || 'direct',
+    });
+  }, []);
   // Helper to get color classes
   const getColorClasses = (color: keyof typeof colorMappings) => {
     return colorMappings[color];

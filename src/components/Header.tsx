@@ -6,8 +6,8 @@ import { Terminal, Menu, X, Download, ShieldCheck } from 'lucide-react';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Projects' },
+  { href: '/aboutme', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  // { href: '/docs', label: 'Docs' },
 ];
 
 const Header: React.FC = () => {
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled 
             ? 'py-3 bg-white/80 backdrop-blur-lg shadow-sm border-b border-slate-100 dark:bg-[#161616] dark:border-white/50' 
             : 'py-7 bg-transparent dark:bg-[#161616] dark:border-white/10'
@@ -131,6 +131,8 @@ const Header: React.FC = () => {
           {/* Mobile Toggle */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
             className="md:hidden p-2 text-slate-900 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 rounded-lg transition-colors"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -146,7 +148,7 @@ const Header: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[90] bg-white dark:bg-[#0a0a0a] pt-24 px-6 md:hidden"
+            className="fixed inset-0 z-40 bg-white dark:bg-[#0a0a0a] pt-24 px-6 md:hidden"
           >
             <div className="flex flex-col gap-6">
               <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Navigation Menu</span>
