@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Building2, Mail, User, ArrowRight, X, ShieldCheck, AlertCircle } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 import { RecruiterProfile, saveRecruiterProfile } from '../utils/recruiterProfile';
+import { API_ENDPOINTS, buildApiUrl } from '../config/api';
 
 /**
  * Free / disposable email domains that should be blocked.
@@ -74,7 +75,7 @@ const RecruiterGate: React.FC<RecruiterGateProps> = ({ onVerified, onCancel, var
     return null;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -93,6 +94,30 @@ const RecruiterGate: React.FC<RecruiterGateProps> = ({ onVerified, onCancel, var
       company: company.trim(),
       verifiedAt: new Date().toISOString(),
     };
+
+    // Post recruiter data to contact form database
+    try {
+      const bodyFormData = new FormData();
+      bodyFormData.append('name', profile.fullName);
+      bodyFormData.append('email', profile.email);
+      bodyFormData.append('subject', 'Recruiter Login');
+      bodyFormData.append('message', 'Recruiter login details');
+      bodyFormData.append('company', profile.company);
+      bodyFormData.append('formType', 'contacts');
+      bodyFormData.append('role', 'Recruiter');
+
+      const response = await fetch(buildApiUrl(API_ENDPOINTS.SUBMIT_CONTACT), {
+        method: 'POST',
+        body: bodyFormData,
+      });
+
+      if (!response.ok) {
+        console.warn('Failed to save recruiter login to contact DB:', response.status);
+      }
+    } catch (err) {
+      // Don't block the login flow if the API call fails
+      console.warn('Error posting recruiter data to contact DB:', err);
+    }
 
     saveRecruiterProfile(profile);
 
