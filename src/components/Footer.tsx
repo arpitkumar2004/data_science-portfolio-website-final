@@ -1,21 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Github, Linkedin, Mail, MapPin, Terminal, 
-  Cpu, ArrowUpRight, ShieldCheck, ExternalLink,
-  ChevronUp, Activity, Database, Fingerprint,
-  Clock, Zap, Microscope, BookOpen, Code2, Globe,
-  FileText, Command, Layout
+import {
+  Github, Linkedin, Mail, Terminal,
+  ArrowUpRight, ChevronUp, Fingerprint,
+  Zap, Microscope, Code2, FileText, Layout,
+  Briefcase, Calendar, Users
 } from 'lucide-react';
-import { SiKaggle, SiMedium, SiArxiv } from 'react-icons/si';
+import { SiKaggle, SiMedium } from 'react-icons/si';
+
+/* ───────────────────── data ───────────────────── */
+
+const NAV_LINKS = [
+  { to: '/',           label: 'Home',     icon: Layout },
+  { to: '/projects',   label: 'Projects', icon: Microscope },
+  { to: '/aboutme',    label: 'About Me', icon: Fingerprint },
+  { to: '/request-cv', label: 'CV Pack',  icon: FileText },
+  { to: '/contact',    label: 'Contact',  icon: Mail },
+] as const;
+
+const RESEARCH_LINKS = [
+  { href: 'https://www.kaggle.com/kumararpitiitkgp', label: 'Kaggle',          icon: SiKaggle },
+  { href: 'https://medium.com/@kumararpit17773',     label: 'Medium Articles',  icon: SiMedium },
+] as const;
+
+const TECH_LINKS = [
+  { href: 'https://github.com/arpitkumar2004',        label: 'GitHub',   icon: Github },
+  { href: 'https://linkedin.com/in/arpit-kumar-shivam', label: 'LinkedIn', icon: Linkedin },
+] as const;
+
+const OPPORTUNITIES = [
+  {
+    icon: Briefcase,
+    title: 'Summer 2026 Internships',
+    desc: 'Industrial R&D & MNC ML teams — production ML, cost optimization, scalable inference.',
+  },
+  {
+    icon: Users,
+    title: 'Research Partnerships',
+    desc: 'Deep learning, MLOps, latency & robustness — applied research with measurable impact.',
+  },
+] as const;
+
+/* ───────────────────── helpers ───────────────────── */
+
+const ExternalLink: React.FC<{
+  href: string;
+  icon: React.ElementType;
+  label: string;
+}> = ({ href, icon: Icon, label }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="flex items-center justify-between rounded-xl border border-transparent bg-slate-100 p-3 text-xs font-bold text-slate-600 transition-colors hover:border-blue-500/20 hover:text-blue-500 dark:bg-white/5 dark:text-slate-400"
+  >
+    <span className="flex items-center gap-2"><Icon size={14} /> {label}</span>
+    <ArrowUpRight size={12} />
+  </a>
+);
+
+const SectionHeading: React.FC<{
+  icon: React.ElementType;
+  label: string;
+}> = ({ icon: Icon, label }) => (
+  <div className="mb-5 flex items-center gap-2">
+    <Icon size={14} className="text-blue-500" />
+    <h4 className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-500">
+      {label}
+    </h4>
+  </div>
+);
+
+/* ───────────────────── component ───────────────────── */
 
 const Footer: React.FC = () => {
-  const brandBlue = "rgb(37 99 235)";
-  const [time, setTime] = useState(new Date().toLocaleTimeString());
   const [userRole, setUserRole] = useState<string | null>(null);
   const [visitorCount, setVisitorCount] = useState(211);
 
+  /* role listener */
   useEffect(() => {
     const read = () => setUserRole(localStorage.getItem('userRole'));
     read();
@@ -27,219 +89,186 @@ const Footer: React.FC = () => {
     };
   }, []);
 
+  /* session-safe visitor counter (no per-second timer) */
   useEffect(() => {
-    // 1. System Clock (Real-time updates)
-    const timer = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000);
-
-    // 2. Anti-Refresh Visitor Logic (Session Protected)
-    const sessionToken = sessionStorage.getItem('arpit_session_counted');
-    const persistentLogCount = Number(localStorage.getItem('arpit_total_access_logs')) || 211;
-
-    if (!sessionToken) {
-      // First time in this browser session
-      const newLogCount = persistentLogCount + 1;
-      localStorage.setItem('arpit_total_access_logs', newLogCount.toString());
+    const counted = sessionStorage.getItem('arpit_session_counted');
+    const total = Number(localStorage.getItem('arpit_total_access_logs')) || 211;
+    if (!counted) {
+      const next = total + 1;
+      localStorage.setItem('arpit_total_access_logs', next.toString());
       sessionStorage.setItem('arpit_session_counted', 'true');
-      setVisitorCount(newLogCount);
+      setVisitorCount(next);
     } else {
-      // Already counted this session - remain static
-      setVisitorCount(persistentLogCount);
+      setVisitorCount(total);
     }
-
-    return () => clearInterval(timer);
   }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  const GoogleScholar = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z" />
-    </svg>
+  const scrollToTop = useCallback(
+    () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    [],
   );
 
   return (
-    <footer className="bg-white text-slate-900 dark:bg-[#161616] dark:text-white pt-20 pb-10 overflow-hidden relative border-t border-slate-900 dark:border-white/5">
-      {/* Background Technical Grid Overlay */}
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none dark:bg-white/5" 
-           style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '30px 30px' }} />
+    <footer className="relative overflow-hidden border-t border-slate-200 bg-white pt-16 pb-8 text-slate-900 dark:border-white/5 dark:bg-[#161616] dark:text-white">
+      {/* dot-grid bg */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: 'radial-gradient(rgb(37 99 235) 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 mb-20">
-          
-          {/* COLUMN 1: IDENTITY & SYSTEM LOGS (4/12) */}
-          <div className="lg:col-span-3 space-y-6">
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="p-2 bg-blue-600 rounded-xl shadow-lg shadow-blue-900/20 group-hover:rotate-12 transition-transform">
-                <Terminal size={24} className="text-white" />
+      <div className="relative z-10 mx-auto max-w-7xl px-6">
+        {/* ── MAIN GRID ── */}
+        <div className="mb-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
+
+          {/* COL 1 — Brand & Bio (3/12) */}
+          <div className="space-y-5 lg:col-span-3">
+            <Link to="/" className="group inline-flex items-center gap-3">
+              <div className="rounded-xl bg-blue-600 p-2 shadow-lg shadow-blue-900/20 transition-transform group-hover:rotate-12">
+                <Terminal size={22} className="text-white" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase">Arpit Kumar</span>
+              <span className="text-2xl font-black uppercase tracking-tighter">Arpit Kumar</span>
             </Link>
-            
-            <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xs">
-              <span className="font-bold">AI / ML Systems & Applied Researcher</span> at IIT Kharagpur. Building production-grade deep learning systems with measurable ROI in real-world applications. Expertise: cloud architecture, MLOps, distributed systems, research translation.
+
+            <p className="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              <strong>AI / ML Systems & Applied Researcher</strong> at IIT Kharagpur.
+              Building production-grade deep learning systems — cloud architecture,
+              MLOps, distributed systems & research-to-deployment pipelines.
             </p>
 
-            {/* Unique Visitor Log Counter */}
-            <div className="p-4 bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl inline-flex gap-6 items-center">
+            {/* Visitor counter */}
+            <div className="inline-flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-100 p-3 dark:border-white/10 dark:bg-white/5">
               <div>
-                <p className="text-[9px] font-mono text-slate-500 dark:text-slate-500 uppercase tracking-tighter mb-1 font-bold">Visitors Count</p>
-                <p className="text-lg font-black font-mono text-blue-500 tracking-widest">{visitorCount.toString().padStart(6, '0')}</p>
-              </div>
-              <div className="w-px bg-slate-200 dark:bg-white/10 h-8" />
-              <div>
-                <p className="text-[9px] font-mono text-slate-500 dark:text-slate-500 uppercase tracking-tighter mb-1 font-bold">Local_Time</p>
-                <p className="text-sm font-black font-mono text-slate-600 dark:text-slate-300 uppercase">{time}</p>
+                <p className="mb-0.5 text-[9px] font-mono font-bold uppercase tracking-tight text-slate-500">Visitors</p>
+                <p className="font-mono text-base font-black tracking-widest text-blue-500">
+                  {visitorCount.toString().padStart(6, '0')}
+                </p>
               </div>
             </div>
           </div>
 
-          
-
-          {/* COLUMN 2: OBJECTIVE HUB (4/12) */}
+          {/* COL 2 — Opportunities CTA (3/12) */}
           <div className="lg:col-span-3">
-            <div className="p-6 bg-blue-600/5 border border-blue-600/10 dark:border-blue-600/20 rounded-[2rem] h-full flex flex-col justify-between">
+            <div className="flex h-full flex-col justify-between rounded-3xl border border-blue-600/10 bg-blue-600/5 p-5 dark:border-blue-600/20">
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <Zap size={40} className="text-blue-500" />
-                  <h4 className="text-sm font-mono font-bold uppercase tracking-[0.18em] text-blue-500">Opportunities & Collaborations</h4>
+                <div className="mb-4 flex items-center gap-2">
+                  <Zap size={18} className="text-blue-500" />
+                  <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-blue-500">
+                    Opportunities
+                  </h4>
                 </div>
-                <ul className="space-y-4 mb-8">
-                  <li className="flex items-start gap-3">
-                    <ShieldCheck size={50} className="text-blue-400 mt-0.5" />
-                    <div>
-                      <p className="text-sm font-bold font-mono text-slate-800 dark:text-slate-200 tracking-tight">Summer 2026 Internships</p>
-                      <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">Industrial R&D & MNC ML teams — production ML, cost and energy optimization, scalable inference.</p>
-                    </div>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <Microscope size={50} className="text-blue-400 mt-0.5" />
-                    <div>
-                      <p className="text-sm font-bold font-mono text-slate-800 dark:text-slate-200 tracking-tight">Research Partnerships</p>
-                      <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-1">Collaborative projects in deep learning, MLOps, latency & robustness — applied research with measurable impact.</p>
-                    </div>
-                  </li>
+
+                <ul className="mb-6 space-y-4">
+                  {OPPORTUNITIES.map(({ icon: Icon, title, desc }) => (
+                    <li key={title} className="flex items-start gap-3">
+                      <Icon size={18} className="mt-0.5 shrink-0 text-blue-400" />
+                      <div>
+                        <p className="text-sm font-bold tracking-tight text-slate-800 dark:text-slate-200">{title}</p>
+                        <p className="mt-0.5 text-[10px] leading-snug text-slate-500 dark:text-slate-400">{desc}</p>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <a href="https://calendly.com/kumararpit17773/30min" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full bg-blue-600 text-white px-5 py-3 rounded-xl font-black text-[10px] uppercase tracking-widest hover:bg-blue-500 transition-all">
-                Schedule Meeting <ArrowUpRight size={14} />
+
+              <a
+                href="https://calendly.com/kumararpit17773/30min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-between rounded-xl bg-blue-600 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white transition-colors hover:bg-blue-500"
+              >
+                <span className="flex items-center gap-2"><Calendar size={14} /> Schedule Meeting</span>
+                <ArrowUpRight size={14} />
               </a>
             </div>
           </div>
 
-          {/* COLUMN 2: INTERNAL REDIRECTS (SITE MAP) (2/12) */}
-          <div className="lg:col-span-2 ml-8 mt-8">
-            <div className="flex items-center gap-3 mb-6">
-              <Microscope size={14} className="text-blue-500" />
-              <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Repository</h4>
-            </div>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-wider">
-              <li><Link to="/" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Layout size={14} className="group-hover:scale-110 transition-transform"/> Home</Link></li>
-              <li><Link to="/projects" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Microscope size={14} className="group-hover:scale-110 transition-transform"/> Research</Link></li>
-              <li><Link to="/aboutme" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Fingerprint size={14} className="group-hover:scale-110 transition-transform"/> About Me</Link></li>
-              <li><Link to="/request-cv" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><FileText size={14} className="group-hover:scale-110 transition-transform"/> CV Pack</Link></li>
-              <li><Link to="/contact" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 flex items-center gap-2 transition-colors group"><Mail size={14} className="group-hover:scale-110 transition-transform"/> Contact</Link></li>
+          {/* COL 3 — Site Map (2/12) */}
+          <div className="lg:col-span-2">
+            <SectionHeading icon={Layout} label="Site Map" />
+            <ul className="space-y-3 text-xs font-bold uppercase tracking-wider">
+              {NAV_LINKS.map(({ to, label, icon: Icon }) => (
+                <li key={to}>
+                  <Link
+                    to={to}
+                    className="group flex items-center gap-2 text-slate-600 transition-colors hover:text-blue-500 dark:text-slate-400"
+                  >
+                    <Icon size={14} className="transition-transform group-hover:scale-110" />
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* COLUMN 3: EXTERNAL NODES (6/12) */}
-          <div className="lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            
-            {/* Sub-Col: Research Inter-links */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-6">
-                <Microscope size={14} className="text-blue-500" />
-                <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Research Nodes</h4>
-              </div>
+          {/* COL 4 — Profiles (4/12, split into 2 sub-cols) */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-4">
+            {/* Research */}
+            <div>
+              <SectionHeading icon={Microscope} label="Research" />
               <div className="flex flex-col gap-3">
-                <span className="text-slate-400 dark:text-slate-500 flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent cursor-default" title="Coming soon">
-                  <div className="flex items-center gap-2"><GoogleScholar /> Google Scholar</div>
-                  <span className="text-[9px] text-slate-400">Coming soon</span>
-                </span>
-                <span className="text-slate-400 dark:text-slate-500 flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent cursor-default" title="Coming soon">
-                  <div className="flex items-center gap-2"><SiArxiv size={14}/> arXiv Portfolio</div>
-                  <span className="text-[9px] text-slate-400">Coming soon</span>
-                </span>
-                <a href="https://www.kaggle.com/kumararpitiitkgp" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
-                  <div className="flex items-center gap-2"><SiKaggle size={14}/> Kaggle Master</div>
-                  <ArrowUpRight size={12}/>
-                </a>
+                {RESEARCH_LINKS.map((l) => (
+                  <ExternalLink key={l.href} {...l} />
+                ))}
               </div>
             </div>
 
-            {/* Sub-Col: Technical Inter-links */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 mb-6">
-                <Code2 size={14} className="text-blue-500" />
-                <h4 className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-500 uppercase tracking-widest">Technical Nodes</h4>
-              </div>
+            {/* Technical */}
+            <div>
+              <SectionHeading icon={Code2} label="Technical" />
               <div className="flex flex-col gap-3">
-                <a href="https://github.com/arpitkumar2004" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
-                  <div className="flex items-center gap-2"><Github size={14}/> GitHub Source</div>
-                  <ArrowUpRight size={12}/>
-                </a>
-                <a href="https://linkedin.com/in/arpit-kumar-shivam" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
-                  <div className="flex items-center gap-2"><Linkedin size={14}/> LinkedIn Prof.</div>
-                  <ArrowUpRight size={12}/>
-                </a>
-                <a href="https://medium.com/@kumararpit17773" target="_blank" rel="noopener noreferrer" className="text-slate-600 dark:text-slate-400 hover:text-blue-500 transition-colors flex items-center justify-between font-bold text-xs bg-slate-100 dark:bg-white/5 p-3 rounded-xl border border-transparent hover:border-blue-500/20">
-                  <div className="flex items-center gap-2"><SiMedium size={14}/> Medium Articles</div>
-                  <ArrowUpRight size={12}/>
-                </a>
+                {TECH_LINKS.map((l) => (
+                  <ExternalLink key={l.href} {...l} />
+                ))}
               </div>
             </div>
-
           </div>
         </div>
 
-        {/* BOTTOM METADATA BAR */}
-        <div className="pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-          
-          {/* Professional Status Bar */}
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            <div className="flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 rounded-full">
-              <ShieldCheck size={14} className="text-blue-500" />
-              <span className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest">Production ML Systems | Designed for Reliability</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Cpu size={14} className="text-slate-500 dark:text-slate-300" />
-              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-widest">Stack: React | Node.js | Docker | PostgreSQL</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Zap size={14} className="text-green-500" />
-              <span className="text-[10px] font-mono font-bold text-green-500 uppercase tracking-widest">Open to Internships 2026</span>
-            </div>
+        {/* ── BOTTOM BAR ── */}
+        <div className="flex flex-col items-center justify-between gap-6 border-t border-slate-100 pt-6 md:flex-row dark:border-white/5">
+          {/* Status badges */}
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-green-500">
+              <Zap size={12} /> Open to Internships 2026
+            </span>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-500">
+              PyTorch · Docker · GCP · FastAPI · React
+            </span>
           </div>
 
-          {/* System Control (Back to top) & Copyright */}
-          <div className="flex items-center gap-8">
-            {/* Role control (moves from header to footer) */}
+          {/* Controls */}
+          <div className="flex items-center gap-4">
             <button
               onClick={() => window.dispatchEvent(new Event('role:open'))}
               aria-label={userRole ? `Current role ${userRole}. Click to change.` : 'Set viewing role'}
               title={userRole ? `Viewing as ${userRole} — click to change` : 'Set viewing role'}
-              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all uppercase group bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+              className="flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-1.5 text-[9px] font-mono font-bold uppercase text-slate-700 transition-all hover:border-blue-500/30 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white"
             >
-              <Fingerprint size={14} className="text-blue-400" />
-              <span>{userRole ?? 'Set role'}</span>
+              <Fingerprint size={13} className="text-blue-400" />
+              {userRole ?? 'Set role'}
             </button>
 
-            <button 
+            <button
               onClick={scrollToTop}
-              className="flex items-center gap-2 text-[9px] font-mono font-bold text-slate-600 dark:text-slate-500 hover:text-slate-900 dark:hover:text-white transition-all uppercase group bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-lg border border-transparent hover:border-blue-500/30"
+              aria-label="Scroll to top"
+              className="group flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-1.5 text-[9px] font-mono font-bold uppercase text-slate-600 transition-all hover:border-blue-500/30 hover:text-slate-900 dark:bg-white/5 dark:text-slate-500 dark:hover:text-white"
             >
-              <ChevronUp size={14} className="group-hover:-translate-y-1 transition-transform" />
-              Reset System View
+              <ChevronUp size={13} className="transition-transform group-hover:-translate-y-0.5" />
+              Back to top
             </button>
-            <div className="text-right text-[9px] font-mono font-bold text-slate-500 dark:text-slate-600 uppercase tracking-widest">
-              © {new Date().getFullYear()} Arpit Kumar // All Rights Reserved
-            </div>
+
+            <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">
+              &copy; {new Date().getFullYear()} Arpit Kumar
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Subtle bottom accent line */}
-      <div className="absolute bottom-0 left-0 h-[2px] bg-blue-600 w-full opacity-40" />
+      {/* accent line */}
+      <div className="absolute bottom-0 left-0 h-[2px] w-full bg-blue-600 opacity-40" />
     </footer>
   );
 };

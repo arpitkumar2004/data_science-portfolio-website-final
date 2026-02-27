@@ -4,10 +4,8 @@ import {
   Calendar,
   ChevronRight,
   ChevronDown,
-  Terminal,
   ExternalLink,
   History,
-  Layers,
   MapPin,
   Download,
 } from "lucide-react";
@@ -147,83 +145,87 @@ const experiences = [
   },
 ];
 
-const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const brandBlue = "rgb(37 99 235)";
+const ExperienceCard = ({ exp, index, defaultOpen = false }: { exp: any; index: number; defaultOpen?: boolean }) => {
+  const [isExpanded, setIsExpanded] = useState(defaultOpen);
 
   return (
-    <div className="relative pl-8 pb-12 last:pb-0">
+    <div className="relative pl-6 pb-6 last:pb-0">
       {/* Vertical Rail */}
-      <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-100 dark:bg-white/10" />
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-200 dark:bg-white/10" />
       {/* Dots on vertical rail */}
-      <div className="absolute left-[-6px] top-20 w-3 h-3 rounded-full bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900/40" />
+      <div
+        className={`absolute left-[-5px] top-6 w-[10px] h-[10px] rounded-full transition-colors duration-300 ${
+          isExpanded
+            ? "bg-blue-600 shadow-md shadow-blue-300 dark:shadow-blue-900/60"
+            : "bg-slate-300 dark:bg-slate-600"
+        }`}
+      />
 
       <motion.div
-        initial={{ opacity: 0, x: 20 }}
+        initial={{ opacity: 0, x: 12 }}
         whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ delay: index * 0.06, duration: 0.35 }}
         onClick={() => setIsExpanded(!isExpanded)}
-        className={`group cursor-pointer bg-white dark:bg-[#161616] border rounded-3xl p-6 lg:p-8 transition-all duration-500 ${
+        className={`group cursor-pointer bg-white dark:bg-[#161616] border rounded-2xl px-5 py-4 lg:px-6 lg:py-5 transition-all duration-300 ${
           isExpanded
-            ? "border-blue-600 shadow-2xl shadow-blue-900/5"
-            : "border-slate-100 dark:border-white/10 hover:border-blue-300 shadow-sm"
+            ? "border-blue-500/60 shadow-lg shadow-blue-900/5 dark:shadow-blue-900/20"
+            : "border-slate-100 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/40 shadow-sm hover:shadow-md"
         }`}
       >
-        <div className="flex flex-col lg:flex-row justify-between items-start gap-4">
-          <div className="flex-grow">
-            <div className="flex items-center gap-2 mb-2">
+        <div className="flex flex-col lg:flex-row justify-between items-start gap-3">
+          <div className="flex-grow min-w-0">
+            <div className="flex items-center gap-2 mb-1.5">
               <span className="text-[10px] font-mono font-black text-blue-600 uppercase tracking-widest bg-blue-50 dark:bg-blue-600/10 px-2 py-0.5 rounded">
                 {exp.category}
               </span>
-              <ExternalLink
-                size={12}
-                className="text-slate-300 group-hover:text-blue-600 transition-colors"
-              />
               <a
                 href={exp.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-slate-700 dark:text-slate-300 group-hover:text-blue-600 transition-colors"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-blue-600 transition-colors"
               >
-                Visit Website
+                <ExternalLink size={10} />
+                <span className="hidden sm:inline">Website</span>
               </a>
             </div>
-            <div className="flex flex-center gap-4">
-              {/* icon of company */}
+            <div className="flex items-center gap-3">
               <img
                 src={companyIcons[exp.company]}
                 alt="logo"
-                className={`w-6 h-6 rounded object-contain transition-all mt-1 ${isExpanded ? "scale-110" : "grayscale"}`}
+                className={`w-6 h-6 rounded object-contain transition-all shrink-0 ${
+                  isExpanded ? "" : "grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100"
+                }`}
               />
-              {/* name of company */}
-              <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
+              <h3 className="text-lg lg:text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight group-hover:text-blue-600 transition-colors truncate">
                 {exp.company}
               </h3>
             </div>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-3">
-              <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
+              <span className="text-[13px] font-semibold text-slate-600 dark:text-slate-300">
                 {exp.roles[0].title}
               </span>
-              <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
-                <MapPin size={14} />
-                <span className="text-xs font-medium">{exp.location}</span>
+              <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500">
+                <MapPin size={12} />
+                <span className="text-[11px] font-medium">{exp.location}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col items-end shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-50 dark:bg-[#111827] rounded-lg border border-slate-100 dark:border-white/10">
-              <Calendar size={14} className="text-blue-600" />
-              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tighter">
+          <div className="flex items-center lg:flex-col lg:items-end gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-slate-50 dark:bg-[#111827] rounded-md border border-slate-100 dark:border-white/10">
+              <Calendar size={12} className="text-blue-600" />
+              <span className="text-[10px] font-mono font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tighter whitespace-nowrap">
                 {exp.totalDuration}
               </span>
             </div>
             <motion.div
               animate={{ rotate: isExpanded ? 90 : 0 }}
-              className="mt-6 text-slate-300 dark:text-slate-500 hidden lg:block"
+              transition={{ duration: 0.2 }}
+              className="text-slate-300 dark:text-slate-500 hidden lg:block"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={20} />
             </motion.div>
           </div>
         </div>
@@ -235,36 +237,37 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
               className="overflow-hidden"
             >
-              <div className="mt-10 pt-8 border-t border-slate-100 dark:border-white/10 space-y-12">
+              <div className="mt-5 pt-4 border-t border-slate-100 dark:border-white/10 space-y-6">
                 {exp.roles.map((role: any, idx: number) => (
-                  <div key={role.id} className="relative pl-8">
+                  <div key={role.id} className="relative pl-6">
                     {/* Role Connector */}
-                    <div className="absolute left-0 top-2 w-2 h-2 rounded-full bg-blue-600 shadow-lg shadow-blue-200 dark:shadow-blue-900/40" />
+                    <div className="absolute left-0 top-[7px] w-[7px] h-[7px] rounded-full bg-blue-500" />
                     {idx < exp.roles.length - 1 && (
-                      <div className="absolute left-[3px] top-4 bottom-[-48px] w-[2px] bg-slate-100 dark:bg-white/10" />
+                      <div className="absolute left-[2.5px] top-4 bottom-[-24px] w-[2px] bg-slate-100 dark:bg-white/10" />
                     )}
 
-                    <div className="flex flex-col md:flex-row justify-between items-start gap-2 mb-4">
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-base">
+                    <div className="flex flex-col sm:flex-row justify-between items-start gap-1 mb-2">
+                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">
                         {role.title}
                       </h4>
-                      <span className="text-[10px] font-mono font-black text-slate-400 dark:text-slate-300 uppercase bg-slate-50 dark:bg-[#111827] px-2 py-1 rounded tracking-tighter">
+                      <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-400 uppercase bg-slate-50 dark:bg-[#111827] px-2 py-0.5 rounded tracking-tighter whitespace-nowrap">
                         {role.duration}
                       </span>
                     </div>
 
-                    <ul className="space-y-3">
+                    <ul className="space-y-1.5">
                       {role.description.map((desc: string, i: number) => (
                         <li
                           key={i}
-                          className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed flex gap-3"
+                          className="text-slate-600 dark:text-slate-400 text-[13px] leading-relaxed flex gap-2"
                         >
-                          <span className="text-blue-600 font-mono mt-0.5">
-                            0{i + 1}.
+                          <span className="text-blue-500 font-mono text-xs mt-[3px] shrink-0">
+                            {String(i + 1).padStart(2, '0')}
                           </span>
-                          {desc}
+                          <span>{desc}</span>
                         </li>
                       ))}
                     </ul>
@@ -272,11 +275,11 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
                 ))}
 
                 {/* Tech Stack Tags */}
-                <div className="flex flex-wrap gap-2 pt-4">
+                <div className="flex flex-wrap gap-1.5 pt-2">
                   {exp.techStack.map((tech: string) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-slate-50 dark:bg-[#111827] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider"
+                      className="px-2 py-0.5 bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded text-[10px] font-mono font-bold uppercase tracking-wider"
                     >
                       {tech}
                     </span>
@@ -295,18 +298,18 @@ export default function Experience() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="py-24 bg-white dark:bg-black font-sans overflow-hidden">
+    <div className="py-16 bg-white dark:bg-black font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         {/* --- INTERACTIVE HEADER SECTION --- */}
-        <div className="relative mb-12">
+        <div className="relative mb-8">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="group flex flex-col md:flex-row md:items-end justify-between w-full text-left transition-all"
           >
             <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-4">
+              <div className="flex items-center gap-2 mb-3">
                 <div
-                  className={`p-1.5 rounded-md transition-colors ${isExpanded ? "bg-blue-600 text-white" : "bg-blue-50 text-blue-600"}`}
+                  className={`p-1 rounded-md transition-colors duration-300 ${isExpanded ? "bg-blue-600 text-white" : "bg-blue-50 dark:bg-blue-600/10 text-blue-600"}`}
                 >
                   <History size={14} />
                 </div>
@@ -315,61 +318,56 @@ export default function Experience() {
                 </span>
               </div>
 
-              <div className="flex items-center gap-4">
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
-                  Scaling Systems & Teams
-                </h2>
-              </div>
-              <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base font-medium max-w-4xl mt-8 leading-relaxed">
-                Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—showcasing measurable impact across 4 organizations with production systems serving high-traffic applications, zero critical production bugs, and proven ability to scale teams and infrastructure.
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
+                Experience in Scaling Systems
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-3xl mt-3 leading-relaxed">
+                Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—measurable impact across 4 organizations with production systems, zero critical bugs, and proven ability to scale teams.
               </p>
 
               <div
-                className={`h-1.5 bg-blue-600 mt-6 rounded-full transition-all duration-500 ${isExpanded ? "w-32" : "w-16"}`}
+                className={`h-1 bg-blue-600 mt-4 rounded-full transition-all duration-500 ${isExpanded ? "w-24" : "w-12"}`}
               />
             </div>
 
             {/* Visual Call-to-Action */}
-            <div className="mt-8 md:mt-0 flex items-center gap-4">
+            <div className="mt-6 md:mt-0 flex items-center gap-3">
               {!isExpanded && (
-                <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-300 uppercase tracking-widest animate-pulse">
-                  Click to Expand Sequence
+                <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest animate-pulse">
+                  Expand
                 </span>
               )}
               <div
-                className={`flex items-center justify-center w-14 h-14 rounded-2xl border-2 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
+                className={`flex items-center justify-center w-10 h-10 rounded-xl border-2 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
               >
-                <ChevronDown size={28} strokeWidth={3} />
+                <ChevronDown size={20} strokeWidth={3} />
               </div>
             </div>
           </button>
         </div>
 
         {/* --- COLLAPSIBLE CONTENT AREA --- */}
-        <div className="relative mb-16 max-w-6xl mx-auto">
+        <div className="relative mb-10">
           <AnimatePresence>
             {isExpanded && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
                 className="overflow-hidden"
               >
-                {/* Timeline Line Decor */}
-                {/* <div className="absolute left-[20px] top-0 bottom-0 w-[2px] bg-gradient-to-b from-blue-600 via-slate-100 to-transparent" /> */}
-
                 {/* Experience Cards */}
                 {experiences.map((exp, index) => (
-                  <ExperienceCard key={exp.id} exp={exp} index={index} />
+                  <ExperienceCard key={exp.id} exp={exp} index={index} defaultOpen={index === 0} />
                 ))}
 
-                {/* Close Trigger at the bottom for better UX */}
+                {/* Close Trigger at the bottom */}
                 <button
                   onClick={() => setIsExpanded(false)}
-                  className="w-full py-4 border-t border-slate-100 dark:border-white/10 text-[10px] font-mono font-bold text-slate-400 dark:text-slate-300 hover:text-blue-600 uppercase tracking-[0.4em] transition-colors"
+                  className="w-full py-3 mt-2 border-t border-slate-100 dark:border-white/10 text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 uppercase tracking-[0.3em] transition-colors"
                 >
-                  Collapse Timeline ^
+                  Collapse Timeline
                 </button>
               </motion.div>
             )}
@@ -377,40 +375,40 @@ export default function Experience() {
 
           {/* Background Placeholder when closed */}
           {!isExpanded && (
-            <div className="h-1 w-full bg-slate-50 dark:bg-white/10 rounded-full" />
+            <div className="h-px w-full bg-slate-100 dark:bg-white/10" />
           )}
         </div>
 
         {/* --- RECRUITER FOOTNOTE (Remains Visible) --- */}
         <motion.div
           layout
-          className="mt-12 p-8 lg:p-12 bg-slate-900 dark:bg-[#161616] border border-slate-800 dark:border-white/10 text-slate-100 relative overflow-hidden rounded-[2.5rem] shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-500"
+          className="mt-8 px-6 py-6 lg:px-8 lg:py-7 bg-slate-900 dark:bg-[#161616] border border-slate-800 dark:border-white/10 text-slate-100 relative overflow-hidden rounded-2xl shadow-sm hover:shadow-lg hover:border-blue-500/60 transition-all duration-300"
         >
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-5">
             <div className="text-center lg:text-left">
-              <div className="flex items-center gap-2 mb-3 justify-center lg:justify-start">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-[10px] font-mono font-bold text-emerald-300 uppercase tracking-widest">
+              <div className="flex items-center gap-2 mb-2 justify-center lg:justify-start">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">
                   Available for Summer 2026
                 </span>
               </div>
-              <h4 className="text-3xl text-white font-black tracking-tighter mb-3">
+              <h4 className="text-xl lg:text-2xl text-white font-black tracking-tight mb-1.5">
                 Get Full Technical Dossier
               </h4>
-              <p className="text-slate-300 text-sm max-w-2xl font-medium leading-relaxed">
-                Includes: research publications, quantified ROI of Projects(cost, latency, revenue), security audit outcomes, architecture decision logs, and open-source references—optimized for <b className="text-white">R&D teams, hiring panels, founders, and academic collaborators</b>.
+              <p className="text-slate-400 text-[13px] max-w-xl font-medium leading-relaxed">
+                Research publications, quantified project ROI, security audits, architecture decision logs, and open-source references—for <b className="text-slate-200">R&D teams, hiring panels, and founders</b>.
               </p>
             </div>
 
             <a
               href="/request-cv"
-              className="group px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all flex items-center gap-3 shadow-lg shadow-blue-600/40 hover:shadow-xl hover:shadow-blue-600/60"
+              className="group px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 transition-all flex items-center gap-2 shadow-md shadow-blue-600/30 hover:shadow-lg hover:shadow-blue-600/50 shrink-0"
             >
               <Download
-                size={18}
+                size={16}
                 className="group-hover:translate-y-0.5 transition-transform"
               />
-              <span>Get CV + Deep-Dives →</span>
+              <span>Get CV + Deep-Dives</span>
             </a>
           </div>
         </motion.div>
