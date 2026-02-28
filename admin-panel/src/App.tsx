@@ -1,8 +1,25 @@
-import { useState, useEffect } from "react";
-import AdminDashboard from "./components/AdminDashboard";
+import { useState, useEffect, Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./components/LoginPage";
 import { ToastProvider } from "./components/ToastProvider";
 import { useToast } from "./hooks/useToast";
+import AdminLayout from "./components/layout/AdminLayout";
+
+// Code-split page components — only loaded when navigated to
+const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage"));
+const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+
+function PageLoader() {
+  return (
+    <div className="flex-1 flex items-center justify-center">
+      <div className="text-center space-y-3">
+        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+        <p className="text-sm text-slate-400">Loading...</p>
+      </div>
+    </div>
+  );
+}
 
 function AppContent() {
   const { showToast } = useToast();
@@ -17,28 +34,22 @@ function AppContent() {
       const token = sessionStorage.getItem("admin_token") || localStorage.getItem("admin_token");
       
       if (token) {
-        console.log("Found token, validating...");
         try {
-          // Verify token with backend
           const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/me`, {
             headers: { 'Authorization': `Bearer ${token}` },
           });
           
           if (response.ok) {
-            console.log("Token valid - auto-login from RoleGateway");
             setIsAuthenticated(true);
           } else {
-            console.log(" Token invalid, show login");
             localStorage.removeItem("admin_token");
             sessionStorage.removeItem("admin_token");
             setIsAuthenticated(false);
           }
-        } catch (err) {
-          console.error("Token validation failed:", err);
+        } catch {
           setIsAuthenticated(false);
         }
       } else {
-        console.log(" No token found - show login");
         setIsAuthenticated(false);
       }
       
@@ -74,21 +85,33 @@ function AppContent() {
     return () => window.removeEventListener("auth:logout", handleAuthLogout as EventListener);
   }, []);
 
-  return (
-    <>
-      {isValidating ? (
-        <div className="min-h-screen bg-slate-900 flex items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin mb-4">🔐</div>
-            <p className="text-slate-400">Verifying access...</p>
-          </div>
+  if (isValidating) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin mb-4 text-2xl">🔐</div>
+          <p className="text-slate-400">Verifying access...</p>
         </div>
-      ) : isAuthenticated ? (
-        <AdminDashboard onLogout={handleLogout} />
-      ) : (
-        <LoginPage onLoginSuccess={handleLoginSuccess} />
-      )}
-    </>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginPage onLoginSuccess={handleLoginSuccess} />;
+  }
+
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route element={<AdminLayout onLogout={handleLogout} />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 

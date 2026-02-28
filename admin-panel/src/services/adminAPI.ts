@@ -61,6 +61,31 @@ export interface AuthResponse {
   expires_in: number;
 }
 
+export interface PaginatedLeads {
+  leads: Lead[];
+  total: number;
+  page: number;
+  per_page: number;
+  total_pages: number;
+}
+
+export interface TimelinePoint {
+  date: string;
+  count: number;
+}
+
+export interface SourceData {
+  source: string;
+  count: number;
+}
+
+export interface ResponseTimeData {
+  avg_hours: number;
+  responded_count: number;
+  total_count: number;
+  response_rate: number;
+}
+
 // ============= API Client =============
 
 class AdminAPIClient {
@@ -171,7 +196,12 @@ class AdminAPIClient {
 
   // ============= Leads Management =============
 
-  async getLeads(): Promise<Lead[]> {
+  async getLeads(params?: { page?: number; per_page?: number }): Promise<Lead[] | PaginatedLeads> {
+    if (params?.page && params?.per_page) {
+      return this.request<PaginatedLeads>(
+        `/api/admin/leads?page=${params.page}&per_page=${params.per_page}`
+      );
+    }
     return this.request<Lead[]>("/api/admin/leads");
   }
 
@@ -265,6 +295,20 @@ class AdminAPIClient {
 
   async searchLeads(query: string): Promise<Lead[]> {
     return this.request<Lead[]>(`/api/admin/leads/search?q=${encodeURIComponent(query)}`);
+  }
+
+  // ============= Analytics =============
+
+  async getTimeline(period: string = "30d"): Promise<TimelinePoint[]> {
+    return this.request<TimelinePoint[]>(`/api/admin/analytics/timeline?period=${period}`);
+  }
+
+  async getSourceBreakdown(): Promise<SourceData[]> {
+    return this.request<SourceData[]>("/api/admin/analytics/sources");
+  }
+
+  async getResponseTime(): Promise<ResponseTimeData> {
+    return this.request<ResponseTimeData>("/api/admin/analytics/response-time");
   }
 
   // ============= Intelligence & Insights =============

@@ -230,12 +230,24 @@ async def handle_cv_request(
 @limiter.limit(RATE_LIMIT_ADMIN)
 async def get_admin_leads(
     request: Request,
+    page: int = None,
+    per_page: int = None,
     admin: dict = Depends(require_admin),
     db: Session = Depends(database.get_db)
 ):
-    """Get all leads (admin only)"""
+    """Get leads with optional pagination (admin only)"""
+    if page is not None and per_page is not None:
+        skip = (page - 1) * per_page
+        leads = get_all_leads(db, skip=skip, limit=per_page)
+        total = db.query(models.ContactLead).count()
+        return {
+            "leads": leads,
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": (total + per_page - 1) // per_page
+        }
     return get_all_leads(db)
-
 
 
 @router.get("/admin/leads/stats")
@@ -257,6 +269,43 @@ async def search_leads_endpoint(
     db: Session = Depends(database.get_db)
 ):
     return search_leads(db, q)
+
+
+@router.get("/admin/analytics/timeline")
+@limiter.limit(RATE_LIMIT_ADMIN)
+async def analytics_timeline(
+    request: Request,
+    period: str = "30d",
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    """Get daily lead counts for time-series chart"""
+    from services.lead_service import get_leads_timeline
+    return get_leads_timeline(db, period)
+
+
+@router.get("/admin/analytics/sources")
+@limiter.limit(RATE_LIMIT_ADMIN)
+async def analytics_sources(
+    request: Request,
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    """Get lead source attribution breakdown"""
+    from services.lead_service import get_source_breakdown
+    return get_source_breakdown(db)
+
+
+@router.get("/admin/analytics/response-time")
+@limiter.limit(RATE_LIMIT_ADMIN)
+async def analytics_response_time(
+    request: Request,
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    """Get average response time metrics"""
+    from services.lead_service import get_response_time_stats
+    return get_response_time_stats(db)
 
 
 @router.get("/admin/leads/filter")

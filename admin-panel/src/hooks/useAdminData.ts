@@ -4,7 +4,7 @@
  */
 
 import useSWR from "swr";
-import { adminAPI, Lead, LeadStats } from "../services/adminAPI";
+import { adminAPI, Lead, LeadStats, TimelinePoint, SourceData, ResponseTimeData } from "../services/adminAPI";
 
 // SWR configuration for admin dashboard
 const swrConfig = {
@@ -21,7 +21,7 @@ const swrConfig = {
 export function useLeads() {
   const { data, error, isLoading, mutate } = useSWR<Lead[]>(
     "admin/leads",
-    () => adminAPI.getLeads(),
+    () => adminAPI.getLeads() as Promise<Lead[]>,
     swrConfig
   );
 
@@ -114,4 +114,58 @@ export function useOptimisticLeadUpdate() {
   return { updateLead };
 }
 
-export default { useLeads, useLeadStats, useLead, useOptimisticLeadUpdate };
+/**
+ * Hook for fetching analytics timeline data
+ */
+export function useAnalyticsTimeline(period: string = "30d") {
+  const { data, error, isLoading, mutate } = useSWR<TimelinePoint[]>(
+    `admin/analytics/timeline/${period}`,
+    () => adminAPI.getTimeline(period),
+    { ...swrConfig, refreshInterval: 0 }
+  );
+
+  return {
+    timeline: data || [],
+    isLoading,
+    isError: error,
+    refresh: mutate,
+  };
+}
+
+/**
+ * Hook for fetching source breakdown data
+ */
+export function useSourceBreakdown() {
+  const { data, error, isLoading, mutate } = useSWR<SourceData[]>(
+    "admin/analytics/sources",
+    () => adminAPI.getSourceBreakdown(),
+    { ...swrConfig, refreshInterval: 0 }
+  );
+
+  return {
+    sources: data || [],
+    isLoading,
+    isError: error,
+    refresh: mutate,
+  };
+}
+
+/**
+ * Hook for fetching response time stats
+ */
+export function useResponseTime() {
+  const { data, error, isLoading, mutate } = useSWR<ResponseTimeData>(
+    "admin/analytics/response-time",
+    () => adminAPI.getResponseTime(),
+    { ...swrConfig, refreshInterval: 0 }
+  );
+
+  return {
+    responseTime: data,
+    isLoading,
+    isError: error,
+    refresh: mutate,
+  };
+}
+
+export default { useLeads, useLeadStats, useLead, useOptimisticLeadUpdate, useAnalyticsTimeline, useSourceBreakdown, useResponseTime };

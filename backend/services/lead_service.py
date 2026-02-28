@@ -330,3 +330,105 @@ def get_lead_statistics(db: Session) -> dict:
             "other": total_leads - recruiter_count
         }
     }
+
+
+def get_leads_timeline(db: Session, period: str = "30d") -> list:
+    """
+    Get daily lead counts for time-series chart.
+    
+    Args:
+        db: Database session
+        period: Time period string (7d, 30d, 90d)
+    
+    Returns:
+        List of {date, count} objects
+    """
+    days_map = {"7d": 7, "30d": 30, "90d": 90}
+    days = days_map.get(period, 30)
+    now = datetime.now(timezone.utc)
+    start_date = now - timedelta(days=days)
+    
+    leads = db.query(
+        func.date(models.ContactLead.created_at).label("date"),
+        func.count(models.ContactLead.id).label("count")
+    ).filter(
+        models.ContactLead.created_at >= start_date
+    ).group_by(
+        func.date(models.ContactLead.created_at)
+    ).order_by(
+        func.date(models.ContactLead.created_at)
+    ).all()
+    
+    # Fill in missing dates with 0
+    result = []
+    current = start_date.date()
+    lead_map = {str(row.date): row.count for row in leads}
+    
+    while current <= now.date():
+        date_str = str(current)
+        result.append({
+            "date": date_str,
+            "count": lead_map.get(date_str, 0)
+        })
+        current += timedelta(days=1)
+    
+    return result
+
+
+def get_source_breakdown(db: Session) -> list:
+    """
+    Get lead source attribution breakdown.
+    
+    Returns:
+        List of {source, count} objects
+    """
+    sources = db.query(
+        models.ContactLead.source,
+        func.count(models.ContactLead.id).label("count")
+    ).group_by(
+        models.ContactLead.source
+    ).order_by(
+        func.count(models.ContactLead.id).desc()
+    ).all()
+    
+    return [{"source": row.source or "unknown", "count": row.count} for row in sources]
+
+
+def get_response_time_stats(db: Session) -> dict:
+    """
+    Calculate average response time (time from created_at to last_contacted).
+    
+    Returns:
+        Dict with avg_hours, responded_count, total_count, response_rate
+    """
+    total = db.query(models.ContactLead).count()
+    
+    # Get leads that have been responded to
+    responded_leads = db.query(models.ContactLead).filter(
+        models.ContactLead.last_contacted.isnot(None)
+    ).all()
+    
+    responded_count = len(responded_leads)
+    
+    if responded_count == 0:
+        return {
+            "avg_hours": 0,
+            "responded_count": 0,
+            "total_count": total,
+            "response_rate": 0
+        }
+    
+    total_hours = 0
+    for lead in responded_leads:
+        if lead.created_at and lead.last_contacted:
+            delta = lead.last_contacted - lead.created_at
+            total_hours += delta.total_seconds() / 3600
+    
+    avg_hours = total_hours / responded_count if responded_count else 0
+    
+    return {
+        "avg_hours": round(avg_hours, 1),
+        "responded_count": responded_count,
+        "total_count": total,
+        "response_rate": round((responded_count / total) * 100, 1) if total else 0
+    }
