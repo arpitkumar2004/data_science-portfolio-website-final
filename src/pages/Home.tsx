@@ -106,7 +106,7 @@ const Home: React.FC = () => {
       <OpenToWorkBadge />
 
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-10 pb-12 lg:pb-24 px-6 max-w-7xl mx-auto">
+      <section className="relative pt-16 pb-12 lg:pb-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <motion.div
             className="lg:col-span-7"

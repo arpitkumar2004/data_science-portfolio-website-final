@@ -363,7 +363,7 @@ const AboutMe: React.FC = () => {
                             </div>
 
                             {/* SECTION: Core Expertise */}
-                            <div className="mt-16">
+                            {/* <div className="mt-16">
                                 <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 mb-8 flex items-center gap-3">
                                     <Binary className="text-blue-600" size={24} />
                                     What I Do Best
@@ -426,7 +426,7 @@ const AboutMe: React.FC = () => {
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                             {/* CALL TO ACTION */}
                             <div className="mt-20 bg-slate-900 dark:bg-[#0a0a0a] rounded-[3rem] p-8 lg:p-12 text-white relative overflow-hidden shadow-2xl">

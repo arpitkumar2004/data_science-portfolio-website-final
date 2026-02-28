@@ -108,7 +108,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
       <div className="max-w-6xl mx-auto px-6 py-16 lg:py-20">
         {/* --- HEADER --- */}
         <header className="mb-12 text-center max-w-3xl mx-auto">
