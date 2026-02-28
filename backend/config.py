@@ -41,6 +41,7 @@ EMAIL_FROM = "Arpit Kumar (IIT Kharagpur) <contact@arpitkumar.dev>"
 # Contact Information
 CONTACT_PHONE_NUMBER = os.getenv("CONTACT_PHONE_NUMBER")
 PHONE_NUMBER = os.getenv("PHONE_NUMBER", "91XXXXXXXXXX")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "kumararpit17773@gmail.com")
 
 # External Links
 CALENDLY_LINK = os.getenv("CALENDLY_LINK", "https://calendly.com/kumararpit17773/30min")

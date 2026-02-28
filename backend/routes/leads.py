@@ -26,9 +26,14 @@ from services.lead_service import (
     search_leads, filter_leads_by_date, get_filtered_leads,
     bulk_update_status, bulk_delete_leads, get_lead_statistics
 )
-from services.email_service import send_contact_acknowledgment, send_cv_request_email
+from services.email_service import (
+    send_contact_acknowledgment,
+    send_cv_request_email,
+    send_recruiter_login_email,
+    send_admin_notification,
+)
 from utils.serializers import serialize_contact_lead
-from config import RATE_LIMIT_PUBLIC, RATE_LIMIT_ADMIN
+from config import RATE_LIMIT_PUBLIC, RATE_LIMIT_ADMIN, ADMIN_EMAIL, VITE_API_URL
 
 router = APIRouter(prefix="/api", tags=["leads"])
 limiter = Limiter(key_func=get_remote_address)
@@ -99,14 +104,45 @@ async def submit_contact(
         print(f"Database Error: {e}")
         raise HTTPException(status_code=500, detail="Failed to save contact")
 
-    # Send acknowledgment email asynchronously
-    background_tasks.add_task(
-        send_contact_acknowledgment,
-        name=name,
-        email=email,
-        subject=subject,
-        message=message
-    )
+    # ── Dispatch the right email based on role ──
+    is_recruiter = role and role.strip().lower() == "recruiter"
+
+    if is_recruiter:
+        # Recruiter verification → high-conversion welcome email with CV
+        login_link = f"{VITE_API_URL}/recruiter-dashboard"
+        background_tasks.add_task(
+            send_recruiter_login_email,
+            name=name,
+            email=email,
+            login_link=login_link,
+            company=company,
+        )
+        lead_type = "Recruiter Login"
+    else:
+        # Regular visitor → standard contact acknowledgment
+        background_tasks.add_task(
+            send_contact_acknowledgment,
+            name=name,
+            email=email,
+            subject=subject,
+            message=message,
+        )
+        lead_type = "Contact"
+
+    # ── Always notify admin about the new lead ──
+    if ADMIN_EMAIL:
+        background_tasks.add_task(
+            send_admin_notification,
+            admin_email=ADMIN_EMAIL,
+            lead_type=lead_type,
+            name=name,
+            email=email,
+            subject=subject,
+            message=message,
+            company=company,
+            role=role,
+            metadata=metadata,
+        )
 
     return {
         "status": "success",
@@ -167,8 +203,23 @@ async def handle_cv_request(
         name=name,
         email=email,
         company=company,
-        subject=subject
+        subject=subject,
     )
+
+    # Notify admin about the CV request
+    if ADMIN_EMAIL:
+        background_tasks.add_task(
+            send_admin_notification,
+            admin_email=ADMIN_EMAIL,
+            lead_type="CV Request",
+            name=name,
+            email=email,
+            subject=subject,
+            message=message,
+            company=company,
+            role=role,
+            metadata=metadata,
+        )
 
     return {"status": "success", "detail": "Dispatch sequence initiated via Resend API"}
 

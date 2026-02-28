@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Default 85% zoom on desktop for optimal viewing experience */
+@media (min-width: 1024px) {
+  html {
+    zoom: 0.85;
+  }
+}
+
 /* Respect reduced motion preferences globally */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
