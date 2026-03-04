@@ -6,6 +6,8 @@ import { useToast } from '../hooks/useToast';
 import { trackEvent } from '../utils/analytics';
 import RecruiterGate from './RecruiterGate';
 import { getRecruiterProfile, clearRecruiterProfile } from '../utils/recruiterProfile';
+import { useRole } from '../context/RoleContext';
+import type { AppRole } from '../context/RoleContext';
 
 // Resolve admin panel target once.
 const getAdminPanelUrl = (): string => {
@@ -85,8 +87,7 @@ const colorMap = {
 };
 
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
-  const [role, setRole] = useState<string | null>(null);
-  const [showFullModal, setShowFullModal] = useState(false);
+  const { role, setRole: setContextRole, hasCompletedSelection, completeSelection, isRoleModalOpen, openRoleModal, closeRoleModal } = useRole();
   const [showRecruiterGate, setShowRecruiterGate] = useState(false);
   const [recruiterGateSource, setRecruiterGateSource] = useState<'banner' | 'modal'>('banner');
   const [isReady, setIsReady] = useState(false);
@@ -95,37 +96,53 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const { showToast } = useToast();
   const navigate = useNavigate();
 
-  // Initialize from localStorage
+  // Initialize: for first-time visitors, show role picker after engagement
+  // (scroll 25% OR 5 seconds on page) instead of a flat 2s timer.
   useEffect(() => {
-    const savedRole = localStorage.getItem('userRole');
-    if (savedRole) {
-      // Returning visitor — use their saved role
-      setRole(savedRole);
+    if (hasCompletedSelection) {
+      // Returning visitor — already has a saved role
       setIsReady(true);
-    } else {
-      // First-time visitor — render the page but show the role picker after 2s
-      // Do NOT set Guest yet; only persist a role when the user makes a choice
-      setRole('Guest');       // in-memory only so children can render
-      setIsReady(true);
-      const timer = setTimeout(() => setShowFullModal(true), 2000);
-      return () => clearTimeout(timer);
+      return;
     }
-  }, []);
 
-  // Mark ready after role is set
-  useEffect(() => {
-    if (role) setIsReady(true);
-  }, [role]);
+    // First-time visitor — render children immediately, schedule modal
+    setIsReady(true);
+
+    let scrollCleanup: (() => void) | null = null;
+
+    const showModal = () => {
+      openRoleModal();
+      if (scrollCleanup) scrollCleanup();
+      clearTimeout(timerFallback);
+    };
+
+    // Engagement trigger 1: scroll 25% of page
+    const onScroll = () => {
+      if (window.scrollY > document.documentElement.scrollHeight * 0.25) {
+        showModal();
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    scrollCleanup = () => window.removeEventListener('scroll', onScroll);
+
+    // Engagement trigger 2: 5 seconds on page (fallback)
+    const timerFallback = setTimeout(showModal, 5000);
+
+    return () => {
+      if (scrollCleanup) scrollCleanup();
+      clearTimeout(timerFallback);
+    };
+  }, [hasCompletedSelection, openRoleModal]);
 
   // Listen for re-open event (from footer "Set role" button)
   useEffect(() => {
     const openHandler = () => {
-      setShowFullModal(true);
+      openRoleModal();
       setTimeout(() => firstBtnRef.current?.focus(), 50);
     };
     window.addEventListener('role:open', openHandler);
     return () => window.removeEventListener('role:open', openHandler);
-  }, []);
+  }, [openRoleModal]);
 
   // Show info toast on first session visit
   useEffect(() => {
@@ -137,27 +154,27 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
   // Close the modal and commit Guest role to localStorage
   const handleCloseModal = useCallback(() => {
-    setShowFullModal(false);
+    closeRoleModal();
     // If user has never explicitly chosen a role, persist Guest now
     if (!localStorage.getItem('userRole')) {
-      localStorage.setItem('userRole', 'Guest');
-      window.dispatchEvent(new Event('role:updated'));
+      setContextRole('Guest' as AppRole);
       trackEvent('role_modal_dismissed', { defaulted_to: 'Guest' });
     }
-  }, []);
+    completeSelection();
+  }, [closeRoleModal, setContextRole, completeSelection]);
 
   // Escape key to close modal
   useEffect(() => {
-    if (!showFullModal) return;
+    if (!isRoleModalOpen) return;
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') handleCloseModal(); };
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
-  }, [showFullModal, handleCloseModal]);
+  }, [isRoleModalOpen, handleCloseModal]);
 
   const handleSelect = useCallback((selectedRole: string) => {
     // If selecting Recruiter and not already verified, show the gate form
     if (selectedRole === 'Recruiter' && !getRecruiterProfile()) {
-      setRecruiterGateSource(showFullModal ? 'modal' : 'banner');
+      setRecruiterGateSource(isRoleModalOpen ? 'modal' : 'banner');
       setShowRecruiterGate(true);
       return;
     }
@@ -167,30 +184,28 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
       clearRecruiterProfile();
     }
 
-    localStorage.setItem('userRole', selectedRole);
-    setRole(selectedRole);
-    setShowFullModal(false);
+    setContextRole(selectedRole as AppRole);
+    closeRoleModal();
     setShowRecruiterGate(false);
+    completeSelection();
     sessionStorage.setItem('roleNotifShown', '1');
     showToast(`Viewing as ${selectedRole}`, 'success', 4000, 'top');
-    window.dispatchEvent(new Event('role:updated'));
-    trackEvent('role_selected', { role: selectedRole, source: showFullModal ? 'modal' : 'banner' });
-  }, [showToast, showFullModal]);
+    trackEvent('role_selected', { role: selectedRole, source: isRoleModalOpen ? 'modal' : 'banner' });
+  }, [showToast, isRoleModalOpen, setContextRole, closeRoleModal, completeSelection]);
 
   /** Called after recruiter passes the gate form */
   const handleRecruiterVerified = useCallback(() => {
-    localStorage.setItem('userRole', 'Recruiter');
-    setRole('Recruiter');
-    setShowFullModal(false);
+    setContextRole('Recruiter' as AppRole);
+    closeRoleModal();
     setShowRecruiterGate(false);
+    completeSelection();
     sessionStorage.setItem('roleNotifShown', '1');
     showToast('Verified! Viewing as Recruiter', 'success', 4000, 'top');
-    window.dispatchEvent(new Event('role:updated'));
     trackEvent('role_selected', { role: 'Recruiter', source: recruiterGateSource, verified: true });
 
     // Auto-navigate recruiters to the dedicated hiring page
     setTimeout(() => navigate('/open-to-work'), 300);
-  }, [showToast, recruiterGateSource, navigate]);
+  }, [showToast, recruiterGateSource, navigate, setContextRole, closeRoleModal, completeSelection]);
 
   if (!isReady) return null;
 
@@ -200,7 +215,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
 
       {/* FULL-SCREEN MODAL — first visit or footer "Set role" */}
       <AnimatePresence>
-        {showFullModal && !showRecruiterGate && (
+        {isRoleModalOpen && !showRecruiterGate && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

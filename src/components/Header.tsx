@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Terminal, Menu, X, Download, ShieldCheck, Briefcase } from 'lucide-react';
 import { getRecruiterProfile } from '../utils/recruiterProfile';
+import { useRole } from '../context/RoleContext';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -14,32 +15,16 @@ const navLinks = [
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isRecruiter, setIsRecruiter] = useState(false);
+  const { role } = useRole();
   const location = useLocation();
+
+  const isAdmin = role === 'Admin' && !!sessionStorage.getItem('adminToken');
+  const isRecruiter = role === 'Recruiter' && !!getRecruiterProfile();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Check if user is admin or recruiter
-  useEffect(() => {
-    const checkRoleStatus = () => {
-      const userRole = localStorage.getItem('userRole');
-      const adminToken = sessionStorage.getItem('adminToken');
-      setIsAdmin(userRole?.toLowerCase() === 'admin' && !!adminToken);
-      setIsRecruiter(userRole === 'Recruiter' && !!getRecruiterProfile());
-    };
-
-    checkRoleStatus();
-
-    // Listen for role updates
-    const handleRoleUpdate = () => checkRoleStatus();
-    window.addEventListener('role:updated', handleRoleUpdate);
-
-    return () => window.removeEventListener('role:updated', handleRoleUpdate);
   }, []);
 
   // Close menu on navigation

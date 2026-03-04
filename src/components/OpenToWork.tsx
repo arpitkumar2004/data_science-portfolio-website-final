@@ -19,15 +19,9 @@ import {
   getSummerDeadlineInfo,
 } from "../data/openToWorkData";
 
-const ADMIN_PIN = "1234"; // Simple PIN as requested. Consider server-side validation for production.
-
 const OpenToWork: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(isOpenToWork());
   const [open, setOpen] = useState<boolean>(false);
-  const [showPinModal, setShowPinModal] = useState<boolean>(false);
-  const [pin, setPin] = useState<string>("");
-  const [pinError, setPinError] = useState<string | null>(null);
-  const [attempts, setAttempts] = useState<number>(0);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [hasBeenViewed, setHasBeenViewed] = useState<boolean>(false);
   const [impressionTracked, setImpressionTracked] = useState<boolean>(false);
@@ -82,15 +76,38 @@ const OpenToWork: React.FC = () => {
     }
   }, [visible, impressionTracked, trackEvent]);
 
-  // Auto-open after 3 seconds on first visit to grab attention
+  // Auto-open after role selection is complete and user has engaged.
+  // If user is a returning visitor (role already set), wait 5s.
+  // If first-time, wait for RoleGateway dismissal + 5s.
   useEffect(() => {
     if (!visible || hasBeenViewed) return;
 
+    // Check if role selection is complete (role saved in localStorage)
+    const roleReady = !!localStorage.getItem('userRole');
+    if (!roleReady) {
+      // Wait for role:updated event, then start timer
+      const onRoleSet = () => {
+        const timer = setTimeout(() => {
+          setOpen(true);
+          setHasBeenViewed(true);
+          trackEvent("auto_open", "Post-role selection - 5s Delay");
+        }, 5000);
+        // Cleanup stored ref
+        (window as any).__otw_timer = timer;
+      };
+      window.addEventListener('role:updated', onRoleSet, { once: true });
+      return () => {
+        window.removeEventListener('role:updated', onRoleSet);
+        if ((window as any).__otw_timer) clearTimeout((window as any).__otw_timer);
+      };
+    }
+
+    // Returning visitor: delay 5s (instead of aggressive 3s)
     const autoOpenTimer = setTimeout(() => {
       setOpen(true);
       setHasBeenViewed(true);
-      trackEvent("auto_open", "First Visit - 3s Delay");
-    }, 3000);
+      trackEvent("auto_open", "Returning Visit - 5s Delay");
+    }, 5000);
 
     return () => clearTimeout(autoOpenTimer);
   }, [visible, hasBeenViewed, trackEvent]);
@@ -139,12 +156,11 @@ const OpenToWork: React.FC = () => {
     };
   }, [visible, dismissedThisSession, hasBeenViewed, trackEvent]);
 
-  // Keyboard shortcuts: Escape closes dropdown/modal; Ctrl+R re-shows badge
+  // Keyboard shortcuts: Escape closes dropdown; Ctrl+R re-shows badge
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
-        setShowPinModal(false);
       }
 
       // Ctrl+R to reappear
@@ -180,26 +196,10 @@ const OpenToWork: React.FC = () => {
     trackEvent("dismiss", "User Dismissed Dropdown");
   };
 
-  const submitPin = () => {
-    if (pin === ADMIN_PIN) {
-      setOpenToWork(false);
-      setVisible(false);
-      setShowPinModal(false);
-      setPin("");
-      setPinError(null);
-      setAttempts(0);
-      trackEvent("admin_hide", "Badge Hidden by Admin");
-    } else {
-      setAttempts((a) => a + 1);
-      setPinError("Incorrect PIN");
-      setPin("");
-    }
-  };
-
   const handleHideClick = () => {
-    setPin("");
-    setPinError(null);
-    setShowPinModal(true);
+    setOpenToWork(false);
+    setVisible(false);
+    trackEvent("admin_hide", "Badge Hidden by Admin");
   };
 
   if (!visible) return null;
@@ -438,65 +438,6 @@ const OpenToWork: React.FC = () => {
         </div>
       </div>
 
-      {/* PIN Modal */}
-      {showPinModal && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center">
-          <div
-            className="absolute inset-0 bg-black opacity-30"
-            aria-hidden="true"
-          />
-          <div
-            role="dialog"
-            aria-modal="true"
-            className="relative bg-white dark:bg-[#161616] rounded-lg shadow-xl p-6 w-full max-w-sm z-70"
-          >
-            <h3 className="text-lg font-bold mb-2 text-slate-900 dark:text-slate-100">
-              Confirm Hide
-            </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-              Enter admin PIN to hide the Open-to-work badge.
-            </p>
-            <label className="sr-only" htmlFor="pin-input">
-              Admin PIN
-            </label>
-            <input
-              id="pin-input"
-              autoFocus
-              value={pin}
-              onChange={(e) => setPin(e.target.value)}
-              type="password"
-              inputMode="numeric"
-              className="w-full px-3 py-2 border rounded-md mb-2 bg-white dark:bg-[#0a0a0a] text-slate-900 dark:text-slate-100 border-slate-200 dark:border-white/10"
-              placeholder="Enter PIN"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") submitPin();
-              }}
-            />
-            {pinError && (
-              <div className="text-sm text-red-600 mb-2">{pinError}</div>
-            )}
-            <div className="flex justify-end gap-2">
-              <button
-                className="px-3 py-2 rounded-md bg-slate-100 dark:bg-white/10"
-                onClick={() => setShowPinModal(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-3 py-2 rounded-md bg-emerald-600 text-white"
-                onClick={submitPin}
-              >
-                Confirm
-              </button>
-            </div>
-            {attempts > 0 && (
-              <div className="mt-3 text-xs text-slate-400 dark:text-slate-500">
-                Attempts: {attempts}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </>
   );
 };

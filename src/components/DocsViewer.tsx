@@ -10,14 +10,13 @@ const DocsViewer: React.FC = () => {
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState<number>(0);
 
   useEffect(() => {
     const fetchDoc = async () => {
       setLoading(true);
       setError(null);
       try {
-        // The path in location.pathname should match the file path in public/docs
-        // e.g. /docs/general/ROOT_ACCESS_WORKFLOW.md
         const response = await fetch(location.pathname);
         if (!response.ok) {
           throw new Error(`Failed to load document: ${response.statusText}`);
@@ -33,7 +32,7 @@ const DocsViewer: React.FC = () => {
     };
 
     fetchDoc();
-  }, [location.pathname]);
+  }, [location.pathname, retryCount]);
 
   if (loading) {
     return (
@@ -47,7 +46,13 @@ const DocsViewer: React.FC = () => {
     return (
       <div className="p-4 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg border border-red-200 dark:border-red-800">
         <h2 className="text-lg font-bold mb-2">Error</h2>
-        <p>{error}</p>
+        <p className="mb-4">{error}</p>
+        <button
+          onClick={() => setRetryCount((c) => c + 1)}
+          className="px-4 py-2 bg-red-600 text-white rounded-md font-semibold hover:bg-red-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+        >
+          Retry
+        </button>
       </div>
     );
   }

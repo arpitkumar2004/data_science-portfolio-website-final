@@ -42,16 +42,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   const [mousePosition, setMousePosition] = React.useState({ x: 50, y: 50 });
   const [isHovered, setIsHovered] = React.useState(false);
   const cardRef = React.useRef<HTMLDivElement>(null);
+  const rafRef = React.useRef<number | null>(null);
 
-  // Track mouse position for cursor-following animation
+  // Track mouse position for cursor-following animation (rAF-throttled)
   const handleMouseMove = React.useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    
-    setMousePosition({ x, y });
+    if (rafRef.current !== null) return; // skip if a frame is already pending
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      if (!cardRef.current) return;
+      const rect = cardRef.current.getBoundingClientRect();
+      const x = ((clientX - rect.left) / rect.width) * 100;
+      const y = ((clientY - rect.top) / rect.height) * 100;
+      setMousePosition({ x, y });
+    });
   }, []);
 
   const handleMouseEnter = React.useCallback(() => {
@@ -60,6 +65,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
   const handleMouseLeave = React.useCallback(() => {
     setIsHovered(false);
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   }, []);
 
   const handleCardClick = () => {

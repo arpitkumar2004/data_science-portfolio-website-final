@@ -4,6 +4,7 @@ import { Shield, ArrowRight, Building2 } from 'lucide-react';
 import { trackEvent } from '../utils/analytics';
 import RecruiterGate from './RecruiterGate';
 import { getRecruiterProfile } from '../utils/recruiterProfile';
+import { useRole } from '../context/RoleContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -16,17 +17,14 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles,
   requireAdminToken = false 
 }) => {
+  const { role: currentRole, setRole: setContextRole } = useRole();
   const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
-  const [currentRole, setCurrentRole] = useState<string | null>(null);
   const [needsVerification, setNeedsVerification] = useState(false);
   const [showInlineGate, setShowInlineGate] = useState(false);
 
   useEffect(() => {
     const checkAuthorization = () => {
-      const userRole = localStorage.getItem('userRole');
-      setCurrentRole(userRole);
-      
-      if (!userRole) {
+      if (!currentRole) {
         setIsAuthorized(false);
         setNeedsVerification(false);
         return;
@@ -34,18 +32,18 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
       // Check if role is in allowed list
       const roleAllowed = allowedRoles.some(
-        role => role.toLowerCase() === userRole.toLowerCase()
+        role => role.toLowerCase() === currentRole.toLowerCase()
       );
 
       if (!roleAllowed) {
         setIsAuthorized(false);
         setNeedsVerification(false);
-        trackEvent('protected_route_blocked', { role: userRole, page: window.location.pathname });
+        trackEvent('protected_route_blocked', { role: currentRole, page: window.location.pathname });
         return;
       }
 
       // Special check for Admin role - must have token only if requireAdminToken is true
-      if (requireAdminToken && userRole.toLowerCase() === 'admin') {
+      if (requireAdminToken && currentRole.toLowerCase() === 'admin') {
         const adminToken = sessionStorage.getItem('adminToken');
         setIsAuthorized(!!adminToken);
         setNeedsVerification(false);
@@ -53,7 +51,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       }
 
       // Recruiters must have a verified profile
-      if (userRole.toLowerCase() === 'recruiter') {
+      if (currentRole.toLowerCase() === 'recruiter') {
         const profile = getRecruiterProfile();
         if (!profile) {
           setIsAuthorized(false);
@@ -67,13 +65,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     };
 
     checkAuthorization();
-
-    // Listen for role updates
-    const handleRoleUpdate = () => checkAuthorization();
-    window.addEventListener('role:updated', handleRoleUpdate);
-
-    return () => window.removeEventListener('role:updated', handleRoleUpdate);
-  }, [allowedRoles, requireAdminToken]);
+  }, [currentRole, allowedRoles, requireAdminToken]);
 
   // Loading state
   if (isAuthorized === null) {
@@ -96,8 +88,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           <RecruiterGate
             variant="inline"
             onVerified={() => {
-              localStorage.setItem('userRole', 'Recruiter');
-              window.dispatchEvent(new Event('role:updated'));
+              setContextRole('Recruiter');
               trackEvent('recruiter_verified_from_protected_route', { from: currentRole });
             }}
             onCancel={() => {
@@ -107,8 +98,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 setNeedsVerification(false);
               } else {
                 // They ARE recruiter role but refuse to verify — reset to Guest
-                localStorage.setItem('userRole', 'Guest');
-                window.dispatchEvent(new Event('role:updated'));
+                setContextRole('Guest');
               }
             }}
           />

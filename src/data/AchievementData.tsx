@@ -72,19 +72,19 @@ export const achievementData = [
       },
       {
         description: "NK Securities Volatility Forecasting: Pioneered geometric ensembling with Transformers—beating benchmark models by 18% in out-of-sample RMSE for high-frequency trading applications.",
-        links: [{ url: "#", label: "Methodology Details" }]
+        links: [{ url: "https://github.com/arpitkumar2004", label: "Methodology Details" }]
       },
       {
         description: "DTL Quant Challenge 2024: Ranked 19th Nationally—delivered 2.42 in-sample and 0.48 real-time alpha across bull/bear/sideways markets, demonstrating robust strategy performance.",
-        links: [{ url: "#", label: "Leaderboard Entry" }]
+        links: [{ url: "https://github.com/arpitkumar2004", label: "Leaderboard Entry" }]
       },
       {
         description: "Gold Medal, GC Data Analytics (Evva Health '23): Shipped production-ready healthcare risk model achieving 82.89% accuracy—enabling real-time patient triage that improved clinical outcomes.",
-        links: [{ url: "#", label: "Analytical Report" }]
+        links: [{ url: "https://github.com/arpitkumar2004", label: "Analytical Report" }]
       },
       {
         description: "Bronze Medal, GC ChemQuest: Designed EMI shielding materials achieving 40 dB attenuation—advancing bio-electronic device protection for medical implants and wearable tech.",
-        links: [{ url: "#", label: "Research Summary" }]
+        links: [{ url: "https://github.com/arpitkumar2004", label: "Research Summary" }]
       }
     ]
   },
@@ -96,7 +96,7 @@ export const achievementData = [
     items: [
       {
         description: "Technical Advisor & Former Head, Developers' Society (IIT Kharagpur)—scaled team from 15 to 30+ developers, shipped 12+ production features quarterly, and cut deployment cycles by 40% through CI/CD best practices.",
-        links: [{ url: "#", label: "Society Team Page" }]
+        links: [{ url: "https://github.com/arpitkumar2004", label: "Society Team Page" }]
       },
       {
         description: "Executive Member, Public Policy & Governance Society (2022–24)—applied quantitative analytics to model socio-economic policies, producing 4 white papers influencing campus tech-policy discourse with 500+ stakeholder engagement.",

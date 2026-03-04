@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Sparkles, Briefcase } from "lucide-react";
 import { trackEvent } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
+import { useRole } from "../context/RoleContext";
 
 /**
  * Simple badge component that links to the dedicated Open to Work page
@@ -10,31 +11,18 @@ import { getRecruiterProfile } from "../utils/recruiterProfile";
  * Only visible to verified Recruiters and Admin roles
  */
 const OpenToWorkBadge: React.FC = () => {
+  const { role } = useRole();
   const [visible, setVisible] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
 
-  // Check if user has authorized role (verified Recruiter or Admin)
+  const isAdmin = role === 'Admin';
+  const isVerifiedRecruiter = role === 'Recruiter' && !!getRecruiterProfile();
+  const isAuthorized = isAdmin || isVerifiedRecruiter;
+
+  // Update visibility when role or authorization changes
   useEffect(() => {
-    const checkAuthorization = () => {
-      const userRole = localStorage.getItem("userRole");
-      const isAdmin = userRole === "Admin";
-      const isVerifiedRecruiter = userRole === "Recruiter" && !!getRecruiterProfile();
-      const authorized = isAdmin || isVerifiedRecruiter;
-      setIsAuthorized(authorized);
-      
-      // Also check visibility preference
-      const savedState = localStorage.getItem("openToWorkBadge");
-      setVisible(authorized && savedState !== "hidden");
-    };
-
-    checkAuthorization();
-
-    // Listen for role updates
-    const handleRoleUpdate = () => checkAuthorization();
-    window.addEventListener("role:updated", handleRoleUpdate);
-
-    return () => window.removeEventListener("role:updated", handleRoleUpdate);
-  }, []);
+    const savedState = localStorage.getItem("openToWorkBadge");
+    setVisible(isAuthorized && savedState !== "hidden");
+  }, [isAuthorized]);
 
   const handleBadgeClick = () => {
     trackEvent("open_to_work_badge_click", { 

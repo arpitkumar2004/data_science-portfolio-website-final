@@ -11,15 +11,17 @@ export const useLenis = () => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
 
-    // Start the animation loop
+    // Start the animation loop with proper cleanup tracking
+    let rafId: number;
     const raf = (time: number) => {
       lenisRef.current?.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     };
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
-    // Cleanup
+    // Cleanup: cancel rAF loop AND destroy Lenis instance
     return () => {
+      cancelAnimationFrame(rafId);
       lenisRef.current?.destroy();
     };
   }, []);

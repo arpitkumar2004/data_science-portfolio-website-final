@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { SiKaggle, SiMedium } from 'react-icons/si';
 import { getRecruiterProfile } from '../utils/recruiterProfile';
+import { useRole } from '../context/RoleContext';
 
 /* ───────────────────── data ───────────────────── */
 
@@ -75,20 +76,8 @@ const SectionHeading: React.FC<{
 /* ───────────────────── component ───────────────────── */
 
 const Footer: React.FC = () => {
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const { role: userRole } = useRole();
   const [visitorCount, setVisitorCount] = useState(211);
-
-  /* role listener */
-  useEffect(() => {
-    const read = () => setUserRole(localStorage.getItem('userRole'));
-    read();
-    window.addEventListener('storage', read);
-    window.addEventListener('role:updated', read);
-    return () => {
-      window.removeEventListener('storage', read);
-      window.removeEventListener('role:updated', read);
-    };
-  }, []);
 
   /* session-safe visitor counter (no per-second timer) */
   useEffect(() => {
@@ -185,7 +174,7 @@ const Footer: React.FC = () => {
               </a>
 
               {/* Recruiter-only link to dedicated page */}
-              {localStorage.getItem('userRole') === 'Recruiter' && getRecruiterProfile() && (
+              {userRole === 'Recruiter' && getRecruiterProfile() && (
                 <Link
                   to="/open-to-work"
                   className="mt-2 flex w-full items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-50 dark:bg-emerald-950/20 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-400 transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-950/40"
