@@ -22,15 +22,24 @@ import { Link } from "react-router-dom";
 import AniText from "../components/AniText";
 import { useAboutData } from "../hooks/useAboutData";
 import { useProjects } from "../context/ProjectsContext";
-import type { Milestone as MilestoneType, TechItem, Stat } from "../data/aboutData";
+import { techData } from "../data/skillsData";
+import type { Milestone as MilestoneType, Stat } from "../data/aboutData";
 import type { Project } from "../data/projectsData";
 
 const FEATURED_PROJECT_IDS = [5, 8, 9];
 
 // ===== Icon Resolver =====
 const iconMap: Record<string, React.ElementType> = {
-  GraduationCap, Briefcase, Trophy, Microscope, Github, Linkedin,
-  Activity, Zap, Layers, TrendingUp,
+  GraduationCap,
+  Briefcase,
+  Trophy,
+  Microscope,
+  Github,
+  Linkedin,
+  Activity,
+  Zap,
+  Layers,
+  TrendingUp,
 };
 const resolveIcon = (name: string): React.ElementType => iconMap[name] || Zap;
 
@@ -42,14 +51,11 @@ const statColors: Record<string, string> = {
   green: "text-emerald-600 dark:text-emerald-400",
 };
 
-const categoryLabels: Record<string, string> = {
-  core: "Core", ml: "ML / AI", backend: "Backend", frontend: "Frontend",
-  data: "Data", devops: "DevOps",
-};
-
 // ===== Skeleton =====
 const Skeleton = ({ className = "" }: { className?: string }) => (
-  <div className={`animate-pulse bg-slate-200 dark:bg-slate-800 rounded-lg ${className}`} />
+  <div
+    className={`animate-pulse bg-slate-200 dark:bg-slate-800 rounded-lg ${className}`}
+  />
 );
 
 // ===== Stat Card =====
@@ -60,7 +66,9 @@ const StatCard = ({ stat, index }: { stat: Stat; index: number }) => (
     transition={{ delay: 0.1 * index, duration: 0.4 }}
     className="p-4 bg-white dark:bg-[#111] rounded-xl border border-slate-100 dark:border-white/8 text-center"
   >
-    <p className={`text-2xl font-black tracking-tight ${statColors[stat.color] || statColors.default}`}>
+    <p
+      className={`text-2xl font-black tracking-tight ${statColors[stat.color] || statColors.default}`}
+    >
       {stat.value}
     </p>
     <p className="text-[10px] font-mono font-semibold text-slate-400 dark:text-slate-500 uppercase mt-0.5">
@@ -70,7 +78,13 @@ const StatCard = ({ stat, index }: { stat: Stat; index: number }) => (
 );
 
 // ===== Milestone =====
-const MilestoneCard = ({ milestone, index }: { milestone: MilestoneType; index: number }) => {
+const MilestoneCard = ({
+  milestone,
+  index,
+}: {
+  milestone: MilestoneType;
+  index: number;
+}) => {
   const Icon = resolveIcon(milestone.icon);
   return (
     <motion.div
@@ -95,8 +109,12 @@ const MilestoneCard = ({ milestone, index }: { milestone: MilestoneType; index: 
             {milestone.date}
           </span>
         </div>
-        <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm leading-snug">{milestone.title}</h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">{milestone.subtitle}</p>
+        <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm leading-snug">
+          {milestone.title}
+        </h4>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+          {milestone.subtitle}
+        </p>
       </div>
     </motion.div>
   );
@@ -125,13 +143,20 @@ const WorkRow = ({ project, index }: { project: Project; index: number }) => (
         </div>
         <div className="flex flex-wrap gap-1.5">
           {(project.tags ?? []).slice(0, 5).map((tag, i, arr) => (
-            <span key={i} className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500">
-              {tag}{i < arr.length - 1 ? " ·" : ""}
+            <span
+              key={i}
+              className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500"
+            >
+              {tag}
+              {i < arr.length - 1 ? " ·" : ""}
             </span>
           ))}
         </div>
       </div>
-      <ArrowRight size={16} className="shrink-0 ml-3 text-slate-300 dark:text-slate-600 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all" />
+      <ArrowRight
+        size={16}
+        className="shrink-0 ml-3 text-slate-300 dark:text-slate-600 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all"
+      />
     </Link>
   </motion.div>
 );
@@ -152,20 +177,10 @@ const AboutMe: React.FC = () => {
 
   // Filter featured projects by specific IDs
   const featuredProjects = useMemo(() => {
-    return FEATURED_PROJECT_IDS
-      .map((id) => projects.find((p) => p.id === id))
-      .filter((p): p is Project => p !== undefined);
+    return FEATURED_PROJECT_IDS.map((id) =>
+      projects.find((p) => p.id === id),
+    ).filter((p): p is Project => p !== undefined);
   }, [projects]);
-
-  // Group tech by category
-  const groupedTech = useMemo(() => {
-    const groups: Record<string, TechItem[]> = {};
-    (data.techStack ?? []).forEach((t) => {
-      if (!groups[t.category]) groups[t.category] = [];
-      groups[t.category].push(t);
-    });
-    return groups;
-  }, [data.techStack]);
 
   const getSocialIcon = (iconName: string) => {
     const Icon = resolveIcon(iconName);
@@ -196,14 +211,15 @@ const AboutMe: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black font-sans antialiased text-slate-900 dark:text-slate-100 selection:bg-blue-100 dark:selection:bg-blue-500/20">
-
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-
           {/* ========== LEFT SIDEBAR ========== */}
           <div className="lg:col-span-4 lg:sticky lg:top-24 h-fit space-y-5">
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               {/* Photo */}
               <div className="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#111] aspect-[4/5] relative">
                 <img
@@ -214,11 +230,17 @@ const AboutMe: React.FC = () => {
                 />
                 {/* Bottom info bar */}
                 <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-10 pb-4 px-5">
-                  <h3 className="text-lg font-bold text-white">{data.personal.name}</h3>
-                  <p className="text-xs text-slate-300 font-medium mt-0.5">{data.personal.tagline}</p>
+                  <h3 className="text-lg font-bold text-white">
+                    {data.personal.name}
+                  </h3>
+                  <p className="text-xs text-slate-300 font-medium mt-0.5">
+                    {data.personal.tagline}
+                  </p>
                   <div className="flex items-center gap-1.5 mt-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span className="text-[11px] font-medium text-emerald-300">{data.personal.availability}</span>
+                    <span className="text-[11px] font-medium text-emerald-300">
+                      {data.personal.availability}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -259,27 +281,36 @@ const AboutMe: React.FC = () => {
                     { dt: "Graduation", dd: data.education.graduation },
                   ].map((item, i) => (
                     <div key={i}>
-                      <dt className="text-[10px] font-mono text-slate-500 uppercase">{item.dt}</dt>
+                      <dt className="text-[10px] font-mono text-slate-500 uppercase">
+                        {item.dt}
+                      </dt>
                       <dd className="text-sm font-semibold">{item.dd}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
-
             </motion.div>
           </div>
 
           {/* ========== RIGHT MAIN ========== */}
           <div className="lg:col-span-8">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.5 }}>
-
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.15, duration: 0.5 }}
+            >
               {/* Header */}
               <header className="mb-12">
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-slate-100 leading-[1.1]">
                   {data.personal.name}
                 </h1>
                 <div className="text-lg md:text-xl font-mono text-blue-600 dark:text-blue-400 font-semibold mt-2">
-                  &gt; <AniText texts={data.personal.animatedRoles} typingSpeed={50} pauseTime={2500} />
+                  &gt;{" "}
+                  <AniText
+                    texts={data.personal.animatedRoles}
+                    typingSpeed={50}
+                    pauseTime={2500}
+                  />
                 </div>
               </header>
 
@@ -290,7 +321,11 @@ const AboutMe: React.FC = () => {
                 </p>
                 {(data.bio?.paragraphs ?? []).map((para, i) => (
                   <p key={i}>
-                    {para.label && <strong className="text-slate-800 dark:text-slate-200">{para.label}: </strong>}
+                    {para.label && (
+                      <strong className="text-slate-800 dark:text-slate-200">
+                        {para.label}:{" "}
+                      </strong>
+                    )}
                     {para.text}
                   </p>
                 ))}
@@ -315,35 +350,6 @@ const AboutMe: React.FC = () => {
 
               <hr className="my-14 border-slate-100 dark:border-white/8" />
 
-              {/* Tech Stack — grouped tags */}
-              <div>
-                <SectionLabel title="Tech Stack" />
-                <div className="space-y-4">
-                  {Object.entries(groupedTech).map(([cat, items]) => (
-                    <div key={cat}>
-                      <p className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">
-                        {categoryLabels[cat] || cat}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {items.map((tech) => (
-                          <span
-                            key={tech.name}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 dark:bg-[#111] border border-slate-100 dark:border-white/8 text-xs font-semibold text-slate-700 dark:text-slate-300"
-                          >
-                            {tech.name}
-                            <span className="text-[9px] font-normal text-slate-400 dark:text-slate-500">
-                              {tech.level}
-                            </span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <hr className="my-14 border-slate-100 dark:border-white/8" />
-
               {/* Selected Work — from database */}
               {featuredProjects.length > 0 && (
                 <div>
@@ -361,6 +367,40 @@ const AboutMe: React.FC = () => {
                   </Link>
                 </div>
               )}
+
+              <hr className="my-14 border-slate-100 dark:border-white/8" />
+
+              {/* Tech Stack — from skillsData */}
+              <div>
+                <SectionLabel title="Tech Stack" />
+                <div className="space-y-4">
+                  {techData.map((skill) => (
+                    <div key={skill.title}>
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-blue-600 dark:text-blue-400">
+                          {skill.icon}
+                        </span>
+                        <p className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                          {skill.title}
+                        </p>
+                        <span className="text-[9px] font-medium text-slate-400 dark:text-slate-500 ml-auto">
+                          {skill.category}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {skill.tools.map((tool) => (
+                          <span
+                            key={tool}
+                            className="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-50 dark:bg-[#111] border border-slate-100 dark:border-white/8 text-xs font-semibold text-slate-700 dark:text-slate-300"
+                          >
+                            {tool}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* CTA */}
               <div className="mt-16 bg-slate-900 dark:bg-[#0a0a0a] rounded-2xl p-8 lg:p-10 text-white relative overflow-hidden">
@@ -397,7 +437,6 @@ const AboutMe: React.FC = () => {
                   </div>
                 </div>
               </div>
-
             </motion.div>
           </div>
         </div>
