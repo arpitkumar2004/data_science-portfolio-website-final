@@ -39,7 +39,7 @@ const OpenToWorkPage: React.FC = () => {
   const projects = getFeaturedProjects(allProjects);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a]">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a]">
       <div className="max-w-7xl mx-auto px-6 py-24 md:py-32">
 
         {/* ===== HEADER ===== */}
