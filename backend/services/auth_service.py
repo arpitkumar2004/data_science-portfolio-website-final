@@ -1,5 +1,5 @@
 """Authentication service for admin token management"""
-import os
+import hmac
 import secrets
 import time
 from config import ADMIN_SECRET_KEY, ADMIN_TOKEN_EXPIRY_SECONDS
@@ -21,8 +21,11 @@ def validate_admin(admin_key: str = None, admin_token: str = None) -> bool:
     """
     now = int(time.time())
     
-    # Check secret key
-    if admin_key and admin_key == ADMIN_SECRET_KEY:
+    # Periodically clean up expired tokens to prevent memory leak
+    _maybe_cleanup(now)
+    
+    # Check secret key with constant-time comparison
+    if admin_key and hmac.compare_digest(admin_key.encode("utf-8"), ADMIN_SECRET_KEY.encode("utf-8")):
         return True
     
     # Check token validity and expiry
@@ -30,6 +33,19 @@ def validate_admin(admin_key: str = None, admin_token: str = None) -> bool:
         return True
     
     return False
+
+
+# Track last cleanup time to avoid doing it on every call
+_last_cleanup: int = 0
+_CLEANUP_INTERVAL = 300  # run cleanup at most every 5 minutes
+
+
+def _maybe_cleanup(now: int) -> None:
+    """Automatically clean up expired tokens periodically."""
+    global _last_cleanup
+    if now - _last_cleanup >= _CLEANUP_INTERVAL:
+        _last_cleanup = now
+        cleanup_expired_tokens()
 
 
 def create_admin_token() -> dict:

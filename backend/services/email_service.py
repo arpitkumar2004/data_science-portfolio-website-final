@@ -9,6 +9,7 @@ Supported mailing cases
 4. Admin Notification      – new-lead alert to portfolio owner
 """
 
+import logging
 import base64
 from pathlib import Path
 
@@ -22,6 +23,8 @@ from config import (
     CONTACT_PHONE_NUMBER,
 )
 from templates import contact_acknowledgment, cv_request, recruiter_login, admin_notification
+
+logger = logging.getLogger(__name__)
 
 # Initialize Resend API (config enforces presence of API key)
 resend.api_key = RESEND_API_KEY
@@ -72,10 +75,10 @@ def send_contact_acknowledgment(
             "subject": f"Re: {subject} | Arpit Kumar",
             "html": html_content,
         })
-        print(f"[email] Contact acknowledgment sent → {email}")
+        logger.info("Contact acknowledgment sent to %s", email)
         return True
     except Exception as e:
-        print(f"[email] Error sending contact acknowledgment: {e}")
+        logger.error("Failed to send contact acknowledgment to %s: %s", email, e, exc_info=True)
         return False
 
 
@@ -112,7 +115,7 @@ def send_cv_request_email(
         phone = phone or CONTACT_PHONE_NUMBER
 
         if not Path(cv_path).exists():
-            print(f"[email] CV file not found at {cv_path}")
+            logger.warning("CV file not found at %s", cv_path)
             return False
 
         with open(cv_path, "rb") as f:
@@ -139,10 +142,10 @@ def send_cv_request_email(
                 }
             ],
         })
-        print(f"[email] CV request sent → {email} (company: {company})")
+        logger.info("CV request sent to %s (company: %s)", email, company)
         return True
     except Exception as e:
-        print(f"[email] Error sending CV request: {e}")
+        logger.error("Failed to send CV request to %s: %s", email, e, exc_info=True)
         return False
 
 
@@ -194,7 +197,7 @@ def send_recruiter_login_email(
                 "content": cv_content,
             })
         else:
-            print(f"[email] Warning: CV file not found at {cv_path} — sending without attachment")
+            logger.warning("CV file not found at %s — sending without attachment", cv_path)
 
         # ── Render template ──
         html_content = recruiter_login.render(
@@ -222,10 +225,10 @@ def send_recruiter_login_email(
             payload["attachments"] = attachments
 
         resend.Emails.send(payload)
-        print(f"[email] Recruiter welcome sent → {email} (company: {company or 'N/A'})")
+        logger.info("Recruiter welcome sent to %s (company: %s)", email, company or "N/A")
         return True
     except Exception as e:
-        print(f"[email] Error sending recruiter welcome: {e}")
+        logger.error("Failed to send recruiter welcome to %s: %s", email, e, exc_info=True)
         return False
 
 
@@ -284,8 +287,8 @@ def send_admin_notification(
             "subject": f"[New Lead] {lead_type}: {name} — {subject}",
             "html": html_content,
         })
-        print(f"[email] Admin notification sent → {admin_email} (lead: {name})")
+        logger.info("Admin notification sent to %s (lead: %s)", admin_email, name)
         return True
     except Exception as e:
-        print(f"[email] Error sending admin notification: {e}")
+        logger.error("Failed to send admin notification to %s: %s", admin_email, e, exc_info=True)
         return False

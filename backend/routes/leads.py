@@ -1,4 +1,6 @@
 """Lead management endpoints with rate limiting and JWT auth"""
+import logging
+
 from fastapi import APIRouter, Depends, Form, HTTPException, status, BackgroundTasks, Request, Body
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
@@ -34,6 +36,8 @@ from services.email_service import (
 )
 from utils.serializers import serialize_contact_lead
 from config import RATE_LIMIT_PUBLIC, RATE_LIMIT_ADMIN, ADMIN_EMAIL, VITE_API_URL
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api", tags=["leads"])
 limiter = Limiter(key_func=get_remote_address)
@@ -101,7 +105,7 @@ async def submit_contact(
             models.LeadType.CONTACT,
         )
     except Exception as e:
-        print(f"Database Error: {e}")
+        logger.error("Database error in submit_contact: %s", e, exc_info=True)
         raise HTTPException(status_code=500, detail="Failed to save contact")
 
     # ── Dispatch the right email based on role ──
@@ -194,7 +198,7 @@ async def handle_cv_request(
             models.LeadType.CV_REQUEST,
         )
     except Exception as e:
-        print(f"Database Error: {e}")
+        logger.error("Database error in handle_cv_request: %s", e, exc_info=True)
         raise HTTPException(status_code=500, detail="Failed to save CV request")
 
     # Send CV email asynchronously

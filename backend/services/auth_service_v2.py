@@ -3,7 +3,8 @@ JWT-based Authentication Service with RBAC.
 Implements stateless JWT tokens with role-based access control.
 Includes bcrypt password hashing for secure credential management.
 """
-from datetime import datetime, timedelta
+import hmac
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 from jose import JWTError, jwt
 from fastapi import HTTPException, status, Header, Depends
@@ -61,14 +62,15 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     """
     to_encode = data.copy()
     
+    now = datetime.now(timezone.utc)
     if expires_delta:
-        expire = datetime.utcnow() + expires_delta
+        expire = now + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+        expire = now + timedelta(minutes=JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
     
     to_encode.update({
         "exp": expire,
-        "iat": datetime.utcnow()
+        "iat": now
     })
     
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
@@ -113,9 +115,8 @@ def authenticate_admin(password: str) -> dict:
     Raises:
         HTTPException: If credentials are invalid (401)
     """
-    # Simple constant-time comparison for admin secret key
-    # In production, the ADMIN_SECRET_KEY would be pre-hashed and stored
-    if password != ADMIN_SECRET_KEY:
+    # Constant-time comparison to prevent timing attacks
+    if not hmac.compare_digest(password.encode("utf-8"), ADMIN_SECRET_KEY.encode("utf-8")):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid admin credentials"

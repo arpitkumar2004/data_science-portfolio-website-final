@@ -2,22 +2,40 @@
 Main FastAPI application initialization and middleware setup.
 All business logic is modularized into separate services and routes.
 """
+import logging
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 
 import models
 import database
 from config import CORS_ORIGINS, APP_TITLE, APP_VERSION
+# ── Structured logging configuration ──
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
 
 # Create database tables if they don't exist
 models.Base.metadata.create_all(bind=database.engine)
 
-# Initialize rate limiter
-limiter = Limiter(key_func=get_remote_address)
+
+# ── Rate limiter with proxy-aware IP extraction ──
+def _get_real_ip(request: Request) -> str:
+    """Extract real client IP from X-Forwarded-For (proxy-safe)."""
+    forwarded = request.headers.get("X-Forwarded-For")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else "127.0.0.1"
+
+
+limiter = Limiter(key_func=_get_real_ip)
 
 # Initialize FastAPI app
 app = FastAPI(title=APP_TITLE, version=APP_VERSION)
@@ -37,8 +55,33 @@ app.add_middleware(
     expose_headers=["content-type", "authorization"],
 )
 
+
+# ── Security headers middleware ──
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    """Inject OWASP-recommended security headers on every response."""
+    response = await call_next(request)
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    return response
+
+
+# ── Global exception handler ──
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    """Catch unhandled exceptions, log them, and return a safe 500 response."""
+    logger.exception("Unhandled exception on %s %s", request.method, request.url.path)
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error"},
+    )
+
+
 # Include route routers
-from routes import health, auth, leads
+from routes import health, auth, leads, projects, about
 
 # Health routes - include at both /api and root level for compatibility
 app.include_router(health.router)  # Includes at /api prefix (default)
@@ -49,3 +92,12 @@ app.include_router(auth.router)
 
 # Leads routes - register only once to avoid duplication/ambiguity
 app.include_router(leads.router)
+
+# Projects routes - admin CRUD for portfolio projects
+app.include_router(projects.router)
+
+# Projects public routes - no auth, for portfolio frontend
+app.include_router(projects.public_router)
+
+# About Me public route - serves profile data for About page
+app.include_router(about.router)
