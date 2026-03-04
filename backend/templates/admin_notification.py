@@ -16,6 +16,7 @@ Required fields:
     admin_url    – URL to the admin leads panel
 """
 
+import html as _html
 from datetime import datetime, timezone
 from templates.base import wrap
 
@@ -33,6 +34,14 @@ def render(
     frontend_url: str = "https://arpitkumar.dev",
 ) -> str:
     """Return the full HTML email for an admin new-lead notification."""
+
+    # Sanitize all user-supplied values to prevent HTML/XSS injection
+    name = _html.escape(name)
+    email = _html.escape(email)
+    subject = _html.escape(subject)
+    message = _html.escape(message)
+    company = _html.escape(company) if company else company
+    role = _html.escape(role) if role else role
 
     metadata = metadata or {}
     trimmed = message[:400] + ("..." if len(message) > 400 else "")

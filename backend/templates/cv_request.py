@@ -14,6 +14,8 @@ Required fields:
     calendly_link – Link to schedule a call
 """
 
+import html as _html
+
 from templates.base import wrap
 
 
@@ -26,6 +28,11 @@ def render(
     calendly_link: str = "https://calendly.com/kumararpit17773/30min",
 ) -> str:
     """Return the full HTML email for a CV request response."""
+
+    # Sanitize all user-supplied values to prevent HTML/XSS injection
+    name = _html.escape(name)
+    company = _html.escape(company)
+    subject = _html.escape(subject)
 
     clean_subject = subject.replace("CV Request: ", "")
 

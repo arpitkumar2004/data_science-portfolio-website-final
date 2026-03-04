@@ -22,6 +22,8 @@ Required fields:
     phone         – WhatsApp-compatible phone number
 """
 
+import html as _html
+
 from templates.base import wrap, ACCENT_COLOR
 from config import CALENDLY_LINK, FRONTEND_URL, PHONE_NUMBER, CONTACT_PHONE_NUMBER
 
@@ -35,6 +37,10 @@ def render(
     company: str | None = None,
 ) -> str:
     """Return a formal, corporate-grade HTML welcome email for a recruiter."""
+
+    # Sanitize all user-supplied values to prevent HTML/XSS injection
+    name = _html.escape(name)
+    company = _html.escape(company) if company else company
 
     company_line = f" at <strong>{company}</strong>" if company else ""
 

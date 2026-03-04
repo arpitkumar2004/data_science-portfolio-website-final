@@ -14,6 +14,8 @@ Required fields:
     phone         – WhatsApp-compatible phone number
 """
 
+import html as _html
+
 from templates.base import wrap
 
 
@@ -26,6 +28,11 @@ def render(
     phone: str,
 ) -> str:
     """Return the full HTML email for a contact acknowledgment."""
+
+    # Sanitize all user-supplied values to prevent HTML/XSS injection
+    name = _html.escape(name)
+    subject = _html.escape(subject)
+    message = _html.escape(message)
 
     trimmed_message = message[:300] + ("..." if len(message) > 300 else "")
 
