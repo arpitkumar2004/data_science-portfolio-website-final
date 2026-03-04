@@ -1,9 +1,12 @@
 """Lead management service for database operations"""
+import logging
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, case, extract
 import models
 from utils.serializers import serialize_contact_lead
+
+logger = logging.getLogger(__name__)
 
 
 def create_contact_lead(db: Session, name: str, email: str, subject: str, message: str, 
@@ -265,7 +268,7 @@ def bulk_delete_leads(db: Session, lead_ids: list) -> int:
     """
     deleted_count = db.query(models.ContactLead).filter(
         models.ContactLead.id.in_(lead_ids)
-    ).delete()
+    ).delete(synchronize_session=False)
     
     db.commit()
     return deleted_count
@@ -273,7 +276,8 @@ def bulk_delete_leads(db: Session, lead_ids: list) -> int:
 
 def get_lead_statistics(db: Session) -> dict:
     """
-    Calculate lead statistics including conversion rate and quality metrics.
+    Calculate lead statistics using a single aggregated query.
+    Replaces 8+ separate COUNT queries with one efficient SQL query.
     
     Args:
         db: Database session
@@ -281,54 +285,50 @@ def get_lead_statistics(db: Session) -> dict:
     Returns:
         Dictionary with statistics
     """
-    total_leads = db.query(models.ContactLead).count()
-
-    # Status distribution (new lifecycle)
-    lifecycle_statuses = ['unread', 'processing', 'contacted', 'archived']
-    status_counts = {
-        status: db.query(models.ContactLead).filter(models.ContactLead.status == status).count()
-        for status in lifecycle_statuses
-    }
-
-    # Lead velocity
     now = datetime.now(timezone.utc)
     last_24h = now - timedelta(hours=24)
     last_7d = now - timedelta(days=7)
-    leads_last_24h = db.query(models.ContactLead).filter(models.ContactLead.created_at >= last_24h).count()
-    leads_last_7d = db.query(models.ContactLead).filter(models.ContactLead.created_at >= last_7d).count()
-
-    # Conversion efficiency: % of users choosing recruiter role
-    recruiter_count = db.query(models.ContactLead).filter(models.ContactLead.role == 'recruiter').count()
-    conversion_efficiency = (recruiter_count / total_leads) * 100 if total_leads else 0
-
-    # Average quality score
-    avg_quality_score = db.query(models.ContactLead).filter(
-        models.ContactLead.quality_score.isnot(None)
-    ).with_entities(func.avg(models.ContactLead.quality_score)).scalar()
-    avg_quality_score = float(avg_quality_score) if avg_quality_score else 0.0
-
-    # Leads in last 30 days (legacy metric)
     thirty_days_ago = now - timedelta(days=30)
-    leads_last_30_days = db.query(models.ContactLead).filter(
-        models.ContactLead.created_at >= thirty_days_ago
-    ).count()
 
-    # Priority breakdown
-    high_priority_count = db.query(models.ContactLead).filter(models.ContactLead.priority == 'high').count()
+    CL = models.ContactLead
+
+    row = db.query(
+        func.count(CL.id).label("total"),
+        func.count(case((CL.status == "unread", 1))).label("unread"),
+        func.count(case((CL.status == "processing", 1))).label("processing"),
+        func.count(case((CL.status == "contacted", 1))).label("contacted"),
+        func.count(case((CL.status == "archived", 1))).label("archived"),
+        func.count(case((CL.created_at >= last_24h, 1))).label("last_24h"),
+        func.count(case((CL.created_at >= last_7d, 1))).label("last_7d"),
+        func.count(case((CL.created_at >= thirty_days_ago, 1))).label("last_30d"),
+        func.count(case((CL.role == "recruiter", 1))).label("recruiters"),
+        func.count(case((CL.priority == "high", 1))).label("high_priority"),
+        func.avg(case((CL.quality_score.isnot(None), CL.quality_score))).label("avg_quality"),
+    ).one()
+
+    total_leads = row.total or 0
+    recruiter_count = row.recruiters or 0
+    conversion_efficiency = (recruiter_count / total_leads) * 100 if total_leads else 0
+    avg_quality_score = float(row.avg_quality) if row.avg_quality else 0.0
 
     return {
         "total_leads": total_leads,
-        "status_distribution": status_counts,
+        "status_distribution": {
+            "unread": row.unread or 0,
+            "processing": row.processing or 0,
+            "contacted": row.contacted or 0,
+            "archived": row.archived or 0,
+        },
         "conversion_rate": conversion_efficiency,
         "avg_quality_score": avg_quality_score,
-        "leads_last_30_days": leads_last_30_days,
-        "leads_last_24h": leads_last_24h,
-        "leads_last_7d": leads_last_7d,
-        "high_priority_count": high_priority_count,
+        "leads_last_30_days": row.last_30d or 0,
+        "leads_last_24h": row.last_24h or 0,
+        "leads_last_7d": row.last_7d or 0,
+        "high_priority_count": row.high_priority or 0,
         "role_distribution": {
             "recruiter": recruiter_count,
-            "other": total_leads - recruiter_count
-        }
+            "other": total_leads - recruiter_count,
+        },
     }
 
 
@@ -396,35 +396,25 @@ def get_source_breakdown(db: Session) -> list:
 
 def get_response_time_stats(db: Session) -> dict:
     """
-    Calculate average response time (time from created_at to last_contacted).
+    Calculate average response time using SQL aggregation.
+    Pushes computation to the database instead of loading all leads into memory.
     
     Returns:
         Dict with avg_hours, responded_count, total_count, response_rate
     """
-    total = db.query(models.ContactLead).count()
-    
-    # Get leads that have been responded to
-    responded_leads = db.query(models.ContactLead).filter(
-        models.ContactLead.last_contacted.isnot(None)
-    ).all()
-    
-    responded_count = len(responded_leads)
-    
-    if responded_count == 0:
-        return {
-            "avg_hours": 0,
-            "responded_count": 0,
-            "total_count": total,
-            "response_rate": 0
-        }
-    
-    total_hours = 0
-    for lead in responded_leads:
-        if lead.created_at and lead.last_contacted:
-            delta = lead.last_contacted - lead.created_at
-            total_hours += delta.total_seconds() / 3600
-    
-    avg_hours = total_hours / responded_count if responded_count else 0
+    CL = models.ContactLead
+
+    row = db.query(
+        func.count(CL.id).label("total"),
+        func.count(CL.last_contacted).label("responded"),
+        func.avg(
+            extract("epoch", CL.last_contacted - CL.created_at) / 3600
+        ).filter(CL.last_contacted.isnot(None)).label("avg_hours"),
+    ).one()
+
+    total = row.total or 0
+    responded_count = row.responded or 0
+    avg_hours = float(row.avg_hours) if row.avg_hours else 0
     
     return {
         "avg_hours": round(avg_hours, 1),
