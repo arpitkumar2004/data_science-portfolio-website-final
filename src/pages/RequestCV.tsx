@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { SiKaggle } from "react-icons/si";
 
-import { projects } from "../data/projectsData";
+import { useProjects } from "../context/ProjectsContext";
 import { techData } from "../data/skillsData";
 import { achievementData } from "../data/AchievementData";
 import { API_ENDPOINTS, buildApiUrl } from "../config/api";
@@ -35,6 +35,7 @@ type FormData = {
 
 const RequestCV: React.FC = () => {
   const { showToast } = useToast();
+  const { projects } = useProjects();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showWakeUpNotice, setShowWakeUpNotice] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
@@ -80,7 +81,7 @@ const RequestCV: React.FC = () => {
         0,
       ),
     };
-  }, []);
+  }, [projects]);
 
   // 2. Cold-Start & Error Focus
   useEffect(() => {

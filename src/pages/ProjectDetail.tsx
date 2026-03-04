@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { projects } from '../data/projectsData';
+import { useProjects } from '../context/ProjectsContext';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import ProjectCard from '../components/ProjectCard';
@@ -49,6 +49,7 @@ const CAT_BADGE: Record<string, string> = {
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { projects, loading } = useProjects();
   const project = projects.find((p) => p.id === Number(id));
 
   /* ── Modal state ── */
@@ -99,6 +100,18 @@ const ProjectDetail: React.FC = () => {
   const imgKeyHandler = (src: string) => (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(src); }
   };
+
+  /* ── Loading ── */
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] flex items-center justify-center px-6">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm text-slate-500 dark:text-slate-400">Loading project...</p>
+        </div>
+      </div>
+    );
+  }
 
   /* ── Not found ── */
   if (!project) {
@@ -158,11 +171,11 @@ const ProjectDetail: React.FC = () => {
   const nextProjects = useMemo(() => {
     if (!project.similarProjectIds?.length) return [];
     return projects.filter((p) => project.similarProjectIds!.includes(p.id)).slice(0, 2);
-  }, [project]);
+  }, [project, projects]);
 
   const randomProjects = useMemo(() =>
     projects.filter((p) => p.id !== project.id).sort(() => 0.5 - Math.random()).slice(0, 3),
-    [project.id],
+    [project.id, projects],
   );
 
   const related = nextProjects.length ? nextProjects : randomProjects;

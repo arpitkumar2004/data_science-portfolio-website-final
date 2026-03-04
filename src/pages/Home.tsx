@@ -18,11 +18,13 @@ import AniText from "../components/AniText";
 import OpenToWorkBadge from "../components/OpenToWorkBadge";
 
 // Data & Assets
-import { projects } from "../data/projectsData";
+import { useProjects } from "../context/ProjectsContext";
 import iitkgplogo from "../data/img/me/2.png";
 import myphoto from "../data/img/me/my_photo2.png";
 
 const Home: React.FC = () => {
+  const { projects } = useProjects();
+
   const GoogleScholar = () => (
     <svg
       width="20"
@@ -116,7 +118,7 @@ const Home: React.FC = () => {
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       {/* Open to Work Badge - Fixed Position */}
-      <OpenToWorkBadge />
+      {/* <OpenToWorkBadge /> */}
 
       {/* Recruiter Nudge — only visible to verified recruiters */}
       {isRecruiter && (
@@ -457,18 +459,6 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* --- EXPERIENCE SECTION (PRIORITIZED FOR HIRING) --- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto dark:bg-black px-6">
-          <Experience />
-        </div>
-      </motion.section>
-
       {/* --- ACHIEVEMENTS --- */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -524,12 +514,23 @@ const Home: React.FC = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
-              {[12, 7, 10].map((id) => {
-                const p = projects.find((proj) => proj.id === id);
-                return p ? <ProjectCard key={p.id} {...p} /> : null;
-              })}
+              {projects.slice(0, 3).map((p) => (
+                <ProjectCard key={p.id} {...p} />
+              ))}
             </AnimatePresence>
           </div>
+        </div>
+      </motion.section>
+
+      {/* --- EXPERIENCE SECTION (PRIORITIZED FOR HIRING) --- */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="max-w-7xl mx-auto dark:bg-black px-6">
+          <Experience />
         </div>
       </motion.section>
 
