@@ -49,7 +49,7 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 3,
+    id: 1,
     title:
       "General Championship Data Analytics - Social and Healthcare Risk Scorecard",
     description:
@@ -125,7 +125,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 4,
+    id: 2,
     title: "Open IIT Data Analytics Competition - Footfall Prediction",
     description:
       "Developed a time-series model to predict city footfall, achieving 86.63% accuracy and securing 2nd place in the institute.",
@@ -200,7 +200,7 @@ export const projects: Project[] = [
     ],
   },
   {
-    id: 5,
+    id: 3,
     title: "FUGACITY Fest Website Development",
     description:
       "Developed a dynamic, responsive website for our department's annual fest, FUGACITY, using React, Tailwind CSS, and Node.js.for our annual fest FUGACITY of the department of Chemical engineering IIT Kharagpur",
@@ -258,7 +258,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     // ]
   },
   {
-    id: 6,
+    id: 4,
     title: "Responsive Portfolio Website",
     description:
       "Built a production-ready personal portfolio with React, Tailwind CSS, and Node.js to showcase projects, skills, research, and impact with fast, responsive UX.",
@@ -367,7 +367,7 @@ For Live Demo Visit : https://arpitkumar.dev
   //   // similarProjectIds: [1, 4]
   // },
   {
-    id: 7,
+    id: 5,
     title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
     description:
       "End-to-end ML pipeline predicting product prices using text, images, and tabular information.",
@@ -436,7 +436,7 @@ For Live Demo Visit : https://arpitkumar.dev
     // similarProjectIds: [2]
   },
   {
-    id: 8,
+    id: 6,
     title: "Deep Learning Based Text Summarization System",
     description:
       "Automated summarization of large-scale documents with deep learning for improved efficiency and comprehension.",
@@ -565,7 +565,7 @@ For Live Demo Visit : https://arpitkumar.dev
   //   // similarProjectIds: []
   // },
   {
-    id: 9,
+    id: 7,
     title: "Advanced Process Modelling & Simulation | IIT Kharagpur",
     description:
       "Simulation and optimization of chemical processes for energy efficiency and sustainable production.",
@@ -621,7 +621,7 @@ For Live Demo Visit : https://arpitkumar.dev
     // similarProjectIds: []
   },
   {
-    id: 10,
+    id: 8,
     title:
       "Transport Analysis of Electrochemical Conversion of Carbon-dioxide to Methanol",
     description:
@@ -736,7 +736,7 @@ For Live Demo Visit : https://arpitkumar.dev
     articleLink: "https://arpitkumar.dev/BTP%201-%20CO%E2%82%82%20to%20CH%E2%82%83OH%20Conversion%20Report.pdf"
   },
   {
-    id: 12,
+    id: 9,
     title: "Conversational AI Platform for Employee Welfare",
     description:
       "A scalable, full-stack AI platform designed to proactively identify employee burnout and automate HR reporting using ensemble anomaly detection and LangChain-driven LLMs.",
