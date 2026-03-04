@@ -86,6 +86,91 @@ export interface ResponseTimeData {
   response_rate: number;
 }
 
+// ============= Project Types =============
+
+export type ProjectCategory = "data-science" | "web-app" | "system-design" | "chemical-research";
+
+export interface ProjectResponse {
+  id: number;
+  title: string;
+  description: string;
+  longDescription: string;
+  image: string;
+  tags: string[];
+  objectives: string[];
+  technologies: string[];
+  type: string;
+  category: ProjectCategory;
+  methods: string[];
+  results: string[];
+  role: string;
+  duration: string;
+  tldr?: string;
+  keyImpactMetrics?: string[];
+  ProblemStatement?: string;
+  LiteratureReview?: string;
+  coreStack?: string[];
+  tools?: string[];
+  implementation?: string[];
+  discussion?: string[];
+  conclusion?: string[];
+  limitations?: string[];
+  futureWork?: string[];
+  references?: string[];
+  acknowledgements?: string[];
+  codeSnippet?: string;
+  githubLink?: string;
+  articleLink?: string;
+  liveDemoLink?: string;
+  company?: string;
+  challenges?: string[];
+  solutions?: string[];
+  galleryImages?: string[];
+  similarProjectIds?: number[];
+  standings?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProjectCreatePayload {
+  title: string;
+  description: string;
+  longDescription: string;
+  image: string;
+  tags: string[];
+  objectives: string[];
+  technologies: string[];
+  type: string;
+  category: ProjectCategory;
+  methods: string[];
+  results: string[];
+  role: string;
+  duration: string;
+  tldr?: string;
+  keyImpactMetrics?: string[];
+  ProblemStatement?: string;
+  coreStack?: string[];
+  tools?: string[];
+  implementation?: string[];
+  githubLink?: string;
+  articleLink?: string;
+  liveDemoLink?: string;
+  company?: string;
+  challenges?: string[];
+  solutions?: string[];
+  LiteratureReview?: string;
+  discussion?: string[];
+  conclusion?: string[];
+  limitations?: string[];
+  futureWork?: string[];
+  references?: string[];
+  acknowledgements?: string[];
+  codeSnippet?: string;
+  galleryImages?: string[];
+  similarProjectIds?: number[];
+  standings?: string;
+}
+
 // ============= API Client =============
 
 class AdminAPIClient {
@@ -295,6 +380,36 @@ class AdminAPIClient {
 
   async searchLeads(query: string): Promise<Lead[]> {
     return this.request<Lead[]>(`/api/admin/leads/search?q=${encodeURIComponent(query)}`);
+  }
+
+  // ============= Projects Management =============
+
+  async getProjects(): Promise<ProjectResponse[]> {
+    return this.request<ProjectResponse[]>("/api/admin/projects");
+  }
+
+  async getProject(id: number): Promise<ProjectResponse> {
+    return this.request<ProjectResponse>(`/api/admin/projects/${id}`);
+  }
+
+  async createProject(project: ProjectCreatePayload): Promise<ProjectResponse> {
+    return this.request<ProjectResponse>("/api/admin/projects", {
+      method: "POST",
+      body: JSON.stringify(project),
+    });
+  }
+
+  async updateProject(id: number, updates: Partial<ProjectCreatePayload>): Promise<ProjectResponse> {
+    return this.request<ProjectResponse>(`/api/admin/projects/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(updates),
+    });
+  }
+
+  async deleteProject(id: number): Promise<void> {
+    await this.request(`/api/admin/projects/${id}`, {
+      method: "DELETE",
+    });
   }
 
   // ============= Analytics =============

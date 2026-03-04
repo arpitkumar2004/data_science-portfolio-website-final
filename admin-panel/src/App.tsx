@@ -7,8 +7,10 @@ import AdminLayout from "./components/layout/AdminLayout";
 
 // Code-split page components — only loaded when navigated to
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
+const ProjectDetailPage = lazy(() => import("./pages/ProjectDetailPage"));
 
 function PageLoader() {
   return (
@@ -106,6 +108,8 @@ function AppContent() {
         <Routes>
           <Route element={<AdminLayout onLogout={handleLogout} />}>
             <Route index element={<DashboardPage />} />
+            <Route path="projects" element={<ProjectsPage />} />
+            <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>

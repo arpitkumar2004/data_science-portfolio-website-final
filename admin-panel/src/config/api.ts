@@ -47,6 +47,10 @@ export const API_ENDPOINTS = {
   ADMIN_LEAD_QUALITY_SCORE: (id: number) => `/api/admin/leads/${id}/quality-score`,
   ADMIN_LEAD_NOTES: (id: number) => `/api/admin/leads/${id}/notes`,
   ADMIN_LEAD_TAGS: (id: number) => `/api/admin/leads/${id}/tags`,
+
+  // Admin Project Management
+  ADMIN_PROJECTS: '/api/admin/projects',
+  ADMIN_PROJECT_BY_ID: (id: number) => `/api/admin/projects/${id}`,
 } as const;
 
 /**

@@ -10,6 +10,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Bell,
+  FolderKanban,
 } from "lucide-react";
 import type { LeadStats } from "../../services/adminAPI";
 
@@ -23,6 +24,7 @@ interface SidebarProps {
 
 const navItems = [
   { to: "/", icon: Users, label: "Leads", end: true },
+  { to: "/projects", icon: FolderKanban, label: "Projects" },
   { to: "/analytics", icon: BarChart3, label: "Analytics" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
