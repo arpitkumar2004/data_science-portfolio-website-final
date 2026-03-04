@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { trackResumeDownload, trackEvent } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
+import { useProjects } from "../context/ProjectsContext";
 import {
   heroData,
   highlights,
@@ -34,7 +35,8 @@ const OpenToWorkPage: React.FC = () => {
   }, []);
 
   const achievements = getTopAchievements();
-  const projects = getFeaturedProjects();
+  const { projects: allProjects } = useProjects();
+  const projects = getFeaturedProjects(allProjects);
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0a]">

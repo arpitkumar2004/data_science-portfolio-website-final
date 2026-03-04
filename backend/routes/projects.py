@@ -19,6 +19,7 @@ from services.project_service import (
     create_project,
     update_project,
     delete_project,
+    get_version_info,
 )
 from config import RATE_LIMIT_ADMIN, RATE_LIMIT_PUBLIC
 
@@ -52,6 +53,22 @@ def _invalidate_projects_cache() -> None:
 # ============= Separate Public Router (no /admin prefix) =============
 
 public_router = APIRouter(prefix="/api/projects", tags=["projects-public"])
+
+
+@public_router.get(
+    "/version",
+    summary="Get projects version info (lightweight freshness check)",
+)
+@limiter.limit(RATE_LIMIT_PUBLIC)
+async def projects_version(request: Request):
+    """
+    Lightweight endpoint that returns project count and last updated timestamp.
+    Used by the frontend to decide whether to re-fetch the full project list.
+    """
+    info = get_version_info()
+    response = JSONResponse(content=info)
+    response.headers["Cache-Control"] = "public, max-age=60"
+    return response
 
 
 @public_router.get(

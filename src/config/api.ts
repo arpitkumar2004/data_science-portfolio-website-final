@@ -30,6 +30,7 @@ export const API_ENDPOINTS = {
   
   // Public Projects (no auth - for portfolio frontend)
   PROJECTS_PUBLIC: '/api/projects',
+  PROJECTS_VERSION: '/api/projects/version',
   PROJECT_BY_ID_PUBLIC: (id: number) => `/api/projects/${id}`,
 
   // Public About Me data

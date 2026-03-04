@@ -333,3 +333,20 @@ def update_project(project_id: int, updates: dict) -> Optional[dict]:
 def delete_project(project_id: int) -> bool:
     """Delete a project by ID."""
     return project_repo.delete(project_id)
+
+
+def get_version_info() -> dict:
+    """Return lightweight version info: count + last updated timestamp."""
+    try:
+        from sqlalchemy import func
+        with DatabaseProjectRepository._session() as db:
+            result = db.query(
+                func.count(ProjectModel.id),
+                func.max(ProjectModel.updated_at),
+            ).first()
+            count = result[0] if result[0] else 0
+            last_updated = result[1].isoformat() if result[1] else None
+            return {"count": count, "last_updated": last_updated}
+    except Exception as e:
+        logger.warning("get_version_info failed: %s", e)
+        return {"count": 0, "last_updated": None}

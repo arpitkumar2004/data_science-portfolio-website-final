@@ -2,9 +2,12 @@
 // OpenToWork Page - Data Source
 // ========================================
 // Clean, factual data for the recruiter-facing hire page.
-// Pulls from projectsData.tsx and AchievementData.tsx.
+// Pulls from projectsData.tsx (static fallback) and AchievementData.tsx.
+// getFeaturedProjects() accepts an optional projects array so it can
+// consume the same data as the rest of the app (API > cache > static).
 
-import { projects } from "./projectsData";
+import { projects as staticProjects } from "./projectsData";
+import type { Project } from "./projectsData";
 import { achievementData } from "./AchievementData";
 
 // ====================
@@ -241,9 +244,10 @@ export const getTopAchievements = (): Achievement[] => {
 /** Featured projects pulled from projectsData.tsx */
 export const featuredProjectIds = [7, 8, 12];
 
-export const getFeaturedProjects = (): FeaturedProjectDisplay[] => {
+export const getFeaturedProjects = (projectsList?: Project[]): FeaturedProjectDisplay[] => {
+  const source = projectsList && projectsList.length > 0 ? projectsList : staticProjects;
   return featuredProjectIds.map((id) => {
-    const project = projects.find((p) => p.id === id);
+    const project = source.find((p) => p.id === id);
     if (!project) return null;
 
     return {
