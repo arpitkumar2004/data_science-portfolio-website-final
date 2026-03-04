@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Mail, X } from 'lucide-react';
+import { FileText, Mail, X, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { trackResumeDownload } from '../utils/analytics';
+import { getRecruiterProfile } from '../utils/recruiterProfile';
 
 const StickyCTA: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [isRecruiter, setIsRecruiter] = useState(false);
 
   useEffect(() => {
     // Check if user has dismissed the CTA in this session
@@ -26,6 +28,10 @@ const StickyCTA: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
     handleScroll(); // Initial check
+
+    // Check recruiter status
+    const role = localStorage.getItem('userRole');
+    setIsRecruiter(role === 'Recruiter' && !!getRecruiterProfile());
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -53,11 +59,21 @@ const StickyCTA: React.FC = () => {
           <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 text-white px-4 py-3 shadow-2xl border-t-4 border-blue-400">
             <div className="flex items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <p className="font-bold text-sm truncate">Interested in hiring?</p>
+                <p className="font-bold text-sm truncate">{isRecruiter ? 'View full candidate profile' : 'Interested in hiring?'}</p>
                 <p className="text-xs text-blue-100 truncate">IIT KGP • ML Engineer • May 2027</p>
               </div>
               
               <div className="flex items-center gap-2 shrink-0">
+                {isRecruiter && (
+                  <Link
+                    to="/open-to-work"
+                    className="bg-emerald-500 text-white px-4 py-2 rounded-lg font-bold text-sm flex items-center gap-1.5 hover:bg-emerald-600 transition-colors shadow-lg"
+                    aria-label="View candidate profile"
+                  >
+                    <Briefcase size={16} />
+                    Hire Me
+                  </Link>
+                )}
                 <a
                   href="/Arpit_Kumar_Resume.pdf"
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
@@ -68,6 +84,7 @@ const StickyCTA: React.FC = () => {
                   <FileText size={16} />
                   Resume
                 </a>
+                {!isRecruiter && (
                 <a
                   href="https://calendly.com/kumararpit17773/30min"
                   target="_blank"
@@ -78,6 +95,7 @@ const StickyCTA: React.FC = () => {
                   <Mail size={16} />
                   Schedule
                 </a>
+                )}
                 <button
                   onClick={handleDismiss}
                   className="p-2 hover:bg-blue-500 rounded-lg transition-colors"

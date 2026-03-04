@@ -4,9 +4,10 @@ import {
   Github, Linkedin, Mail, Terminal,
   ArrowUpRight, ChevronUp, Fingerprint,
   Zap, Microscope, Code2, FileText, Layout,
-  Briefcase, Calendar, Users
+  Briefcase, Calendar, Users, ArrowRight
 } from 'lucide-react';
 import { SiKaggle, SiMedium } from 'react-icons/si';
+import { getRecruiterProfile } from '../utils/recruiterProfile';
 
 /* ───────────────────── data ───────────────────── */
 
@@ -182,6 +183,17 @@ const Footer: React.FC = () => {
                 <span className="flex items-center gap-2"><Calendar size={14} /> Schedule Meeting</span>
                 <ArrowUpRight size={14} />
               </a>
+
+              {/* Recruiter-only link to dedicated page */}
+              {localStorage.getItem('userRole') === 'Recruiter' && getRecruiterProfile() && (
+                <Link
+                  to="/open-to-work"
+                  className="mt-2 flex w-full items-center justify-between rounded-xl border border-emerald-500/20 bg-emerald-50 dark:bg-emerald-950/20 px-5 py-3 text-[10px] font-black uppercase tracking-widest text-emerald-700 dark:text-emerald-400 transition-colors hover:bg-emerald-100 dark:hover:bg-emerald-950/40"
+                >
+                  <span className="flex items-center gap-2"><Briefcase size={14} /> View Candidate Profile</span>
+                  <ArrowRight size={14} />
+                </Link>
+              )}
             </div>
           </div>
 

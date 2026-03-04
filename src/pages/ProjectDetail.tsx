@@ -6,918 +6,647 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import ProjectCard from '../components/ProjectCard';
 import {
   Github, ExternalLink, NotebookText, Layers, Target, Cpu, Calendar,
-  User, GalleryHorizontal, BarChart3, X, ArrowLeft, Share2,
-  Home, Download, FileText, BookOpen, Wrench,
-  AlertTriangle, Mail, ArrowUpRight, ShieldCheck, Building2
+  User, BarChart3, X, ArrowLeft, Share2, Home, Download, FileText,
+  BookOpen, Wrench, AlertTriangle, Mail, ArrowUpRight, ShieldCheck,
+  Building2, ChevronRight, ImageIcon
 } from 'lucide-react';
 
-// Helper component for main content sections
-type InfoSectionProps = {
-  title: string;
-  icon: React.ReactNode;
-  children: React.ReactNode;
-};
+/* ─── Helpers ─── */
 
-const InfoSection: React.FC<InfoSectionProps> = ({ title, icon, children }) => (
-  <div className="mb-10 rounded-2xl border border-slate-100 dark:border-white/10 bg-slate-50/60 dark:bg-[#111827] p-6 md:p-7 shadow-sm">
-    <div className="flex items-center mb-4">
-      <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-[#161616] border border-slate-100 dark:border-white/10 shadow-sm">
-        {icon}
-      </span>
-      <h3 className="text-lg md:text-xl font-black text-slate-900 dark:text-slate-100 ml-3 tracking-tight">{title}</h3>
-    </div>
-    <div className="text-slate-600 dark:text-slate-300 leading-relaxed space-y-3 text-sm md:text-base">
-      {children}
-    </div>
-  </div>
-);
-
-const TechGlyph: React.FC<{ label: string }> = ({ label }) => {
-  const initials = label
-    .split(/[\s-]+/)
-    .filter(Boolean)
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-
-  return (
-    <svg viewBox="0 0 32 32" className="h-7 w-7 text-slate-700 dark:text-slate-200">
-      <circle cx="16" cy="16" r="14" fill="currentColor" opacity="0.12" />
-      <text
-        x="16"
-        y="19"
-        textAnchor="middle"
-        fontSize="10"
-        fontWeight="700"
-        fill="currentColor"
-      >
-        {initials}
-      </text>
-    </svg>
+const bold = (text: string) => {
+  const parts = text.split(/(\d+(?:\.\d+)?(?:x|×|%|k|K|M|B)?)/g);
+  return parts.map((p, i) =>
+    /^\d+(?:\.\d+)?(?:x|×|%|k|K|M|B)?$/.test(p)
+      ? <span key={i} className="font-bold text-slate-900 dark:text-white">{p}</span>
+      : <span key={i}>{p}</span>
   );
 };
 
-const emphasizeNumbers = (text: string) => {
-  const parts = text.split(/(\d+(?:\.\d+)?(?:x|×|%|k|K|M|B)?)/g);
-  return parts.map((part, index) => {
-    if (/^\d+(?:\.\d+)?(?:x|×|%|k|K|M|B)?$/.test(part)) {
-      return (
-        <span key={`${part}-${index}`} className="font-bold text-slate-900 dark:text-slate-100">
-          {part}
-        </span>
-      );
-    }
-    return <span key={`${part}-${index}`}>{part}</span>;
-  });
+/* ─── Section heading (simple, no wrapper card) ─── */
+const SH: React.FC<{ children: React.ReactNode; id?: string }> = ({ children, id }) => (
+  <h3 id={id} className="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight mt-10 mb-3 first:mt-0">
+    {children}
+  </h3>
+);
+
+/* ─── Category config ─── */
+const CAT_LABEL: Record<string, string> = {
+  'data-science': 'Data Science',
+  'web-app': 'Web App',
+  'system-design': 'System Design',
+  'chemical-research': 'Chemical Research',
 };
+
+const CAT_BADGE: Record<string, string> = {
+  'data-science': 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300',
+  'web-app': 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300',
+  'system-design': 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300',
+  'chemical-research': 'bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300',
+};
+
+/* ═══════════════════════════════════════════════════ */
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const projectId = Number(id);
-  const project = projects.find((proj) => proj.id === projectId);
-  const brandBlue = 'rgb(37 99 235)';
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [currentImage, setCurrentImage] = useState<string>('');
-  const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
+  const project = projects.find((p) => p.id === Number(id));
 
-  // Handle modal keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isModalOpen) {
-        closeModal();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isModalOpen]);
+  /* ── Modal state ── */
+  const [modalImg, setModalImg] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const lastFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (isModalOpen) {
-      closeButtonRef.current?.focus();
-    }
-  }, [isModalOpen]);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && modalOpen) closeModal(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [modalOpen]);
 
-  useEffect(() => {
-    setImageLoaded(false);
-  }, [project?.image]);
+  useEffect(() => { if (modalOpen) closeBtnRef.current?.focus(); }, [modalOpen]);
+  useEffect(() => { setImgLoaded(false); }, [project?.image]);
 
-  const openModal = (imageSrc: string) => {
-    lastFocusedElementRef.current = document.activeElement as HTMLElement | null;
-    setCurrentImage(imageSrc);
-    setIsModalOpen(true);
+  const openModal = (src: string) => {
+    lastFocusRef.current = document.activeElement as HTMLElement | null;
+    setModalImg(src);
+    setModalOpen(true);
   };
+  const closeModal = () => { setModalOpen(false); setModalImg(''); lastFocusRef.current?.focus(); };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setCurrentImage('');
-    lastFocusedElementRef.current?.focus();
-  };
-
-  // Download image functionality
   const downloadImage = () => {
-    if (!currentImage) return;
-    const link = document.createElement('a');
-    link.href = currentImage;
-    link.download = `project-image-${Date.now()}.png`; // Default filename with timestamp
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    if (!modalImg) return;
+    const a = document.createElement('a');
+    a.href = modalImg;
+    a.download = `project-image-${Date.now()}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
-  // Share functionality
   const shareProject = async () => {
     const url = window.location.href;
     const title = project?.title || 'Project';
-
     if (navigator.share) {
-      try {
-        await navigator.share({
-          title,
-          url,
-        });
-      } catch (err) {
-        console.log('Error sharing:', err);
-      }
+      try { await navigator.share({ title, url }); } catch { /* noop */ }
     } else if (navigator.clipboard?.writeText) {
-      try {
-        await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard!');
-      } catch (err) {
-        console.log('Clipboard error:', err);
-      }
+      try { await navigator.clipboard.writeText(url); alert('Link copied!'); } catch { /* noop */ }
     } else {
-      window.prompt('Copy link to share:', url);
+      window.prompt('Copy link:', url);
     }
   };
 
+  const imgKeyHandler = (src: string) => (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(src); }
+  };
+
+  /* ── Not found ── */
   if (!project) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-[#020617] flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-[#0a0a0a] flex items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-slate-100 mb-4">Project Not Found</h1>
-          <p className="text-gray-600 dark:text-slate-300 mb-6">The project you're looking for doesn't exist.</p>
-          <button
-            onClick={() => navigate('/projects')}
-            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-          >
-            <ArrowLeft className="mr-2" size={16} />
-            Back to Projects
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white mb-3">Project not found</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">The project you're looking for doesn't exist.</p>
+          <button onClick={() => navigate('/projects')} className="inline-flex items-center text-sm font-medium text-blue-600 hover:underline">
+            <ArrowLeft size={14} className="mr-1" /> Back to Projects
           </button>
         </div>
       </div>
     );
   }
 
-  const category = project.category;
+  /* ── Extracted data ── */
+  const cat = project.category;
+  const catLabel = CAT_LABEL[cat] ?? 'Project';
+  const catBadge = CAT_BADGE[cat] ?? 'bg-slate-50 text-slate-700';
   const objectives = project.objectives ?? [];
   const methods = project.methods ?? [];
   const results = project.results ?? [];
   const technologies = project.technologies ?? [];
   const challenges = project.challenges ?? [];
   const solutions = project.solutions ?? [];
-  const galleryImages = project.galleryImages ?? [];
+  const gallery = project.galleryImages ?? [];
   const tags = project.tags ?? [];
   const tldr = project.tldr ?? project.description;
-  const impactMetrics = (project.keyImpactMetrics && project.keyImpactMetrics.length > 0)
-    ? project.keyImpactMetrics
-    : results.slice(0, 3);
-  const coreStack = (project.coreStack && project.coreStack.length > 0) ? project.coreStack : technologies;
+  const impact = project.keyImpactMetrics?.length ? project.keyImpactMetrics : results.slice(0, 3);
+  const stack = project.coreStack?.length ? project.coreStack : technologies;
   const tools = project.tools ?? [];
-  const problemStatement = project.ProblemStatement ?? '';
-  const solutionSteps = (project.implementation && project.implementation.length > 0)
-    ? project.implementation
-    : (methods.length > 0 ? methods.slice(0, 3) : []);
-  const codeSnippetLanguage = category === 'web-app' ? 'tsx' : 'python';
-  const categoryLabelMap: Record<typeof category, string> = {
-    'data-science': 'Data Science',
-    'web-app': 'Web App',
-    'system-design': 'System Design',
-    'chemical-research': 'Chemical Research',
-  };
-  const categoryBadgeMap: Record<typeof category, string> = {
-    'data-science': 'bg-blue-600/10 text-blue-700 border-blue-200 dark:bg-blue-600/20 dark:text-blue-200 dark:border-blue-500/30',
-    'web-app': 'bg-emerald-600/10 text-emerald-700 border-emerald-200 dark:bg-emerald-600/20 dark:text-emerald-200 dark:border-emerald-500/30',
-    'system-design': 'bg-amber-500/10 text-amber-700 border-amber-200 dark:bg-amber-500/20 dark:text-amber-200 dark:border-amber-400/30',
-    'chemical-research': 'bg-rose-500/10 text-rose-700 border-rose-200 dark:bg-rose-500/20 dark:text-rose-200 dark:border-rose-400/30',
-  };
-  const categoryLabel = categoryLabelMap[category] ?? 'Project';
-  const categoryBadgeClass = categoryBadgeMap[category] ?? 'bg-slate-100 text-slate-700 border-slate-200';
-  const metaItems = [
-    { label: 'Role', value: project.role, icon: <User size={14} className="text-slate-500 dark:text-slate-400" /> },
-    { label: 'Timeline', value: project.duration, icon: <Calendar size={14} className="text-slate-500 dark:text-slate-400" /> },
-    { label: 'Type', value: project.type, icon: <Layers size={14} className="text-slate-500 dark:text-slate-400" /> },
-  ].filter((item) => Boolean(item.value));
+  const problem = project.ProblemStatement ?? '';
+  const implSteps = project.implementation?.length ? project.implementation : methods.slice(0, 3);
+  const codeLang = cat === 'web-app' ? 'tsx' : 'python';
 
+  /* ── Section labels (category-aware) ── */
   const sectionConfig = useMemo(() => {
-    const baseLabels = {
-      abstract: 'Abstract / Executive Summary',
+    const base: Record<string, string> = {
+      abstract: 'Abstract',
       introduction: 'Introduction',
       problem: 'Problem Statement',
-      objectives: 'Objectives / Aims',
-      scope: 'Scope of the Study / Project',
-      literature: 'Literature Review',
-      methodology: 'Methodology / System Design',
-      implementation: 'Implementation / Experimentation',
-      results: 'Results and Analysis',
-      discussion: 'Discussion',
-      conclusion: 'Conclusion',
-      limitations: 'Limitations',
-      future: 'Future Scope / Recommendations',
-      references: 'References / Bibliography',
+      objectives: 'Objectives',
+      methodology: 'Methodology',
+      implementation: 'Implementation',
+      results: 'Results & Analysis',
     };
-
-    const overrides: Record<string, Partial<typeof baseLabels>> = {
-      'web-app': {
-        methodology: 'Architecture / System Design',
-        implementation: 'Implementation / Delivery',
-        results: 'Outcomes / Impact',
-        discussion: 'Trade-offs / Constraints',
-        literature: 'Related Work / Inspirations',
-      },
-      'system-design': {
-        methodology: 'System Architecture',
-        implementation: 'Implementation / Scaling',
-        results: 'Performance / Reliability',
-        discussion: 'Trade-offs / Risks',
-      },
-      'chemical-research': {
-        methodology: 'Methodology / Experimental Design',
-        implementation: 'Experimentation / Simulation',
-      },
+    const overrides: Record<string, Partial<typeof base>> = {
+      'web-app': { methodology: 'Architecture', implementation: 'Implementation', results: 'Outcomes' },
+      'system-design': { methodology: 'System Architecture', results: 'Performance' },
+      'chemical-research': { methodology: 'Experimental Design', implementation: 'Experimentation' },
     };
+    return { ...base, ...overrides[cat] };
+  }, [cat]);
 
-    const visibility = {
-      literature: category !== 'web-app',
-      references: category !== 'web-app',
-    };
-
-    return {
-      labels: { ...baseLabels, ...overrides[category] },
-      visibility,
-    };
-  }, [category]);
-
+  /* ── Related projects ── */
   const nextProjects = useMemo(() => {
-    if (!project.similarProjectIds || project.similarProjectIds.length === 0) return [];
-    return projects.filter(p => project.similarProjectIds!.includes(p.id)).slice(0, 2);
+    if (!project.similarProjectIds?.length) return [];
+    return projects.filter((p) => project.similarProjectIds!.includes(p.id)).slice(0, 2);
   }, [project]);
 
-  const randomProjects = useMemo(() => {
-    return projects
-      .filter(p => p.id !== projectId)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-  }, [projectId]);
+  const randomProjects = useMemo(() =>
+    projects.filter((p) => p.id !== project.id).sort(() => 0.5 - Math.random()).slice(0, 3),
+    [project.id],
+  );
 
-  const handleImageKeyDown = (imageSrc: string) => (e: React.KeyboardEvent<HTMLImageElement>) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      openModal(imageSrc);
-    }
-  };
+  const related = nextProjects.length ? nextProjects : randomProjects;
 
+  /* ── Meta row items ── */
+  const meta = [
+    project.role && { icon: <User size={13} />, label: 'Role', value: project.role },
+    project.company && { icon: <Building2 size={13} />, label: 'Company', value: project.company },
+    project.duration && { icon: <Calendar size={13} />, label: 'Timeline', value: project.duration },
+    project.type && { icon: <Layers size={13} />, label: 'Type', value: project.type },
+  ].filter(Boolean) as { icon: React.ReactNode; label: string; value: string }[];
+
+  /* ═══════════════════════ RENDER ═══════════════════════ */
   return (
-    <div className="bg-slate-50 dark:bg-[#161616] min-h-screen font-body relative">
-      {/* <div className="absolute inset-x-0 -top-24 h-72 bg-gradient-to-br from-blue-50 via-white to-slate-50 opacity-80 pointer-events-none" /> */}
-      {/* Breadcrumb Navigation */}
-      <div className="bg-white dark:bg-[#161616] border-b border-slate-100 dark:border-white/10 sticky top-16 z-50">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <nav aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-2 text-sm">
-              <li>
-                <button
-                  onClick={() => navigate('/')}
-                  className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-[#161616] px-3 py-1.5 text-slate-600 dark:text-slate-300 transition hover:text-blue-600 hover:border-blue-200"
-                >
-                  <Home size={14} />
-                  <span className="font-semibold">Home</span>
-                </button>
-              </li>
-              <li aria-hidden="true" className="text-slate-300">
-                <span className="text-base">›</span>
-              </li>
-              <li>
-                <button
-                  onClick={() => navigate('/projects')}
-                  className="inline-flex items-center rounded-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#111827] px-3 py-1.5 text-slate-600 dark:text-slate-300 transition hover:text-blue-600 hover:border-blue-200"
-                >
-                  <span className="font-semibold">Projects</span>
-                </button>
-              </li>
-              <li aria-hidden="true" className="text-slate-300">
-                <span className="text-base">›</span>
-              </li>
-              <li>
-                <span className="inline-flex items-center rounded-full border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/10 px-3 py-1.5 text-slate-900 dark:text-slate-100 font-semibold">
-                  {project.title}
-                </span>
-              </li>
-            </ol>
-          </nav>
+    <div className="bg-white dark:bg-[#0a0a0a] min-h-screen font-sans text-slate-700 dark:text-slate-300">
+
+      {/* ── Breadcrumb ── */}
+      <nav className="border-b border-slate-100 dark:border-white/5 sticky top-16 z-40 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+          <button onClick={() => navigate('/')} className="hover:text-blue-600 transition-colors flex items-center gap-1"><Home size={12} /> Home</button>
+          <ChevronRight size={12} />
+          <button onClick={() => navigate('/projects')} className="hover:text-blue-600 transition-colors">Projects</button>
+          <ChevronRight size={12} />
+          <span className="text-slate-900 dark:text-white font-medium truncate max-w-[200px] sm:max-w-none">{project.title}</span>
         </div>
-      </div>
+      </nav>
 
-      <div className="max-w-[1425px] mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+      <div className="max-w-7xl mx-auto px-6 py-10">
 
-        {/* Executive Header */}
-        <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-[#0a0a0a] shadow-lg border border-slate-100 dark:border-white/10 p-7 md:p-10 mb-8">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-slate-50 dark:from-blue-600/10 dark:via-transparent dark:to-transparent pointer-events-none" />
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-8">
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-full border text-[11px] font-semibold uppercase tracking-widest ${categoryBadgeClass}`}>
-                    {categoryLabel}
-                  </span>
-                  <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-slate-200 dark:border-white/10 bg-slate-900/5 dark:bg-white/10 text-[11px] font-semibold uppercase tracking-widest text-slate-600 dark:text-slate-300">
-                    {project.type}
-                  </span>
-                </div>
-              </div>
-
-              <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-slate-100 tracking-tight mb-3 leading-tight">
-                {project.title}
-              </h1>
-              <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base max-w-5xl leading-relaxed">
-                {emphasizeNumbers(tldr)}
-              </p>
-
-              {impactMetrics.length > 0 && (
-                <ul className="mt-5 list-disc list-inside space-y-1.5 text-sm text-slate-700 dark:text-slate-200">
-                  {impactMetrics.map((metric, i) => (
-                    <li key={`${metric}-${i}`} className="leading-relaxed">
-                      {emphasizeNumbers(metric)}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {tags.length > 0 && (
-                <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-slate-600 dark:text-slate-300">
-                  {tags.slice(0,5).map((tag, i) => (
-                    <span key={`${tag}-${i}`} className="flex items-center gap-2">
-                      <span className="text-slate-800 border-2 px-2.5 py-1 rounded-full border-slate-100 dark:border-white/10 font-mono dark:text-slate-100 font-semibold">{tag}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {metaItems.length > 0 && (
-                <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-slate-600 dark:text-slate-300">
-                  {metaItems.slice(0, 3).map((item) => (
-                    <span key={item.label} className="flex items-center gap-2">
-                      {item.icon}
-                      <span className="uppercase tracking-widest text-[10px] text-slate-400">{item.label}</span>
-                      <span className="text-slate-800 dark:text-slate-100 font-semibold">{item.value}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex flex-wrap items-center gap-3 mt-6">
-                <button
-                  onClick={() => navigate('/projects')}
-                  className="inline-flex items-center px-3 py-1.5 border border-gray-300 dark:border-white/10 rounded-md text-xs font-semibold text-gray-700 dark:text-slate-200 bg-white dark:bg-[#161616] hover:bg-gray-50 dark:hover:bg-[#1c1c1c] transition"
-                >
-                  <ArrowLeft className="mr-2" size={16} />
-                  Back
-                </button>
-
-                {project.githubLink && (
-                  <a
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-gray-800 hover:bg-gray-900 transition"
-                    aria-label="View code on GitHub"
-                  >
-                    <Github className="mr-2" size={14} />
-                    View Code
-                  </a>
-                )}
-
-                {project.liveDemoLink && (
-                  <a
-                    href={project.liveDemoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
-                    aria-label="View live demo"
-                  >
-                    <ExternalLink className="mr-2" size={14} />
-                    Live Demo
-                  </a>
-                )}
-
-                {project.articleLink && (
-                  <a
-                    href={project.articleLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-green-600 hover:bg-green-700 transition"
-                    aria-label="Read detailed article"
-                  >
-                    <FileText className="mr-2" size={14} />
-                    Read Report
-                  </a>
-                )}
-
-                <button
-                  onClick={shareProject}
-                  className="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 transition"
-                  aria-label="Share project"
-                >
-                  <Share2 className="mr-2" size={14} />
-                  Share
-                </button>
-              </div>
-            </div>
-
-            <div className="lg:col-span-4 flex flex-col gap-4 mt-10">
-              <div className="bg-white dark:bg-[#161616] rounded-2xl shadow-lg border border-slate-100 dark:border-white/10 overflow-hidden relative">
-                {!imageLoaded && (
-                  <div className="absolute inset-0 bg-gray-200 dark:bg-white/5 animate-pulse flex items-center justify-center">
-                    <div className="text-gray-400">Loading image...</div>
-                  </div>
-                )}
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className={`flex-col items-center justify-center w-full h-auto object-cover transition-transform duration-500 cursor-pointer hover:scale-[1.02] ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-                  onLoad={() => setImageLoaded(true)}
-                  onClick={() => openModal(project.image)}
-                  onKeyDown={handleImageKeyDown(project.image)}
-                  role="button"
-                  tabIndex={0}
-                  loading="lazy"
-                />
-              </div>
-            </div>
+        {/* ════════════════ HEADER ════════════════ */}
+        <header className="mb-10">
+          {/* Badges */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className={`px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider ${catBadge}`}>{catLabel}</span>
+            {project.standings && (
+              <span className="px-2.5 py-0.5 rounded text-[11px] font-semibold uppercase tracking-wider bg-yellow-50 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
+                {project.standings}
+              </span>
+            )}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-8">
+          {/* Title */}
+          <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-3">
+            {project.title}
+          </h1>
 
-          {/* --- LEFT SIDEBAR (Project Details) --- */}
-          <aside className="lg:col-span-3 lg:order-1 mb-8 lg:mb-0">
-            <div className="sticky top-36 bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-lg border border-slate-100 dark:border-white/10 p-6">
-              <h3 className="text-xl font-black text-slate-900 dark:text-slate-100 border-b border-slate-100 dark:border-white/10 pb-3 mb-4">Engineering Snapshot</h3>
-              <div className="flex items-start mb-4">
-                <User size={18} className="text-gray-500 mt-1 flex-shrink-0" />
-                <div className="ml-3 min-w-0">
-                  <p className="font-semibold text-sm uppercase tracking-widest text-slate-400">Role</p>
-                  <p className="text-base text-slate-700 dark:text-slate-200 break-words font-medium">{project.role}</p>
-                </div>
-              </div>
-              {project.company && (
-                <div className="flex items-start mb-4">
-                  <Building2 size={18} className="text-gray-500 mt-1 flex-shrink-0" />
-                  <div className="ml-3 min-w-0">
-                    <p className="font-semibold text-sm uppercase tracking-widest text-slate-400">Company</p>
-                    <p className="text-base text-slate-700 dark:text-slate-200 break-words font-medium">{project.company}</p>
-                  </div>
+          {/* TL;DR */}
+          <p className="text-sm md:text-base leading-relaxed max-w-3xl mb-5">{bold(tldr)}</p>
+
+          {/* Impact Metrics */}
+          {impact.length > 0 && (
+            <ul className="mb-5 space-y-1">
+              {impact.map((m, i) => (
+                <li key={i} className="text-sm leading-relaxed flex items-start gap-2">
+                  <span className="text-blue-500 mt-1.5 shrink-0">•</span>
+                  <span>{bold(m)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {/* Meta row */}
+          {meta.length > 0 && (
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500 dark:text-slate-400 mb-5">
+              {meta.map((m) => (
+                <span key={m.label} className="flex items-center gap-1.5">
+                  {m.icon}
+                  <span className="uppercase tracking-wider text-[10px]">{m.label}:</span>
+                  <span className="text-slate-800 dark:text-slate-200 font-medium">{m.value}</span>
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Action buttons */}
+          <div className="flex flex-wrap items-center gap-2">
+            <button onClick={() => navigate('/projects')} className="inline-flex items-center px-3 py-1.5 rounded border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition">
+              <ArrowLeft size={14} className="mr-1.5" /> Back
+            </button>
+            {project.githubLink && (
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3 py-1.5 rounded bg-slate-900 dark:bg-white/10 text-xs font-medium text-white hover:bg-slate-800 dark:hover:bg-white/15 transition">
+                <Github size={14} className="mr-1.5" /> Code
+              </a>
+            )}
+            {project.liveDemoLink && (
+              <a href={project.liveDemoLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3 py-1.5 rounded bg-blue-600 text-xs font-medium text-white hover:bg-blue-700 transition">
+                <ExternalLink size={14} className="mr-1.5" /> Demo
+              </a>
+            )}
+            {project.articleLink && (
+              <a href={project.articleLink} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-3 py-1.5 rounded bg-emerald-600 text-xs font-medium text-white hover:bg-emerald-700 transition">
+                <FileText size={14} className="mr-1.5" /> Report
+              </a>
+            )}
+            <button onClick={shareProject} className="inline-flex items-center px-3 py-1.5 rounded border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition">
+              <Share2 size={14} className="mr-1.5" /> Share
+            </button>
+          </div>
+        </header>
+
+        {/* ════════════════ TWO-COLUMN LAYOUT ════════════════ */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+          {/* ── Main content ── */}
+          <article className="lg:col-span-8 min-w-0">
+
+            {/* Hero image */}
+            <div className="rounded-lg overflow-hidden border border-slate-100 dark:border-white/5 mb-8 relative bg-slate-50 dark:bg-white/5">
+              {!imgLoaded && (
+                <div className="absolute inset-0 animate-pulse bg-slate-100 dark:bg-white/5 flex items-center justify-center">
+                  <ImageIcon size={24} className="text-slate-300 dark:text-slate-600" />
                 </div>
               )}
-              <div className="flex items-start mb-4">
-                <Calendar size={18} className="text-gray-500 mt-1 flex-shrink-0" />
-                <div className="ml-3 min-w-0">
-                  <p className="font-semibold text-sm uppercase tracking-widest text-slate-400">Duration</p>
-                  <p className="text-base text-slate-700 dark:text-slate-200 break-words font-medium">{project.duration}</p>
-                </div>
+              <img
+                src={project.image}
+                alt={project.title}
+                className={`w-full h-auto object-cover cursor-pointer transition-opacity ${imgLoaded ? 'opacity-100' : 'opacity-0'}`}
+                onLoad={() => setImgLoaded(true)}
+                onClick={() => openModal(project.image)}
+                onKeyDown={imgKeyHandler(project.image)}
+                role="button"
+                tabIndex={0}
+                loading="lazy"
+              />
+            </div>
+
+            {/* ── Abstract ── */}
+            <SH>{sectionConfig.abstract}</SH>
+            <p className="text-sm leading-relaxed">{project.description}</p>
+
+            {/* ── Introduction ── */}
+            {project.longDescription?.trim() && (
+              <>
+                <SH>{sectionConfig.introduction}</SH>
+                <p className="text-sm leading-relaxed">{project.longDescription}</p>
+              </>
+            )}
+
+            {/* ── Problem + Solution side-by-side ── */}
+            {(problem || implSteps.length > 0) && (
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                {problem && (
+                  <div className="border-l-2 border-amber-400 pl-4">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-2">
+                      <AlertTriangle size={14} className="text-amber-500" /> The Challenge
+                    </h4>
+                    <p className="text-sm leading-relaxed">{problem}</p>
+                  </div>
+                )}
+                {implSteps.length > 0 && (
+                  <div className="border-l-2 border-blue-400 pl-4">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-2">
+                      <Cpu size={14} className="text-blue-500" /> The Solution
+                    </h4>
+                    <ul className="space-y-1.5 text-sm">
+                      {implSteps.map((s, i) => <li key={i} className="leading-relaxed">— {s}</li>)}
+                    </ul>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start mb-6">
-                <Layers size={18} className="text-gray-500 mt-1 flex-shrink-0" />
-                <div className="ml-3 min-w-0">
-                  <p className="font-semibold text-sm uppercase tracking-widest text-slate-400">Category</p>
-                  <p className="text-base text-slate-700 dark:text-slate-200 break-words font-medium">{categoryLabel}</p>
+            )}
+
+            {/* ── Objectives ── */}
+            {objectives.length > 0 && (
+              <>
+                <SH>{sectionConfig.objectives}</SH>
+                <ul className="space-y-1.5 text-sm">
+                  {objectives.map((o, i) => <li key={i} className="flex items-start gap-2"><Target size={12} className="text-blue-500 mt-1 shrink-0" /><span>{o}</span></li>)}
+                </ul>
+              </>
+            )}
+
+            {/* ── Methodology ── */}
+            {methods.length > 0 && (
+              <>
+                <SH>{sectionConfig.methodology}</SH>
+                <ul className="space-y-1.5 text-sm">
+                  {methods.map((m, i) => <li key={i} className="flex items-start gap-2"><Wrench size={12} className="text-slate-400 mt-1 shrink-0" /><span>{m}</span></li>)}
+                </ul>
+              </>
+            )}
+
+            {/* ── Results ── */}
+            {results.length > 0 && (
+              <>
+                <SH>{sectionConfig.results}</SH>
+                <ul className="space-y-1.5 text-sm">
+                  {results.map((r, i) => <li key={i} className="flex items-start gap-2"><BarChart3 size={12} className="text-emerald-500 mt-1 shrink-0" /><span>{bold(r)}</span></li>)}
+                </ul>
+              </>
+            )}
+
+            {/* ── Challenges & Solutions ── */}
+            {challenges.length > 0 && (
+              <>
+                <SH>Challenges</SH>
+                <ul className="space-y-1.5 text-sm">
+                  {challenges.map((c, i) => <li key={i} className="flex items-start gap-2"><AlertTriangle size={12} className="text-amber-500 mt-1 shrink-0" /><span>{c}</span></li>)}
+                </ul>
+              </>
+            )}
+            {solutions.length > 0 && (
+              <>
+                <SH>Solutions</SH>
+                <ul className="space-y-1.5 text-sm">
+                  {solutions.map((s, i) => <li key={i} className="flex items-start gap-2"><Target size={12} className="text-blue-500 mt-1 shrink-0" /><span>{s}</span></li>)}
+                </ul>
+              </>
+            )}
+
+            {/* ── Acknowledgements ── */}
+            {project.acknowledgements?.length ? (
+              <>
+                <SH>Acknowledgements</SH>
+                <ul className="space-y-1 text-sm">
+                  {project.acknowledgements.map((a, i) => <li key={i}>{a}</li>)}
+                </ul>
+              </>
+            ) : null}
+
+            {/* ── Code Snapshot ── */}
+            {project.codeSnippet?.trim() && (
+              <>
+                <SH>Code Snapshot</SH>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">Critical logic path — condensed snippet.</p>
+                {project.codeSnippet.trim().startsWith('http') ? (
+                  <a href={project.codeSnippet.trim()} target="_blank" rel="noopener noreferrer" className="text-sm text-blue-600 hover:underline inline-flex items-center gap-1">
+                    View code source <ExternalLink size={14} />
+                  </a>
+                ) : (
+                  <SyntaxHighlighter language={codeLang} style={vscDarkPlus} customStyle={{ borderRadius: '0.5rem', padding: '1rem', fontSize: '0.8rem', lineHeight: '1.6' }}>
+                    {project.codeSnippet}
+                  </SyntaxHighlighter>
+                )}
+              </>
+            )}
+
+            {/* ── Advanced Details (collapsible) ── */}
+            {(project.LiteratureReview || project.discussion?.length || project.references?.length || project.conclusion?.length || project.limitations?.length || project.futureWork?.length) && (
+              <details className="mt-10 group">
+                <summary className="cursor-pointer text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  Advanced Details
+                  <span className="text-slate-400 group-open:rotate-180 transition-transform text-xs">▾</span>
+                </summary>
+                <div className="mt-4 space-y-6 text-sm border-l-2 border-slate-200 dark:border-white/10 pl-4">
+                  {project.LiteratureReview && (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Literature Review</h4>
+                      <p className="leading-relaxed">{project.LiteratureReview}</p>
+                    </div>
+                  )}
+                  {project.discussion?.length ? (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Discussion</h4>
+                      <ul className="space-y-1">{project.discussion.map((d, i) => <li key={i}>— {d}</li>)}</ul>
+                    </div>
+                  ) : null}
+                  {project.conclusion?.length ? (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Conclusion</h4>
+                      <ul className="space-y-1">{project.conclusion.map((c, i) => <li key={i}>— {c}</li>)}</ul>
+                    </div>
+                  ) : null}
+                  {project.limitations?.length ? (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Limitations</h4>
+                      <ul className="space-y-1">{project.limitations.map((l, i) => <li key={i}>— {l}</li>)}</ul>
+                    </div>
+                  ) : null}
+                  {project.futureWork?.length ? (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Future Work</h4>
+                      <ul className="space-y-1">{project.futureWork.map((f, i) => <li key={i}>— {f}</li>)}</ul>
+                    </div>
+                  ) : null}
+                  {project.references?.length ? (
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">References</h4>
+                      <ul className="space-y-1">{project.references.map((r, i) => <li key={i} className="text-xs">{r}</li>)}</ul>
+                    </div>
+                  ) : null}
                 </div>
+              </details>
+            )}
+
+            {/* ── Gallery ── */}
+            {gallery.length > 0 && (
+              <>
+                <SH>Results Gallery</SH>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {gallery.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt={`Result ${i + 1}`}
+                      className="rounded-lg object-cover aspect-video cursor-pointer hover:opacity-80 transition-opacity border border-slate-100 dark:border-white/5"
+                      onClick={() => openModal(src)}
+                      onKeyDown={imgKeyHandler(src)}
+                      role="button"
+                      tabIndex={0}
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </article>
+
+          {/* ── Sidebar ── */}
+          <aside className="lg:col-span-4">
+            <div className="sticky top-28 space-y-2">
+
+              {/* Project info card */}
+              <div className="border border-slate-100 dark:border-white/5 rounded-lg p-5">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4">Project Details</h4>
+                <dl className="space-y-3 text-sm">
+                  {meta.map((m) => (
+                    <div key={m.label} className="flex items-start gap-3">
+                      <span className="text-slate-400 mt-0.5">{m.icon}</span>
+                      <div>
+                        <dt className="text-[10px] uppercase tracking-wider text-slate-400">{m.label}</dt>
+                        <dd className="text-slate-800 dark:text-slate-200 font-medium">{m.value}</dd>
+                      </div>
+                    </div>
+                  ))}
+                </dl>
               </div>
 
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">Core Stack</h3>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400">
-                    {coreStack.length} items
-                  </span>
+              {/* Tech stack */}
+              <div className="border border-slate-100 dark:border-white/5 rounded-lg p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Tech Stack</h4>
+                  <span className="text-[10px] text-slate-400 font-mono">{stack.length}</span>
                 </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {coreStack.map((tech) => (
-                    <span
-                      key={tech}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-[#111111] px-2.5 py-1 text-[11px] font-semibold text-slate-700 dark:text-slate-200 shadow-sm hover:bg-white dark:hover:bg-[#1a1a1a] transition"
-                      title={tech}
-                    >
-                      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-slate-100 dark:bg-[#1a1a1a]">
-                        <TechGlyph label={tech} />
-                      </span>
-                      <span className="whitespace-nowrap">{tech}</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {stack.map((t) => (
+                    <span key={t} className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-white/5">
+                      {t}
                     </span>
                   ))}
                 </div>
               </div>
 
+              {/* Tools */}
               {tools.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-slate-100 mb-2">Tools</h3>
-                  <ul className="space-y-2">
-                    {tools.map((tool) => (
-                      <li key={tool} className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-200">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-100 dark:bg-[#1a1a1a]">
-                          <TechGlyph label={tool} />
-                        </div>
-                        <span className="font-medium">{tool}</span>
-                      </li>
+                <div className="border border-slate-100 dark:border-white/5 rounded-lg p-5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Tools</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {tools.map((t) => (
+                      <span key={t} className="px-2 py-0.5 rounded text-[11px] font-medium bg-slate-50 dark:bg-white/5 text-slate-700 dark:text-slate-300 border border-slate-100 dark:border-white/5">
+                        {t}
+                      </span>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               )}
 
-              <h3 className="text-lg font-black text-slate-900 dark:text-slate-100 border-b border-slate-100 dark:border-white/10 pb-3 mb-4">Quick Links</h3>
-              <div className="space-y-3">
+              {/* Tags */}
+              {tags.length > 0 && (
+                <div className="border border-slate-100 dark:border-white/5 rounded-lg p-5">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Tags</h4>
+                  <div className="flex flex-wrap gap-1.5">
+                    {tags.map((t) => (
+                      <span key={t} className="px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Quick links */}
+              <div className="border border-slate-100 dark:border-white/5 rounded-lg p-5 space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Links</h4>
                 {project.githubLink && (
-                  <a
-                    href={project.githubLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-800 hover:bg-gray-900 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
-                    aria-label="View code on GitHub"
-                  >
-                    <Github className="mr-2" size={16} /> View Code
+                  <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full px-3 py-2 rounded text-xs font-medium bg-slate-900 dark:bg-white/10 text-white hover:bg-slate-800 dark:hover:bg-white/15 transition">
+                    <Github size={14} className="mr-2" /> View Code
                   </a>
                 )}
                 {project.articleLink && (
-                  <a
-                    href={project.articleLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center w-full px-4 py-2 border border-gray-300 dark:border-white/10 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-slate-200 bg-white dark:bg-[#161616] hover:bg-gray-50 dark:hover:bg-[#1c1c1c] transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    aria-label="Read the paper"
-                  >
-                    <NotebookText className="mr-2" size={16} /> Read Paper
+                  <a href={project.articleLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full px-3 py-2 rounded border border-slate-200 dark:border-white/10 text-xs font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                    <NotebookText size={14} className="mr-2" /> Read Paper
                   </a>
                 )}
                 {project.liveDemoLink && (
-                  <a
-                    href={project.liveDemoLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center w-full px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    aria-label="View live demo"
-                  >
-                    <ExternalLink className="mr-2" size={16} /> Live Demo
+                  <a href={project.liveDemoLink} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-full px-3 py-2 rounded bg-blue-600 text-xs font-medium text-white hover:bg-blue-700 transition">
+                    <ExternalLink size={14} className="mr-2" /> Live Demo
                   </a>
                 )}
               </div>
             </div>
           </aside>
-
-          {/* --- MAIN CONTENT (Center Column) --- */}
-          <main className="lg:col-span-9 lg:order-2">
-            {/* --- Main Details Card --- */}
-            <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl shadow-lg border border-slate-100 dark:border-white/10 p-6 sm:p-8 animate-fade-in">
-              <InfoSection title={sectionConfig.labels.abstract} icon={<FileText size={22} className="text-blue-500" />}>
-                <p className="text-sm md:text-base leading-relaxed text-slate-600 dark:text-slate-300">{project.description}</p>
-              </InfoSection>
-
-              {project.longDescription?.trim() && (
-                <InfoSection title={sectionConfig.labels.introduction} icon={<BookOpen size={22} className="text-blue-500" />}>
-                  <p className="text-sm md:text-base leading-relaxed text-slate-600 dark:text-slate-300">{project.longDescription}</p>
-                </InfoSection>
-              )}
-
-              {(problemStatement || solutionSteps.length > 0) && (
-                <div className="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {problemStatement && (
-                    <div className="rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 shadow-sm">
-                      <div className="flex items-center gap-2 mb-3">
-                        <AlertTriangle size={20} className="text-blue-500" />
-                        <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">The Challenge</h3>
-                      </div>
-                      <p className="text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                        {problemStatement}
-                      </p>
-                    </div>
-                  )}
-                  {solutionSteps.length > 0 && (
-                    <div className="rounded-2xl border border-slate-100 dark:border-white/10 bg-white dark:bg-[#0a0a0a] p-6 shadow-sm">
-                      <div className="flex items-center gap-2 mb-3">
-                        <Cpu size={20} className="text-blue-500" />
-                        <h3 className="text-lg font-black text-slate-900 dark:text-slate-100">The Engineering Solution</h3>
-                      </div>
-                      <ul className="list-disc list-inside space-y-2 text-sm md:text-base text-slate-600 dark:text-slate-300">
-                        {solutionSteps.map((step, i) => (
-                          <li key={i} className="leading-relaxed">{step}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {objectives.length > 0 && (
-                <InfoSection title={sectionConfig.labels.objectives} icon={<Target size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {objectives.map((obj, i) => (
-                      <li key={i} className="leading-relaxed">{obj}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-
-              {methods.length > 0 && (
-                <InfoSection title={sectionConfig.labels.methodology} icon={<Wrench size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {methods.map((method, i) => (
-                      <li key={i} className="leading-relaxed">{method}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-
-              {results.length > 0 && (
-                <InfoSection title={sectionConfig.labels.results} icon={<BarChart3 size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {results.map((res, i) => (
-                      <li key={i} className="leading-relaxed">{emphasizeNumbers(res)}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-
-              {challenges.length > 0 && (
-                <InfoSection title="Challenges" icon={<AlertTriangle size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {challenges.map((item, i) => (
-                      <li key={i} className="leading-relaxed">{item}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-
-              {solutions.length > 0 && (
-                <InfoSection title="Solutions" icon={<Target size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {solutions.map((item, i) => (
-                      <li key={i} className="leading-relaxed">{item}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-
-              {project.acknowledgements && project.acknowledgements.length > 0 && (
-                <InfoSection title="Acknowledgements" icon={<BookOpen size={22} className="text-blue-500" />}>
-                  <ul className="list-disc list-inside space-y-2 text-sm md:text-base dark:text-slate-200">
-                    {project.acknowledgements.map((item, i) => (
-                      <li key={i} className="leading-relaxed">{item}</li>
-                    ))}
-                  </ul>
-                </InfoSection>
-              )}
-              {project.codeSnippet && project.codeSnippet.trim().length > 0 && (
-                <InfoSection title="Code Snapshot" icon={<Cpu size={22} className="text-blue-500" />}>
-                  <p className="text-xs md:text-sm text-gray-500 dark:text-slate-400 mb-4">
-                    Focused snippet from the most critical logic path.
-                  </p>
-                  {project.codeSnippet.trim().startsWith('http') ? (
-                    <a
-                      href={project.codeSnippet.trim()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold"
-                    >
-                      View code snippet source
-                      <ExternalLink size={16} />
-                    </a>
-                  ) : (
-                    <SyntaxHighlighter
-                      language={codeSnippetLanguage}
-                      style={vscDarkPlus}
-                      customStyle={{
-                        borderRadius: '0.5rem',
-                        padding: '1rem',
-                        fontSize: '0.875rem',
-                        lineHeight: '1.5'
-                      }}
-                    >
-                      {project.codeSnippet}
-                    </SyntaxHighlighter>
-                  )}
-                </InfoSection>
-              )}
-
-              {(project.LiteratureReview || project.discussion?.length || project.references?.length || project.conclusion?.length || project.limitations?.length || project.futureWork?.length) && (
-                <div className="mb-10 rounded-2xl border border-slate-100 dark:border-white/10 bg-slate-50/60 dark:bg-[#111827] p-6 md:p-7 shadow-sm">
-                  <details className="group">
-                    <summary className="flex cursor-pointer items-center justify-between text-base md:text-lg font-black text-slate-900 dark:text-slate-100">
-                      Advanced Details
-                      <span className="text-slate-400 group-open:rotate-180 transition-transform">▾</span>
-                    </summary>
-                    <div className="mt-6 space-y-6 text-sm md:text-base text-slate-600 dark:text-slate-300">
-                      {project.LiteratureReview && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Literature Review</h4>
-                          <p className="leading-relaxed">{project.LiteratureReview}</p>
-                        </div>
-                      )}
-                      {project.discussion && project.discussion.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Discussion</h4>
-                          <ul className="list-disc list-inside space-y-2">
-                            {project.discussion.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {project.conclusion && project.conclusion.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Conclusion</h4>
-                          <ul className="list-disc list-inside space-y-2">
-                            {project.conclusion.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {project.limitations && project.limitations.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Limitations</h4>
-                          <ul className="list-disc list-inside space-y-2">
-                            {project.limitations.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {project.futureWork && project.futureWork.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">Future Work</h4>
-                          <ul className="list-disc list-inside space-y-2">
-                            {project.futureWork.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      {project.references && project.references.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-2">References</h4>
-                          <ul className="list-disc list-inside space-y-2">
-                            {project.references.map((item, i) => (
-                              <li key={i}>{item}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  </details>
-                </div>
-              )}
-
-              {galleryImages.length > 0 && (
-                <InfoSection title="Results Gallery" icon={<GalleryHorizontal size={22} className="text-blue-500" />}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {galleryImages.map((imgSrc, i) => (
-                      <div key={i} className="relative group">
-                        <img
-                          src={imgSrc}
-                          alt={`Gallery image ${i + 1}`}
-                          className="rounded-xl shadow-sm object-cover aspect-video cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-lg"
-                          onClick={() => openModal(imgSrc)}
-                          onKeyDown={handleImageKeyDown(imgSrc)}
-                          role="button"
-                          tabIndex={0}
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-md flex items-center justify-center pointer-events-none">
-                          <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-sm font-medium">
-                            Click to enlarge
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </InfoSection>
-              )}
-            </div>
-          </main>
         </div>
 
-        {/* --- NEXT PROJECTS SECTION --- */}
-        <div className="mt-20 pt-12 border-t border-slate-100 dark:border-white/10">
-          <h2 className="text-xl md:text-2xl font-black text-center mb-8 text-slate-900 dark:text-slate-100 tracking-tight">
-            {nextProjects.length > 0 ? 'Next Projects' : 'Explore More ...'}
+        {/* ═══════════════ RELATED PROJECTS ═══════════════ */}
+        <section className="mt-16 pt-10 border-t border-slate-100 dark:border-white/5">
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white text-center mb-8">
+            {nextProjects.length > 0 ? 'Related Projects' : 'Explore More'}
           </h2>
-
-          <div className={`grid grid-cols-1 ${nextProjects.length > 0 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-8`}>
-            {(nextProjects.length > 0 ? nextProjects : randomProjects).map((p) => (
-              <ProjectCard
-                key={p.id}
-                {...p}
-              />
-            ))}
+          <div className={`grid grid-cols-1 ${nextProjects.length > 0 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-6`}>
+            {related.map((p) => <ProjectCard key={p.id} {...p} />)}
           </div>
-        </div>
-
-        {/* --- IMAGE PREVIEW MODAL --- */}
-        {isModalOpen && (
-          <div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-            onClick={closeModal}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Project image preview"
-          >
-            <div className="relative bg-white dark:bg-[#0a0a0a] rounded-lg shadow-xl max-w-4xl max-h-[90vh]" onClick={e => e.stopPropagation()}>
-              <button
-                ref={closeButtonRef}
-                onClick={closeModal}
-                className="absolute -top-4 -right-4 p-2 bg-white dark:bg-[#161616] rounded-full text-gray-700 dark:text-slate-200 hover:bg-gray-200 dark:hover:bg-[#1c1c1c] transition z-10"
-                aria-label="Close image preview"
-              >
-                <X size={24} />
-              </button>
-              <button onClick={downloadImage} className="absolute -top-4 -left-4 p-2 bg-white dark:bg-[#161616] rounded-full text-gray-700 dark:text-slate-200 hover:bg-gray-200 dark:hover:bg-[#1c1c1c] transition z-10" aria-label="Download image">
-                <Download size={24} />
-              </button>
-              <img src={currentImage} alt="Project preview" className="object-contain rounded-lg max-h-[90vh]" />
-            </div>
-          </div>
-        )}
+        </section>
       </div>
 
-      {/* --- REFINED RECRUITER CTA SECTION --- */}
-      <section className="mx-6 md:mx-12 lg:mx-20 mb-20">
-        <div className="max-w-[1600px] mx-auto">
-          <div className="relative overflow-hidden rounded-[3rem] border border-blue-500/40 bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-12 lg:p-20 text-white shadow-2xl shadow-blue-500/20">
-            <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-blue-500/20 blur-3xl" />
-            <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-cyan-400/20 blur-3xl" />
-            <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `radial-gradient(${brandBlue} 1px, transparent 1px)`, backgroundSize: '44px 44px' }} />
+      {/* ═══════════════ RECRUITER CTA (preserved) ═══════════════ */}
+      <section className="px-6 md:px-12 lg:px-20 mb-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900 dark:bg-slate-950 p-10 lg:p-14 text-white">
+            <div className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl" />
+            <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full bg-blue-400/10 blur-3xl" />
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
               <div className="lg:col-span-7">
-                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-300 mb-5">Strategic Collaboration</p>
-                <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-6 leading-[0.95]">
-                  Build the Next <span className="text-blue-400">Production-Grade</span> System.
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-300 mb-4">Collaboration</p>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-4 leading-tight">
+                  Build the next <span className="text-blue-400">production-grade</span> system.
                 </h2>
-                <p className="text-slate-200/80 text-base md:text-lg font-medium max-w-2xl leading-relaxed mb-8">
+                <p className="text-slate-300 text-sm md:text-base max-w-xl leading-relaxed mb-6">
                   Curious about architecture choices, evaluation strategy, or delivery scope? I partner on research, production ML, and system design that ships measurable outcomes.
                 </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
-                    { v: "Impact", l: "ROI-focused" },
-                    { v: "Secure", l: "Enterprise-ready" },
-                    { v: "Fast", l: "Iterate + Ship" },
-                    { v: "Rigor", l: "Research-grade" },
+                    { v: 'Impact', l: 'ROI-focused' },
+                    { v: 'Secure', l: 'Enterprise-ready' },
+                    { v: 'Fast', l: 'Iterate + Ship' },
+                    { v: 'Rigor', l: 'Research-grade' },
                   ].map((item) => (
-                    <div key={item.l} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                      <div className="text-base font-black text-white">{item.v}</div>
-                      <div className="text-[10px] font-mono uppercase tracking-widest text-slate-300">{item.l}</div>
+                    <div key={item.l} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2">
+                      <div className="text-sm font-bold text-white">{item.v}</div>
+                      <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">{item.l}</div>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="lg:col-span-5 flex flex-col gap-4">
-                <Link to="/contact" className="group flex items-center justify-between p-7 bg-blue-600 rounded-[2rem] hover:bg-blue-500 transition-all shadow-2xl shadow-blue-900/40">
-                  <div className="flex items-center gap-6">
-                    <div className="p-4 bg-white/10 rounded-2xl"><Mail size={24} /></div>
-                    <div className="text-left">
-                      <p className="text-xs font-mono font-bold uppercase tracking-widest text-blue-100 mb-1">Direct Channel</p>
-                      <p className="text-lg font-black">Initiate Discussion</p>
+              <div className="lg:col-span-5 flex flex-col gap-3">
+                <Link to="/contact" className="group flex items-center justify-between p-5 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/10 rounded-lg"><Mail size={20} /></div>
+                    <div>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-blue-200 mb-0.5">Direct Channel</p>
+                      <p className="text-sm font-bold">Initiate Discussion</p>
                     </div>
                   </div>
-                  <ArrowUpRight size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
 
-                <Link to="/request-cv" className="group flex items-center justify-between p-7 bg-white/10 text-white rounded-[2rem] hover:border-blue-300 hover:text-blue-100 border border-white/15 transition-all shadow-xl">
-                  <div className="flex items-center gap-6">
-                    <div className="p-4 bg-white/10 rounded-2xl text-blue-200"><Download size={24} /></div>
-                    <div className="text-left">
-                      <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-300 mb-1">Extended Resource Pack</p>
-                      <p className="text-lg font-black">Get CV + Deep-Dives</p>
+                <Link to="/request-cv" className="group flex items-center justify-between p-5 bg-white/5 rounded-xl hover:bg-white/10 border border-white/10 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/10 rounded-lg text-blue-200"><Download size={20} /></div>
+                    <div>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">Resource Pack</p>
+                      <p className="text-sm font-bold">Get CV + Deep-Dives</p>
                     </div>
                   </div>
-                  <FileText size={24} className="text-slate-300 group-hover:text-blue-200 transition-colors" />
+                  <FileText size={18} className="text-slate-400 group-hover:text-blue-200 transition-colors" />
                 </Link>
 
-                <div className="flex items-center gap-2 mt-4 px-6 py-4 bg-white/5 border border-white/10 rounded-2xl">
-                  <ShieldCheck size={16} className="text-blue-400" />
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-300">Verified Researcher @ IIT Kharagpur</span>
+                <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
+                  <ShieldCheck size={14} className="text-blue-400" />
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Verified Researcher @ IIT Kharagpur</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
-    </div>
 
-    
+      {/* ═══════════════ IMAGE MODAL ═══════════════ */}
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal} role="dialog" aria-modal="true" aria-label="Image preview">
+          <div className="relative max-w-4xl max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+            <button ref={closeBtnRef} onClick={closeModal} className="absolute -top-3 -right-3 p-1.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition z-10 shadow" aria-label="Close">
+              <X size={18} />
+            </button>
+            <button onClick={downloadImage} className="absolute -top-3 -left-3 p-1.5 bg-white dark:bg-slate-800 rounded-full text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-slate-700 transition z-10 shadow" aria-label="Download">
+              <Download size={18} />
+            </button>
+            <img src={modalImg} alt="Preview" className="object-contain rounded-lg max-h-[90vh]" />
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -145,33 +145,87 @@ const experiences = [
   },
 ];
 
-const ExperienceCard = ({ exp, index, defaultOpen = false }: { exp: any; index: number; defaultOpen?: boolean }) => {
-  const [isExpanded, setIsExpanded] = useState(defaultOpen);
+const RoleItem = ({ role, idx, totalRoles }: { role: any; idx: number; totalRoles: number }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
+  return (
+    <div className="relative pl-6">
+      {/* Role Connector */}
+      <div
+        className={`absolute left-0 top-[7px] w-[7px] h-[7px] rounded-full transition-colors duration-300 ${
+          isOpen ? "bg-blue-500" : "bg-slate-300 dark:bg-slate-600"
+        }`}
+      />
+      {idx < totalRoles - 1 && (
+        <div className="absolute left-[2.5px] top-4 bottom-[-24px] w-[2px] bg-slate-100 dark:bg-white/10" />
+      )}
+
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="cursor-pointer group/role"
+      >
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-1">
+          <div className="flex items-center gap-2">
+            <motion.div
+              animate={{ rotate: isOpen ? 90 : 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-slate-400 dark:text-slate-500"
+            >
+              <ChevronRight size={14} />
+            </motion.div>
+            <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm group-hover/role:text-blue-600 transition-colors">
+              {role.title}
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-400 uppercase bg-slate-50 dark:bg-[#111827] px-2 py-0.5 rounded tracking-tighter whitespace-nowrap">
+            {role.duration}
+          </span>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 1, 0.5, 1] }}
+            className="overflow-hidden"
+          >
+            <ul className="space-y-1.5 mt-1.5 ml-6">
+              {role.description.map((desc: string, i: number) => (
+                <li
+                  key={i}
+                  className="text-slate-600 dark:text-slate-400 text-[13px] leading-relaxed flex gap-2"
+                >
+                  <span className="text-blue-500 font-mono text-xs mt-[3px] shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span>{desc}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
   return (
     <div className="relative pl-6 pb-6 last:pb-0">
       {/* Vertical Rail */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-slate-200 dark:bg-white/10" />
       {/* Dots on vertical rail */}
-      <div
-        className={`absolute left-[-5px] top-6 w-[10px] h-[10px] rounded-full transition-colors duration-300 ${
-          isExpanded
-            ? "bg-blue-600 shadow-md shadow-blue-300 dark:shadow-blue-900/60"
-            : "bg-slate-300 dark:bg-slate-600"
-        }`}
-      />
+      <div className="absolute left-[-5px] top-6 w-[10px] h-[10px] rounded-full bg-blue-600 shadow-md shadow-blue-300 dark:shadow-blue-900/60" />
 
       <motion.div
         initial={{ opacity: 0, x: 12 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ delay: index * 0.06, duration: 0.35 }}
-        onClick={() => setIsExpanded(!isExpanded)}
-        className={`group cursor-pointer bg-white dark:bg-[#161616] border rounded-2xl px-5 py-4 lg:px-6 lg:py-5 transition-all duration-300 ${
-          isExpanded
-            ? "border-blue-500/60 shadow-lg shadow-blue-900/5 dark:shadow-blue-900/20"
-            : "border-slate-100 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/40 shadow-sm hover:shadow-md"
-        }`}
+        className="bg-white dark:bg-[#161616] border border-blue-500/60 rounded-2xl px-5 py-4 lg:px-6 lg:py-5 shadow-lg shadow-blue-900/5 dark:shadow-blue-900/20"
       >
         <div className="flex flex-col lg:flex-row justify-between items-start gap-3">
           <div className="flex-grow min-w-0">
@@ -183,7 +237,6 @@ const ExperienceCard = ({ exp, index, defaultOpen = false }: { exp: any; index: 
                 href={exp.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
                 className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-blue-600 transition-colors"
               >
                 <ExternalLink size={10} />
@@ -194,17 +247,15 @@ const ExperienceCard = ({ exp, index, defaultOpen = false }: { exp: any; index: 
               <img
                 src={companyIcons[exp.company]}
                 alt="logo"
-                className={`w-6 h-6 rounded object-contain transition-all shrink-0 ${
-                  isExpanded ? "" : "grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100"
-                }`}
+                className="w-6 h-6 rounded object-contain shrink-0"
               />
-              <h3 className="text-lg lg:text-xl font-black text-slate-900 dark:text-slate-100 tracking-tight group-hover:text-blue-600 transition-colors truncate">
+              <h3 className="text-lg lg:text-xl font-black text-slate-900 dark:text-slate-100 tracking-tighter truncate">
                 {exp.company}
               </h3>
             </div>
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
               <span className="text-[13px] font-semibold text-slate-600 dark:text-slate-300">
-                {exp.roles[0].title}
+                {exp.roles.length} {exp.roles.length === 1 ? "Role" : "Roles"}
               </span>
               <div className="flex items-center gap-1 text-slate-400 dark:text-slate-500">
                 <MapPin size={12} />
@@ -220,82 +271,34 @@ const ExperienceCard = ({ exp, index, defaultOpen = false }: { exp: any; index: 
                 {exp.totalDuration}
               </span>
             </div>
-            <motion.div
-              animate={{ rotate: isExpanded ? 90 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="text-slate-300 dark:text-slate-500 hidden lg:block"
-            >
-              <ChevronRight size={20} />
-            </motion.div>
           </div>
         </div>
 
-        {/* Roles & Descriptions */}
-        <AnimatePresence>
-          {isExpanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.35, ease: [0.25, 1, 0.5, 1] }}
-              className="overflow-hidden"
-            >
-              <div className="mt-5 pt-4 border-t border-slate-100 dark:border-white/10 space-y-6">
-                {exp.roles.map((role: any, idx: number) => (
-                  <div key={role.id} className="relative pl-6">
-                    {/* Role Connector */}
-                    <div className="absolute left-0 top-[7px] w-[7px] h-[7px] rounded-full bg-blue-500" />
-                    {idx < exp.roles.length - 1 && (
-                      <div className="absolute left-[2.5px] top-4 bottom-[-24px] w-[2px] bg-slate-100 dark:bg-white/10" />
-                    )}
+        {/* Roles */}
+        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-white/10 space-y-5">
+          {exp.roles.map((role: any, idx: number) => (
+            <RoleItem key={role.id} role={role} idx={idx} totalRoles={exp.roles.length} />
+          ))}
 
-                    <div className="flex flex-col sm:flex-row justify-between items-start gap-1 mb-2">
-                      <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm">
-                        {role.title}
-                      </h4>
-                      <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-400 uppercase bg-slate-50 dark:bg-[#111827] px-2 py-0.5 rounded tracking-tighter whitespace-nowrap">
-                        {role.duration}
-                      </span>
-                    </div>
-
-                    <ul className="space-y-1.5">
-                      {role.description.map((desc: string, i: number) => (
-                        <li
-                          key={i}
-                          className="text-slate-600 dark:text-slate-400 text-[13px] leading-relaxed flex gap-2"
-                        >
-                          <span className="text-blue-500 font-mono text-xs mt-[3px] shrink-0">
-                            {String(i + 1).padStart(2, '0')}
-                          </span>
-                          <span>{desc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-
-                {/* Tech Stack Tags */}
-                <div className="flex flex-wrap gap-1.5 pt-2">
-                  {exp.techStack.map((tech: string) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-0.5 bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded text-[10px] font-mono font-bold uppercase tracking-wider"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          {/* Tech Stack Tags */}
+          <div className="flex flex-wrap gap-1.5 pt-2">
+            {exp.techStack.map((tech: string) => (
+              <span
+                key={tech}
+                className="px-2 py-0.5 bg-blue-50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded text-[10px] font-mono font-bold uppercase tracking-wider"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
       </motion.div>
     </div>
   );
 };
 
 export default function Experience() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   return (
     <div className="py-16 bg-white dark:bg-black font-sans overflow-hidden">
@@ -359,7 +362,7 @@ export default function Experience() {
               >
                 {/* Experience Cards */}
                 {experiences.map((exp, index) => (
-                  <ExperienceCard key={exp.id} exp={exp} index={index} defaultOpen={index === 0} />
+                  <ExperienceCard key={exp.id} exp={exp} index={index} />
                 ))}
 
                 {/* Close Trigger at the bottom */}

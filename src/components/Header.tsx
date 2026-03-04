@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Menu, X, Download, ShieldCheck } from 'lucide-react';
+import { Terminal, Menu, X, Download, ShieldCheck, Briefcase } from 'lucide-react';
+import { getRecruiterProfile } from '../utils/recruiterProfile';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -14,6 +15,7 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isRecruiter, setIsRecruiter] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -22,18 +24,19 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Check if user is admin
+  // Check if user is admin or recruiter
   useEffect(() => {
-    const checkAdminStatus = () => {
+    const checkRoleStatus = () => {
       const userRole = localStorage.getItem('userRole');
       const adminToken = sessionStorage.getItem('adminToken');
       setIsAdmin(userRole?.toLowerCase() === 'admin' && !!adminToken);
+      setIsRecruiter(userRole === 'Recruiter' && !!getRecruiterProfile());
     };
 
-    checkAdminStatus();
+    checkRoleStatus();
 
     // Listen for role updates
-    const handleRoleUpdate = () => checkAdminStatus();
+    const handleRoleUpdate = () => checkRoleStatus();
     window.addEventListener('role:updated', handleRoleUpdate);
 
     return () => window.removeEventListener('role:updated', handleRoleUpdate);
@@ -95,6 +98,25 @@ const Header: React.FC = () => {
                 </Link>
               );
             })}
+
+            {/* Recruiter Link - Only show if user is verified recruiter */}
+            {isRecruiter && (
+              <Link
+                to="/open-to-work"
+                className={`relative px-4 py-2 text-sm font-bold transition-colors ${
+                  location.pathname === '/open-to-work' ? 'text-blue-600' : 'text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300'
+                }`}
+              >
+                <Briefcase size={14} className="inline mr-1" />
+                Hire Me
+                {location.pathname === '/open-to-work' && (
+                  <motion.div
+                    layoutId="nav-underline"
+                    className="absolute bottom-0 left-4 right-4 h-0.5 bg-blue-600 rounded-full"
+                  />
+                )}
+              </Link>
+            )}
 
             {/* Admin Link - Only show if user is admin */}
             {isAdmin && (
@@ -163,6 +185,19 @@ const Header: React.FC = () => {
                   {link.label}
                 </Link>
               ))}
+
+              {/* Recruiter Link - Mobile */}
+              {isRecruiter && (
+                <Link
+                  to="/open-to-work"
+                  className={`text-4xl font-black tracking-tighter flex items-center gap-3 ${
+                    location.pathname === '/open-to-work' ? 'text-blue-600' : 'text-emerald-500'
+                  }`}
+                >
+                  <Briefcase size={32} />
+                  Hire Me
+                </Link>
+              )}
 
               {/* Admin Link - Mobile */}
               {isAdmin && (

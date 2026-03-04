@@ -1,8 +1,9 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Github, Linkedin, ArrowRight, FileText, Terminal } from "lucide-react";
+import { Github, Linkedin, ArrowRight, FileText, Terminal, Briefcase } from "lucide-react";
 import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
+import { getRecruiterProfile } from "../utils/recruiterProfile";
 
 import { SiKaggle } from "react-icons/si";
 
@@ -100,10 +101,41 @@ const Home: React.FC = () => {
 
   // Open-to-work logic moved to `OpenToWork` component.
 
+  // Track if this visitor is a verified recruiter
+  const [isRecruiter, setIsRecruiter] = useState(false);
+  useEffect(() => {
+    const checkRecruiter = () => {
+      const role = localStorage.getItem('userRole');
+      setIsRecruiter(role === 'Recruiter' && !!getRecruiterProfile());
+    };
+    checkRecruiter();
+    window.addEventListener('role:updated', checkRecruiter);
+    return () => window.removeEventListener('role:updated', checkRecruiter);
+  }, []);
+
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       {/* Open to Work Badge - Fixed Position */}
       <OpenToWorkBadge />
+
+      {/* Recruiter Nudge — only visible to verified recruiters */}
+      {isRecruiter && (
+        <div className="bg-emerald-50 dark:bg-emerald-950/30 border-b border-emerald-200 dark:border-emerald-800/40">
+          <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+            <p className="text-sm text-emerald-800 dark:text-emerald-300">
+              <Briefcase size={14} className="inline mr-1.5 -mt-0.5" />
+              <strong>Looking to hire?</strong>{" "}
+              <span className="hidden sm:inline">View my availability, logistics, and complete candidate profile.</span>
+            </p>
+            <Link
+              to="/open-to-work"
+              className="shrink-0 text-xs font-bold bg-emerald-600 text-white px-4 py-1.5 rounded-lg hover:bg-emerald-700 transition-colors flex items-center gap-1.5"
+            >
+              View Profile <ArrowRight size={12} />
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* --- HERO SECTION --- */}
       <section className="relative pt-16 pb-12 lg:pb-24 px-6 max-w-7xl mx-auto">
@@ -418,7 +450,7 @@ const Home: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="bg-slate-50 dark:bg-[#161517] py-24"
+        className="bg-slate-50 dark:bg-black py-24"
       >
         <div className="max-w-7xl mx-auto px-6">
           <ResearchComponent />
@@ -443,7 +475,7 @@ const Home: React.FC = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="bg-slate-50 dark:bg-[#161517] text-white py-24"
+        className="bg-white dark:bg-black text-white py-24"
       >
         <div className="max-w-7xl mx-auto px-6">
           <Achievements />

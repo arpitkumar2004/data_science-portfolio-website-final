@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Binary, FileSearch, Globe, Lock, ArrowRight, Building2, CheckCircle2, X, Sparkles, ShieldCheck, Download, Briefcase, BookOpen, Code2, Eye } from 'lucide-react';
 import { useToast } from '../hooks/useToast';
@@ -92,6 +93,7 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const firstBtnRef = useRef<HTMLButtonElement>(null);
 
   const { showToast } = useToast();
+  const navigate = useNavigate();
 
   // Initialize from localStorage
   useEffect(() => {
@@ -185,7 +187,10 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
     showToast('Verified! Viewing as Recruiter', 'success', 4000, 'top');
     window.dispatchEvent(new Event('role:updated'));
     trackEvent('role_selected', { role: 'Recruiter', source: recruiterGateSource, verified: true });
-  }, [showToast, recruiterGateSource]);
+
+    // Auto-navigate recruiters to the dedicated hiring page
+    setTimeout(() => navigate('/open-to-work'), 300);
+  }, [showToast, recruiterGateSource, navigate]);
 
   if (!isReady) return null;
 
