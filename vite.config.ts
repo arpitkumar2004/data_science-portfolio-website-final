@@ -17,18 +17,16 @@ export default defineConfig({
   ],
   base: '/', // The repository name
   build: {
-    // Additional optimizations
     rollupOptions: {
       output: {
         manualChunks: {
           // Split vendor chunks for better caching
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'motion-vendor': ['framer-motion'],
-          'icons-vendor': ['lucide-react', 'react-icons'],
         },
       },
     },
-    // Increase chunk size warning limit (default is 500kb)
-    chunkSizeWarningLimit: 1000,
+    // Keep default chunk size warning (500KB) — code splitting should keep chunks small
+    chunkSizeWarningLimit: 500,
   },
 });

@@ -2,31 +2,11 @@
 <html lang="en">
 
 <head>
-  <!-- Google Analytics 4 (Primary tracking — GTM removed to prevent double-counting) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9MPY458DW"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    // Enhanced GA4 config with user properties
-    gtag('config', 'G-Q9MPY458DW', {
-      send_page_view: true,
-      cookie_flags: 'SameSite=None;Secure',
-      custom_map: {
-        dimension1: 'user_role',
-        dimension2: 'visit_source'
-      }
-    });
-
-    // Set user role from localStorage when available
-    try {
-      var savedRole = localStorage.getItem('userRole');
-      if (savedRole) {
-        gtag('set', 'user_properties', { user_role: savedRole });
-      }
-    } catch(e) {}
-  </script>
+  <!--
+    GA4 is now loaded dynamically by the CookieConsent component
+    after the user gives explicit consent (GDPR compliance).
+    See src/components/CookieConsent.tsx
+  -->
 
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="/favicon.png" />
@@ -142,9 +122,15 @@
   <!-- Font Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Optimized: reduced weights per family, non-render-blocking via media swap -->
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-    rel="stylesheet">
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+    media="print"
+    onload="this.media='all'" />
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  </noscript>
   <script>
     // Restore SPA routes after 404 redirect on static hosts
     (function () {
