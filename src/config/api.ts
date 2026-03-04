@@ -28,6 +28,13 @@ export const API_ENDPOINTS = {
   SUBMIT_CONTACT: '/api/submit-contact',
   REQUEST_CV: '/api/v1/request-cv',
   
+  // Public Projects (no auth - for portfolio frontend)
+  PROJECTS_PUBLIC: '/api/projects',
+  PROJECT_BY_ID_PUBLIC: (id: number) => `/api/projects/${id}`,
+
+  // Public About Me data
+  ABOUT: '/api/about',
+
   // Admin Authentication
   ADMIN_LOGIN: '/api/admin/login',
   ADMIN_LOGOUT: '/api/admin/logout',
