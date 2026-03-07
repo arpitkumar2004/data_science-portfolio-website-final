@@ -1,0 +1,37 @@
+const fs = require('fs');
+
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#020617"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="60" y="520" width="200" height="4" rx="2" fill="url(#accent)"/>
+  <text x="60" y="180" font-family="system-ui,-apple-system,sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-2">Arpit Kumar</text>
+  <text x="60" y="250" font-family="system-ui,-apple-system,sans-serif" font-size="32" font-weight="600" fill="#3b82f6">Applied AI &amp; ML Researcher</text>
+  <text x="60" y="320" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#94a3b8">IIT Kharagpur &#x2022; Production ML &#x2022; Deep Learning</text>
+  <text x="60" y="380" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#64748b">Top 0.5% Amazon ML Challenge &#x2022; 10,000+ users served</text>
+  <text x="60" y="420" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#64748b">PyTorch &#x2022; TensorFlow &#x2022; React &#x2022; Full Stack ML</text>
+  <text x="60" y="560" font-family="monospace" font-size="20" fill="#475569">arpitkumar.dev</text>
+  <rect x="1060" y="60" width="80" height="80" rx="16" fill="url(#accent)" opacity="0.15"/>
+  <text x="1075" y="115" font-family="monospace" font-size="40" font-weight="700" fill="#3b82f6">AK</text>
+</svg>`;
+
+fs.writeFileSync('public/og-image.svg', svg);
+
+// Also create a PNG using data URI approach for maximum compatibility
+// Encode the SVG as a base64 data URI PNG fallback
+const svgBase64 = Buffer.from(svg).toString('base64');
+const dataUri = `data:image/svg+xml;base64,${svgBase64}`;
+
+// For social media crawlers, we need a proper PNG.
+// Create an HTML file that can be screenshotted or use resvg/sharp in CI.
+// For now, output the SVG and create a note about PNG conversion.
+console.log('OG image SVG created at public/og-image.svg');
+console.log('For production: convert to PNG using: npx resvg-cli public/og-image.svg public/og-image.png');

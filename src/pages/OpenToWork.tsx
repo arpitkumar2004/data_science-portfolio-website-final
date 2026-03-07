@@ -1,5 +1,6 @@
 ﻿import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import SEOHead from "../components/SEOHead";
 import {
   Download,
   Mail,
@@ -40,6 +41,12 @@ const OpenToWorkPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0a0a0a]">
+      <SEOHead
+        title="Open to Work — Candidate Profile"
+        description="Arpit Kumar's availability, logistics, and complete candidate profile for ML/AI and Production ML roles. IIT Kharagpur, available from May 2027."
+        canonicalPath="/open-to-work"
+        noIndex={true}
+      />
       <div className="max-w-7xl mx-auto px-6 py-24 md:py-32">
 
         {/* ===== HEADER ===== */}

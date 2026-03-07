@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
+import SEOHead from "../components/SEOHead";
 import {
   Mail,
   MapPin,
@@ -109,6 +110,11 @@ const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
+      <SEOHead
+        title="Contact"
+        description="Get in touch with Arpit Kumar for ML/AI collaboration, technical interviews, or project discussions. Based at IIT Kharagpur. Responds within 24 hours."
+        canonicalPath="/contact"
+      />
       <div className="max-w-6xl mx-auto px-6 py-16 lg:py-20">
         {/* --- HEADER --- */}
         <header className="mb-12 text-center max-w-3xl mx-auto">

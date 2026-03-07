@@ -17,6 +17,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { buildApiUrl, API_ENDPOINTS } from '../config/api';
 import { projects as staticProjects, type Project } from '../data/projectsData';
+import { backendReady } from '../utils/backendWakeUp';
 
 /* ─── localStorage cache helpers ─── */
 const CACHE_KEY = 'portfolio_projects_cache';
@@ -133,6 +134,14 @@ export const ProjectsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const smartSync = useCallback(async (): Promise<void> => {
     if (isSyncing.current) return;
     isSyncing.current = true;
+
+    // Wait for the backend to finish waking up before hitting data endpoints
+    const isAlive = await backendReady;
+    if (!isAlive) {
+      console.warn('ProjectsContext: backend unreachable — keeping existing data');
+      isSyncing.current = false;
+      return;
+    }
 
     try {
       setError(null);

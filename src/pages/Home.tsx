@@ -4,6 +4,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Github, Linkedin, ArrowRight, FileText, Terminal, Briefcase } from "lucide-react";
 import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
+import SEOHead from "../components/SEOHead";
 
 import { SiKaggle } from "react-icons/si";
 
@@ -117,6 +118,10 @@ const Home: React.FC = () => {
 
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
+      <SEOHead
+        canonicalPath="/"
+        description="Applied AI & ML Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in Production ML / Quant Research (May 2027)."
+      />
       {/* Open to Work Badge - Fixed Position */}
       {/* <OpenToWorkBadge /> */}
 

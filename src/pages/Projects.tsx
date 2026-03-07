@@ -5,6 +5,7 @@ import ProjectCarousel from '../components/ProjectCarousel';
 import { Filter, Database, Terminal, History, BookOpen, Trophy, Globe, Cpu, Activity, Zap, FileText, Download, Mail, ArrowUpRight, ShieldCheck, Loader2, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { trackResumeDownload } from '../utils/analytics';
+import SEOHead from '../components/SEOHead';
 
 /* ── Animation variants ── */
 const fadeUp = {
@@ -85,6 +86,11 @@ const Projects: React.FC = () => {
 
   return (
     <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20 dark:bg-black">
+      <SEOHead
+        title="Projects — Shipped ML Systems & Research"
+        description="Explore Arpit Kumar's portfolio of production ML systems, deep learning research, competition-winning models, and full-stack AI applications. 9+ projects with live demos."
+        canonicalPath="/projects"
+      />
 
       {/* --- RECRUITER CTA BANNER --- */}
       <motion.div

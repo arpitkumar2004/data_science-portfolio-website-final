@@ -4,6 +4,7 @@ import { useProjects } from '../context/ProjectsContext';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import ProjectCard from '../components/ProjectCard';
+import SEOHead from '../components/SEOHead';
 import {
   Github, ExternalLink, NotebookText, Layers, Target, Cpu, Calendar,
   User, BarChart3, X, ArrowLeft, Share2, Home, Download, FileText,
@@ -191,6 +192,22 @@ const ProjectDetail: React.FC = () => {
   /* ═══════════════════════ RENDER ═══════════════════════ */
   return (
     <div className="bg-white dark:bg-[#0a0a0a] min-h-screen font-sans text-slate-700 dark:text-slate-300">
+      <SEOHead
+        title={project.title}
+        description={project.tldr || project.description}
+        canonicalPath={`/projects/${project.id}`}
+        ogImageAlt={`${project.title} — Arpit Kumar`}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'CreativeWork',
+          name: project.title,
+          description: project.tldr || project.description,
+          url: `https://arpitkumar.dev/projects/${project.id}`,
+          author: { '@type': 'Person', name: 'Arpit Kumar' },
+          dateCreated: project.duration,
+          keywords: project.tags?.join(', '),
+        }}
+      />
 
       {/* ── Breadcrumb ── */}
       <nav className="border-b border-slate-100 dark:border-white/5 sticky top-16 z-40 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-sm">

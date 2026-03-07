@@ -1,6 +1,5 @@
 import { useEffect, useRef, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate, useNavigationType } from 'react-router-dom';
-import axios from 'axios';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import StickyCTA from './components/StickyCTA';
@@ -9,7 +8,6 @@ import { ToastProvider } from './components/ToastProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import RoleGateway from './components/RoleGateway';
 import ProtectedRoute from './components/ProtectedRoute';
-import { buildApiUrl, API_ENDPOINTS } from './config/api';
 import { ProjectsProvider } from './context/ProjectsContext';
 import { RoleProvider } from './context/RoleContext';
 import ThemeToggle from './components/ThemeToggle';
@@ -83,20 +81,8 @@ const ScrollRestoration = () => {
 const MainApp = () => {
   useLenis();
 
-  // --- ADDED: RENDER WAKE-UP TRICK ---
-  useEffect(() => {
-    const wakeServer = async () => {
-      try {
-        // Hitting your /hello endpoint to trigger Render spin-up
-        await axios.get(buildApiUrl(API_ENDPOINTS.HEALTH));
-        console.log("⚡ Backend Connectivity: Active");
-      } catch {
-        // If it fails, it's usually just the server still booting up
-        console.log("⏳ System: Waiting for backend spin-up...");
-      }
-    };
-    wakeServer();
-  }, []);
+  // Wake-up is now handled globally via src/utils/backendWakeUp.ts
+  // (imported in main.tsx — starts pinging before React even renders)
 
   return (
     <ProjectsProvider>

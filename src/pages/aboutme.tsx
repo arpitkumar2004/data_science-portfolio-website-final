@@ -1,6 +1,7 @@
 ﻿import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import myphoto from "../data/img/me/my_photo2.png";
+import SEOHead from "../components/SEOHead";
 import {
   Activity,
   Download,
@@ -211,6 +212,12 @@ const AboutMe: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-black font-sans antialiased text-slate-900 dark:text-slate-100 selection:bg-blue-100 dark:selection:bg-blue-500/20">
+      <SEOHead
+        title="About Me"
+        description="Learn about Arpit Kumar — Applied AI & ML Researcher at IIT Kharagpur. Codeforces Expert, Top 0.5% Amazon ML Challenge, building production-grade ML systems."
+        canonicalPath="/aboutme"
+        ogType="profile"
+      />
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* ========== LEFT SIDEBAR ========== */}

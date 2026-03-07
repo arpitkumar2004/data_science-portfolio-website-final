@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AboutData, aboutFallbackData } from "../data/aboutData";
 import { API_BASE_URL, API_ENDPOINTS } from "../config/api";
+import { backendReady } from "../utils/backendWakeUp";
 
 interface UseAboutDataResult {
   data: AboutData;
@@ -23,6 +24,14 @@ export function useAboutData(): UseAboutDataResult {
     const controller = new AbortController();
 
     const fetchData = async () => {
+      // Wait for the backend to finish cold-starting before fetching
+      const isAlive = await backendReady;
+      if (!isAlive) {
+        console.warn('About API: backend unreachable — using fallback data');
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(`${API_BASE_URL}${API_ENDPOINTS.ABOUT}`, {
           signal: controller.signal,

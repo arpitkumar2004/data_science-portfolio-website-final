@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../hooks/useToast";
+import SEOHead from "../components/SEOHead";
 import {
   Mail,
   User,
@@ -146,6 +147,11 @@ const RequestCV: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#020617] font-sans text-slate-900 dark:text-slate-100 pb-20">
+      <SEOHead
+        title="Request CV & Portfolio Package"
+        description="Request Arpit Kumar's extended portfolio package including project documentation, technical details, and research publications. ML Engineer at IIT Kharagpur."
+        canonicalPath="/request-cv"
+      />
       <div className="max-w-5xl mx-auto px-6 py-12 lg:py-16">
         {/* --- HEADER --- */}
         <header className="mb-10 max-w-2xl mx-auto">
