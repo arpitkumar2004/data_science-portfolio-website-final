@@ -3,7 +3,9 @@ Main FastAPI application initialization and middleware setup.
 All business logic is modularized into separate services and routes.
 """
 import logging
+import os
 
+import sentry_sdk
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -14,13 +16,17 @@ from slowapi.middleware import SlowAPIMiddleware
 import models
 import database
 from config import CORS_ORIGINS, APP_TITLE, APP_VERSION
-# ── Structured logging configuration ──
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-logger = logging.getLogger(__name__)
+
+logger = logging.getLogger("uvicorn.error")
+
+# ── Sentry error tracking (only active when DSN is configured) ──
+_sentry_dsn = os.getenv("SENTRY_DSN")
+if _sentry_dsn:
+    sentry_sdk.init(
+        dsn=_sentry_dsn,
+        traces_sample_rate=0.2,
+        environment=os.getenv("SENTRY_ENV", "production"),
+    )
 
 # Create database tables if they don't exist
 models.Base.metadata.create_all(bind=database.engine)

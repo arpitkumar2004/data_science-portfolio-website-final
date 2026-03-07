@@ -1,0 +1,7 @@
+# Ignore Python cache in Docker builds
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+.git/
