@@ -2,7 +2,7 @@
 Pydantic schemas for Project CRUD operations.
 Mirrors the frontend Project interface from projectsData.tsx.
 """
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from enum import Enum
 

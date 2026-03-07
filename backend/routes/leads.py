@@ -4,7 +4,6 @@ import logging
 from fastapi import APIRouter, Depends, Form, HTTPException, status, BackgroundTasks, Request, Body
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
-from typing import Optional
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 from starlette.concurrency import run_in_threadpool
@@ -183,7 +182,7 @@ async def handle_cv_request(
         }
         
         # Save lead to database
-        new_lead = await run_in_threadpool(
+        await run_in_threadpool(
             create_contact_lead,
             db,
             name,

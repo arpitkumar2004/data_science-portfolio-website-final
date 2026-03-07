@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=_here / ".env")
 load_dotenv(dotenv_path=_root / ".env")
 
 # Single source of truth for DATABASE_URL (validated in config.py)
-from config import SQLALCHEMY_DATABASE_URL
+from config import SQLALCHEMY_DATABASE_URL  # noqa: E402
 
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL,

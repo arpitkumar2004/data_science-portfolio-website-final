@@ -87,7 +87,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # Include route routers
-from routes import health, auth, leads, projects, about
+from routes import health, auth, leads, projects, about  # noqa: E402
 
 # Health routes - include at both /api and root level for compatibility
 app.include_router(health.router)  # Includes at /api prefix (default)

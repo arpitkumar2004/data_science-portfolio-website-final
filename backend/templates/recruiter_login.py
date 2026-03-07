@@ -24,8 +24,8 @@ Required fields:
 
 import html as _html
 
-from templates.base import wrap, ACCENT_COLOR
-from config import CALENDLY_LINK, FRONTEND_URL, PHONE_NUMBER, CONTACT_PHONE_NUMBER
+from templates.base import wrap
+from config import CONTACT_PHONE_NUMBER
 
 
 def render(

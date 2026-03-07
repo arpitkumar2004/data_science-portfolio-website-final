@@ -17,8 +17,8 @@ import sqlalchemy.sql.schema as _schema
 _original_create_all = _schema.MetaData.create_all
 _schema.MetaData.create_all = MagicMock()
 
-from fastapi.testclient import TestClient
-from main import app
+from fastapi.testclient import TestClient  # noqa: E402
+from main import app  # noqa: E402
 
 
 @pytest.fixture

@@ -5,8 +5,6 @@ DEPRECATED: The template functions below are kept for backward compatibility.
 New code should import from the `templates` package directly:
     from templates import contact_acknowledgment, cv_request, recruiter_login, admin_notification
 """
-from datetime import datetime
-
 
 # ── Backward-compatible wrappers ─────────────────────────────
 # These delegate to the new dedicated template modules so existing

@@ -208,7 +208,7 @@ def main():
     print(f"  Mapped {len(rows)} projects")
 
     # Preview first project
-    print(f"\n  Preview (first project):")
+    print("\n  Preview (first project):")
     for k, v in rows[0].items():
         display = str(v)[:80] + "..." if len(str(v)) > 80 else str(v)
         print(f"    {k}: {display}")
