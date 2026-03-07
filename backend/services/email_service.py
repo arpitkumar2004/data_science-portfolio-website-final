@@ -21,6 +21,7 @@ from config import (
     VITE_API_URL,
     CALENDLY_LINK,
     CONTACT_PHONE_NUMBER,
+    ADMIN_EMAIL,
 )
 from templates import contact_acknowledgment, cv_request, recruiter_login, admin_notification
 
@@ -67,11 +68,13 @@ def send_contact_acknowledgment(
             calendly_link=calendly_link,
             frontend_url=frontend_url,
             phone=phone,
+            email=email,
         )
 
         resend.Emails.send({
             "from": EMAIL_FROM,
             "to": [email],
+            "reply_to": ADMIN_EMAIL,
             "subject": f"Re: {subject} | Arpit Kumar",
             "html": html_content,
         })
@@ -133,7 +136,8 @@ def send_cv_request_email(
         resend.Emails.send({
             "from": EMAIL_FROM,
             "to": [email],
-            "subject": f"Technical CV - Arpit Kumar | IIT Kharagpur | AI Research & Development | For {company}",
+            "reply_to": ADMIN_EMAIL,
+            "subject": f"CV Enclosed — Arpit Kumar | IIT Kharagpur | For {company}",
             "html": html_content,
             "attachments": [
                 {
@@ -218,6 +222,7 @@ def send_recruiter_login_email(
         payload = {
             "from": EMAIL_FROM,
             "to": [email],
+            "reply_to": ADMIN_EMAIL,
             "subject": subject_line,
             "html": html_content,
         }
@@ -277,7 +282,7 @@ def send_admin_notification(
             company=company,
             role=role,
             metadata=metadata,
-            admin_url=admin_url or f"{frontend_url}/admin",
+            admin_url=admin_url or "https://admin.arpitkumar.dev/",
             frontend_url=frontend_url,
         )
 

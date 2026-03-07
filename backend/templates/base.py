@@ -197,15 +197,18 @@ SHARED_STYLES = f"""
 """
 
 
-def _signature_block(frontend_url: str) -> str:
+def _signature_block(frontend_url: str, show_signature: bool = True) -> str:
     """Formal email signature with title and contact line."""
+    if not show_signature:
+        return ""
     return f"""
-    <div class="signature">
-        <strong>Arpit Kumar</strong><br>
-        Applied AI Researcher · IIT Kharagpur<br>
-        <a href="{frontend_url}">{frontend_url}</a> &nbsp;|&nbsp;
-        <a href="https://linkedin.com/in/arpit-kumar-shivam">LinkedIn</a> &nbsp;|&nbsp;
-        <a href="https://github.com/arpitkumar2004">GitHub</a>
+    <div class="signature" style="margin-top:28px;padding-top:18px;border-top:1px solid {BORDER_COLOR};font-size:13px;color:{TEXT_SECONDARY};line-height:1.6;">
+        <strong style="color:{TEXT_PRIMARY};font-size:14px;">Arpit Kumar</strong><br>
+        Applied ML Engineer &middot; IIT Kharagpur &rsquo;27<br>
+        <a href="mailto:kumararpit17773@gmail.com" style="color:{LINK_COLOR};text-decoration:none;">kumararpit17773@gmail.com</a><br>
+        <a href="{frontend_url}" style="color:{LINK_COLOR};text-decoration:none;">{frontend_url}</a> &nbsp;|&nbsp;
+        <a href="https://linkedin.com/in/arpit-kumar-shivam" style="color:{LINK_COLOR};text-decoration:none;">LinkedIn</a> &nbsp;|&nbsp;
+        <a href="https://github.com/arpitkumar2004" style="color:{LINK_COLOR};text-decoration:none;">GitHub</a>
     </div>
     """
 
@@ -219,7 +222,7 @@ def _footer(auto_reply: bool = True) -> str:
         else "This is an automated system notification."
     )
     return f"""
-    <div class="footer">
+    <div class="footer" style="padding:16px 36px;background:{BG_SECTION};border-top:1px solid {BORDER_COLOR};font-size:11px;color:{TEXT_MUTED};line-height:1.6;text-align:center;">
         {reply_msg}<br>
         &copy; {year} Arpit Kumar &middot; All rights reserved.
     </div>
@@ -230,11 +233,12 @@ def wrap(
     body_html: str,
     *,
     header_title: str = "Arpit Kumar",
-    header_subtitle: str = "APPLIED AI RESEARCHER · IIT KHARAGPUR",
+    header_subtitle: str = "APPLIED ML ENGINEER · IIT KHARAGPUR",
     frontend_url: str = "https://arpitkumar.dev",
     subject_preview: str = "",
     extra_css: str = "",
     auto_reply_footer: bool = True,
+    show_signature: bool = True,
 ) -> str:
     """
     Wrap email body content in the corporate template shell.
@@ -247,6 +251,7 @@ def wrap(
         subject_preview:  Hidden preview text for email clients.
         extra_css:        Any additional CSS rules for this template.
         auto_reply_footer: Whether footer says "you can reply" or just "automated".
+        show_signature:   Whether to include the personal signature block.
 
     Returns:
         Complete HTML email string.
@@ -267,17 +272,17 @@ def wrap(
 {extra_css}
     </style>
 </head>
-<body>
+<body style="margin:0;padding:0;background-color:{BG_BODY};font-family:{FONT_STACK_SANS};color:{TEXT_PRIMARY};font-size:14px;line-height:1.7;-webkit-text-size-adjust:100%;">
     {preview}
-    <div class="wrapper">
-        <div class="accent-bar"></div>
-        <div class="header">
-            <h2>{header_title}</h2>
-            <p>{header_subtitle}</p>
+    <div class="wrapper" style="max-width:620px;margin:32px auto;background:{BG_CARD};border:1px solid {BORDER_COLOR};">
+        <div class="accent-bar" style="height:4px;background:{ACCENT_COLOR};"></div>
+        <div class="header" style="padding:28px 36px 20px;border-bottom:1px solid {BORDER_COLOR};">
+            <h2 style="margin:0;font-family:{FONT_STACK};font-size:20px;font-weight:400;color:{ACCENT_COLOR};letter-spacing:0.2px;">{header_title}</h2>
+            <p style="margin:4px 0 0;font-size:12px;color:{TEXT_MUTED};text-transform:uppercase;letter-spacing:1px;">{header_subtitle}</p>
         </div>
-        <div class="body">
+        <div class="body" style="padding:28px 36px;">
 {body_html}
-{_signature_block(frontend_url)}
+{_signature_block(frontend_url, show_signature)}
         </div>
 {_footer(auto_reply_footer)}
     </div>

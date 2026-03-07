@@ -47,51 +47,70 @@ def render(
     trimmed = message[:400] + ("..." if len(message) > 400 else "")
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
+    # Escape metadata values (user-controlled HTTP headers)
+    ip_addr = _html.escape(str(metadata.get("ip_address", "N/A")))
+    user_agent = _html.escape(str(metadata.get("user_agent", "N/A")))
+    referer = _html.escape(str(metadata.get("referer", "N/A")))
+
+    # Inline styles for email client compatibility
+    _tbl = "width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;"
+    _td_l = "font-weight:600;color:#4a4a4a;white-space:nowrap;width:130px;padding:7px 16px 7px 0;border-bottom:1px solid #ebebeb;vertical-align:top;"
+    _td_v = "color:#1a1a1a;padding:7px 0;border-bottom:1px solid #ebebeb;vertical-align:top;"
+    _lbl = "font-size:11px;font-weight:700;color:#7a7a7a;text-transform:uppercase;letter-spacing:1.2px;margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid #d4d4d4;"
+
     company_row = (
-        f'<tr><td>Company</td><td>{company}</td></tr>' if company else ""
+        f'<tr><td style="{_td_l}">Company</td><td style="{_td_v}">{company}</td></tr>' if company else ""
     )
     role_row = (
-        f'<tr><td>Role</td><td>{role}</td></tr>' if role else ""
-    )
-    ip_row = (
-        f'<tr><td>IP Address</td><td>{metadata.get("ip_address", "N/A")}</td></tr>'
-    )
-    ua_row = (
-        f'<tr><td>User Agent</td><td style="word-break:break-all;">{metadata.get("user_agent", "N/A")}</td></tr>'
+        f'<tr><td style="{_td_l}">Role</td><td style="{_td_v}">{role}</td></tr>' if role else ""
     )
 
     body = f"""
-            <p class="greeting">New {lead_type} Lead &mdash; Action Required</p>
+            <p class="greeting" style="margin:0 0 18px;font-size:14px;">Hi Arpit,</p>
 
-            <p class="section-label">Lead Details</p>
-            <table class="info-table">
-                <tr><td>Name</td><td><strong>{name}</strong></td></tr>
-                <tr><td>Email</td><td><a href="mailto:{email}">{email}</a></td></tr>
-                <tr><td>Subject</td><td>{subject}</td></tr>
+            <p style="margin:0 0 14px;font-size:14px;line-height:1.7;">
+                A new <strong>{lead_type}</strong> lead has been submitted through your
+                portfolio website and requires your attention.
+            </p>
+
+            <p class="section-label" style="{_lbl}">Lead Details</p>
+            <table class="info-table" style="{_tbl}">
+                <tr><td style="{_td_l}">Name</td><td style="{_td_v}"><strong>{name}</strong></td></tr>
+                <tr><td style="{_td_l}">Email</td><td style="{_td_v}"><a href="mailto:{email}" style="color:#1a1a2e;">{email}</a></td></tr>
+                <tr><td style="{_td_l}">Subject</td><td style="{_td_v}">{subject}</td></tr>
                 {company_row}
                 {role_row}
-                <tr><td>Received</td><td>{timestamp}</td></tr>
-                <tr><td>Type</td><td>{lead_type}</td></tr>
+                <tr><td style="{_td_l}">Lead Type</td><td style="{_td_v}">{lead_type}</td></tr>
+                <tr><td style="{_td_l}">Received At</td><td style="{_td_v}">{timestamp}</td></tr>
             </table>
 
-            <p class="section-label">Message</p>
-            <div class="quote">{trimmed}</div>
+            <p class="section-label" style="{_lbl}">Message Preview</p>
+            <div class="quote" style="background:#f9f9fb;border-left:2px solid #1a1a2e;padding:12px 16px;margin:14px 0;font-size:13px;color:#4a4a4a;">{trimmed}</div>
 
-            <p class="section-label">Request Metadata</p>
-            <table class="info-table">
-                {ip_row}
-                {ua_row}
-                <tr><td>Referer</td><td>{metadata.get("referer", "N/A")}</td></tr>
+            <p class="section-label" style="{_lbl}">Request Metadata</p>
+            <table class="info-table" style="{_tbl}">
+                <tr><td style="{_td_l}">IP Address</td><td style="{_td_v}">{ip_addr}</td></tr>
+                <tr><td style="{_td_l}">User Agent</td><td style="{_td_v};word-break:break-all;">{user_agent}</td></tr>
+                <tr><td style="{_td_l}">Referer</td><td style="{_td_v}">{referer}</td></tr>
             </table>
 
-            <a href="{admin_url}" class="cta-btn">View in Admin Panel</a>
+            <p style="margin:18px 0 0;font-size:13px;color:#4a4a4a;line-height:1.7;">
+                Please review this lead and respond within 24 hours to maintain a
+                positive candidate experience.
+            </p>
+
+            <div style="margin-top:16px;">
+                <a href="{admin_url}" class="cta-btn" style="display:inline-block;background-color:#1a1a2e;color:#ffffff;text-decoration:none;padding:10px 28px;font-size:13px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;">View in Admin Panel</a>
+                <a href="mailto:{email}" class="cta-btn-outline" style="display:inline-block;border:1px solid #1a1a2e;color:#1a1a2e;text-decoration:none;padding:9px 26px;font-size:13px;font-weight:600;letter-spacing:0.4px;text-transform:uppercase;margin-left:8px;">Reply to Lead</a>
+            </div>
     """
 
     return wrap(
         body,
-        header_title=f"Lead Notification: {lead_type}",
-        header_subtitle=f"{name.upper()} &mdash; {email}",
+        header_title=f"New {lead_type} Lead",
+        header_subtitle=f"FROM {name.upper()} &mdash; {email}",
         frontend_url=frontend_url,
-        subject_preview=f"New {lead_type} lead from {name} ({email})",
+        subject_preview=f"New {lead_type} lead from {name} ({email}) — {subject}",
         auto_reply_footer=False,
+        show_signature=False,
     )
