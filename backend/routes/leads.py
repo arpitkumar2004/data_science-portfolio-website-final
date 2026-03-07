@@ -19,7 +19,6 @@ from schemas.lead import (
     StatusUpdate, PriorityRequest, ScoreRequest, NotesUpdate, TagUpdate,
     BulkStatusUpdate
 )
-from services.auth_service import validate_admin
 from services.auth_service_v2 import require_admin
 from services.lead_service import (
     create_contact_lead, get_all_leads, get_lead_by_id, delete_lead,
@@ -411,6 +410,21 @@ async def get_lead_endpoint(
     return serialize_contact_lead(lead)
 
 
+@router.delete("/admin/leads/bulk-delete")
+@limiter.limit(RATE_LIMIT_ADMIN)
+async def bulk_delete_leads_endpoint(
+    request: Request,
+    data: dict = Body(...),
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    ids_list = data.get("lead_ids") if isinstance(data, dict) else None
+    if not isinstance(ids_list, list):
+        raise HTTPException(status_code=400, detail="lead_ids must be a list")
+    deleted_count = bulk_delete_leads(db, ids_list)
+    return {"status": f"Deleted {deleted_count} leads", "deleted_count": deleted_count}
+
+
 @router.delete("/admin/leads/{lead_id}")
 @limiter.limit(RATE_LIMIT_ADMIN)
 async def delete_lead_endpoint(
@@ -540,20 +554,5 @@ async def bulk_update_status_endpoint(
 ):
     updated_count = bulk_update_status(db, data.lead_ids, data.status)
     return {"status": f"Updated {updated_count} leads"}
-
-
-@router.delete("/admin/leads/bulk-delete")
-@limiter.limit(RATE_LIMIT_ADMIN)
-async def bulk_delete_leads_endpoint(
-    request: Request,
-    data: dict = Body(...),
-    admin: dict = Depends(require_admin),
-    db: Session = Depends(database.get_db)
-):
-    ids_list = data.get("lead_ids") if isinstance(data, dict) else None
-    if not isinstance(ids_list, list):
-        raise HTTPException(status_code=400, detail="lead_ids must be a list")
-    deleted_count = bulk_delete_leads(db, ids_list)
-    return {"status": f"Deleted {deleted_count} leads", "deleted_count": deleted_count}
 
 

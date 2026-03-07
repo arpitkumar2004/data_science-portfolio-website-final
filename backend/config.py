@@ -30,9 +30,8 @@ JWT_SECRET_KEY = _require_env("JWT_SECRET_KEY")
 JWT_ALGORITHM = "HS256"
 JWT_ACCESS_TOKEN_EXPIRE_MINUTES = 60  # 1 hour
 
-# Admin Authentication (Legacy - for backward compatibility)
+# Admin Authentication
 ADMIN_SECRET_KEY = _require_env("ADMIN_SECRET_KEY")
-ADMIN_TOKEN_EXPIRY_SECONDS = 3600  # 1 hour
 
 # Email Configuration (required for contact/CV flows)
 RESEND_API_KEY = _require_env("RESEND_API_KEY")
