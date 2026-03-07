@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, EmailStr
+from pydantic import BaseModel, ConfigDict, Field, EmailStr
 from typing import List, Optional
 
 
@@ -68,8 +68,7 @@ class ContactLeadResponse(BaseModel):
     tags: List[str]
     source: str
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class LeadStatistics(BaseModel):
