@@ -93,14 +93,14 @@ const Home: React.FC = () => {
     ).length;
 
     return [
-      { l: "Years Shipping ML", v: yearsDisplay, d: "Production & Research" },
+      { l: "Years Experienced", v: yearsDisplay, d: "Shipping Production" },
       {
         l: "Live Deployments",
         v: String(projectsDeployedCount).padStart(2, "0") + "+",
         d: "Real users & Impact",
       },
       {
-        l: "Competition Podiums",
+        l: "Competition Wins",
         v: String(competitionsWonCount).padStart(2, "0") + "+",
         d: "Ranked outcomes",
       },
