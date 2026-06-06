@@ -41,22 +41,22 @@ const Header: React.FC = () => {
             : 'py-7 bg-transparent dark:bg-[#161616] dark:border-white/10'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           
           {/* Logo / Brand */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div 
+            {/* <div 
               className="p-1.5 rounded-lg text-blue-600 transition-transform group-hover:rotate-12"
               // style={{ backgroundColor: brandBlue }}
             >
               <Terminal size={30} strokeWidth={3.5} />
-            </div>
+            </div> */}
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tighter text-blue-600 leading-none">
-                ARPIT KUMAR
+              <span className="text-xl font-black tracking-widest text-blue-600 leading-none">
+              Arpit Kumar
               </span>
-              <span className="text-[10px] font-mono font-bold text-slate-900 dark:text-slate-200 tracking-widest uppercase mt-0.5">
-                IIT Kharagpur // AI
+              <span className="text-[13px] font-bold text-slate-900 dark:text-slate-200 tracking-widest mt-0.5">
+              ML Engineer & AI Researcher | IIT Kharagpur
               </span>
             </div>
           </Link>

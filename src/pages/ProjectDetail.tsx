@@ -589,7 +589,7 @@ const ProjectDetail: React.FC = () => {
 
         {/* ═══════════════ RELATED PROJECTS ═══════════════ */}
         <section className="mt-16 pt-10 border-t border-slate-100 dark:border-white/5">
-          <h2 className="text-lg font-bold text-slate-900 dark:text-white text-center mb-8">
+          <h2 className="text-5xl font-bold text-slate-900 dark:text-white text-center mb-16">
             {nextProjects.length > 0 ? 'Related Projects' : 'Explore More'}
           </h2>
           <div className={`grid grid-cols-1 ${nextProjects.length > 0 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-6`}>
@@ -599,20 +599,20 @@ const ProjectDetail: React.FC = () => {
       </div>
 
       {/* ═══════════════ RECRUITER CTA (preserved) ═══════════════ */}
-      <section className="px-6 md:px-12 lg:px-20 mb-16">
+      <section className="px-6 mb-16 md:px-12 lg:px-20 mb-16">
         <div className="max-w-7xl mx-auto">
           <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900 dark:bg-slate-950 p-10 lg:p-14 text-white">
             <div className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl" />
             <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full bg-blue-400/10 blur-3xl" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-7">
-                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-300 mb-4">Collaboration</p>
+              <div className="lg:col-span-9">
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-300 mb-4">Collaboration with me</p>
                 <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-4 leading-tight">
                   Build the next <span className="text-blue-400">production-grade</span> system.
                 </h2>
-                <p className="text-slate-300 text-sm md:text-base max-w-xl leading-relaxed mb-6">
-                  Curious about architecture choices, evaluation strategy, or delivery scope? I partner on research, production ML, and system design that ships measurable outcomes.
+                <p className="text-slate-300 text-sm md:text-base max-w-4xl leading-relaxed mb-6">
+                  Curious about architecture choices, evaluation strategy, or delivery scope? I would like to partner on research, production ML, and system design that ships measurable outcomes.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
@@ -629,7 +629,7 @@ const ProjectDetail: React.FC = () => {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 flex flex-col gap-3">
+              <div className="lg:col-span-3 flex flex-col gap-3">
                 <Link to="/contact" className="group flex items-center justify-between p-5 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors">
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-white/10 rounded-lg"><Mail size={20} /></div>
@@ -645,17 +645,17 @@ const ProjectDetail: React.FC = () => {
                   <div className="flex items-center gap-4">
                     <div className="p-3 bg-white/10 rounded-lg text-blue-200"><Download size={20} /></div>
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">Resource Pack</p>
-                      <p className="text-sm font-bold">Get CV + Deep-Dives</p>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">Resources </p>
+                      <p className="text-sm font-bold">Get Deep-Dives</p>
                     </div>
                   </div>
                   <FileText size={18} className="text-slate-400 group-hover:text-blue-200 transition-colors" />
                 </Link>
 
-                <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
+                {/* <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
                   <ShieldCheck size={14} className="text-blue-400" />
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Verified Researcher @ IIT Kharagpur</span>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

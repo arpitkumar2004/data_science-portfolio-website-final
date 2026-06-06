@@ -253,11 +253,11 @@ const AboutMe: React.FC = () => {
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-3 mt-5">
+              {/* <div className="grid grid-cols-2 gap-3 mt-5">
                 {(data.stats ?? []).map((stat, i) => (
                   <StatCard key={i} stat={stat} index={i} />
                 ))}
-              </div>
+              </div> */}
 
               {/* Social */}
               <div className="flex gap-2.5 mt-5">
@@ -267,7 +267,7 @@ const AboutMe: React.FC = () => {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 dark:bg-[#111] rounded-lg border border-slate-100 dark:border-white/8 hover:border-slate-200 dark:hover:border-white/15 transition-colors text-xs font-semibold text-slate-600 dark:text-slate-400"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 dark:bg-[#111] rounded-lg border border-slate-100 dark:border-white/8 hover:border-blue-600 dark:hover:border-white/15 transition-colors text-sm font-semibold text-slate-600 dark:text-slate-400"
                   >
                     {getSocialIcon(link.icon)}
                     {link.platform}
@@ -358,7 +358,7 @@ const AboutMe: React.FC = () => {
               <hr className="my-14 border-slate-100 dark:border-white/8" />
 
               {/* Selected Work — from database */}
-              {featuredProjects.length > 0 && (
+              {/* {featuredProjects.length > 0 && (
                 <div>
                   <SectionLabel title="Selected Work" />
                   <div className="space-y-2.5">
@@ -375,10 +375,10 @@ const AboutMe: React.FC = () => {
                 </div>
               )}
 
-              <hr className="my-14 border-slate-100 dark:border-white/8" />
+              <hr className="my-14 border-slate-100 dark:border-white/8" /> */}
 
               {/* Tech Stack — from skillsData */}
-              <div>
+              {/* <div>
                 <SectionLabel title="Tech Stack" />
                 <div className="space-y-4">
                   {techData.map((skill) => (
@@ -407,7 +407,7 @@ const AboutMe: React.FC = () => {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               {/* CTA */}
               <div className="mt-16 bg-slate-900 dark:bg-[#0a0a0a] rounded-2xl p-8 lg:p-10 text-white relative overflow-hidden">

@@ -1,7 +1,17 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Github, Linkedin, ArrowRight, FileText, Terminal, Briefcase } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  ArrowRight,
+  FileText,
+  Terminal,
+  Briefcase,
+  Mail,
+  Download,
+  ArrowUpRight,
+} from "lucide-react";
 import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
 import SEOHead from "../components/SEOHead";
@@ -61,7 +71,7 @@ const Home: React.FC = () => {
       .filter(Boolean) as number[];
 
     const earliest = startYears.length ? Math.min(...startYears) : nowYear;
-    const years = Math.max(0, nowYear - earliest);
+    const years = Math.min(1, nowYear - earliest);
     const yearsDisplay = String(years).padStart(2, "0") + "+";
 
     const projectsDeployedCount = projects.filter((p) =>
@@ -108,12 +118,12 @@ const Home: React.FC = () => {
   const [isRecruiter, setIsRecruiter] = useState(false);
   useEffect(() => {
     const checkRecruiter = () => {
-      const role = localStorage.getItem('userRole');
-      setIsRecruiter(role === 'Recruiter' && !!getRecruiterProfile());
+      const role = localStorage.getItem("userRole");
+      setIsRecruiter(role === "Recruiter" && !!getRecruiterProfile());
     };
     checkRecruiter();
-    window.addEventListener('role:updated', checkRecruiter);
-    return () => window.removeEventListener('role:updated', checkRecruiter);
+    window.addEventListener("role:updated", checkRecruiter);
+    return () => window.removeEventListener("role:updated", checkRecruiter);
   }, []);
 
   return (
@@ -132,7 +142,9 @@ const Home: React.FC = () => {
             <p className="text-sm text-emerald-800 dark:text-emerald-300">
               <Briefcase size={14} className="inline mr-1.5 -mt-0.5" />
               <strong>Looking to hire?</strong>{" "}
-              <span className="hidden sm:inline">View my availability, logistics, and complete candidate profile.</span>
+              <span className="hidden sm:inline">
+                View my availability, logistics, and complete candidate profile.
+              </span>
             </p>
             <Link
               to="/open-to-work"
@@ -186,7 +198,7 @@ const Home: React.FC = () => {
                 className="max-w-2xl mb-6 space-y-3"
               >
                 <p className="text-slate-700 dark:text-slate-200 text-base md:text-lg leading-relaxed font-semibold">
-                  Applied ML Engineer who builds end-to-end—from{" "}
+                  ML Engineer & AI Researcher who builds end-to-end—from{" "}
                   <span className="text-blue-600 dark:text-blue-400">
                     research to production
                   </span>
@@ -217,12 +229,12 @@ const Home: React.FC = () => {
                     key={i}
                     role="listitem"
                     whileHover={!shouldReduceMotion ? { y: -2 } : {}}
-                    className="stat-card group cursor-default rounded-xl p-4 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-800/30 ring-1 ring-slate-900/5 dark:ring-white/10 hover:ring-blue-500/20 transition-all"
+                    className="stat-card group cursor-default rounded-xl p-4 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-800/30 ring-1 ring-slate-900/5 dark:ring-white/10 hover:ring-blue-600/80 transition-all"
                   >
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-1 tracking-tighter group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {s.v}
                     </h3>
-                    <p className="text-[10px] font-mono font-bold text-blue-500 uppercase tracking-widest mb-1">
+                    <p className="text-[13px] font-bold text-blue-500 mb-1">
                       {s.l}
                     </p>
                     <p className="text-xs font-medium text-slate-600 dark:text-slate-400">
@@ -508,12 +520,12 @@ const Home: React.FC = () => {
             </div>
             <Link
               to="/projects"
-              className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-bold hover:text-blue-600 transition-colors group"
+              className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-bold text-2xl hover:text-blue-600 transition-colors group"
             >
               View Full Portfolio{" "}
               <ArrowRight
-                size={20}
-                className="group-hover:translate-x-1 transition-transform"
+                size={30}
+                className="group-hover:translate-x-2 transition-transform"
               />
             </Link>
           </div>
@@ -551,8 +563,106 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
+      {/* ═══════════════ RECRUITER CTA (preserved) ═══════════════ */}
+      <section className="px-6 mb-16 md:px-12 lg:px-20 mb-16">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900 dark:bg-slate-950 p-10 lg:p-14 text-white">
+            <div className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl" />
+            <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full bg-blue-400/10 blur-3xl" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-9">
+                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-300 mb-4">
+                  Collaboration with me
+                </p>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-4 leading-tight">
+                  Build the next{" "}
+                  <span className="text-blue-400">production-grade</span>{" "}
+                  system.
+                </h2>
+                <p className="text-slate-300 text-sm md:text-base max-w-4xl leading-relaxed mb-6">
+                  Curious about architecture choices, evaluation strategy, or
+                  delivery scope? I would like to partner on research,
+                  production ML, and system design that ships measurable
+                  outcomes.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[
+                    { v: "Impact", l: "ROI-focused" },
+                    { v: "Secure", l: "Enterprise-ready" },
+                    { v: "Fast", l: "Iterate + Ship" },
+                    { v: "Rigor", l: "Research-grade" },
+                  ].map((item) => (
+                    <div
+                      key={item.l}
+                      className="rounded-lg border border-white/10 bg-white/5 px-3 py-2"
+                    >
+                      <div className="text-sm font-bold text-white">
+                        {item.v}
+                      </div>
+                      <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
+                        {item.l}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-3 flex flex-col gap-3">
+                <Link
+                  to="/contact"
+                  className="group flex items-center justify-between p-5 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/10 rounded-lg">
+                      <Mail size={20} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-blue-200 mb-0.5">
+                        Direct Channel
+                      </p>
+                      <p className="text-sm font-bold">Initiate Discussion</p>
+                    </div>
+                  </div>
+                  <ArrowUpRight
+                    size={18}
+                    className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                  />
+                </Link>
+
+                <Link
+                  to="/request-cv"
+                  className="group flex items-center justify-between p-5 bg-white/5 rounded-xl hover:bg-white/10 border border-white/10 transition-colors"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 bg-white/10 rounded-lg text-blue-200">
+                      <Download size={20} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">
+                        Resources{" "}
+                      </p>
+                      <p className="text-sm font-bold">Get Deep-Dives</p>
+                    </div>
+                  </div>
+                  <FileText
+                    size={18}
+                    className="text-slate-400 group-hover:text-blue-200 transition-colors"
+                  />
+                </Link>
+
+                {/* <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
+                        <ShieldCheck size={14} className="text-blue-400" />
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Verified Researcher @ IIT Kharagpur</span>
+                      </div> */}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- FOOTER CTA --- */}
-      <motion.section
+      {/* <motion.section
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -616,7 +726,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
     </div>
   );
 };

@@ -250,9 +250,10 @@ export default function TechnicalProficiencies() {
         </div>
 
         {/* --- BOTTOM SECTION: ACADEMIC & DOMAIN --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-24">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-24"> */}
+        <div className="grid grid-cols-1 gap-6 items-stretch mb-24">
           {/* ACADEMIC TRANSCRIPT CARD (7-Column) */}
-          <div className="lg:col-span-7">
+          <div>
             <div className="relative bg-white border border-slate-200 rounded-2xl p-8 lg:p-10 overflow-hidden h-full transition-all duration-300 hover:border-blue-500 hover:shadow-md">
               {/* Header: Clean and Simple */}
               <div className="mb-10">
@@ -289,9 +290,8 @@ export default function TechnicalProficiencies() {
           </div>
 
           {/* DOMAIN EXPERTISE CARD (5-Column) */}
-          <div className="lg:col-span-5">
+          {/* <div className="lg:col-span-5">
             <div className="relative bg-white border border-slate-200 rounded-2xl p-8 lg:p-10 overflow-hidden flex flex-col h-full transition-all duration-300 hover:border-blue-500 hover:shadow-md">
-              {/* Header - Clean */}
               <div className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="p-2.5 bg-blue-100 text-blue-600 rounded-lg">
@@ -304,10 +304,10 @@ export default function TechnicalProficiencies() {
                 <p className="text-slate-500 text-sm font-medium">
                   Revenue-Generating Applications
                 </p>
-              </div>
+              </div> */}
 
               {/* Domain List - Simplified */}
-              <div className="space-y-2 flex-grow">
+              {/* <div className="space-y-2 flex-grow">
                 {domains.map((domain, idx) => (
                   <div
                     key={idx}
@@ -321,7 +321,7 @@ export default function TechnicalProficiencies() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

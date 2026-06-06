@@ -298,7 +298,7 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
 };
 
 export default function Experience() {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="py-16 bg-white dark:bg-black font-sans overflow-hidden">
@@ -322,7 +322,7 @@ export default function Experience() {
               </div>
 
               <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
-                Experience in Scaling Systems
+                Positions of Responsibility
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-3xl mt-3 leading-relaxed">
                 Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—measurable impact across 4 organizations with production systems, zero critical bugs, and proven ability to scale teams.
@@ -337,13 +337,13 @@ export default function Experience() {
             <div className="mt-6 md:mt-0 flex items-center gap-3">
               {!isExpanded && (
                 <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest animate-pulse">
-                  Expand
+                  Expand to Reveal 
                 </span>
               )}
               <div
-                className={`flex items-center justify-center w-10 h-10 rounded-xl border-2 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
+                className={`flex items-center justify-center w-20 h-20 rounded-full border-4 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
               >
-                <ChevronDown size={20} strokeWidth={3} />
+                <ChevronDown size={40} strokeWidth={2} />
               </div>
             </div>
           </button>

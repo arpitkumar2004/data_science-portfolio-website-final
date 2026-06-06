@@ -182,7 +182,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {tags?.slice(0, 3).map((tag) => (
             <span
               key={tag}
-              className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 rounded-md text-xs font-medium text-slate-600 dark:text-slate-400 group-hover:bg-white/20 group-hover:text-white group-hover:border-white/30 border border-transparent transition-all duration-300"
+              className="px-2.5 py-1 bg-slate-50 dark:bg-slate-800 rounded-md text-xs text-slate-900 dark:text-slate-400 group-hover:bg-white/20 group-hover:text-white group-hover:border-white/30 border border-transparent transition-all duration-300"
             >
               {tag}
             </span>

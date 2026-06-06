@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
   }
 
   return (
-    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20 dark:bg-black">
+    <div className="max-w-8xl mx-auto bg-white min-h-screen font-sans  selection:bg-blue-100 overflow-x-hidden dark:selection:bg-blue-500/20 dark:bg-black">
       <SEOHead
         title="Projects — Shipped ML Systems & Research"
         description="Explore Arpit Kumar's portfolio of production ML systems, deep learning research, competition-winning models, and full-stack AI applications. 9+ projects with live demos."
@@ -93,7 +93,7 @@ const Projects: React.FC = () => {
       />
 
       {/* --- RECRUITER CTA BANNER --- */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -126,7 +126,7 @@ const Projects: React.FC = () => {
             </a>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
       {/* --- REFINED DASHBOARD HEADER --- */}
       <header className="pt-14 pb-14 px-6 md:px-12 lg:px-20 border-b border-slate-100 bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-[#0a0a0a] dark:via-[#0d0d0d] dark:to-[#0a0f1a] dark:border-white/10 overflow-x-hidden relative">
@@ -143,36 +143,36 @@ const Projects: React.FC = () => {
               className="max-w-4xl"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl text-white shadow-lg shadow-blue-500/25">
+                {/* <div className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl text-white shadow-lg shadow-blue-500/25">
                   <Database size={18} />
-                </div>
+                </div> */}
                 <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-blue-600">
                   Technical Portfolio
                 </span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-black font-sans tracking-[-0.05em] leading-[0.85] uppercase">
+              <h1 className="text-5xl md:text-6xl font-black font-sans tracking-[-0.05em] leading-[0.85]">
                 <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">Shipped Systems</span>
                 <br/>
                 <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">& Research</span>
                 <br/>
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Impact</span>
               </h1>
-              <p className="mt-5 text-base text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
+              {/* <p className="mt-5 text-base text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
                 Production ML, peer-reviewed research, and competition wins — measured in SLAs, cost savings, and real-world lift.
-              </p>
+              </p> */}
             </motion.div>
 
             {/* Dynamic Dashboard Grid */}
             <motion.div
-              className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 w-full lg:w-auto"
+              className="mt-8 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 w-full lg:w-auto "
               initial="hidden"
               animate="visible"
               variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
             >
               {[
                 { label: "Total Entries", val: stats.total, icon: <History size={14}/> },
-                { label: "Research Papers", val: stats.researchPapers, icon: <BookOpen size={14}/>, color: 'text-blue-600' },
-                { label: "In-Flight Research", val: stats.ongoingResearch, icon: <Activity size={14}/>, color: 'text-orange-500' },
+                { label: "Research Projects", val: stats.researchPapers, icon: <BookOpen size={14}/>, color: 'text-blue-600' },
+                { label: "Ongoing Research", val: stats.ongoingResearch, icon: <Activity size={14}/>, color: 'text-orange-500' },
                 { label: "Competition Podiums", val: stats.competitions, icon: <Trophy size={14}/>, color: 'text-yellow-600' },
                 { label: "Production Projects", val: stats.totalProjects, icon: <Terminal size={14}/> },
                 { label: "Live Systems Shipping", val: stats.liveDeployed, icon: <Cpu size={14}/>, color: 'text-green-600' },
@@ -199,7 +199,7 @@ const Projects: React.FC = () => {
 
       {/* --- STICKY COMMAND CENTER --- */}
       <div className="sticky top-0 z-50 bg-white/85 dark:bg-[#0a0a0a]/85 backdrop-blur-2xl border-b border-slate-100 dark:border-white/10 py-5 px-6 md:px-12 lg:px-20 shadow-sm shadow-slate-200/50 dark:shadow-none">
-        <div className="max-w-[1600px] mx-auto flex flex-col md:flex-row gap-5 items-center">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-5 items-center">
           <div className="relative flex-grow w-full group">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
               <Terminal size={18} className="text-blue-600 group-focus-within:text-blue-500 transition-colors" />
@@ -332,11 +332,11 @@ const Projects: React.FC = () => {
                 className="px-6 md:px-12 lg:px-20 mt-16 first:mt-12"
               >
                 {sectionIdx > 0 && (
-                  <div className="max-w-[1600px] mx-auto mb-10">
+                  <div className="max-w-7xl mx-auto mb-10">
                     <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent" />
                   </div>
                 )}
-                <div className="max-w-[1600px] mx-auto">
+                <div className="max-w-7xl mx-auto">
                   <ProjectCarousel projects={items} headerLeft={headerLeft} showGrid={true} />
                 </div>
               </motion.section>
@@ -346,7 +346,7 @@ const Projects: React.FC = () => {
       }
 
       {/* --- REFINED RECRUITER CTA SECTION --- */}
-      <motion.section
+      {/* <motion.section
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
@@ -431,7 +431,7 @@ const Projects: React.FC = () => {
             </div>
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
     </div>
   );
 };

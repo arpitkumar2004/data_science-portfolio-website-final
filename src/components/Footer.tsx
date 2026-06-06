@@ -99,7 +99,7 @@ const Footer: React.FC = () => {
   );
 
   return (
-    <footer className="relative overflow-hidden border-t border-slate-200 bg-white pt-16 pb-8 text-slate-900 dark:border-white/5 dark:bg-[#161616] dark:text-white">
+    <footer className="relative overflow-hidden border-t border-slate-200 bg-grey-100 pt-16 pb-8 text-slate-900 dark:border-white/5 dark:bg-[#161616] dark:text-white">
       {/* dot-grid bg */}
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.02]"
@@ -111,36 +111,27 @@ const Footer: React.FC = () => {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         {/* ── MAIN GRID ── */}
-        <div className="mb-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
+        <div className="mb-6 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12">
 
           {/* COL 1 — Brand & Bio (3/12) */}
-          <div className="space-y-5 lg:col-span-3">
-            <Link to="/" className="group inline-flex items-center gap-3">
-              <div className="rounded-xl bg-blue-600 p-2 shadow-lg shadow-blue-900/20 transition-transform group-hover:rotate-12">
+          <div className="space-y-5 lg:col-span-5">
+            <Link to="/" className="group inline-flex items-center gap-3 text-2xl font-black tracking-tighter text-blue-600">
+              {/* <div className="rounded-xl bg-blue-600 p-2 shadow-lg shadow-blue-900/20 transition-transform group-hover:rotate-12">
                 <Terminal size={22} className="text-white" />
-              </div>
-              <span className="text-2xl font-black uppercase tracking-tighter">Arpit Kumar</span>
+              </div> */}
+              <span className="text-2xl font-black tracking-wider">Arpit Kumar</span>
             </Link>
 
-            <p className="max-w-xs text-sm leading-relaxed text-slate-600 dark:text-slate-400">
-              <strong>AI / ML Systems & Applied Researcher</strong> at IIT Kharagpur.
+            <p className="max-w-sm text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+              <strong>AI / ML Engineer & Researcher</strong> at SRIC, IIT Kharagpur.
               Building production-grade deep learning systems — cloud architecture,
               MLOps, distributed systems & research-to-deployment pipelines.
             </p>
 
-            {/* Visitor counter */}
-            <div className="inline-flex items-center gap-4 rounded-2xl border border-slate-200 bg-slate-100 p-3 dark:border-white/10 dark:bg-white/5">
-              <div>
-                <p className="mb-0.5 text-[9px] font-mono font-bold uppercase tracking-tight text-slate-500">Visitors</p>
-                <p className="font-mono text-base font-black tracking-widest text-blue-500">
-                  {visitorCount.toString().padStart(6, '0')}
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* COL 2 — Opportunities CTA (3/12) */}
-          <div className="lg:col-span-3">
+          {/* <div className="lg:col-span-3">
             <div className="flex h-full flex-col justify-between rounded-3xl border border-blue-600/10 bg-blue-600/5 p-5 dark:border-blue-600/20">
               <div>
                 <div className="mb-4 flex items-center gap-2">
@@ -173,7 +164,6 @@ const Footer: React.FC = () => {
                 <ArrowUpRight size={14} />
               </a>
 
-              {/* Recruiter-only link to dedicated page */}
               {userRole === 'Recruiter' && getRecruiterProfile() && (
                 <Link
                   to="/open-to-work"
@@ -184,7 +174,7 @@ const Footer: React.FC = () => {
                 </Link>
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* COL 3 — Site Map (2/12) */}
           <div className="lg:col-span-2">
@@ -205,7 +195,7 @@ const Footer: React.FC = () => {
           </div>
 
           {/* COL 4 — Profiles (4/12, split into 2 sub-cols) */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-4">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-5">
             {/* Research */}
             <div>
               <SectionHeading icon={Microscope} label="Research" />
@@ -232,13 +222,23 @@ const Footer: React.FC = () => {
         <div className="flex flex-col items-center justify-between gap-6 border-t border-slate-100 pt-6 md:flex-row dark:border-white/5">
           {/* Status badges */}
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-green-500">
+            {/* <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/20 bg-green-500/10 px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-widest text-green-500">
               <Zap size={12} /> Open to Internships 2026
-            </span>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-500">
-              PyTorch · Docker · GCP · FastAPI · React
+            </span> */}
+            <span className="text-[13px] tracking-widest text-slate-500 dark:text-slate-500">
+              Copyright &copy; 2023 - {new Date().getFullYear()} Arpit Kumar. All rights reserved.
             </span>
           </div>
+
+          {/* Visitor counter */}
+            <div className="inline-flex items-center gap-4 border border-slate-200 bg-slate-100 dark:border-white/10 dark:bg-white/5">
+              <div className="flex items-center gap-2 px-2 py-1">
+                <p className="mb-0.5 text-[13px] font-mono text-slate-500">Visitors : </p>
+                <p className="text-base font-black tracking-widest text-blue-500">
+                  {visitorCount.toString().padStart(6, '0')}
+                </p>
+              </div>
+            </div>
 
           {/* Controls */}
           <div className="flex items-center gap-4">
@@ -246,24 +246,21 @@ const Footer: React.FC = () => {
               onClick={() => window.dispatchEvent(new Event('role:open'))}
               aria-label={userRole ? `Current role ${userRole}. Click to change.` : 'Set viewing role'}
               title={userRole ? `Viewing as ${userRole} — click to change` : 'Set viewing role'}
-              className="flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-1.5 text-[9px] font-mono font-bold uppercase text-slate-700 transition-all hover:border-blue-500/30 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white"
+              className="flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-2 text-[13px] font-mono font-bold uppercase text-slate-700 transition-all hover:border-blue-500/30 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:bg-white/5 dark:text-slate-300 dark:hover:text-white"
             >
-              <Fingerprint size={13} className="text-blue-400" />
+              <Fingerprint size={18} className="text-blue-400" />
               {userRole ?? 'Set role'}
             </button>
 
             <button
               onClick={scrollToTop}
               aria-label="Scroll to top"
-              className="group flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-1.5 text-[9px] font-mono font-bold uppercase text-slate-600 transition-all hover:border-blue-500/30 hover:text-slate-900 dark:bg-white/5 dark:text-slate-500 dark:hover:text-white"
+              className="group flex items-center gap-2 rounded-lg border border-transparent bg-slate-100 px-3 py-2 text-[13px] font-mono font-bold uppercase text-slate-600 transition-all hover:border-blue-500/30 hover:text-slate-900 dark:bg-white/5 dark:text-slate-500 dark:hover:text-white"
             >
-              <ChevronUp size={13} className="transition-transform group-hover:-translate-y-0.5" />
+              <ChevronUp size={22} className="transition-transform group-hover:-translate-y-0.5" />
               Back to top
             </button>
 
-            <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-600">
-              &copy; {new Date().getFullYear()} Arpit Kumar
-            </p>
           </div>
         </div>
       </div>
