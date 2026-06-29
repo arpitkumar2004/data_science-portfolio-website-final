@@ -90,7 +90,7 @@ const MainApp = () => {
     <ToastProvider>
       {/* WRAP EVERYTHING INSIDE THE GATEWAY */}
       <RoleGateway>
-        <div className="flex flex-col min-h-screen bg-gray-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100">
+        <div className="flex flex-col min-h-screen bg-white text-slate-900 dark:bg-black dark:text-slate-100">
           <Header />
           <main className="flex-grow">
             <ErrorBoundary>

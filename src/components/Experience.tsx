@@ -321,10 +321,10 @@ export default function Experience() {
                 </span>
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
                 Positions of Responsibility
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-3xl mt-3 leading-relaxed">
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-4xl mt-3 leading-relaxed">
                 Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—measurable impact across 4 organizations with production systems, zero critical bugs, and proven ability to scale teams.
               </p>
 

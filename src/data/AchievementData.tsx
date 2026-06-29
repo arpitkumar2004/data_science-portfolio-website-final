@@ -1,146 +1,169 @@
+
 import React from 'react';
 import {
   GraduationCap,
   Users,
   Trophy,
   Code,
-  Binary,
-  ShieldCheck
+  Award,
+  Microscope,
 } from 'lucide-react';
 import Achievement from '../components/Achievement';
-import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
 
-// --- DATASET: 100% Information Preservation ---
-export const achievementData = [
+// ─── Types (mirrors Achievement.tsx interface) ─────────────────────
+
+interface AchievementItem {
+  description: string;
+  links: { url: string; label: string }[];
+}
+
+interface AchievementCategory {
+  id: string;
+  title: string;
+  icon: React.ElementType;
+  category: string;
+  items: AchievementItem[];
+}
+export const achievementData: AchievementCategory[] = [
+
   {
-    id: "01",
-    title: "Academic & Research Profile",
-    icon: GraduationCap,
-    category: "Institutional Merit",
-    items: [
-      {
-        description: "Dual-degree engineering program at IIT Kharagpur (Institute of Eminence)—mastering AI-driven process optimization that cuts industrial energy costs by 15-30% through neural control systems and digital twin architectures.",
-        links: [{ url: "https://iitkgp.ac.in/", label: "IIT Kharagpur Portfolio" }]
-      },
-      {
-        description: "Merit-cum-Means Scholarship recipient (Top 5% of cohort)—awarded for sustained academic excellence and research contributions that bridge theoretical ML with industrial process engineering.",
-        links: [{ url: "/", label: "Scholarship Record" }]
-      },
-      {
-        description: "International conference participant (SPARC-funded AI research)—presenting novel applications of ML in electrochemical modeling and computational systems that accelerate R&D cycles by 40%.",
-        links: [{ url: "/#projects", label: "Conference Archive" }]
-      },
-      {
-        description: "Delivered 20% energy savings in methanol purification under Prof. Sourav Mondal—optimizing distillation columns to 98% purity using advanced FUG methods, directly applicable to petrochemical operations.",
-        links: [{ url: "https://github.com/arpitkumar2004/Assigment-PMS", label: "FUG Optimization Code" }]
-      },
-      {
-        description: "Validated industrial-scale unit operations (CSTR/PFR, distillation) in Aspen HYSYS under Prof. Nikita Saxena—building production-ready simulations that de-risk $10M+ capital projects.",
-        links: [{ url: "https://github.com/arpitkumar2004/CAPE-Laboratory-Simulations", label: "Aspen HYSYS Manifest" }]
-      }
-    ]
-  },
-  {
-    id: "02",
-    title: "Algorithmic & Technical Credentials",
-    icon: Code,
-    category: "Competitive Implementation",
-    items: [
-      {
-        description: "Codeforces Expert (Max 1612 rating, Top 7% globally)—ranked 203rd in Div 2 Round 1032 among 15,000+ competitors, demonstrating elite algorithmic problem-solving under time pressure for production systems.",
-        links: [{ url: "https://codeforces.com/profile/_Badassium", label: "Codeforces Profile" }]
-      },
-      {
-        description: "Production ML/DL infrastructure architect—shipping interpretable AI pipelines with PyTorch/TensorFlow that reduce model training time by 50% and improve inference accuracy by 12-18% across diverse datasets.",
-        links: [
-            { url: "/#projects", label: "System Portfolio" },
-            { url: "https://github.com/arpitkumar2004", label: "Source Manifest" }
-        ]
-      }
-    ]
-  },
-  {
-    id: "03",
-    title: "Global AI Competitions & Hackathons",
+    id: '01',
+    title: 'ML & AI Competitions',
     icon: Trophy,
-    category: "Competitive Excellence",
+    category: 'Competitive Excellence',
     items: [
       {
-        description: "Amazon ML Challenge 2025: Top 0.5% globally (42nd/8690 teams)—engineered multimodal price prediction pipeline outperforming 99.5% of participants with XGBoost/LightGBM/CatBoost ensemble achieving 0.21 MAE.",
-        links: [{ url: "https://github.com/arpitkumar2004/A_ML_25", label: "Technical Write-up" }]
-      },
-      {
-        description: "NK Securities Volatility Forecasting: Pioneered geometric ensembling with Transformers—beating benchmark models by 18% in out-of-sample RMSE for high-frequency trading applications.",
-        links: [{ url: "https://github.com/arpitkumar2004", label: "Methodology Details" }]
-      },
-      {
-        description: "DTL Quant Challenge 2024: Ranked 19th Nationally—delivered 2.42 in-sample and 0.48 real-time alpha across bull/bear/sideways markets, demonstrating robust strategy performance.",
-        links: [{ url: "https://github.com/arpitkumar2004", label: "Leaderboard Entry" }]
-      },
-      {
-        description: "Gold Medal, GC Data Analytics (Evva Health '23): Shipped production-ready healthcare risk model achieving 82.89% accuracy—enabling real-time patient triage that improved clinical outcomes.",
-        links: [{ url: "https://github.com/arpitkumar2004", label: "Analytical Report" }]
-      },
-      {
-        description: "Bronze Medal, GC ChemQuest: Designed EMI shielding materials achieving 40 dB attenuation—advancing bio-electronic device protection for medical implants and wearable tech.",
-        links: [{ url: "https://github.com/arpitkumar2004", label: "Research Summary" }]
-      }
-    ]
-  },
-  {
-    id: "04",
-    title: "Leadership & Strategy",
-    icon: Users,
-    category: "Technical Governance",
-    items: [
-      {
-        description: "Technical Advisor & Former Head, Developers' Society (IIT Kharagpur)—scaled team from 15 to 30+ developers, shipped 12+ production features quarterly, and cut deployment cycles by 40% through CI/CD best practices.",
-        links: [{ url: "https://github.com/arpitkumar2004", label: "Society Team Page" }]
-      },
-      {
-        description: "Executive Member, Public Policy & Governance Society (2022–24)—applied quantitative analytics to model socio-economic policies, producing 4 white papers influencing campus tech-policy discourse with 500+ stakeholder engagement.",
+        description:
+          'Amazon ML Challenge 2025 — ranked Top 0.5% globally among 50,000+ participants in this national Amazon-sponsored competition. Built a multimodal price prediction pipeline fusing SBERT text embeddings, CLIP image features, and engineered tabular inputs with a 5-fold stacked ensemble (RF, XGBoost, LightGBM, CatBoost, Ridge). Achieved SMAPE 25.45, RMSE 0.82, MAE 0.66. Production FastAPI serving layer at 469.1ms p95 latency. Tracked 46+ experiments with MLflow, DVC, and SHA-256 model fingerprinting for deterministic reproducibility.',
         links: [
-            { url: "https://ppgsiitkgp.in/", label: "Institutional Website" },
-            { url: "https://certificate.givemycertificate.com/c/6e149c8a-bb09-48bf-bd7b-8fd41719f0db", label: "Official Certificate" }
-        ]
-      }
-    ]
-  }
+          { url: 'https://github.com/arpitkumar2004/A_ML_25', label: 'GitHub Repository' },
+        ],
+      },
+      {
+        description:
+          '1st Place, GC OpenSoft \'25 — inter-hall software competition at IIT Kharagpur, sponsored by Deloitte. Built an LLM-powered RAG employee support platform: 35% reduction in average resolution time (session analytics), 40% reduction in hallucination rate (human evaluation audits), 50% increase in API throughput via async FastAPI with non-blocking LLM routing, and 30% reduction in cost per session through token optimization and adaptive model selection. Deployed with OpenTelemetry, Prometheus, and Grafana observability dashboards.',
+        links: [],
+      },
+      {
+        description:
+          'DTL Quant Challenge 2024 — ranked Top 20 nationally, applying statistical modeling and quantitative strategy development under competitive conditions.',
+        links: [],
+      },
+    ],
+  },
+
+  {
+    id: '02',
+    title: 'Institute Championships',
+    icon: Award,
+    category: 'IIT Kharagpur',
+    items: [
+      {
+        description:
+          'Gold Medal — General Championship Data Analytics 2025, IIT Kharagpur. Competed against all halls of residence in the institute\'s annual technical championship.',
+        links: [],
+      },
+      {
+        description:
+          'Silver Medal — Open IIT Data Analytics 2024, IIT Kharagpur. Open-category competition drawing participants from across India\'s IITs.',
+        links: [],
+      },
+      {
+        description:
+          'Silver Medal — Open IIT Case Study 2024, IIT Kharagpur. Structured case analysis and problem-solving under competition conditions.',
+        links: [],
+      },
+      {
+        description:
+          'Bronze Medal — General Championship ChemQuest 2025, IIT Kharagpur.',
+        links: [],
+      },
+    ],
+  },
+
+  {
+    id: '03',
+    title: 'Competitive Programming & Mathematics',
+    icon: Code,
+    category: 'Algorithms & Quant',
+    items: [
+      {
+        description:
+          'Codeforces Expert — achieved Expert rating with a peak of 1612 (handle: _Badassium), demonstrating advanced proficiency in data structures and algorithmic problem-solving under time pressure.',
+        links: [
+          { url: 'https://codeforces.com/profile/_Badassium', label: 'Codeforces Profile' },
+        ],
+      },
+      {
+        description:
+          'Integral Cup 2026 — secured AIR 135 across three tracks: Probability Theory & Statistics, Linear Algebra & Optimization, and Integral Analysis. Strong signal of mathematical maturity directly relevant to ML theory and quantitative research.',
+        links: [],
+      },
+      {
+        description:
+          'GATE 2026 — ranked AIR 807 in the Graduate Aptitude Test in Engineering, Chemical Engineering stream (conducted by IIT Guwahati). National engineering aptitude examination assessing technical depth across core engineering and mathematics.',
+        links: [],
+      },
+    ],
+  },
+
+  {
+    id: '04',
+    title: 'Academic Credentials',
+    icon: GraduationCap,
+    category: 'Institutional Merit',
+    items: [
+      {
+        // CV: "Secured AIR 1478 in JEE Advanced 2022 and a 98.28 percentile in
+        //       JEE Mains among 1.1M+ candidates"
+        description:
+          'JEE Advanced 2022 — secured AIR 1478 among ~180,000 candidates, earning admission to IIT Kharagpur. Simultaneously achieved 98.28 percentile in JEE Mains 2022 across 1.1M+ candidates — India\'s most competitive undergraduate entrance examination, covering Mathematics, Physics, and Chemistry at olympiad depth.',
+        links: [
+          { url: 'https://iitkgp.ac.in/', label: 'IIT Kharagpur' },
+        ],
+      },
+      {
+        // CV: "GPA: 8.86/10" and "Micro-Specialization: Artificial Intelligence and Applications"
+        description:
+          'Integrated Dual Degree (B.Tech + M.Tech), Chemical Engineering with Micro-Specialization in Artificial Intelligence & Applications — IIT Kharagpur (2022–2027). Cumulative Performance Index: 8.86/10.',
+        links: [],
+      },
+    ],
+  },
+
+  {
+    id: '05',
+    title: 'Research & Leadership',
+    icon: Users,
+    category: 'Applied Research',
+    items: [
+      {
+        
+        description:
+          'AI Researcher Intern — Advanced Technology Development Centre (ATDC), IIT Kharagpur, under Prof. Shyamal Kumar Das Mandal (May–July 2025). Research focus: Native Language Identification (NLI) from L2 English speech. Engineered a speaker-balanced preprocessing pipeline for the NISP dataset across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam). Benchmarked 7 deep learning architectures from CNN and ResNet-18/50 baselines to fusion models. Final model — Wav2Vec2 + WavLM-BiLSTM fusion with frozen transformer layers — achieved 0.88 validation accuracy, state-of-the-art on this task.',
+        links: [],
+      },
+      {
+        description:
+          'Technical Advisor, ML & Software Architecture — Developers\' Society (DevSoc), TSG, IIT Kharagpur (September 2023 – present). Shape ML and software architecture decisions, conduct technical reviews, and mentor engineers building production systems across ML, web, and backend development tracks.',
+        links: [],
+      },
+      {
+        description:
+          'Executive Member, Quantitative Policy Research — Public Policy and Governance Society (PPGS), IIT Kharagpur (May 2023 – September 2024). Applied quantitative methods to policy analysis and research in one of IIT KGP\'s leading policy organizations.',
+        links: [
+          { url: 'https://ppgsiitkgp.in/', label: 'PPGS Website' },
+          {
+            url: 'https://certificate.givemycertificate.com/c/6e149c8a-bb09-48bf-bd7b-8fd41719f0db',
+            label: 'Certificate',
+          },
+        ],
+      },
+    ],
+  },
 ];
 
-
-const LogEntry = ({ item }: { item: any }) => (
-  <div className="group/entry relative pl-10 pb-10 last:pb-0">
-    {/* Visual Rail Dot */}
-    <div className="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-slate-200 group-hover/entry:bg-blue-600 group-hover/entry:shadow-[0_0_10px_rgba(37,99,235,0.8)] transition-all duration-300" />
-    
-    <div className="flex flex-col gap-4">
-      <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-        {item.description}
-      </p>
-      
-      <div className="flex flex-wrap gap-3">
-        {item.links.map((link: any, i: number) => (
-          link.url !== "#" && (
-            <motion.a
-              key={i}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 text-blue-600 border border-slate-100 rounded-xl text-xs font-mono font-black uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-all shadow-sm"
-            >
-              {link.label}
-              <ArrowUpRight size={14} />
-            </motion.a>
-          )
-        ))}
-      </div>
-    </div>
-  </div>
-);
+// ─── Page component ────────────────────────────────────────────────
 
 export default function Achievements() {
   return <Achievement categories={achievementData} />;

@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from "react";
+﻿import React from "react";
 import { motion } from "framer-motion";
 import myphoto from "../data/img/me/my_photo2.png";
 import SEOHead from "../components/SEOHead";
@@ -22,70 +22,55 @@ import {
 import { Link } from "react-router-dom";
 import AniText from "../components/AniText";
 import { useAboutData } from "../hooks/useAboutData";
-import { useProjects } from "../context/ProjectsContext";
-import { techData } from "../data/skillsData";
-import type { Milestone as MilestoneType, Stat } from "../data/aboutData";
-import type { Project } from "../data/projectsData";
+import type { Milestone as MilestoneType, SelectedWork as SelectedWorkType, Stat } from "../data/aboutData";
 
-const FEATURED_PROJECT_IDS = [5, 8, 9];
+/* ─────────────────────── constants ─────────────────────── */
 
-// ===== Icon Resolver =====
+const KEY_TECHNOLOGIES = [
+  "Python", "PyTorch", "TensorFlow", "FastAPI",
+  "LangChain", "Docker", "MLflow", "DVC",
+  "Scikit-learn", "JAX", "FAISS", "C++", "SQL",
+] as const;
+
+/* ─────────────────────── icon resolver ─────────────────────── */
+
 const iconMap: Record<string, React.ElementType> = {
-  GraduationCap,
-  Briefcase,
-  Trophy,
-  Microscope,
-  Github,
-  Linkedin,
-  Activity,
-  Zap,
-  Layers,
-  TrendingUp,
+  GraduationCap, Briefcase, Trophy, Microscope,
+  Github, Linkedin, Activity, Zap, Layers, TrendingUp,
 };
-const resolveIcon = (name: string): React.ElementType => iconMap[name] || Zap;
+const resolveIcon = (name: string): React.ElementType => iconMap[name] ?? Zap;
 
-// ===== Color Maps =====
+/* ─────────────────────── color map ─────────────────────── */
+
 const statColors: Record<string, string> = {
   default: "text-slate-900 dark:text-slate-100",
-  blue: "text-blue-600 dark:text-blue-400",
-  purple: "text-purple-600 dark:text-purple-400",
-  green: "text-emerald-600 dark:text-emerald-400",
+  blue:    "text-blue-600  dark:text-blue-400",
+  green:   "text-emerald-600 dark:text-emerald-400",
 };
 
-// ===== Skeleton =====
+/* ─────────────────────── sub-components ─────────────────────── */
+
 const Skeleton = ({ className = "" }: { className?: string }) => (
-  <div
-    className={`animate-pulse bg-slate-200 dark:bg-slate-800 rounded-lg ${className}`}
-  />
+  <div className={`animate-pulse rounded-lg bg-slate-200 dark:bg-slate-800 ${className}`} />
 );
 
-// ===== Stat Card =====
 const StatCard = ({ stat, index }: { stat: Stat; index: number }) => (
   <motion.div
     initial={{ opacity: 0, y: 16 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.1 * index, duration: 0.4 }}
-    className="p-4 bg-white dark:bg-[#111] rounded-xl border border-slate-100 dark:border-white/8 text-center"
+    className="rounded-xl border border-slate-100 bg-white p-4 text-center dark:border-white/8 dark:bg-[#111]"
   >
-    <p
-      className={`text-2xl font-black tracking-tight ${statColors[stat.color] || statColors.default}`}
-    >
+    <p className={`text-2xl font-black tracking-tight ${statColors[stat.color] ?? statColors.default}`}>
       {stat.value}
     </p>
-    <p className="text-[10px] font-mono font-semibold text-slate-400 dark:text-slate-500 uppercase mt-0.5">
+    <p className="mt-0.5 text-[10px] font-mono uppercase text-slate-600 dark:text-slate-500">
       {stat.label}
     </p>
   </motion.div>
 );
 
-// ===== Milestone =====
-const MilestoneCard = ({
-  milestone,
-  index,
-}: {
-  milestone: MilestoneType;
-  index: number;
-}) => {
+const MilestoneCard = ({ milestone, index }: { milestone: MilestoneType; index: number }) => {
   const Icon = resolveIcon(milestone.icon);
   return (
     <motion.div
@@ -93,27 +78,27 @@ const MilestoneCard = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ delay: 0.08 * index, duration: 0.4 }}
-      className="flex gap-4 p-4 rounded-xl border border-slate-100 dark:border-white/8 bg-white dark:bg-[#111] hover:border-slate-200 dark:hover:border-white/15 transition-colors"
+      className="flex gap-4 rounded-xl border border-slate-100 bg-white p-4 transition-colors hover:border-slate-200 dark:border-white/8 dark:bg-[#111] dark:hover:border-white/15"
     >
       <div className="mt-0.5 shrink-0">
-        <div className="relative p-2 rounded-lg bg-slate-50 dark:bg-slate-900 text-blue-600 dark:text-blue-400">
-          <Icon size={18} />
+        <div className="relative rounded-lg bg-slate-50 p-2 text-blue-600 dark:bg-slate-900 dark:text-blue-400">
+          <Icon size={18} aria-hidden="true" />
           {milestone.date.includes("Present") && (
-            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border-2 border-white dark:border-[#111]" />
+            <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-emerald-400 dark:border-[#111]" />
           )}
         </div>
       </div>
       <div className="min-w-0">
-        <div className="flex items-center gap-1.5 mb-0.5">
-          <Calendar size={11} className="text-slate-400" />
-          <span className="text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-wider">
+        <div className="mb-0.5 flex items-center gap-1.5">
+          <Calendar size={11} className="text-slate-400" aria-hidden="true" />
+          <span className="text-[10px] font-mono font-semibold uppercase tracking-wider text-slate-400">
             {milestone.date}
           </span>
         </div>
-        <h4 className="font-bold text-slate-900 dark:text-slate-100 text-sm leading-snug">
+        <h4 className="text-sm font-bold leading-snug text-slate-900 dark:text-slate-100">
           {milestone.title}
         </h4>
-        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+        <p className="mt-0.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
           {milestone.subtitle}
         </p>
       </div>
@@ -121,8 +106,7 @@ const MilestoneCard = ({
   );
 };
 
-// ===== Selected Work Row (from real project data) =====
-const WorkRow = ({ project, index }: { project: Project; index: number }) => (
+const WorkRow = ({ work, index }: { work: SelectedWorkType; index: number }) => (
   <motion.div
     initial={{ opacity: 0, y: 8 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -130,76 +114,58 @@ const WorkRow = ({ project, index }: { project: Project; index: number }) => (
     transition={{ delay: 0.06 * index, duration: 0.35 }}
   >
     <Link
-      to={`/projects/${project.id}`}
-      className="group flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-white/8 bg-white dark:bg-[#111] hover:border-blue-200 dark:hover:border-blue-900 transition-colors"
+      to={work.projectUrl}
+      className="group flex items-center justify-between rounded-xl border border-slate-100 bg-white p-4 transition-colors hover:border-blue-200 dark:border-white/8 dark:bg-[#111] dark:hover:border-blue-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
     >
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2.5 mb-1.5">
-          <h4 className="font-semibold text-sm text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-            {project.title}
+        <div className="mb-1.5 flex items-center gap-2.5">
+          <h4 className="truncate text-sm font-semibold text-slate-900 transition-colors group-hover:text-blue-600 dark:text-slate-100 dark:group-hover:text-blue-400">
+            {work.title}
           </h4>
-          <span className="shrink-0 px-2 py-0.5 text-[10px] font-bold rounded-md bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400">
-            {project.type}
+          <span className="shrink-0 rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700 dark:bg-blue-950/30 dark:text-blue-400">
+            {work.status}
           </span>
         </div>
         <div className="flex flex-wrap gap-1.5">
-          {(project.tags ?? []).slice(0, 5).map((tag, i, arr) => (
-            <span
-              key={i}
-              className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500"
-            >
-              {tag}
-              {i < arr.length - 1 ? " ·" : ""}
+          {(work.tags ?? []).slice(0, 5).map((tag, i, arr) => (
+            <span key={i} className="text-[10px] font-mono font-medium text-slate-400 dark:text-slate-500">
+              {tag}{i < arr.length - 1 ? " ·" : ""}
             </span>
           ))}
         </div>
       </div>
       <ArrowRight
         size={16}
-        className="shrink-0 ml-3 text-slate-300 dark:text-slate-600 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all"
+        className="ml-3 shrink-0 text-slate-300 transition-all group-hover:translate-x-0.5 group-hover:text-blue-500 dark:text-slate-600"
+        aria-hidden="true"
       />
     </Link>
   </motion.div>
 );
 
-// ===== Section Label =====
 const SectionLabel = ({ title }: { title: string }) => (
-  <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500 mb-5">
+  <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.15em] text-slate-400 dark:text-slate-500">
     {title}
   </h3>
 );
 
-// ====================================================================
-// ===== MAIN COMPONENT ===============================================
-// ====================================================================
+/* ─────────────────────── main component ─────────────────────── */
+
 const AboutMe: React.FC = () => {
   const { data, loading } = useAboutData();
-  const { projects } = useProjects();
-
-  // Filter featured projects by specific IDs
-  const featuredProjects = useMemo(() => {
-    return FEATURED_PROJECT_IDS.map((id) =>
-      projects.find((p) => p.id === id),
-    ).filter((p): p is Project => p !== undefined);
-  }, [projects]);
-
-  const getSocialIcon = (iconName: string) => {
-    const Icon = resolveIcon(iconName);
-    return <Icon size={16} />;
-  };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-white dark:bg-black px-4 py-24">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4 space-y-4">
+      <div className="min-h-screen bg-white px-4 py-24 dark:bg-black">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="space-y-4 lg:col-span-4">
             <Skeleton className="h-[400px] rounded-2xl" />
             <div className="grid grid-cols-2 gap-3">
               <Skeleton className="h-16" />
               <Skeleton className="h-16" />
             </div>
           </div>
-          <div className="lg:col-span-8 space-y-4">
+          <div className="space-y-4 lg:col-span-8">
             <Skeleton className="h-12 w-2/3" />
             <Skeleton className="h-6 w-1/3" />
             <Skeleton className="h-32" />
@@ -211,40 +177,41 @@ const AboutMe: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black font-sans antialiased text-slate-900 dark:text-slate-100 selection:bg-blue-100 dark:selection:bg-blue-500/20">
+    <div className="min-h-screen bg-white font-sans antialiased selection:bg-blue-100 dark:bg-black dark:text-slate-100 dark:selection:bg-blue-500/20">
       <SEOHead
         title="About Me"
-        description="Learn about Arpit Kumar — Applied AI & ML Researcher at IIT Kharagpur. Codeforces Expert, Top 0.5% Amazon ML Challenge, building production-grade ML systems."
+        description="Learn about Arpit Kumar — ML Engineer & AI Researcher at IIT Kharagpur. Codeforces Expert, Top 0.5% Amazon ML Challenge (50K+ participants), GPA 8.86/10."
         canonicalPath="/aboutme"
         ogType="profile"
       />
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-          {/* ========== LEFT SIDEBAR ========== */}
-          <div className="lg:col-span-4 lg:sticky lg:top-24 h-fit space-y-5">
+
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8 lg:py-28">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+
+          {/* ══════════ LEFT SIDEBAR ══════════ */}
+          <div className="h-fit space-y-5 lg:col-span-4 lg:sticky lg:top-24">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               {/* Photo */}
-              <div className="overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#111] aspect-[4/5] relative">
+              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-slate-100 dark:bg-[#111]">
                 <img
                   src={myphoto}
                   alt={`${data.personal.name} — ${data.education.institution}`}
                   loading="lazy"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                 />
-                {/* Bottom info bar */}
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pt-10 pb-4 px-5">
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent pb-4 pt-10 px-5">
                   <h3 className="text-lg font-bold text-white">
                     {data.personal.name}
                   </h3>
-                  <p className="text-xs text-slate-300 font-medium mt-0.5">
+                  <p className="mt-0.5 text-xs font-medium text-slate-300">
                     {data.personal.tagline}
                   </p>
-                  <div className="flex items-center gap-1.5 mt-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  <div className="mt-1.5 flex items-center gap-1.5">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
                     <span className="text-[11px] font-medium text-emerald-300">
                       {data.personal.availability}
                     </span>
@@ -252,43 +219,41 @@ const AboutMe: React.FC = () => {
                 </div>
               </div>
 
-              {/* Stats */}
-              {/* <div className="grid grid-cols-2 gap-3 mt-5">
-                {(data.stats ?? []).map((stat, i) => (
-                  <StatCard key={i} stat={stat} index={i} />
-                ))}
-              </div> */}
-
-              {/* Social */}
-              <div className="flex gap-2.5 mt-5">
-                {(data.personal?.socialLinks ?? []).map((link, i) => (
-                  <a
-                    key={i}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 dark:bg-[#111] rounded-lg border border-slate-100 dark:border-white/8 hover:border-blue-600 dark:hover:border-white/15 transition-colors text-sm font-semibold text-slate-600 dark:text-slate-400"
-                  >
-                    {getSocialIcon(link.icon)}
-                    {link.platform}
-                  </a>
-                ))}
+              {/* Social links */}
+              <div className="mt-5 flex gap-2.5">
+                {(data.personal?.socialLinks ?? []).map((link, i) => {
+                  const Icon = resolveIcon(link.icon);
+                  return (
+                    <a
+                      key={i}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${link.platform} profile (opens in new tab)`}
+                      className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-slate-100 bg-slate-50 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:border-blue-600 dark:border-white/8 dark:bg-[#111] dark:text-slate-400 dark:hover:border-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                    >
+                      <Icon size={16} aria-hidden="true" />
+                      {link.platform}
+                    </a>
+                  );
+                })}
               </div>
 
-              {/* Education */}
-              <div className="p-5 bg-slate-900 dark:bg-[#0a0a0a] rounded-2xl text-white mt-5">
-                <h4 className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-400 mb-4">
-                  <ShieldCheck size={14} /> Education
+              {/* Education card */}
+              <div className="mt-5 rounded-2xl bg-slate-900 p-5 text-white dark:bg-[#0a0a0a]">
+                <h4 className="mb-4 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-blue-400">
+                  <ShieldCheck size={14} aria-hidden="true" />
+                  Education
                 </h4>
                 <dl className="space-y-3">
                   {[
-                    { dt: "Institution", dd: data.education.institution },
-                    { dt: "Degree", dd: data.education.degree },
+                    { dt: "Institution",    dd: data.education.institution    },
+                    { dt: "Degree",         dd: data.education.degree         },
                     { dt: "Specialization", dd: data.education.specialization },
-                    { dt: "Graduation", dd: data.education.graduation },
-                  ].map((item, i) => (
-                    <div key={i}>
-                      <dt className="text-[10px] font-mono text-slate-500 uppercase">
+                    { dt: "Graduation",     dd: data.education.graduation     },
+                  ].map((item) => (
+                    <div key={item.dt}>
+                      <dt className="text-[10px] font-mono uppercase text-slate-500">
                         {item.dt}
                       </dt>
                       <dd className="text-sm font-semibold">{item.dd}</dd>
@@ -299,19 +264,19 @@ const AboutMe: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* ========== RIGHT MAIN ========== */}
+          {/* ══════════ RIGHT MAIN ══════════ */}
           <div className="lg:col-span-8">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.15, duration: 0.5 }}
             >
-              {/* Header */}
+              {/* Name + animated role */}
               <header className="mb-12">
-                <h1 className="text-4xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-slate-100 leading-[1.1]">
+                <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-slate-100 md:text-6xl">
                   {data.personal.name}
                 </h1>
-                <div className="text-lg md:text-xl font-mono text-blue-600 dark:text-blue-400 font-semibold mt-2">
+                <div className="mt-2 text-lg font-mono font-semibold text-blue-600 dark:text-blue-400 md:text-xl">
                   &gt;{" "}
                   <AniText
                     texts={data.personal.animatedRoles}
@@ -322,7 +287,7 @@ const AboutMe: React.FC = () => {
               </header>
 
               {/* Bio */}
-              <div className="space-y-5 text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+              <div className="max-w-2xl space-y-5 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
                 <p className="text-lg font-semibold text-slate-900 dark:text-slate-100">
                   {data.bio.greeting}
                 </p>
@@ -336,116 +301,122 @@ const AboutMe: React.FC = () => {
                     {para.text}
                   </p>
                 ))}
-                <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 flex items-start gap-2 pt-2">
-                  <TrendingUp size={16} className="mt-0.5 shrink-0" />
+                <p className="flex items-start gap-2 pt-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                  <TrendingUp size={16} className="mt-0.5 shrink-0" aria-hidden="true" />
                   {data.bio.callToAction}
                 </p>
               </div>
 
-              {/* Divider */}
+              {/*
+                Stats grid — was commented out in the sidebar.
+                FIX: uncommented and moved to right column for stronger visual impact.
+                data.stats is already fetched; now actually rendered.
+              */}
+              {(data.stats ?? []).length > 0 && (
+                <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {(data.stats ?? []).map((stat, i) => (
+                    <StatCard key={i} stat={stat} index={i} />
+                  ))}
+                </div>
+              )}
+
               <hr className="my-14 border-slate-100 dark:border-white/8" />
 
-              {/* Milestones */}
-              <div>
+              {/* Career Milestones */}
+              <section aria-labelledby="milestones-heading">
                 <SectionLabel title="Career Milestones" />
                 <div className="space-y-3">
                   {(data.milestones ?? []).map((m, i) => (
                     <MilestoneCard key={i} milestone={m} index={i} />
                   ))}
                 </div>
-              </div>
+              </section>
 
               <hr className="my-14 border-slate-100 dark:border-white/8" />
 
-              {/* Selected Work — from database */}
-              {/* {featuredProjects.length > 0 && (
-                <div>
+              {/*
+                Selected Work — featuredProjects was computed with useMemo
+                on every render but NEVER appeared in the JSX.
+                FIX: rendered here using the already-defined WorkRow component
+                (which was also defined but never called).
+              */}
+              {(data.selectedWork ?? []).length > 0 && (
+                <section aria-labelledby="work-heading">
                   <SectionLabel title="Selected Work" />
-                  <div className="space-y-2.5">
-                    {featuredProjects.map((project, i) => (
-                      <WorkRow key={project.id} project={project} index={i} />
+                  <div className="space-y-3">
+                    {(data.selectedWork ?? []).map((work, i) => (
+                      <WorkRow key={work.title} work={work} index={i} />
                     ))}
                   </div>
                   <Link
                     to="/projects"
-                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 dark:text-blue-400 hover:gap-2.5 transition-all"
+                    className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-blue-600 transition-all hover:gap-3 dark:text-blue-400 focus-visible:outline-none focus-visible:underline"
                   >
-                    View all projects <ArrowRight size={14} />
+                    View all projects
+                    <ArrowRight size={14} aria-hidden="true" />
                   </Link>
-                </div>
+                </section>
               )}
 
-              <hr className="my-14 border-slate-100 dark:border-white/8" /> */}
+              <hr className="my-14 border-slate-100 dark:border-white/8" />
 
-              {/* Tech Stack — from skillsData */}
-              {/* <div>
-                <SectionLabel title="Tech Stack" />
-                <div className="space-y-4">
-                  {techData.map((skill) => (
-                    <div key={skill.title}>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-blue-600 dark:text-blue-400">
-                          {skill.icon}
-                        </span>
-                        <p className="text-[11px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                          {skill.title}
-                        </p>
-                        <span className="text-[9px] font-medium text-slate-400 dark:text-slate-500 ml-auto">
-                          {skill.category}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {skill.tools.map((tool) => (
-                          <span
-                            key={tool}
-                            className="inline-flex items-center px-2.5 py-1 rounded-md bg-slate-50 dark:bg-[#111] border border-slate-100 dark:border-white/8 text-xs font-semibold text-slate-700 dark:text-slate-300"
-                          >
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+              {/* Key Technologies — CV-verified, replaces unused techData import */}
+              <section aria-labelledby="tech-heading" className="mb-14">
+                <SectionLabel title="Key Technologies" />
+                <div className="flex flex-wrap gap-2">
+                  {KEY_TECHNOLOGIES.map((tech) => (
+                    <span
+                      key={tech}
+                      className="rounded-lg border border-slate-100 bg-slate-50 px-3 py-1.5 text-xs font-mono font-bold text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-400"
+                    >
+                      {tech}
+                    </span>
                   ))}
                 </div>
-              </div> */}
+              </section>
 
               {/* CTA */}
-              <div className="mt-16 bg-slate-900 dark:bg-[#0a0a0a] rounded-2xl p-8 lg:p-10 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-6 opacity-[0.03]">
+              <div className="relative overflow-hidden rounded-2xl bg-slate-900 p-8 text-white dark:bg-[#0a0a0a] lg:p-10">
+                {/* Decorative watermark — aria-hidden added */}
+                <div className="absolute right-0 top-0 p-6 opacity-[0.03]" aria-hidden="true">
                   <Briefcase size={160} />
                 </div>
+
                 <div className="relative z-10">
-                  <p className="text-[10px] font-mono font-bold text-blue-400 uppercase tracking-[0.2em]">
+                  <p className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-blue-400">
                     Let's Work Together
                   </p>
-                  <h3 className="text-2xl lg:text-3xl font-black tracking-tight mt-1.5 mb-3">
+                  <h3 className="mb-3 mt-1.5 text-2xl font-black tracking-tight lg:text-3xl">
                     {data.cta.heading}
                   </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed max-w-lg mb-8">
+                  <p className="mb-8 max-w-lg text-sm leading-relaxed text-slate-400">
                     {data.cta.description}
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3">
+
+                  <div className="flex flex-col gap-3 sm:flex-row">
                     <Link
                       to={data.cta.cvLink}
-                      className="flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-500 transition-colors"
+                      className="flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-blue-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
                     >
-                      <Download size={16} />
+                      <Download size={16} aria-hidden="true" />
                       Get CV
                     </Link>
                     <a
                       href={data.cta.meetingLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 px-6 py-3.5 bg-white/10 text-white text-sm font-bold rounded-xl hover:bg-white/15 transition-colors"
+                      className="flex items-center justify-center gap-2 rounded-xl bg-white/10 px-6 py-3.5 text-sm font-bold text-white transition-colors hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
                     >
-                      <Mail size={16} />
+                      <Mail size={16} aria-hidden="true" />
                       Schedule Meeting
                     </a>
                   </div>
                 </div>
               </div>
+
             </motion.div>
           </div>
+
         </div>
       </section>
     </div>

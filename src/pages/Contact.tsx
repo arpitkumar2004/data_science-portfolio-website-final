@@ -109,7 +109,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-[#020617] dark:text-slate-100">
+    <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 dark:selection:bg-blue-500/20 pb-20 dark:bg-black dark:text-slate-100">
       <SEOHead
         title="Contact"
         description="Get in touch with Arpit Kumar for ML/AI collaboration, technical interviews, or project discussions. Based at IIT Kharagpur. Responds within 24 hours."
@@ -200,8 +200,8 @@ const Contact: React.FC = () => {
                   <div className="flex items-start gap-3">
                     <Clock size={18} className="text-slate-500 dark:text-slate-400 flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-                      <strong className="text-slate-900 dark:text-slate-100">Available Mon-Fri,</strong> 9 AM - 6 PM IST. 
-                      You'll receive a confirmation email with meeting details immediately after booking.
+                      <strong className="text-slate-900 dark:text-slate-100 m-1">Available from Mon-Fri, 6 PM - 10 PM IST.</strong>  
+                       <p>You'll receive a confirmation email with meeting details immediately after booking.</p> 
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ const Contact: React.FC = () => {
                   href="https://www.google.com/maps/place/India"
                   icon={<MapPin size={18} />}
                   label="Location"
-                  value="India (Remote)"
+                  value="India"
                 />
               </div>
             </section>

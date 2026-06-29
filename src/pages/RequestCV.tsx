@@ -146,10 +146,10 @@ const RequestCV: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#020617] font-sans text-slate-900 dark:text-slate-100 pb-20">
+    <div className="min-h-screen bg-white dark:bg-black font-sans text-slate-900 dark:text-slate-100 pb-20">
       <SEOHead
-        title="Request CV & Portfolio Package"
-        description="Request Arpit Kumar's extended portfolio package including project documentation, technical details, and research publications. ML Engineer at IIT Kharagpur."
+        title="CV & Portfolio Package"
+        description="To request my extended portfolio package including project documentation, technical details, and research publications. ML Engineer at IIT Kharagpur."
         canonicalPath="/request-cv"
       />
       <div className="max-w-5xl mx-auto px-6 py-12 lg:py-16">
@@ -182,7 +182,7 @@ const RequestCV: React.FC = () => {
             className="lg:col-span-2 space-y-4"
           >
             {/* Portfolio Overview */}
-            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+            <div className="p-5 bg-white dark:bg-slate-900/500 border border-slate-200 dark:border-slate-800 rounded-xl">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 Portfolio Overview
               </h3>
@@ -202,7 +202,7 @@ const RequestCV: React.FC = () => {
             </div>
 
             {/* What's Included */}
-            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+            <div className="p-5 bg-white dark:bg-slate-900/500 border border-slate-200 dark:border-slate-800 rounded-xl">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-4">
                 Package Contents
               </h3>
@@ -227,7 +227,7 @@ const RequestCV: React.FC = () => {
             </div>
 
             {/* Connect */}
-            <div className="p-5 bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl">
+            <div className="p-5 bg-white dark:bg-slate-900/500 border border-slate-200 dark:border-slate-800 rounded-xl">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100 mb-3">
                 Connect
               </h3>
@@ -258,7 +258,7 @@ const RequestCV: React.FC = () => {
             transition={{ delay: 0.15 }}
             className="lg:col-span-3"
           >
-            <div className="bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-6 md:p-8">
+            <div className="bg-white dark:bg-slate-900/500 border border-slate-200 dark:border-slate-800 rounded-xl p-6 md:p-8">
               {/* FEEDBACK MESSAGES */}
               <AnimatePresence>
                 {showWakeUpNotice && !submitStatus && (
@@ -266,7 +266,7 @@ const RequestCV: React.FC = () => {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="mb-5 p-3.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-900 dark:text-blue-100 flex items-start gap-2"
+                    className="mb-5 p-3.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg text-sm text-blue-900 dark:text-blue-10 flex items-start gap-2"
                   >
                     <Clock size={16} className="flex-shrink-0 mt-0.5" />
                     <div>
@@ -335,7 +335,7 @@ const RequestCV: React.FC = () => {
                       <input
                         id="cv-company"
                         {...register("company", { required: "Company is required" })}
-                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
+                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-20 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
                         placeholder="Your company or university"
                       />
                     </div>
@@ -356,7 +356,7 @@ const RequestCV: React.FC = () => {
                       <select
                         id="cv-subject"
                         {...register("subject")}
-                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
+                        className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-20 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
                       >
                         <option>Full-Time Hiring</option>
                         <option>Summer Internship 2026</option>
@@ -371,13 +371,13 @@ const RequestCV: React.FC = () => {
                 {/* Message */}
                 <div className="space-y-1.5">
                   <label htmlFor="cv-message" className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Additional context <span className="text-slate-400 font-normal">(optional)</span>
+                    Additional context <span className="text-slate-400 font-normal">( Optional )</span>
                   </label>
                   <textarea
                     id="cv-message"
                     rows={3}
                     {...register("message", { required: false })}
-                    className="w-full p-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm resize-none"
+                    className="w-full p-3 bg-white dark:bg-slate-20 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm resize-none"
                     placeholder="Tell me more about the opportunity or what you're looking for..."
                   />
                 </div>
@@ -401,13 +401,13 @@ const RequestCV: React.FC = () => {
                     ) : (
                       <>
                         <Download size={18} />
-                        <span>Request Portfolio Package</span>
+                        <span>Get Portfolio Package</span>
                         <ArrowRight size={18} />
                       </>
                     )}
                   </button>
                   <p className="text-xs text-center text-slate-500 dark:text-slate-400 mt-2">
-                    Delivered to your inbox • No spam
+                    Check your mail • Delivered to your inbox • No spam
                   </p>
                 </div>
               </form>
@@ -479,7 +479,7 @@ const FormInput = ({ label, placeholder, error, icon, registration }: FormInputP
         <input
           id={inputId}
           {...registration}
-          className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
+          className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-20 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm"
           placeholder={placeholder}
         />
       </div>

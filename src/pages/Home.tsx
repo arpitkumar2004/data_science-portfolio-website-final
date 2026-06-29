@@ -157,7 +157,7 @@ const Home: React.FC = () => {
       )}
 
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-16 pb-12 lg:pb-24 px-6 max-w-7xl mx-auto">
+      <section className="relative pt-20 pb-12 lg:pb-24 px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           <motion.div
             className="lg:col-span-7"
@@ -181,11 +181,10 @@ const Home: React.FC = () => {
                   &gt;{" "}
                   <AniText
                     texts={[
-                      "Deep Learning Researcher",
-                      "Applied ML Researcher",
-                      "Production ML Engineer",
-                      "AI Systems Builder",
-                      "First-Principles Engineer",
+                      "ML Engineer",
+                      "NLP & LLM/RAG Engineer",
+                      "MLOps Engineer",
+                      "Data Scientist",
                     ]}
                     typingSpeed={50}
                     pauseTime={1500}
