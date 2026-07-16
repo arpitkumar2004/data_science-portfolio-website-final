@@ -2,9 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProjects } from '../context/ProjectsContext';
 import ProjectCarousel from '../components/ProjectCarousel';
-import { Filter, Database, Terminal, History, BookOpen, Trophy, Globe, Cpu, Activity, Zap, FileText, Download, Mail, ArrowUpRight, ShieldCheck, Loader2, Sparkles } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { trackResumeDownload } from '../utils/analytics';
+import { Filter, Terminal, History, BookOpen, Trophy, Cpu, Activity, Zap, FileText, Loader2, Globe } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
 
 /* ── Animation variants ── */
@@ -34,13 +32,10 @@ const Projects: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [showFilters, setShowFilters] = useState(false);
 
-  const brandBlue = "rgb(37 99 235)";
-
   // --- DYNAMIC STATISTICS CALCULATION ---
   const stats = useMemo(() => {
     const lower = (str: string | undefined) => str?.toLowerCase() || '';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const hasTag = (p: any, tag: string) => p.tags?.some((t: string) => lower(t).includes(tag));
+    const hasTag = (p: { tags?: string[] }, tag: string) => p.tags?.some((t) => lower(t).includes(tag));
     return {
       total: projects.length,
       researchPapers: projects.filter(p => lower(p.type).includes('paper') || lower(p.type).includes('research')).length,

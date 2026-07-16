@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import type { Components } from 'react-markdown';
 import { useLocation } from 'react-router-dom';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -115,7 +116,7 @@ const DocsViewer: React.FC = () => {
                 td({ children }) {
                   return <td className="border-t border-slate-200 px-3 py-2 text-sm">{children}</td>;
                 },
-                code({ inline, className, children, ...props }: any) {
+                code({ inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || '');
                   return !inline && match ? (
                     <SyntaxHighlighter
@@ -137,7 +138,7 @@ const DocsViewer: React.FC = () => {
                     </code>
                   );
                 },
-              }}
+              } satisfies Components}
             >
               {content}
             </Markdown>

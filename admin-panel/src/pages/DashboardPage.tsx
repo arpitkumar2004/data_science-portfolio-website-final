@@ -143,8 +143,8 @@ const DashboardPage: React.FC = () => {
           : value;
 
       const serverCallMap: Record<string, () => Promise<unknown>> = {
-        status: () => adminAPI.updateLeadStatus(id, normalizedValue as any),
-        priority: () => adminAPI.updateLeadPriority(id, normalizedValue as any),
+        status: () => adminAPI.updateLeadStatus(id, normalizedValue as Lead["status"]),
+        priority: () => adminAPI.updateLeadPriority(id, normalizedValue as Lead["priority"]),
         quality_score: () => adminAPI.updateLeadQualityScore(id, normalizedValue as number),
         internal_notes: () => adminAPI.updateLeadNotes(id, normalizedValue as string),
       };
@@ -220,7 +220,7 @@ const DashboardPage: React.FC = () => {
 
   const handleBulkStatusChange = async (status: string) => {
     try {
-      await adminAPI.bulkUpdateStatus(selectedIds, status as any);
+      await adminAPI.bulkUpdateStatus(selectedIds, status as Lead["status"]);
       refreshLeads();
       refreshStats();
       setSelectedIds([]);

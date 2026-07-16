@@ -6,7 +6,6 @@ import {
   Trophy,
   Code,
   Award,
-  Microscope,
 } from 'lucide-react';
 import Achievement from '../components/Achievement';
 

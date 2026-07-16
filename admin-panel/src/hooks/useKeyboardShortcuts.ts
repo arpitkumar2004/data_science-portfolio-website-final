@@ -44,13 +44,7 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}) 
     enabled = true,
   } = options;
 
-  let navigate: ReturnType<typeof useNavigate>;
-  try {
-    navigate = useNavigate();
-  } catch {
-    // Not inside a Router — shortcuts that need navigation won't work
-    navigate = (() => {}) as any;
-  }
+  const navigate = useNavigate();
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

@@ -13,7 +13,7 @@ const LeadTimeline: React.FC<LeadTimelineProps> = ({ lead }) => {
 
   // Add contact history events
   if (lead.contact_history && Array.isArray(lead.contact_history)) {
-    lead.contact_history.forEach((event: any) => {
+    lead.contact_history.forEach((event) => {
       events.push({
         label: event.type || "Activity",
         date: event.timestamp || event.date,

@@ -8,6 +8,8 @@ import {
   History,
   MapPin,
   Download,
+  FileText,
+  ArrowRight,
 } from "lucide-react";
 
 // Logos (Assumed paths from your previous code)
@@ -15,6 +17,25 @@ import cheaLogo from "../data/img/chea_logo.png";
 import devsocLogo from "../data/img/devsoc_logo.jpg";
 import ppgsLogo from "../data/img/ppgs_logo.png";
 import sbrcLogo from "../data/img/sbrc_logo.jpg";
+import { trackResumeDownload } from "../utils/analytics";
+
+type ExperienceRole = {
+  id: number;
+  title: string;
+  duration: string;
+  description: string[];
+};
+
+type ExperienceEntry = {
+  id: number;
+  company: string;
+  link: string;
+  location: string;
+  category: string;
+  totalDuration: string;
+  roles: ExperienceRole[];
+  techStack: string[];
+};
 
 const companyIcons: Record<string, string> = {
   "Developers' Society, IIT-Kharagpur": devsocLogo,
@@ -23,7 +44,7 @@ const companyIcons: Record<string, string> = {
   "Students' Branding and Relations Cell, IIT Kharagpur": sbrcLogo,
 };
 
-const experiences = [
+const experiences: ExperienceEntry[] = [
   {
     id: 1,
     company: "Developers' Society, IIT-Kharagpur",
@@ -145,7 +166,15 @@ const experiences = [
   },
 ];
 
-const RoleItem = ({ role, idx, totalRoles }: { role: any; idx: number; totalRoles: number }) => {
+const RoleItem = ({
+  role,
+  idx,
+  totalRoles,
+}: {
+  role: ExperienceRole;
+  idx: number;
+  totalRoles: number;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -199,7 +228,7 @@ const RoleItem = ({ role, idx, totalRoles }: { role: any; idx: number; totalRole
                   className="text-slate-600 dark:text-slate-400 text-[13px] leading-relaxed flex gap-2"
                 >
                   <span className="text-blue-500 font-mono text-xs mt-[3px] shrink-0">
-                    {String(i + 1).padStart(2, '0')}
+                    {String(i + 1).padStart(2, "0")}
                   </span>
                   <span>{desc}</span>
                 </li>
@@ -212,7 +241,13 @@ const RoleItem = ({ role, idx, totalRoles }: { role: any; idx: number; totalRole
   );
 };
 
-const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
+const ExperienceCard = ({
+  exp,
+  index,
+}: {
+  exp: ExperienceEntry;
+  index: number;
+}) => {
   return (
     <div className="relative pl-6 pb-6 last:pb-0">
       {/* Vertical Rail */}
@@ -276,8 +311,13 @@ const ExperienceCard = ({ exp, index }: { exp: any; index: number }) => {
 
         {/* Roles */}
         <div className="mt-5 pt-4 border-t border-slate-100 dark:border-white/10 space-y-5">
-          {exp.roles.map((role: any, idx: number) => (
-            <RoleItem key={role.id} role={role} idx={idx} totalRoles={exp.roles.length} />
+          {exp.roles.map((role, idx) => (
+            <RoleItem
+              key={role.id}
+              role={role}
+              idx={idx}
+              totalRoles={exp.roles.length}
+            />
           ))}
 
           {/* Tech Stack Tags */}
@@ -325,7 +365,10 @@ export default function Experience() {
                 Positions of Responsibility
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-4xl mt-3 leading-relaxed">
-                Full-stack trajectory spanning technical leadership, ML systems architecture, and policy research—measurable impact across 4 organizations with production systems, zero critical bugs, and proven ability to scale teams.
+                Full-stack trajectory spanning technical leadership, ML systems
+                architecture, and policy research—measurable impact across 4
+                organizations with production systems, zero critical bugs, and
+                proven ability to scale teams.
               </p>
 
               <div
@@ -337,7 +380,7 @@ export default function Experience() {
             <div className="mt-6 md:mt-0 flex items-center gap-3">
               {!isExpanded && (
                 <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest animate-pulse">
-                  Expand to Reveal 
+                  Expand to Reveal
                 </span>
               )}
               <div
@@ -399,19 +442,32 @@ export default function Experience() {
                 Get Full Technical Dossier
               </h4>
               <p className="text-slate-400 text-[13px] max-w-xl font-medium leading-relaxed">
-                Research publications, quantified project ROI, security audits, architecture decision logs, and open-source references—for <b className="text-slate-200">R&D teams, hiring panels, and founders</b>.
+                Research publications, quantified project ROI, security audits,
+                architecture decision logs, and open-source references—for{" "}
+                <b className="text-slate-200">
+                  R&D teams, hiring panels, and founders
+                </b>
+                .
               </p>
             </div>
 
             <a
-              href="/request-cv"
-              className="group px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:bg-blue-700 transition-all flex items-center gap-2 shadow-md shadow-blue-600/30 hover:shadow-lg hover:shadow-blue-600/50 shrink-0"
+              href="/Arpit_Kumar_Resume.pdf"
+              download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+              onClick={() => trackResumeDownload("hero_primary_cta")}
+              aria-label="Download resume PDF immediately"
+              className="group relative px-6 py-3.5 bg-blue-600 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2.5 hover:bg-blue-700 transition-all hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 overflow-hidden"
             >
-              <Download
-                size={16}
-                className="group-hover:translate-y-0.5 transition-transform"
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <FileText
+                size={18}
+                className="relative group-hover:rotate-12 transition-transform"
               />
-              <span>Get CV + Deep-Dives</span>
+              <span className="relative">Download Resume</span>
+              <ArrowRight
+                size={18}
+                className="relative group-hover:translate-x-1 transition-transform"
+              />
             </a>
           </div>
         </motion.div>

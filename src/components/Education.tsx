@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   GraduationCap,
-  Calendar,
   Trophy,
   TrendingUp,
   Award,
@@ -15,13 +14,6 @@ import iitkgpLogo from "../data/img/me/2.png";
 
 /* ─────────────────────── data ─────────────────────── */
 
-/**
- * All four values pulled directly from the CV — do not approximate.
- * JEE Advanced: AIR 1478 (2022)
- * JEE Mains:    98.28 percentile across 1.1M+ candidates (2022)
- * GATE 2026:    AIR 807, CH stream, conducted by IIT Guwahati
- * Integral Cup: AIR 135 across 3 tracks (Probability, LinAlg, Integral Analysis)
- */
 const ACADEMIC_STATS = [
   {
     icon: Trophy,
@@ -52,23 +44,20 @@ const ACADEMIC_STATS = [
 /* ─────────────────────── component ─────────────────────── */
 
 export default function Education() {
-  const start           = new Date("2022-07-01").getTime();
-  const end             = new Date("2027-04-30").getTime();
-  const progressPercent = Math.round(
-    Math.min(((Date.now() - start) / (end - start)) * 100, 100),
-  );
-
   return (
     <section
       className="py-24 bg-white dark:bg-black font-sans overflow-hidden"
       aria-labelledby="education-heading"
     >
       <div className="max-w-7xl mx-auto px-6">
-
         {/* ── Section header ─────────────────────────────────── */}
         <div className="mb-16">
           <div className="flex items-center gap-2 mb-4">
-            <GraduationCap size={16} className="text-blue-600" aria-hidden="true" />
+            <GraduationCap
+              size={16}
+              className="text-blue-600"
+              aria-hidden="true"
+            />
             <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-blue-600">
               Education
             </span>
@@ -79,7 +68,10 @@ export default function Education() {
           >
             Academic Background
           </h2>
-          <div className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full" aria-hidden="true" />
+          <div
+            className="w-16 h-1.5 bg-blue-600 mt-6 rounded-full"
+            aria-hidden="true"
+          />
         </div>
 
         {/* ── Main IIT KGP card ──────────────────────────────── */}
@@ -97,10 +89,8 @@ export default function Education() {
 
           <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-[#0a0a0a] lg:p-12">
             <div className="flex flex-col items-start gap-10 lg:flex-row lg:justify-between">
-
               {/* ── Left: institution details + thesis cards ── */}
               <div className="min-w-0 flex-grow">
-
                 {/* Logo + institution name + location */}
                 <div className="mb-8 flex items-center gap-6">
                   <div className="shrink-0 rounded-2xl border border-slate-100 bg-white p-2 shadow-md dark:border-white/10 dark:bg-[#161616]">
@@ -115,8 +105,12 @@ export default function Education() {
                       Indian Institute of Technology Kharagpur
                     </h3>
                     <div className="mt-1.5 flex items-center gap-1.5">
-                      <MapPin size={12} className="shrink-0 text-slate-400" aria-hidden="true" />
-                      <span className="text-xs font-mono font-semibold text-slate-400">
+                      <MapPin
+                        size={16}
+                        className="shrink-0 text-slate-400"
+                        aria-hidden="true"
+                      />
+                      <span className="text-md font-semibold text-slate-600">
                         Kharagpur, West Bengal, India
                       </span>
                     </div>
@@ -124,7 +118,7 @@ export default function Education() {
                 </div>
 
                 {/* Degree + department + Micro-Specialization */}
-                <div className="mb-8 space-y-2">
+                <div className="mb-6">
                   <h4 className="text-lg font-black tracking-tight text-slate-800 dark:text-slate-100">
                     Integrated Dual Degree — B.Tech + M.Tech
                   </h4>
@@ -132,14 +126,15 @@ export default function Education() {
                     Department of Chemical Engineering
                   </p>
 
-                  
-                  <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <Sparkles size={13} className="shrink-0 text-blue-500" aria-hidden="true" />
-                    <span className="text-[12px] font-mono font-bold uppercase tracking-widest text-slate-500 dark:text-slate-200">
-                      Micro-Specialization:
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="text-[14px] font-bold tracking-widest text-slate-600 dark:text-slate-200">
+                      Specialization:
                     </span>
-                    <span className="inline-flex items-center rounded-full border border-blue-200/60 bg-blue-50 px-2.5 py-0.5 text-[13px] font-bold text-blue-700 dark:border-blue-700/30 dark:bg-blue-900/20 dark:text-blue-300">
-                      Artificial Intelligence &amp; Applications
+                    <span className="inline-flex items-center text-[14px] font-bold text-blue-700 dark:text-blue-300">
+                      Artificial Intelligence &amp; Applications ·
+                    </span>
+                    <span className="inline-flex items-center py-0.5 text-[14px] font-bold text-blue-700 dark:text-blue-300">
+                     High Performance Computing
                     </span>
                   </div>
                 </div>
@@ -149,7 +144,6 @@ export default function Education() {
                   Was a single-column `grid-cols-1 items-stretch` before.
                 */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-
                   {/* M.Tech Thesis */}
                   <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 dark:border-white/10 dark:bg-[#111827]">
                     <p className="mb-3 text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
@@ -184,7 +178,6 @@ export default function Education() {
                       />
                     </a>
                   </div>
-
                 </div>
               </div>
 
@@ -258,7 +251,11 @@ export default function Education() {
               className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#0a0a0a]"
             >
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20">
-                <Icon size={16} className="text-blue-600 dark:text-blue-400" aria-hidden="true" />
+                <Icon
+                  size={16}
+                  className="text-blue-600 dark:text-blue-400"
+                  aria-hidden="true"
+                />
               </div>
               <div>
                 <p className="text-xl font-black leading-none tracking-tight text-slate-900 dark:text-slate-100">
@@ -274,7 +271,6 @@ export default function Education() {
             </div>
           ))}
         </motion.div>
-
       </div>
     </section>
   );

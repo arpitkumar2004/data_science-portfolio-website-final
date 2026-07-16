@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import ProjectCard from './ProjectCard';
+import ProjectCard, { type ProjectCardProps } from './ProjectCard';
 
 type Props = {
-  projects: any[];
+  projects: ProjectCardProps[];
   headerLeft?: React.ReactNode;
   showGrid?: boolean;
 };

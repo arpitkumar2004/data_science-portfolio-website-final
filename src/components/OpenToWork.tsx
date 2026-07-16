@@ -53,6 +53,8 @@ const OpenToWork: React.FC = () => {
     }
   }, []);
 
+  type WindowWithTimer = Window & { __otw_timer?: ReturnType<typeof setTimeout> };
+
   // Ensure the flag exists (set to true by default) so visibility persists across reloads
   useEffect(() => {
     try {
@@ -93,12 +95,13 @@ const OpenToWork: React.FC = () => {
           trackEvent("auto_open", "Post-role selection - 5s Delay");
         }, 5000);
         // Cleanup stored ref
-        (window as any).__otw_timer = timer;
+        (window as WindowWithTimer).__otw_timer = timer;
       };
       window.addEventListener('role:updated', onRoleSet, { once: true });
       return () => {
         window.removeEventListener('role:updated', onRoleSet);
-        if ((window as any).__otw_timer) clearTimeout((window as any).__otw_timer);
+        const currentWindow = window as WindowWithTimer;
+        if (currentWindow.__otw_timer) clearTimeout(currentWindow.__otw_timer);
       };
     }
 

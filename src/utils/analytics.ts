@@ -9,9 +9,9 @@ declare global {
     gtag?: (
       command: string,
       targetId: string | Date,
-      config?: Record<string, any>
+      config?: Record<string, unknown>
     ) => void;
-    dataLayer?: any[];
+    dataLayer?: unknown[];
   }
 }
 
@@ -22,7 +22,7 @@ declare global {
  */
 export const trackEvent = (
   eventName: string,
-  params?: Record<string, any>
+  params?: Record<string, unknown>
 ): void => {
   // Only track in production or if explicitly enabled
   if (typeof window === 'undefined') return;
@@ -38,7 +38,7 @@ export const trackEvent = (
 
     // Console log in development for debugging
     if (import.meta.env.DEV) {
-      console.log('📊 Analytics Event:', eventName, params);
+      console.log('Analytics Event:', eventName, params);
     }
   } catch (error) {
     console.error('Analytics tracking error:', error);
@@ -93,7 +93,7 @@ export const trackProjectView = (
  */
 export const trackContactForm = (
   action: 'form_opened' | 'form_submitted' | 'form_error',
-  additionalData?: Record<string, any>
+  additionalData?: Record<string, unknown>
 ): void => {
   trackEvent('contact_form_interaction', {
     action,
@@ -133,7 +133,7 @@ export const trackScrollDepth = (percentage: number): void => {
  */
 export const trackError = (
   error: Error,
-  errorInfo?: Record<string, any>
+  errorInfo?: Record<string, unknown>
 ): void => {
   trackEvent('error_boundary_triggered', {
     error_message: error.message,

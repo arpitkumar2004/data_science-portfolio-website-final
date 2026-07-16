@@ -12,7 +12,7 @@ import {
   Download,
   ArrowUpRight,
 } from "lucide-react";
-import { trackResumeDownload, trackExternalLink } from "../utils/analytics";
+import { trackExternalLink, trackResumeDownload } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
 import SEOHead from "../components/SEOHead";
 
@@ -26,11 +26,9 @@ import ResearchComponent from "../components/research";
 import TechnicalProficiencies from "../data/skillsData";
 import Achievements from "../data/AchievementData";
 import AniText from "../components/AniText";
-import OpenToWorkBadge from "../components/OpenToWorkBadge";
 
 // Data & Assets
 import { useProjects } from "../context/ProjectsContext";
-import iitkgplogo from "../data/img/me/2.png";
 import myphoto from "../data/img/me/my_photo2.png";
 
 const Home: React.FC = () => {
@@ -130,11 +128,8 @@ const Home: React.FC = () => {
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       <SEOHead
         canonicalPath="/"
-        description="Applied AI & ML Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in Production ML / Quant Research (May 2027)."
+        description="ML Engineer & AI Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in Production ML / Quant Research (May 2027)."
       />
-      {/* Open to Work Badge - Fixed Position */}
-      {/* <OpenToWorkBadge /> */}
-
       {/* Recruiter Nudge — only visible to verified recruiters */}
       {isRecruiter && (
         <div className="bg-emerald-50 dark:bg-emerald-950/30 border-b border-emerald-200 dark:border-emerald-800/40">
@@ -610,16 +605,13 @@ const Home: React.FC = () => {
               <div className="lg:col-span-3 flex flex-col gap-3">
                 <Link
                   to="/contact"
-                  className="group flex items-center justify-between p-5 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors"
+                  className="group flex items-center justify-between px-6 py-2 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-white/10 rounded-lg">
-                      <Mail size={20} />
+                  <div className="flex items-center">
+                    <div className="p-3 rounded-lg">
+                      <Mail size={18} />
                     </div>
                     <div>
-                      <p className="text-[10px] font-mono uppercase tracking-wider text-blue-200 mb-0.5">
-                        Direct Channel
-                      </p>
                       <p className="text-sm font-bold">Initiate Discussion</p>
                     </div>
                   </div>
@@ -629,26 +621,24 @@ const Home: React.FC = () => {
                   />
                 </Link>
 
-                <Link
-                  to="/request-cv"
-                  className="group flex items-center justify-between p-5 bg-white/5 rounded-xl hover:bg-white/10 border border-white/10 transition-colors"
+                <a
+                  href="/Arpit_Kumar_Resume.pdf"
+                  download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+                  onClick={() => trackResumeDownload("hero_primary_cta")}
+                  aria-label="Download resume PDF immediately"
+                  className="group relative px-6 py-3.5 bg-blue-600 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2.5 hover:bg-blue-700 transition-all hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 overflow-hidden"
                 >
-                  <div className="flex items-center gap-4">
-                    <div className="p-3 bg-white/10 rounded-lg text-blue-200">
-                      <Download size={20} />
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-0.5">
-                        Resources{" "}
-                      </p>
-                      <p className="text-sm font-bold">Get Deep-Dives</p>
-                    </div>
-                  </div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <FileText
                     size={18}
-                    className="text-slate-400 group-hover:text-blue-200 transition-colors"
+                    className="relative group-hover:rotate-12 transition-transform"
                   />
-                </Link>
+                  <span className="relative">Download Resume</span>
+                  <ArrowRight
+                    size={18}
+                    className="relative group-hover:translate-x-1 transition-transform"
+                  />
+                </a>
 
                 {/* <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
                         <ShieldCheck size={14} className="text-blue-400" />

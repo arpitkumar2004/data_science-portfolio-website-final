@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useProjects } from '../context/ProjectsContext';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -8,7 +8,7 @@ import SEOHead from '../components/SEOHead';
 import {
   Github, ExternalLink, NotebookText, Layers, Target, Cpu, Calendar,
   User, BarChart3, X, ArrowLeft, Share2, Home, Download, FileText,
-  BookOpen, Wrench, AlertTriangle, Mail, ArrowUpRight, ShieldCheck,
+  Wrench, AlertTriangle, Mail, ArrowUpRight,
   Building2, ChevronRight, ImageIcon
 } from 'lucide-react';
 
@@ -150,34 +150,30 @@ const ProjectDetail: React.FC = () => {
   const codeLang = cat === 'web-app' ? 'tsx' : 'python';
 
   /* ── Section labels (category-aware) ── */
-  const sectionConfig = useMemo(() => {
-    const base: Record<string, string> = {
-      abstract: 'Abstract',
-      introduction: 'Introduction',
-      problem: 'Problem Statement',
-      objectives: 'Objectives',
-      methodology: 'Methodology',
-      implementation: 'Implementation',
-      results: 'Results & Analysis',
-    };
-    const overrides: Record<string, Partial<typeof base>> = {
+  const sectionConfig: Record<string, string> = {
+    abstract: 'Abstract',
+    introduction: 'Introduction',
+    problem: 'Problem Statement',
+    objectives: 'Objectives',
+    methodology: 'Methodology',
+    implementation: 'Implementation',
+    results: 'Results & Analysis',
+    ...({
       'web-app': { methodology: 'Architecture', implementation: 'Implementation', results: 'Outcomes' },
       'system-design': { methodology: 'System Architecture', results: 'Performance' },
       'chemical-research': { methodology: 'Experimental Design', implementation: 'Experimentation' },
-    };
-    return { ...base, ...overrides[cat] };
-  }, [cat]);
+    }[cat] ?? {}),
+  };
 
   /* ── Related projects ── */
-  const nextProjects = useMemo(() => {
-    if (!project.similarProjectIds?.length) return [];
-    return projects.filter((p) => project.similarProjectIds!.includes(p.id)).slice(0, 2);
-  }, [project, projects]);
+  const nextProjects = project.similarProjectIds?.length
+    ? projects.filter((p) => project.similarProjectIds!.includes(p.id)).slice(0, 2)
+    : [];
 
-  const randomProjects = useMemo(() =>
-    projects.filter((p) => p.id !== project.id).sort(() => 0.5 - Math.random()).slice(0, 3),
-    [project.id, projects],
-  );
+  const randomProjects = projects
+    .filter((p) => p.id !== project.id)
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 3);
 
   const related = nextProjects.length ? nextProjects : randomProjects;
 
@@ -240,14 +236,14 @@ const ProjectDetail: React.FC = () => {
           </h1>
 
           {/* TL;DR */}
-          <p className="text-sm md:text-base leading-relaxed max-w-3xl mb-5">{bold(tldr)}</p>
+          <p className="text-sm md:text-base leading-relaxed max-w-7xl mb-3">{bold(tldr)}</p>
 
           {/* Impact Metrics */}
           {impact.length > 0 && (
             <ul className="mb-5 space-y-1">
               {impact.map((m, i) => (
                 <li key={i} className="text-sm leading-relaxed flex items-start gap-2">
-                  <span className="text-blue-500 mt-1.5 shrink-0">•</span>
+                  <span className="text-blue-500">•</span>
                   <span>{bold(m)}</span>
                 </li>
               ))}

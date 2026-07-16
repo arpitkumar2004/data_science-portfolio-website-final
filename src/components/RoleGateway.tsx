@@ -79,13 +79,6 @@ const roles = [
   },
 ];
 
-const colorMap = {
-  amber: { text: 'text-amber-400', iconBg: 'bg-amber-500/15' },
-  purple: { text: 'text-purple-400', iconBg: 'bg-purple-500/15' },
-  cyan: { text: 'text-cyan-400', iconBg: 'bg-cyan-500/15' },
-  slate: { text: 'text-slate-400', iconBg: 'bg-white/10' },
-};
-
 const RoleGateway = ({ children }: { children: React.ReactNode }) => {
   const { role, setRole: setContextRole, hasCompletedSelection, completeSelection, isRoleModalOpen, openRoleModal, closeRoleModal } = useRole();
   const [showRecruiterGate, setShowRecruiterGate] = useState(false);
@@ -262,7 +255,6 @@ const RoleGateway = ({ children }: { children: React.ReactNode }) => {
                 {/* Cards — simplified and professional */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
                   {roles.map((r, idx) => {
-                    const c = colorMap[r.color];
                     const isCurrent = role === r.id;
                     return (
                       <motion.button

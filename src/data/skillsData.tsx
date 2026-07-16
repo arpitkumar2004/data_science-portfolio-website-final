@@ -3,18 +3,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   Brain,
   Code2,
-  Sigma,
   Network,
   BookOpen,
-  Activity,
   FlaskConical,
   Terminal,
-  Cloud,
   Sparkles,
   BarChart3,
-  Cpu,
-  ChevronRight,
-  Binary,
 } from "lucide-react";
 
 export const techData = [
@@ -122,15 +116,6 @@ const coursework = [
   { id: "CH30016", name: "Numerical Methods" },
   { id: "DS51001", name: "Experimental Design & A/B Testing" },
   { id: "DS52004", name: "Causal Inference " },
-];
-
-const domains = [
-  "LLM at Scale: enterprise automation with RAG systems and multi-agent workflows",
-  "Applied Research: rigorous experiments, ablations, and reproducible results",
-  "Predictive Analytics: 95%+ anomaly detection accuracy for risk mitigation",
-  "Industrial Computer Vision: 40% defect reduction in manufacturing QA",
-  "Production ML: designed for high availability with sub-100ms p99 latency",
-  "Process Optimization: 20% energy efficiency gains in industrial operations",
 ];
 
 export default function TechnicalProficiencies() {

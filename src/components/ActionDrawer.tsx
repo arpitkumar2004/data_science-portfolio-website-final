@@ -3,7 +3,7 @@
  * Side-panel for contextual lead actions and intelligence
  */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -40,13 +40,14 @@ const ActionDrawer: React.FC<ActionDrawerProps> = ({
   const [selectedStatus, setSelectedStatus] = useState<LeadStatus | null>(null);
   const [selectedPriority, setSelectedPriority] = useState<LeadPriority | null>(null);
 
-  if (!lead) return null;
-
-  React.useEffect(() => {
+  useEffect(() => {
+    if (!lead) return;
     setNotes(lead.internal_notes || "");
     setSelectedStatus(lead.status);
     setSelectedPriority(lead.priority);
   }, [lead]);
+
+  if (!lead) return null;
 
   const handleStatusChange = (status: LeadStatus) => {
     setSelectedStatus(status);

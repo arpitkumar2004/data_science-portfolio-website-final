@@ -29,12 +29,17 @@ export interface Lead {
   quality_score?: number;
   internal_notes?: string;
   tags?: string[];
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   created_at: string;
   updated_at: string;
   last_contacted?: string;
   follow_up_date?: string;
-  contact_history?: any[];
+  contact_history?: Array<{
+    type?: string;
+    timestamp?: string;
+    date?: string;
+    [key: string]: unknown;
+  }>;
   source?: string;
   role?: string;
   flagged?: boolean;
@@ -460,10 +465,10 @@ class AdminAPIClient {
    * Analyzes which "role" the visitor selected at gateway
    */
   getLeadIntent(lead: Lead): {
-    type: "developer" | "recruiter" | "researcher" | "Guest" | "founder" | "unknown";
+    type: "developer" | "recruiter" | "researcher" | "guest" | "founder" | "unknown";
     confidence: "high" | "medium" | "low";
   } {
-    const roleMap: Record<string, string> = {
+    const roleMap: Record<string, "developer" | "recruiter" | "researcher" | "guest" | "founder"> = {
       "SDE": "developer",
       "Software Engineer": "developer",
       "Developer": "developer",
@@ -474,13 +479,13 @@ class AdminAPIClient {
       "CTO": "founder",
       "Researcher": "researcher",
       "Data Scientist": "researcher",
-      "Guest": "Guest"
+      "Guest": "guest"
     };
 
     const detectedRole = lead.role ? roleMap[lead.role] : null;
     
     return {
-      type: (detectedRole as any) || "unknown",
+      type: detectedRole || "unknown",
       confidence: detectedRole ? "high" : "low"
     };
   }

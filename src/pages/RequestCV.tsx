@@ -189,7 +189,7 @@ const RequestCV: React.FC = () => {
               <div className="space-y-3">
                 {[
                   { label: "Total Projects", value: careerStats.totalProjects },
-                  { label: "Research Papers", value: careerStats.researchPapers },
+                  { label: "Research Projects", value: careerStats.researchPapers },
                   { label: "Technical Skills", value: careerStats.technicalSkills },
                   { label: "Awards & Honors", value: careerStats.totalHonors },
                 ].map((stat, i) => (

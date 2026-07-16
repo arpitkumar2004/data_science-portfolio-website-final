@@ -6,11 +6,10 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import type { Lead, LeadStats } from "../../services/adminAPI";
+import type { Lead } from "../../services/adminAPI";
 
 interface RoleDistributionProps {
   leads: Lead[];
-  stats: LeadStats | null;
 }
 
 const COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#06b6d4"];
@@ -25,7 +24,7 @@ const INTENT_ICONS: Record<string, string> = {
   Student: "📚",
 };
 
-const RoleDistribution: React.FC<RoleDistributionProps> = ({ leads, stats: _stats }) => {
+const RoleDistribution: React.FC<RoleDistributionProps> = ({ leads }) => {
   const data = useMemo(() => {
     // Derive from leads for accuracy
     const counts: Record<string, number> = {};

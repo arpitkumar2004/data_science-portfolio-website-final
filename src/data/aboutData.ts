@@ -103,7 +103,7 @@ export const aboutFallbackData: AboutData = {
     tagline: "ML Engineer & AI Researcher · IIT Kharagpur '27",
     photo: "/img/me/my_photo2.png",
     // CV states "Seeking a Data Science internship" — updated from vague "Available for Summer 2026"
-    availability: "Open to Summer 2026 Data Science Internship",
+    availability: "",
     // More specific roles that reflect actual CV specializations
     animatedRoles: [
       "ML Engineer",
@@ -154,7 +154,7 @@ export const aboutFallbackData: AboutData = {
   education: {
     degree: "Integrated Dual Degree — B.Tech + M.Tech",
     // Micro-Specialization is a formal academic credential from the CV
-    specialization: "Chemical Engineering · Micro-Spec in AI & Applications",
+    specialization: "Chemical Engineering · Micro-Spec in AI & Applications and High Performance Computing (HPC)",
     institution: "IIT Kharagpur",
     graduation: "April 2027",
   },
@@ -162,11 +162,11 @@ export const aboutFallbackData: AboutData = {
 
   bio: {
     greeting:
-      "I'm Arpit Kumar — an ML Engineer and AI Researcher at IIT Kharagpur building production-grade NLP, LLM/RAG, and speech AI systems.",
+      "I'm Arpit Kumar — an ML Engineer and AI Researcher at IIT Kharagpur researching on Natural Language Processing, Large Language Models, and Speech AI systems.",
     paragraphs: [
       {
         label: "Background",
-        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Micro-Specialization in Artificial Intelligence and Applications at IIT Kharagpur (GPA 8.86/10, graduating April 2027). My unusual combination of rigorous engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
+        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Micro-Specialization in Artificial Intelligence and Applications and High Performance Computing at IIT Kharagpur (Graduating April 2027). My unusual combination of rigorous engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
       },
       {
         label: "Research & Competitions",

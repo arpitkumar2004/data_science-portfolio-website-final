@@ -9,20 +9,15 @@ import {
   Code2,
   FileText,
   Layout,
-  Briefcase,
-  Calendar,
-  Users,
-  ArrowRight,
 } from "lucide-react";
 import { SiKaggle, SiCodeforces, SiLinkedin, SiGithub, SiOrcid} from "react-icons/si";
-import { getRecruiterProfile } from "../utils/recruiterProfile";
 import { useRole } from "../context/RoleContext";
 
 /* ─────────────────────── data ─────────────────────── */
 
 const NAV_LINKS = [
   { to: "/", label: "Home", icon: Layout },
-  { to: "/projects", label: "Projects", icon: Microscope },
+  { to: "/projects", label: "Projects", icon: Code2 },
   { to: "/aboutme", label: "About Me", icon: Fingerprint },
   { to: "/request-cv", label: "CV Pack", icon: FileText },
   { to: "/contact", label: "Contact", icon: Mail },

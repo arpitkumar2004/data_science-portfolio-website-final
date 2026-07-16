@@ -85,7 +85,7 @@ export function useOptimisticLeadUpdate() {
   const updateLead = async (
     id: number,
     updateFn: (lead: Lead) => Lead,
-    serverUpdate: () => Promise<any>
+    serverUpdate: () => Promise<unknown>
   ) => {
     // Optimistic update
     mutateLeads(
