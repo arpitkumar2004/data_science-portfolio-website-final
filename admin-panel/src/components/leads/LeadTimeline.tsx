@@ -16,7 +16,7 @@ const LeadTimeline: React.FC<LeadTimelineProps> = ({ lead }) => {
     lead.contact_history.forEach((event) => {
       events.push({
         label: event.type || "Activity",
-        date: event.timestamp || event.date,
+        date: event.timestamp ?? event.date ?? null,
         color: "bg-blue-400",
       });
     });

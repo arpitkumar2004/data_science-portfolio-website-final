@@ -71,7 +71,7 @@ const AnalyticsPage: React.FC = () => {
 
         {/* Row 3: Roles + Quality + Response Time */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <RoleDistribution leads={leads} stats={stats} />
+          <RoleDistribution leads={leads} />
           <QualityDistribution leads={leads} />
           <ResponseTimeCard
             leads={leads}
