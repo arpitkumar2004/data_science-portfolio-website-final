@@ -162,7 +162,7 @@ export const aboutFallbackData: AboutData = {
 
   bio: {
     greeting:
-      "I'm Arpit Kumar — an ML Engineer and AI Researcher at IIT Kharagpur researching on Natural Language Processing, Large Language Models, and Speech AI systems.",
+      "I'm Arpit Kumar — an ML Engineer and AI Researcher at IIT Kharagpur working on Natural Language Processing, Large Language Models, and Speech AI systems.",
     paragraphs: [
       {
         label: "Background",
