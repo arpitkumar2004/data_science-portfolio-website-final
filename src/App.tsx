@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { ProjectsProvider } from './context/ProjectsContext';
 import { RoleProvider } from './context/RoleContext';
 import ThemeToggle from './components/ThemeToggle';
+import { trackPageView } from './utils/analytics';
 
 // ── Lazy-loaded pages (code splitting) ──
 const Home = lazy(() => import('./pages/Home'));
@@ -34,6 +35,22 @@ const RouteFallback = () => (
     </div>
   </div>
 );
+
+const AnalyticsTracker = () => {
+  const location = useLocation();
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    trackPageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
+
+  return null;
+};
 
 const ScrollRestoration = () => {
   const { pathname } = useLocation();
@@ -127,6 +144,7 @@ const MainApp = () => {
 function App() {
   return (
     <Router>
+      <AnalyticsTracker />
       <ScrollRestoration />
       <Suspense fallback={<RouteFallback />}>
       <Routes>
