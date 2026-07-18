@@ -60,7 +60,7 @@ const TECH_LINKS = [
 //   {
 //     icon: Briefcase,
 //     title: "Summer 2026 Internship",
-//     desc: "Seeking Data Science & Production ML roles — NLP, LLM/RAG engineering, scalable inference at MNC or R&D teams.",
+//     desc: "Seeking ML Engineering & AI Research roles — NLP, LLM/RAG engineering, scalable inference at MNC or R&D teams.",
 //   },
 //   {
 //     icon: Users,
@@ -169,7 +169,7 @@ const Footer: React.FC = () => {
               <strong className="font-bold text-slate-800 dark:text-slate-200">
                 ML Engineer &amp; AI Researcher
               </strong>{" "}
-              at IIT Kharagpur. Building production-grade NLP, LLM/RAG, and speech AI systems. Dual degree — Chemical Engineering + AI. Open to research collaborations and summer 2026 internship opportunities and for full time roles from May 2027 onwards.
+              @ IIT Kharagpur. Building production-grade NLP, LLM/RAG, and speech AI systems. Dual degree — Chemical Engineering + AI. Open to research collaborations and summer 2026 internship opportunities and for full time roles from May 2027 onwards.
             </p>
 
             {/* Achievement stat pills — CV-verified numbers only */}

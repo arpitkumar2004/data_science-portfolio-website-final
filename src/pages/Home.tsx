@@ -16,7 +16,7 @@ import { trackExternalLink, trackResumeDownload } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
 import SEOHead from "../components/SEOHead";
 
-import { SiKaggle } from "react-icons/si";
+import { SiGithub, SiKaggle, SiLinkedin, SiOrcid } from "react-icons/si";
 
 // Components
 import ProjectCard from "../components/ProjectCard";
@@ -128,7 +128,7 @@ const Home: React.FC = () => {
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       <SEOHead
         canonicalPath="/"
-        description="ML Engineer & AI Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in Production ML / Quant Research (May 2027)."
+        description="ML Engineer & AI Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in ML engineering and research from May 2027."
       />
       {/* Recruiter Nudge — only visible to verified recruiters */}
       {isRecruiter && (
@@ -163,47 +163,42 @@ const Home: React.FC = () => {
             <motion.div variants={heroItem} className="hero-content">
               <motion.h1
                 variants={heroItem}
-                className="text-4xl md:text-6xl lg:text-7xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-3 leading-tight"
+                className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-slate-100 tracking-tighter mb-3 leading-tight"
               >
                 Arpit Kumar
               </motion.h1>
 
               <motion.div
                 variants={heroItem}
-                className="h-10 flex items-center mb-4"
-              >
-                <span className="text-lg md:text-2xl font-mono font-bold text-blue-600">
-                  &gt;{" "}
-                  <AniText
-                    texts={[
-                      "ML Engineer",
-                      "NLP & LLM/RAG Engineer",
-                      "MLOps Engineer",
-                      "Data Scientist",
-                    ]}
-                    typingSpeed={50}
-                    pauseTime={1500}
-                  />
-                </span>
-              </motion.div>
-
-              <motion.div
-                variants={heroItem}
                 className="max-w-2xl mb-6 space-y-3"
               >
-                <p className="text-slate-700 dark:text-slate-200 text-base md:text-lg leading-relaxed font-semibold">
-                  ML Engineer & AI Researcher who builds end-to-end—from{" "}
+                {/* <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 dark:border-blue-500/30 dark:bg-blue-500/10 dark:text-blue-300">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                  Open for Production ML, AI Research, and LLM roles
+                </div> */}
+                <p className="text-slate-700 dark:text-slate-200 text-base md:text-lg leading-relaxed font-semibold max-w-3xl">
                   <span className="text-blue-600 dark:text-blue-400">
-                    research to production
-                  </span>
-                  .
+                    ML Engineer & AI Researcher @ IIT Kharagpur
+                  </span>{" "}
+                  working on NLP and Language Models research at Advanced
+                  Technology Development Center, IIT Kharagpur
                 </p>
-                <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
-                  Full-stack systems architect • Deep learning + scalable
-                  infrastructure
+                <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed max-w-3xl">
+                  I design scalable ML, NLP, and LLM/RAG solutions, building
+                  production-ready AI systems from experimentation to
+                  deployment with a focus
+                  on measurable impact, clean engineering, and reliable
+                  delivery.
                 </p>
+                <motion.h2
+                  variants={heroItem}
+                  className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-3 flex items-center gap-2"
+                >
+                  <span className="w-6 h-px bg-blue-600"></span>
+                  Featured Skills
+                </motion.h2>
                 <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-mono">
-                  PyTorch • TensorFlow • React • Node.js • Docker
+                  Python • SQL • PyTorch • TensorFlow • FastAPI • NLP • MLflow
                 </p>
               </motion.div>
 
@@ -310,7 +305,7 @@ const Home: React.FC = () => {
                   to="/request-cv"
                   className="text-sm font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1.5 group"
                 >
-                  Get Extended CV Pack
+                  Full CV
                   <ArrowRight
                     size={14}
                     className="group-hover:translate-x-0.5 transition-transform"
@@ -343,7 +338,7 @@ const Home: React.FC = () => {
                 <div className="relative rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 shadow-2xl shadow-slate-900/10 dark:shadow-black/40 aspect-[4/5] ring-1 ring-slate-900/5 dark:ring-white/10">
                   <img
                     src={myphoto}
-                    alt="Arpit Kumar - ML Engineer & Applied AI Researcher at IIT Kharagpur"
+                    alt="Arpit Kumar - ML Engineer & AI Researcher at IIT Kharagpur"
                     width={420}
                     height={525}
                     loading="eager"
@@ -362,12 +357,13 @@ const Home: React.FC = () => {
                           Arpit Kumar
                         </h3>
                         <p className="text-sm font-semibold text-blue-300 tracking-wide">
-                          Applied ML Engineer • IIT Kharagpur '27
+                          ML Engineer & AI Researcher @ IIT Kharagpur '27
                         </p>
                         <div className="flex items-center justify-center gap-2 pt-1">
                           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                           <span className="text-xs font-medium text-emerald-300">
-                            Available for Opportunities
+                            Available for full time Opportunities May 2027
+                            onwards
                           </span>
                         </div>
                       </div>
@@ -380,14 +376,14 @@ const Home: React.FC = () => {
               <div className="absolute -right-3 lg:-right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2.5 z-10">
                 {[
                   {
-                    icon: Github,
+                    icon: SiGithub,
                     href: "https://github.com/arpitkumar2004",
                     label: "GitHub",
                     platform: "github",
                     gradient: "from-slate-900 to-slate-700",
                   },
                   {
-                    icon: Linkedin,
+                    icon: SiLinkedin,
                     href: "https://linkedin.com/in/arpit-kumar-shivam/",
                     label: "LinkedIn",
                     platform: "linkedin",
@@ -400,12 +396,19 @@ const Home: React.FC = () => {
                     platform: "kaggle",
                     gradient: "from-cyan-500 to-blue-500",
                   },
+                  // {
+                  //   icon: GoogleScholar,
+                  //   href: "https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID",
+                  //   label: "Google Scholar",
+                  //   platform: "scholar",
+                  //   gradient: "from-blue-500 to-indigo-500",
+                  // },
                   {
-                    icon: GoogleScholar,
-                    href: "https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID",
-                    label: "Google Scholar",
-                    platform: "scholar",
-                    gradient: "from-blue-500 to-indigo-500",
+                    icon: SiOrcid,
+                    href: "https://orcid.org/0009-0006-1391-6300",
+                    label: "ORCID",
+                    platform: "orcid",
+                    gradient: "from-green-500 to-teal-500",
                   },
                 ].map((item, i) => (
                   <motion.a
@@ -454,19 +457,6 @@ const Home: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto px-6">
           <Education />
-        </div>
-      </motion.section>
-
-      {/* --- RESEARCH SECTION --- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-        className="bg-slate-50 dark:bg-black py-24"
-      >
-        <div className="max-w-7xl mx-auto px-6">
-          <ResearchComponent />
         </div>
       </motion.section>
 
@@ -542,6 +532,19 @@ const Home: React.FC = () => {
       >
         <div className="max-w-7xl mx-auto dark:bg-black px-6">
           <Experience />
+        </div>
+      </motion.section>
+
+      {/* --- RESEARCH SECTION --- */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="bg-slate-50 dark:bg-black py-24"
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <ResearchComponent />
         </div>
       </motion.section>
 

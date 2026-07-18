@@ -111,7 +111,7 @@ export const projects: Project[] = [
     githubLink: "https://github.com/yourusername/healthcare-risk-scorecard",
     // "articleLink": "https://medium.com/@yourusername/social-health-risk-scorecard",
     // "liveDemoLink": "https://website.com",
-    role: "Data Scientist",
+    role: "ML Engineer",
     duration: "Dec 2023 - Feb 2024",
     challenges: [
       "Integrating multiple financial signals effectively",
@@ -186,7 +186,7 @@ export const projects: Project[] = [
     githubLink: "https://github.com/yourusername/footfall-prediction",
     // "articleLink": "https://medium.com/@yourusername/footfall-prediction",
     // "liveDemoLink": "https://website.com",
-    role: "Data Scientist",
+    role: "ML Engineer",
     duration: "Dec 2023 - Feb 2024",
     challenges: [
       "Integrating multiple financial signals effectively",
@@ -243,7 +243,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     githubLink:
       "https://github.com/ChemicalEngineeringAssociation/ChEA_Fugacity",
     liveDemoLink: "https://chea-ikkswc60t-shau8122.vercel.app",
-    role: "Data Scientist",
+    role: "ML Engineer",
     duration: "Dec 2023 - Feb 2024",
     company: "Chemical Engineering Association, IIT Kharagpur",
     // "challenges": [
@@ -271,7 +271,7 @@ For Live Demo Visit : https://chea-ikkswc60t-shau8122.vercel.app
     ProblemStatement:
       "Most portfolio templates are static, slow, and hard to maintain. I needed a scalable, data-driven site that could evolve with new projects, research, and documentation without redesigning every page.",
     longDescription:
-      "This project is my end-to-end portfolio platform designed to present complex data science work in a clear, visual, and credible way. I built the UI in React and structured all content as typed data modules so each project can power cards, detail pages, and documentation views consistently. Tailwind CSS provided a clean design system with responsive layouts, while the component architecture (cards, carousels, drawers, and section blocks) keeps everything reusable across pages.\n\nOn the engineering side, I set up a Vite build with strict TypeScript types, routed pages for projects and docs, and an error boundary to keep the experience stable. I also added a lightweight data layer for project metadata and media, enabling long-form writeups, image galleries, and tags to render dynamically. The goal was to make updates fast and safe: add a new project in one place and the rest of the site updates automatically.\n\nPerformance and UX were priorities. I kept assets optimized, used lazy-friendly layouts, and ensured accessibility across headings, colors, and navigation. The final result is a scalable, professional portfolio that can evolve as I publish new research, tools, and case studies.",
+      "This project is my end-to-end portfolio platform designed to present complex ML and AI research work in a clear, visual, and credible way. I built the UI in React and structured all content as typed data modules so each project can power cards, detail pages, and documentation views consistently. Tailwind CSS provided a clean design system with responsive layouts, while the component architecture (cards, carousels, drawers, and section blocks) keeps everything reusable across pages.\n\nOn the engineering side, I set up a Vite build with strict TypeScript types, routed pages for projects and docs, and an error boundary to keep the experience stable. I also added a lightweight data layer for project metadata and media, enabling long-form writeups, image galleries, and tags to render dynamically. The goal was to make updates fast and safe: add a new project in one place and the rest of the site updates automatically.\n\nPerformance and UX were priorities. I kept assets optimized, used lazy-friendly layouts, and ensured accessibility across headings, colors, and navigation. The final result is a scalable, professional portfolio that can evolve as I publish new research, tools, and case studies.",
     image: portfolioimg,
     tags: [
       "Web Development",
@@ -316,7 +316,7 @@ For Live Demo Visit : https://arpitkumar.dev
       "https://github.com/arpitkumar2004/data_science-portfolio-website-final",
     // "articleLink": "https://medium.com/@yourusername/portfolio-website",
     liveDemoLink: "https://arpitkumar.dev",
-    role: "Data Scientist",
+    role: "ML Engineer",
     duration: "Dec 2023 - Feb 2025",
     challenges: [
       "Keeping content scalable while avoiding repeated UI edits",

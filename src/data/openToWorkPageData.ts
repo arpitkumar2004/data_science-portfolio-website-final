@@ -115,7 +115,7 @@ export const heroData: HeroData = {
   degree: "Dual Degree (B.Tech + M.Tech), Chemical Engineering",
   institution: "IIT Kharagpur",
   cgpa: "7.86 / 10",
-  tagline: "Applied AI & ML researcher looking for a Summer 2026 internship in machine learning, deep learning, or generative AI systems where I can apply my skills and contribute to real-world problems.",
+  tagline: "ML Engineer & AI Researcher looking for a Summer 2026 internship in machine learning, deep learning, or generative AI systems where I can apply my skills and contribute to real-world problems.",
   email: "kumararpit17773@gmail.com",
   linkedin: "https://linkedin.com/in/arpit-kumar-shivam",
   github: "https://github.com/arpitkumar2004",

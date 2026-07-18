@@ -149,7 +149,7 @@ const RequestCV: React.FC = () => {
     <div className="min-h-screen bg-white dark:bg-black font-sans text-slate-900 dark:text-slate-100 pb-20">
       <SEOHead
         title="CV & Portfolio Package"
-        description="To request my extended portfolio package including project documentation, technical details, and research publications. ML Engineer at IIT Kharagpur."
+        description="To request my extended portfolio package including project documentation, technical details, and research publications. ML Engineer & AI Researcher at IIT Kharagpur."
         canonicalPath="/request-cv"
       />
       <div className="max-w-5xl mx-auto px-6 py-12 lg:py-16">

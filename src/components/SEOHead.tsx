@@ -1,9 +1,9 @@
 import { Helmet } from 'react-helmet-async';
 
 const SITE_URL = 'https://arpitkumar.dev';
-const DEFAULT_TITLE = 'Arpit Kumar | Applied AI & ML Researcher | IIT Kharagpur';
+const DEFAULT_TITLE = 'Arpit Kumar | ML Engineer & AI Researcher | IIT Kharagpur';
 const DEFAULT_DESCRIPTION =
-  'Applied AI & ML Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in Production ML / Quant Research (May 2027).';
+  'ML Engineer & AI Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles as ML Engineer or AI Researcher from May 2027.';
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.png`;
 const TWITTER_HANDLE = '@arpitkumar';
 
@@ -28,7 +28,7 @@ const SEOHead: React.FC<SEOHeadProps> = ({
   description = DEFAULT_DESCRIPTION,
   canonicalPath = '/',
   ogImage = DEFAULT_IMAGE,
-  ogImageAlt = 'Arpit Kumar - Applied AI & ML Researcher from IIT Kharagpur',
+  ogImageAlt = 'Arpit Kumar - ML Engineer & AI Researcher from IIT Kharagpur',
   ogType = 'website',
   twitterCard = 'summary_large_image',
   noIndex = false,

@@ -6,9 +6,9 @@
     "availability": "",
     "animatedRoles": [
       "ML Engineer",
+      "AI Researcher",
       "NLP & LLM/RAG Engineer",
       "MLOps Engineer",
-      "Data Scientist"
     ],
     "socialLinks": [
       {
@@ -71,7 +71,7 @@
         "text": "I specialize in the full ML lifecycle — from experiment tracking (MLflow, DVC) to containerized deployment (Docker, CI/CD) and scalable inference (FastAPI, async routing). At GC OpenSoft '25, sponsored by Deloitte, I led development of an LLM-powered RAG employee support platform that cut resolution time by 35%, reduced hallucination rate by 40%, and boosted API throughput by 50%. As Technical Advisor at DevSoc — IIT KGP's developer society — I shape ML and software architecture decisions and mentor engineers building production systems."
       }
     ],
-    "callToAction": "Actively seeking Summer 2026 Data Science internships at teams building production ML systems — NLP, LLM/RAG engineering, or MLOps at scale. Available May–July 2026."
+    "callToAction": "Actively seeking Summer 2026 ML Engineering and AI Research internships at teams building production ML systems — NLP, LLM/RAG engineering, or MLOps at scale. Available May–July 2026."
   },
 
   "milestones": [
@@ -157,8 +157,8 @@
   ],
 
   "cta": {
-    "heading": "Available for Summer 2026 Data Science Internship",
-    "description": "Seeking roles in ML Engineering, NLP/LLM systems, or Data Science at teams building production AI at scale. Open to industrial R&D, MNC ML teams, and applied research positions. Available May–July 2026.",
+    "heading": "Available for Summer 2026 ML Engineering & AI Research Internship",
+    "description": "Seeking roles in ML Engineering, NLP/LLM systems, or AI Research at teams building production AI at scale. Open to industrial R&D, MNC ML teams, and applied research positions. Available May–July 2026.",
     "cvLink": "/request-cv",
     "meetingLink": "https://calendly.com/kumararpit17773/30min"
   }

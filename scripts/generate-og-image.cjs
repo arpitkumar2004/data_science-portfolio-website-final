@@ -14,7 +14,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="60" y="520" width="200" height="4" rx="2" fill="url(#accent)"/>
   <text x="60" y="180" font-family="system-ui,-apple-system,sans-serif" font-size="72" font-weight="900" fill="white" letter-spacing="-2">Arpit Kumar</text>
-  <text x="60" y="250" font-family="system-ui,-apple-system,sans-serif" font-size="32" font-weight="600" fill="#3b82f6">Applied AI &amp; ML Researcher</text>
+  <text x="60" y="250" font-family="system-ui,-apple-system,sans-serif" font-size="32" font-weight="600" fill="#3b82f6">ML Engineer &amp; AI Researcher </text>
   <text x="60" y="320" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#94a3b8">IIT Kharagpur &#x2022; Production ML &#x2022; Deep Learning</text>
   <text x="60" y="380" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#64748b">Top 0.5% Amazon ML Challenge &#x2022; 10,000+ users served</text>
   <text x="60" y="420" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#64748b">PyTorch &#x2022; TensorFlow &#x2022; React &#x2022; Full Stack ML</text>

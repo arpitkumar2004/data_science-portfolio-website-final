@@ -84,7 +84,7 @@ const Header: React.FC = () => {
               </span>
               {/* Added IIT Kharagpur — institutional credibility at first glance */}
               <span className="mt-0.5 text-[12px] font-semibold tracking-widest text-slate-700 dark:text-slate-200">
-                ML Engineer &amp; AI Researcher · IIT Kharagpur
+                ML Engineer &amp; AI Researcher @ IIT Kharagpur
               </span>
             </div>
           </Link>
@@ -169,7 +169,7 @@ const Header: React.FC = () => {
             {/* Availability pulse pill — Summer '26 internship signal */}
             {/* <div
               className="hidden items-center gap-1.5 rounded-full border border-green-500/25 bg-green-500/8 px-2.5 py-1 lg:inline-flex"
-              title="Open to Summer 2026 Data Science Internship"
+              title="Open to Summer 2026 ML Engineering & AI Research Internship"
             >
               <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />

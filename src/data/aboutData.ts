@@ -102,14 +102,14 @@ export const aboutFallbackData: AboutData = {
     // Tagline matches the CV headline exactly
     tagline: "ML Engineer & AI Researcher · IIT Kharagpur '27",
     photo: "/img/me/my_photo2.png",
-    // CV states "Seeking a Data Science internship" — updated from vague "Available for Summer 2026"
+    // CV states "Seeking an ML Engineering / AI Research internship" — updated from vague "Available for Summer 2026"
     availability: "",
     // More specific roles that reflect actual CV specializations
     animatedRoles: [
       "ML Engineer",
+      "AI Researcher",
       "NLP & LLM/RAG Engineer",
       "MLOps Engineer",
-      "Data Scientist",
     ],
     socialLinks: [
       {
@@ -178,7 +178,7 @@ export const aboutFallbackData: AboutData = {
       },
     ],
     callToAction:
-      "Actively seeking Summer 2026 Data Science internships at teams building production ML systems — NLP, LLM/RAG engineering, or MLOps at scale. Available May–July 2026.",
+      "Actively seeking Summer 2026 ML Engineering and AI Research internships at teams building production ML systems — NLP, LLM/RAG engineering, or MLOps at scale. Available May–July 2026.",
   },
 
   milestones: [
@@ -272,10 +272,10 @@ export const aboutFallbackData: AboutData = {
 
   /* ── CTA ──────────────────────────────────────────────────── */
   cta: {
-    // Updated to reflect actual target (Data Science internship, not generic "Summer 2026")
-    heading: "Available for Summer 2026 Data Science Internship",
+    // Updated to reflect actual target (ML Engineering / AI Research internship, not generic "Summer 2026")
+    heading: "Available for Summer 2026 ML Engineering & AI Research Internship",
     description:
-      "Seeking roles in ML Engineering, NLP/LLM systems, or Data Science at teams building production AI at scale. Open to industrial R&D, MNC ML teams, and applied research positions. Available May–July 2026.",
+      "Seeking roles in ML Engineering, NLP/LLM systems, or AI Research at teams building production AI at scale. Open to industrial R&D, MNC ML teams, and applied research positions. Available May–July 2026.",
     cvLink: "/request-cv",
     meetingLink: "https://calendly.com/kumararpit17773/30min",
   },
