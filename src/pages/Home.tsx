@@ -128,7 +128,7 @@ const Home: React.FC = () => {
     <div className="bg-white min-h-screen font-sans selection:bg-blue-100 dark:selection:bg-blue-500/20 overflow-x-hidden dark:bg-black dark:text-slate-100">
       <SEOHead
         canonicalPath="/"
-        description="ML Engineer & AI Researcher who ships production-grade AI systems. Top 0.5% Amazon ML Challenge. Built systems serving 10,000+ users at IIT Kharagpur. Seeking full-time roles in ML engineering and research from May 2027."
+        description="ML Engineer & AI Researcher @ IIT Kharagpur specializing in Artificial Intelligence and Applications and High Performance Computing. Seeking full-time roles in ML engineering and research from May 2027."
       />
       {/* Recruiter Nudge — only visible to verified recruiters */}
       {isRecruiter && (
@@ -180,25 +180,34 @@ const Home: React.FC = () => {
                   <span className="text-blue-600 dark:text-blue-400">
                     ML Engineer & AI Researcher @ IIT Kharagpur
                   </span>{" "}
-                  working on NLP and Language Models research at Advanced
-                  Technology Development Center, IIT Kharagpur
+                  researching NLP and speech/language models at the Advanced
+                  Technology Development Center
+                  {/* <p>
+                   I am a final year dual degree student pursuing micro-specializing in Artificial Intelligence and Applications with High-Performance Computing,
+                  </p> */}
                 </p>
                 <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed max-w-3xl">
-                  I design scalable ML, NLP, and LLM/RAG solutions, building
-                  production-ready AI systems from experimentation to
-                  deployment with a focus
-                  on measurable impact, clean engineering, and reliable
-                  delivery.
+                  I am a Final-year Integrated Dual Degree student in Chemical
+                  Engineering with micro-specializing in{" "}
+                  <i>Artificial Intelligence & Applications</i> and{" "}
+                  <i>High-Performance Computing</i>. Placed in the top 0.5%
+                  globally in the Amazon ML Challenge'25 and won 1st place at GC OpenSoft'25
+                  (Deloitte-sponsored) for a RAG-based mental health monitoring platform.
+                  Comfortable across the ML lifecycle — PyTorch, TensorFlow, and
+                  JAX for modeling; FastAPI for serving; MLflow and DVC for
+                  experiment tracking and reproducibility. Seeking full-time ML
+                  engineering and research roles starting May 2027.
                 </p>
                 <motion.h2
                   variants={heroItem}
-                  className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-3 flex items-center gap-2"
+                  className="text-xs font-mono font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest mb-8 flex items-center gap-2"
                 >
                   <span className="w-6 h-px bg-blue-600"></span>
                   Featured Skills
                 </motion.h2>
-                <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-mono">
-                  Python • SQL • PyTorch • TensorFlow • FastAPI • NLP • MLflow
+                <p className="text-xs md:text-sm text-slate-900 dark:text-slate-400 font-mono">
+                  Python • SQL • PyTorch • TensorFlow • CUDA • FastAPI • NLP •
+                  MLflow • DVC
                 </p>
               </motion.div>
 
@@ -220,7 +229,7 @@ const Home: React.FC = () => {
                     whileHover={!shouldReduceMotion ? { y: -2 } : {}}
                     className="stat-card group cursor-default rounded-xl p-4 bg-gradient-to-br from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-800/30 ring-1 ring-slate-900/5 dark:ring-white/10 hover:ring-blue-600/80 transition-all"
                   >
-                    <h3 className="text-3xl font-black text-slate-900 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <h3 className="text-2xl font-black text-slate-900 dark:text-slate-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                       {s.v}
                     </h3>
                     <p className="text-[13px] font-bold text-blue-500 mb-1">
@@ -240,7 +249,7 @@ const Home: React.FC = () => {
               {/* Primary CTAs */}
               <motion.div
                 variants={heroItem}
-                className="flex flex-col sm:flex-row flex-wrap gap-3 mb-6"
+                className="flex flex-col items-center sm:flex-row flex-wrap gap-3 mb-6 mt-2 sm:mt-6 items-start sm:items-center"
               >
                 <a
                   href="/Arpit_Kumar_Resume.pdf"
