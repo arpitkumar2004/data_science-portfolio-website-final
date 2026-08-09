@@ -23,6 +23,7 @@ import devsocLogo from "../data/img/devsoc_logo.jpg";
 import ppgsLogo from "../data/img/ppgs_logo.png";
 import sbrcLogo from "../data/img/sbrc_logo.jpg";
 import { trackResumeDownload } from "../utils/analytics";
+import sricLogo from "../data/img/me/2.png";
 
 export type ExperienceLink = {
   label: string;
@@ -55,6 +56,7 @@ const companyIcons: Record<string, string> = {
   "Public Policy and Governance Society, IIT-Kharagpur": ppgsLogo,
   "Chemical Engineering Association, IIT-Kharagpur": cheaLogo,
   "Students' Branding and Relations Cell, IIT Kharagpur": sbrcLogo,
+  "Sponsored Research & Industrial Consultancy (SRIC), IIT Kharagpur": sricLogo,
 };
 
 const workExperiences: ExperienceEntry[] = [
@@ -69,7 +71,7 @@ const workExperiences: ExperienceEntry[] = [
     roles: [
       {
         id: 1001,
-        title: "AI Research Intern | Project: DocuReason RAG",
+        title: "AI Research Intern | Project: DocuReason RAG: A Grounded Framework for Multimodal Document Retrieval and Reasoning",
         duration: "June 2026 - July 2026",
         description: [
           "Architected DocuReason, an enterprise-grade tri-path multimodal RAG framework for grounded document retrieval and reasoning across text, complex financial/scientific tables, and visual PDF documents under the guidance of Prof. Shyamal Kumar Das Mandal.",
@@ -105,6 +107,11 @@ const workExperiences: ExperienceEntry[] = [
         url: "https://pypi.org/project/docureason-framework/",
         type: "pypi",
       },
+      {
+        label: "View More",
+        url: "https://arpitkumar.dev/projects/10",
+        type: "website",
+      }
     ],
   },
   // {

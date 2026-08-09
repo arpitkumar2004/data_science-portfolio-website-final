@@ -76,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     navigate(`/projects/${String(id)}`);
   };
   const handleLinkClick = (e: React.MouseEvent) => e.stopPropagation();
-  
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -94,11 +94,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
       onMouseLeave={handleMouseLeave}
       role="button"
       tabIndex={0}
-      whileHover={{ y: -8 }}
+      whileHover={{ y: -1 }}
       className="group relative flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden cursor-pointer h-full transition-all duration-300 ease-out shadow-sm hover:shadow-xl hover:border-blue-500 dark:hover:border-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
     >
       {/* Radial blue fill animation from cursor position */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none z-0"
         style={{
           background: `radial-gradient(circle at ${mousePosition.x}% ${mousePosition.y}%, 
@@ -113,7 +113,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           transition: 'transform 0.65s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease-out',
         }}
       />
-      
+
       {/* Subtle overlay for better text contrast */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out pointer-events-none z-[1]" />
       {/* Image Section */}
@@ -126,7 +126,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           loading="lazy"
           className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-110"
         />
-        
+
         {/* Standings Badge */}
         {type === "Competition" && standings && (
           <div className="absolute top-3 right-3 z-20">

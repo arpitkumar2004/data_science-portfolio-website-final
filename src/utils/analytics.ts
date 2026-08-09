@@ -75,7 +75,7 @@ export const trackResumeDownload = (location: string): void => {
  * @param viewType - Type of view ('card_click' or 'detail_view')
  */
 export const trackProjectView = (
-  projectId: number,
+  projectId: number | string,
   projectTitle: string,
   viewType: 'card_click' | 'detail_view'
 ): void => {

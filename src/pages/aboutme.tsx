@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import myphoto from "../data/img/me/my_photo2.png";
 import SEOHead from "../components/SEOHead";
@@ -51,7 +51,7 @@ import { trackResumeDownload } from "../utils/analytics";
 
 /* ─────────────────────── constants ─────────────────────── */
 
-const FEATURED_PROJECT_IDS = [5, 8, 9];
+const FEATURED_PROJECT_IDS: (number | string)[] = [5, 8, 9];
 
 type TechnologySkill = {
   name: string;
@@ -418,7 +418,7 @@ const AboutMe: React.FC = () => {
   const featuredProjects = useMemo(
     () =>
       FEATURED_PROJECT_IDS.map((id) =>
-        projects.find((p) => p.id === id),
+        projects.find((p) => String(p.id) === String(id) || (p.slug && p.slug === String(id))),
       ).filter((p): p is Project => p !== undefined),
     [projects],
   );

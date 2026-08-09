@@ -241,13 +241,12 @@ export const getTopAchievements = (): Achievement[] => {
   return achievements;
 };
 
-/** Featured projects pulled from projectsData.tsx */
-export const featuredProjectIds = [7, 8, 12];
+export const featuredProjectIds: (number | string)[] = [7, 8, 12];
 
 export const getFeaturedProjects = (projectsList?: Project[]): FeaturedProjectDisplay[] => {
   const source = projectsList && projectsList.length > 0 ? projectsList : staticProjects;
   return featuredProjectIds.map((id) => {
-    const project = source.find((p) => p.id === id);
+    const project = source.find((p) => String(p.id) === String(id) || (p.slug && p.slug === String(id)));
     if (!project) return null;
 
     return {

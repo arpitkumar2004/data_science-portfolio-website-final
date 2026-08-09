@@ -51,7 +51,7 @@ const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { projects, loading } = useProjects();
-  const project = projects.find((p) => p.id === Number(id));
+  const project = projects.find((p) => String(p.id) === String(id) || (p.slug && p.slug === id));
 
   /* ── Modal state ── */
   const [modalImg, setModalImg] = useState('');
@@ -167,11 +167,11 @@ const ProjectDetail: React.FC = () => {
 
   /* ── Related projects ── */
   const nextProjects = project.similarProjectIds?.length
-    ? projects.filter((p) => project.similarProjectIds!.includes(p.id)).slice(0, 2)
+    ? projects.filter((p) => project.similarProjectIds!.map(String).includes(String(p.id))).slice(0, 2)
     : [];
 
   const randomProjects = projects
-    .filter((p) => p.id !== project.id)
+    .filter((p) => String(p.id) !== String(project.id))
     .sort(() => 0.5 - Math.random())
     .slice(0, 3);
 
