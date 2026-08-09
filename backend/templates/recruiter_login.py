@@ -69,9 +69,9 @@ def render(
             <!-- ─── Availability ─── -->
             <p class="section-label" style="{_lbl}">Availability &amp; Logistics</p>
             <table class="info-table" style="{_tbl}">
-                <tr><td style="{_td_l}">Start Date</td><td style="{_td_v}">May 1, 2026 (flexible &plusmn; 1 week)</td></tr>
-                <tr><td style="{_td_l}">Duration</td><td style="{_td_v}">10&ndash;12 weeks (Summer 2026) &middot; Open to full-time conversion</td></tr>
-                <tr><td style="{_td_l}">Notice Period</td><td style="{_td_v}">None &mdash; available for immediate start</td></tr>
+                <tr><td style="{_td_l}">Start Date</td><td style="{_td_v}">May 2027 (IIT Kharagpur Dual Degree '27)</td></tr>
+                <tr><td style="{_td_l}">Target Roles</td><td style="{_td_v}">Full-time ML Engineer &amp; AI Researcher</td></tr>
+                <tr><td style="{_td_l}">Status</td><td style="{_td_v}">Open for campus placement &amp; recruitment rounds</td></tr>
                 <tr><td style="{_td_l}">Work Mode</td><td style="{_td_v}">Open to remote, hybrid, or on-site</td></tr>
                 <tr><td style="{_td_l}">Relocation</td><td style="{_td_v}">Willing to relocate globally</td></tr>
                 <tr><td style="{_td_l}">Time Zones</td><td style="{_td_v}">Flexible &mdash; can align with US or European business hours</td></tr>

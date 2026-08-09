@@ -169,7 +169,7 @@ const Footer: React.FC = () => {
               <strong className="font-bold text-slate-800 dark:text-slate-200">
                 ML Engineer &amp; AI Researcher
               </strong>{" "}
-              @ IIT Kharagpur. Building production-grade NLP, LLM/RAG, and speech AI systems. Dual degree — Chemical Engineering + AI. Open to research collaborations and summer 2026 internship opportunities and for full time roles from May 2027 onwards.
+              @ IIT Kharagpur. Building production-grade NLP, LLM/RAG, and speech AI systems. Dual degree — Chemical Engineering + AI. Open to research collaborations and full-time ML Engineer and AI Researcher roles starting May 2027 onwards.
             </p>
 
             {/* Achievement stat pills — CV-verified numbers only */}
@@ -184,7 +184,7 @@ const Footer: React.FC = () => {
                   role="listitem"
                   className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 dark:border-white/10 dark:bg-white/5"
                 >
-                  <span className="block text-sm font-black leading-tight tracking-tight text-blue-600 dark:text-blue-400">
+                  <span className="block text-sm font-black leading-tight tracking-tight text-blue-600 dark:text-blue-400 stat-number tabular-nums">
                     {value}
                   </span>
                   <span className="mt-0.5 block text-[10px] font-bold text-slate-700 dark:text-slate-300">

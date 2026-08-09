@@ -1,4 +1,4 @@
-﻿import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import SEOHead from "../components/SEOHead";
 import {
@@ -107,7 +107,7 @@ const OpenToWorkPage: React.FC = () => {
           <div className="grid sm:grid-cols-2 gap-x-10 gap-y-4">
             {highlights.map((h, i) => (
               <div key={i} className="flex gap-3 items-start py-1">
-                <span className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap min-w-[120px]">
+                <span className="text-sm font-bold text-slate-900 dark:text-white whitespace-nowrap min-w-[120px] tabular-nums stat-number">
                   {h.metric}
                 </span>
                 <span className="text-sm text-slate-600 dark:text-slate-400">
@@ -154,7 +154,7 @@ const OpenToWorkPage: React.FC = () => {
               <div key={i} className="border-l-2 border-slate-200 dark:border-slate-700 pl-5">
                 <div className="flex items-baseline gap-3 mb-1">
                   <span className="text-base font-bold text-slate-900 dark:text-white">{a.title}</span>
-                  <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">{a.rank}</span>
+                  <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 tabular-nums stat-number">{a.rank}</span>
                 </div>
                 <p className="text-sm text-slate-600 dark:text-slate-400 mb-1.5">{a.detail}</p>
                 <p className="text-xs text-slate-500 dark:text-slate-500 font-mono">{a.tech}</p>
@@ -252,9 +252,9 @@ const OpenToWorkPage: React.FC = () => {
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
               {heroData.institution}
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400">
+            {/* <p className="text-sm text-slate-600 dark:text-slate-400">
               {heroData.degree} &middot; CGPA {heroData.cgpa}
-            </p>
+            </p> */}
             <p className="text-sm text-slate-500 dark:text-slate-500 mt-0.5">
               Merit-cum-Means Scholarship recipient (top 5% of cohort)
             </p>
@@ -333,7 +333,7 @@ const OpenToWorkPage: React.FC = () => {
             Interested?
           </h2>
           <p className="text-base text-slate-600 dark:text-slate-400 mb-8 max-w-xl">
-            I am actively looking for Summer 2026 ML internship opportunities and happy to chat. 
+            I am actively seeking full-time ML Engineer and AI Researcher roles starting May 2027 and happy to chat.
             Feel free to reach out directly or schedule a short call.
           </p>
 

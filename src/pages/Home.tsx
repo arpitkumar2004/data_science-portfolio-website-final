@@ -20,7 +20,7 @@ import { SiGithub, SiKaggle, SiLinkedin, SiOrcid } from "react-icons/si";
 
 // Components
 import ProjectCard from "../components/ProjectCard";
-import Experience from "../components/Experience";
+import { WorkExperienceSection, PORSection } from "../components/Experience";
 import Education from "../components/Education";
 import ResearchComponent from "../components/research";
 import TechnicalProficiencies from "../data/skillsData";
@@ -469,6 +469,16 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
+      {/* --- WORK & RESEARCH EXPERIENCE (PLACED DIRECTLY BELOW ACADEMIC SECTION) --- */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <WorkExperienceSection />
+      </motion.section>
+
       {/* --- ACHIEVEMENTS --- */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -482,6 +492,16 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
+      {/* --- POSITIONS OF RESPONSIBILITY (PLACED AFTER ACHIEVEMENTS SECTION) --- */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
+        <PORSection />
+      </motion.section>
+
       {/* --- PROJECTS --- */}
       <motion.section
         initial={{ opacity: 0, y: 20 }}
@@ -491,26 +511,13 @@ const Home: React.FC = () => {
         className="py-24 bg-white dark:bg-[#0a0a0a]"
       >
         <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-6 gap-6">
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg text-blue-600">
-                  <Terminal size={18} />
-                </div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-blue-600">
-                  Production Portfolio
-                </span>
-              </div>
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-slate-100 mt-2 tracking-tighter">
-                Shipped Systems & Research
+                Shipped Systems &amp; Research
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 text-base mt-3 max-w-4xl font-medium">
-                End-to-end ML projects demonstrating research-to-deployment
-                rigor—from Kaggle competitions to production systems handling
-                real users, with measurable impact and open-source
-                contributions.
-              </p>
             </div>
+
             <Link
               to="/projects"
               className="flex items-center gap-2 text-slate-900 dark:text-slate-100 font-bold text-2xl hover:text-blue-600 transition-colors group"
@@ -522,6 +529,10 @@ const Home: React.FC = () => {
               />
             </Link>
           </div>
+          <div
+            className="w-16 h-1.5 bg-blue-600 rounded-full mb-16"
+            aria-hidden="true"
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
               {projects.slice(0, 3).map((p) => (
@@ -529,18 +540,6 @@ const Home: React.FC = () => {
               ))}
             </AnimatePresence>
           </div>
-        </div>
-      </motion.section>
-
-      {/* --- EXPERIENCE SECTION (PRIORITIZED FOR HIRING) --- */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
-      >
-        <div className="max-w-7xl mx-auto dark:bg-black px-6">
-          <Experience />
         </div>
       </motion.section>
 
@@ -569,63 +568,44 @@ const Home: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* ═══════════════ RECRUITER CTA (preserved) ═══════════════ */}
-      <section className="px-6 mb-16 md:px-12 lg:px-20 mb-16">
+      {/* ═══════════════ RECRUITER CTA / COLLABORATION ═══════════════ */}
+      <section className="px-6 md:px-12 lg:px-20 mb-20">
         <div className="max-w-7xl mx-auto">
-          <div className="relative overflow-hidden rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900 dark:bg-slate-950 p-10 lg:p-14 text-white">
-            <div className="pointer-events-none absolute -left-12 -top-12 h-40 w-40 rounded-full bg-blue-500/15 blur-3xl" />
-            <div className="pointer-events-none absolute -right-16 -bottom-16 h-48 w-48 rounded-full bg-blue-400/10 blur-3xl" />
+          <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-slate-950 p-8 sm:p-12 lg:p-14 text-white shadow-2xl shadow-blue-950/40">
+            {/* Ambient background glows */}
+            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-blue-600/20 blur-[100px]" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-purple-600/15 blur-[100px]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.08),transparent_50%)]" />
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              <div className="lg:col-span-9">
-                <p className="text-[10px] font-mono font-bold uppercase tracking-[0.3em] text-blue-300 mb-4">
-                  Collaboration with me
-                </p>
-                <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-4 leading-tight">
-                  Build the next{" "}
-                  <span className="text-blue-400">production-grade</span>{" "}
-                  system.
+              <div className="lg:col-span-8 space-y-5">
+
+                {/* Headline */}
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
+                  Let's Build &amp; Scale Next-Gen{" "}
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-300">
+                    Production AI Systems
+                  </span>
                 </h2>
-                <p className="text-slate-300 text-sm md:text-base max-w-4xl leading-relaxed mb-6">
-                  Curious about architecture choices, evaluation strategy, or
-                  delivery scope? I would like to partner on research,
-                  production ML, and system design that ships measurable
-                  outcomes.
+
+                {/* Subtitle */}
+                <p className="text-slate-300 text-sm md:text-base max-w-3xl leading-relaxed font-normal">
+                  Whether you're looking for production ML engineering, high-throughput LLM architectures,
+                  or rigorous AI research—I partner with engineering teams and founders to deliver measurable system performance.
                 </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {[
-                    { v: "Impact", l: "ROI-focused" },
-                    { v: "Secure", l: "Enterprise-ready" },
-                    { v: "Fast", l: "Iterate + Ship" },
-                    { v: "Rigor", l: "Research-grade" },
-                  ].map((item) => (
-                    <div
-                      key={item.l}
-                      className="rounded-lg border border-white/10 bg-white/5 px-3 py-2"
-                    >
-                      <div className="text-sm font-bold text-white">
-                        {item.v}
-                      </div>
-                      <div className="text-[10px] font-mono uppercase tracking-wider text-slate-400">
-                        {item.l}
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
 
-              <div className="lg:col-span-3 flex flex-col gap-3">
+              {/* Action Buttons */}
+              <div className="lg:col-span-4 flex flex-col gap-3.5 sm:max-w-xs lg:max-w-none ml-auto w-full">
                 <Link
                   to="/contact"
-                  className="group flex items-center justify-between px-6 py-2 bg-blue-600 rounded-xl hover:bg-blue-500 transition-colors"
+                  className="group relative px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base rounded-2xl flex items-center justify-between shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
-                  <div className="flex items-center">
-                    <div className="p-3 rounded-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-white/10">
                       <Mail size={18} />
                     </div>
-                    <div>
-                      <p className="text-sm font-bold">Initiate Discussion</p>
-                    </div>
+                    <span>Initiate Discussion</span>
                   </div>
                   <ArrowUpRight
                     size={18}
@@ -638,24 +618,19 @@ const Home: React.FC = () => {
                   download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
                   onClick={() => trackResumeDownload("hero_primary_cta")}
                   aria-label="Download resume PDF immediately"
-                  className="group relative px-6 py-3.5 bg-blue-600 text-white font-bold text-base rounded-xl flex items-center justify-center gap-2.5 hover:bg-blue-700 transition-all hover:shadow-2xl hover:shadow-blue-600/50 hover:scale-[1.02] focus:outline-none focus-visible:ring-4 focus-visible:ring-blue-300 focus-visible:ring-offset-2 overflow-hidden"
+                  className="group px-6 py-4 bg-white/10 hover:bg-white/15 text-white font-bold text-base rounded-2xl flex items-center justify-between border border-white/15 hover:border-white/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                  <FileText
-                    size={18}
-                    className="relative group-hover:rotate-12 transition-transform"
-                  />
-                  <span className="relative">Download Resume</span>
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-white/10">
+                      <FileText size={18} />
+                    </div>
+                    <span>Download Resume</span>
+                  </div>
                   <ArrowRight
                     size={18}
-                    className="relative group-hover:translate-x-1 transition-transform"
+                    className="group-hover:translate-x-1 transition-transform"
                   />
                 </a>
-
-                {/* <div className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-lg">
-                        <ShieldCheck size={14} className="text-blue-400" />
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400">Verified Researcher @ IIT Kharagpur</span>
-                      </div> */}
               </div>
             </div>
           </div>

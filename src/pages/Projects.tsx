@@ -1,9 +1,11 @@
 import React, { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProjects } from '../context/ProjectsContext';
 import ProjectCarousel from '../components/ProjectCarousel';
-import { Filter, Terminal, History, BookOpen, Trophy, Cpu, Activity, Zap, FileText, Loader2, Globe } from 'lucide-react';
+import { Filter, Terminal, History, BookOpen, Trophy, Cpu, Activity, Zap, FileText, Loader2, Globe, Mail, ArrowUpRight, ArrowRight } from 'lucide-react';
 import SEOHead from '../components/SEOHead';
+import { trackResumeDownload } from '../utils/analytics';
 
 /* ── Animation variants ── */
 const fadeUp = {
@@ -98,7 +100,7 @@ const Projects: React.FC = () => {
         <div className="relative max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex-1">
             <p className="font-bold text-lg mb-1 flex items-center gap-2">👋 Hiring for ML/AI roles? <Sparkles size={16} className="text-yellow-300" /></p>
-            <p className="text-sm text-blue-100">5+ production projects · Top 0.5% Amazon ML · High-traffic systems · Available for Summer Internship 2026</p>
+            <p className="text-sm text-blue-100">5+ production projects · Top 0.5% Amazon ML · High-traffic systems · Available for Full-Time Roles from May 2027</p>
           </div>
           <div className="flex gap-3 shrink-0">
             <a
@@ -137,19 +139,19 @@ const Projects: React.FC = () => {
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="max-w-4xl"
             >
-              <div className="flex items-center gap-3 mb-6">
-                {/* <div className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl text-white shadow-lg shadow-blue-500/25">
+              {/* <div className="flex items-center gap-3 mb-6">
+                <div className="p-2.5 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl text-white shadow-lg shadow-blue-500/25">
                   <Database size={18} />
-                </div> */}
+                </div>
                 <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-blue-600">
                   Technical Portfolio
                 </span>
-              </div>
+              </div> */}
               <h1 className="text-5xl md:text-6xl font-black font-sans tracking-[-0.05em] leading-[0.85]">
                 <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">Shipped Systems</span>
-                <br/>
+                <br />
                 <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-white dark:via-slate-200 dark:to-white bg-clip-text text-transparent">& Research</span>
-                <br/>
+                <br />
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Impact</span>
               </h1>
               {/* <p className="mt-5 text-base text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed">
@@ -165,14 +167,14 @@ const Projects: React.FC = () => {
               variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.06 } } }}
             >
               {[
-                { label: "Total Entries", val: stats.total, icon: <History size={14}/> },
-                { label: "Research Projects", val: stats.researchPapers, icon: <BookOpen size={14}/>, color: 'text-blue-600' },
-                { label: "Ongoing Research", val: stats.ongoingResearch, icon: <Activity size={14}/>, color: 'text-orange-500' },
-                { label: "Competition Podiums", val: stats.competitions, icon: <Trophy size={14}/>, color: 'text-yellow-600' },
-                { label: "Production Projects", val: stats.totalProjects, icon: <Terminal size={14}/> },
-                { label: "Live Systems Shipping", val: stats.liveDeployed, icon: <Cpu size={14}/>, color: 'text-green-600' },
-                { label: "Active Development", val: stats.ongoingProjects, icon: <Zap size={14}/> },
-                { label: "Technical Blogs", val: stats.blogs, icon: <FileText size={14}/> },
+                { label: "Total Entries", val: stats.total, icon: <History size={14} /> },
+                { label: "Research Projects", val: stats.researchPapers, icon: <BookOpen size={14} />, color: 'text-blue-600' },
+                { label: "Ongoing Research", val: stats.ongoingResearch, icon: <Activity size={14} />, color: 'text-orange-500' },
+                { label: "Competition Podiums", val: stats.competitions, icon: <Trophy size={14} />, color: 'text-yellow-600' },
+                { label: "Production Projects", val: stats.totalProjects, icon: <Terminal size={14} /> },
+                { label: "Live Systems Shipping", val: stats.liveDeployed, icon: <Cpu size={14} />, color: 'text-green-600' },
+                { label: "Active Development", val: stats.ongoingProjects, icon: <Zap size={14} /> },
+                { label: "Technical Blogs", val: stats.blogs, icon: <FileText size={14} /> },
               ].map((stat, i) => (
                 <motion.div
                   key={i}
@@ -180,7 +182,7 @@ const Projects: React.FC = () => {
                   variants={fadeUp}
                   className="group p-4 bg-white dark:bg-[#161616] border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm hover:shadow-lg hover:shadow-blue-500/5 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between min-w-[150px] cursor-default"
                 >
-                  <div className={`mb-2 ${stat.color || 'text-slate-600 dark:text-slate-300'} group-hover:scale-110 transition-transform`}>{stat.icon}</div>
+                  {/* <div className={`mb-2 ${stat.color || 'text-slate-600 dark:text-slate-300'} group-hover:scale-110 transition-transform`}>{stat.icon}</div> */}
                   <div>
                     <div className="text-2xl font-black font-sans text-slate-900 dark:text-white tracking-tight tabular-nums">{stat.val.toString().padStart(2, '0')}</div>
                     <div className="text-[9.5px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-1">{stat.label}</div>
@@ -210,11 +212,10 @@ const Projects: React.FC = () => {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-200 border ${
-                selectedTags.length > 0 || showFilters
-                  ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/20 hover:bg-blue-700'
-                  : 'bg-white dark:bg-[#161616] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-white/10 hover:border-blue-400 hover:shadow-md'
-              }`}
+              className={`flex items-center gap-3 px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-200 border ${selectedTags.length > 0 || showFilters
+                ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/20 hover:bg-blue-700'
+                : 'bg-white dark:bg-[#161616] text-slate-700 dark:text-slate-200 border-slate-200 dark:border-white/10 hover:border-blue-400 hover:shadow-md'
+                }`}
             >
               <Filter size={18} />
               <span>Filters</span>
@@ -239,11 +240,10 @@ const Projects: React.FC = () => {
                   <button
                     key={tag}
                     onClick={() => toggleTag(tag)}
-                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-200 ${
-                      selectedTags.includes(tag)
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 scale-[1.02]'
-                        : 'bg-white dark:bg-[#161616] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-sm'
-                    }`}
+                    className={`px-4 py-2 rounded-xl text-[10px] font-mono font-bold uppercase tracking-widest transition-all duration-200 ${selectedTags.includes(tag)
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 scale-[1.02]'
+                      : 'bg-white dark:bg-[#161616] text-slate-500 dark:text-slate-300 border border-slate-200 dark:border-white/10 hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-sm'
+                      }`}
                   >
                     {tag}
                   </button>
@@ -308,12 +308,12 @@ const Projects: React.FC = () => {
             const headerLeft = (
               <div className="max-w-7xl">
                 <div className="flex items-center gap-2.5 mb-4 ml-4">
-                  <div className="p-2.5 bg-white dark:bg-[#161616] rounded-xl text-slate-800 dark:text-white shadow-sm border border-slate-100 dark:border-white/10">{sec.icon}</div>
-                  <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-slate-500 dark:text-slate-400">{sec.label}</span>
-                  <span className="ml-2 px-2 py-0.5 text-[9px] font-mono font-bold bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400 rounded-full">{items.length}</span>
+                  {/* <div className="p-2.5 bg-white dark:bg-[#161616] rounded-xl text-slate-800 dark:text-white shadow-sm border border-slate-100 dark:border-white/10">{sec.icon}</div> */}
+                  {/* <span className="text-[10px] font-mono font-black uppercase tracking-[0.4em] text-slate-500 dark:text-slate-400">{sec.label}</span> */}
+                  {/* <span className="ml-2 px-2 py-0.5 text-[9px] font-mono font-bold bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-slate-400 rounded-full">{items.length}</span> */}
                 </div>
                 <h3 className="text-3xl md:text-5xl font-black font-sans leading-tight ml-3 text-slate-900 dark:text-white tracking-tight mb-3">{sec.title}</h3>
-                <p className="max-w-3xl text-base text-slate-500 dark:text-slate-400 font-sans ml-3 leading-relaxed">{sec.desc}</p>
+                {/* <p className="max-w-3xl text-base text-slate-500 dark:text-slate-400 font-sans ml-3 leading-relaxed">{sec.desc}</p> */}
               </div>
             );
 
@@ -339,6 +339,75 @@ const Projects: React.FC = () => {
           });
         })()
       }
+
+      {/* ═══════════════ RECRUITER CTA / COLLABORATION ═══════════════ */}
+      <section className="px-6 md:px-12 lg:px-20 mb-20 mt-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="relative overflow-hidden rounded-3xl border border-blue-500/20 bg-slate-950 p-8 sm:p-12 lg:p-14 text-white shadow-2xl shadow-blue-950/40">
+            {/* Ambient background glows */}
+            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-blue-600/20 blur-[100px]" />
+            <div className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-purple-600/15 blur-[100px]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.08),transparent_50%)]" />
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+              <div className="lg:col-span-8 space-y-5">
+
+                {/* Headline */}
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
+                  Let's Build &amp; Scale Next-Gen{" "}
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-300">
+                    Production AI Systems
+                  </span>
+                </h2>
+
+                {/* Subtitle */}
+                <p className="text-slate-300 text-sm md:text-base max-w-3xl leading-relaxed font-normal">
+                  Whether you're looking for production ML engineering, high-throughput LLM architectures,
+                  or rigorous AI research—I partner with engineering teams and founders to deliver measurable system performance.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="lg:col-span-4 flex flex-col gap-3.5 sm:max-w-xs lg:max-w-none ml-auto w-full">
+                <Link
+                  to="/contact"
+                  className="group relative px-6 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-base rounded-2xl flex items-center justify-between shadow-xl shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-white/10">
+                      <Mail size={18} />
+                    </div>
+                    <span>Initiate Discussion</span>
+                  </div>
+                  <ArrowUpRight
+                    size={18}
+                    className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+                  />
+                </Link>
+
+                <a
+                  href="/Arpit_Kumar_Resume.pdf"
+                  download="Arpit_Kumar_IIT_KGP_ML_Engineer.pdf"
+                  onClick={() => trackResumeDownload("hero_primary_cta")}
+                  aria-label="Download resume PDF immediately"
+                  className="group px-6 py-4 bg-white/10 hover:bg-white/15 text-white font-bold text-base rounded-2xl flex items-center justify-between border border-white/15 hover:border-white/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-white/10">
+                      <FileText size={18} />
+                    </div>
+                    <span>Download Resume</span>
+                  </div>
+                  <ArrowRight
+                    size={18}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* --- REFINED RECRUITER CTA SECTION --- */}
       {/* <motion.section

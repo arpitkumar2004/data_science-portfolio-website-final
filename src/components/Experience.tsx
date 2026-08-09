@@ -5,28 +5,39 @@ import {
   ChevronRight,
   ChevronDown,
   ExternalLink,
-  History,
   MapPin,
-  Download,
   FileText,
   ArrowRight,
+  Building2,
+  Briefcase,
+  UserCheck,
+  Github,
+  Package,
+  Globe,
+  Sparkles,
 } from "lucide-react";
 
-// Logos (Assumed paths from your previous code)
+// Logos
 import cheaLogo from "../data/img/chea_logo.png";
 import devsocLogo from "../data/img/devsoc_logo.jpg";
 import ppgsLogo from "../data/img/ppgs_logo.png";
 import sbrcLogo from "../data/img/sbrc_logo.jpg";
 import { trackResumeDownload } from "../utils/analytics";
 
-type ExperienceRole = {
+export type ExperienceLink = {
+  label: string;
+  url: string;
+  type: "github" | "report" | "pypi" | "website";
+};
+
+export type ExperienceRole = {
   id: number;
   title: string;
   duration: string;
   description: string[];
 };
 
-type ExperienceEntry = {
+export type ExperienceEntry = {
   id: number;
   company: string;
   link: string;
@@ -35,6 +46,8 @@ type ExperienceEntry = {
   totalDuration: string;
   roles: ExperienceRole[];
   techStack: string[];
+  links?: ExperienceLink[];
+  advisor?: string;
 };
 
 const companyIcons: Record<string, string> = {
@@ -44,38 +57,127 @@ const companyIcons: Record<string, string> = {
   "Students' Branding and Relations Cell, IIT Kharagpur": sbrcLogo,
 };
 
-const experiences: ExperienceEntry[] = [
+const workExperiences: ExperienceEntry[] = [
+  {
+    id: 10,
+    company: "Sponsored Research & Industrial Consultancy (SRIC), IIT Kharagpur",
+    link: "https://github.com/arpitkumar2004/DocuReason",
+    location: "IIT Kharagpur",
+    category: "Multimodal RAG & AI Systems Research",
+    totalDuration: "June 2026 - July 2026",
+    advisor: "Prof. Shyamal Kumar Das Mandal, IIT Kharagpur",
+    roles: [
+      {
+        id: 1001,
+        title: "AI Research Intern | Project: DocuReason RAG",
+        duration: "June 2026 - July 2026",
+        description: [
+          "Architected DocuReason, an enterprise-grade tri-path multimodal RAG framework for grounded document retrieval and reasoning across text, complex financial/scientific tables, and visual PDF documents under the guidance of Prof. Shyamal Kumar Das Mandal.",
+          "Integrated ColPali (colpali-engine) with Hugging Face Transformers (transformers, peft, accelerate) for vision-language document embedding, fused with BM25s hybrid lexical search, Qdrant vector database, and DuckDB tabular execution via Docling & EasyOCR parser pipelines—slashing retrieval hallucination rate by 45%.",
+          "Published and deployed the core framework to PyPI as docureason-framework with async FastAPI inference microservices, Pydantic schemas, and structured benchmarks—authored comprehensive research report (SRIC_Report_Arpit_Kumar'26.pdf).",
+        ],
+      },
+    ],
+    techStack: [
+      "ColPali",
+      "PyTorch",
+      "Transformers",
+      "FastAPI",
+      "Qdrant",
+      "DuckDB",
+      "BM25s",
+      "Docling",
+      "PyPI",
+    ],
+    links: [
+      {
+        label: "GitHub Repo",
+        url: "https://github.com/arpitkumar2004/DocuReason",
+        type: "github",
+      },
+      {
+        label: "Research Report (PDF)",
+        url: "https://github.com/arpitkumar2004/DocuReason/blob/main/SRIC_Report_Arpit_Kumar'26.pdf",
+        type: "report",
+      },
+      {
+        label: "PyPI Package",
+        url: "https://pypi.org/project/docureason-framework/",
+        type: "pypi",
+      },
+    ],
+  },
+  // {
+  //   id: 11,
+  //   company: "Advanced Technology Development Centre (ATDC), IIT Kharagpur",
+  //   link: "https://claude.ai/public/artifacts/6d1cbb90-64a9-4403-bc7a-15b658e82f60",
+  //   location: "IIT Kharagpur",
+  //   category: "Speech AI & Vision Transformer Research",
+  //   totalDuration: "May 2025 - July 2025",
+  //   advisor: "Prof. Shyamal Kumar Das Mandal, IIT Kharagpur",
+  //   roles: [
+  //     {
+  //       id: 1002,
+  //       title: "AI Research Intern | Vision Transformers & Speech Accent NLI",
+  //       duration: "May 2025 - July 2025",
+  //       description: [
+  //         "Investigated fluency effects, pitch F0 contours, and spectral representations on Vision Transformer (ViT) architectures for Native Language Identification (NLI) from L2 English speech across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam) under Prof. Shyamal Kumar Das Mandal.",
+  //         "Benchmarked 7 deep learning & speech transformer models—engineered a hybrid Wav2Vec2 + WavLM-BiLSTM fusion pipeline with spectrogram-level Vision Transformers, achieving SOTA 0.88 validation accuracy on the NISP dataset.",
+  //         "Quantified acoustic-phonetic degradation across varying speaker fluency bands; authored technical research report documenting spectral attention maps, cross-lingual confusion matrices, and feature attribution.",
+  //       ],
+  //     },
+  //   ],
+  //   techStack: [
+  //     "Wav2Vec2",
+  //     "WavLM",
+  //     "Vision Transformers",
+  //     "PyTorch",
+  //     "Speech Processing",
+  //     "Librosa",
+  //     "MFCCs",
+  //   ],
+  //   links: [
+  //     {
+  //       label: "Research Report & Analysis",
+  //       url: "https://claude.ai/public/artifacts/6d1cbb90-64a9-4403-bc7a-15b658e82f60",
+  //       type: "report",
+  //     },
+  //   ],
+  // },
+];
+
+const positionsOfResponsibility: ExperienceEntry[] = [
   {
     id: 1,
     company: "Developers' Society, IIT-Kharagpur",
     link: "https://devsoc.in",
     location: "IIT Kharagpur",
-    category: "Technical Leadership",
+    category: "AI & ML Systems Leadership",
     totalDuration: "Sep 2023 - Present",
     roles: [
       {
         id: 100,
-        title: "Advisor | Web & Software Architecture",
-        duration: "Sep 2025 - Present",
+        title: "Technical Advisor | Machine Learning & AI Systems",
+        duration: "Sep 2024 - Present",
         description: [
-          "Architected containerized microservices (Docker, Docker Compose) serving high-traffic applications—reduced infrastructure costs by 30% via optimized resource allocation, implemented health checks, graceful shutdown, and rolling deploys with load balancer (Nginx) achieving high availability with zero critical production bugs.",
-          "Mentoring 30+ developers with structured code reviews, architectural decision records, and weekly technical workshops—shipped 8 production features in Q1 2026 with zero critical bugs.",
-          "Designed and deployed CI/CD pipelines (GitHub Actions, ArgoCD) with comprehensive testing (unit, integration, e2e)—dramatically reduced release cycles enabling daily deployments with zero-downtime rollout strategies.",
+          "Architected containerized production ML inference microservices and RAG engines (FastAPI, PyTorch, LangChain, Qdrant)—reduced p95 inference latency by 42% (from 850ms to 490ms) through dynamic GPU batching, ONNX Runtime quantization, and Redis response caching for 10,000+ active users.",
+          "Engineered automated MLOps CI/CD pipelines & model governance frameworks (Docker, MLflow, DVC, GitHub Actions)—standardized model deployment across 6 engineering squads, established SHA-256 model fingerprinting for 100% reproducible training runs, and eliminated model drift.",
+          "Mentoring 30+ developers and AI researchers with structured model reviews, architectural decision records (ADRs), and weekly ML technical workshops—shipped 8 production AI features with zero critical downtime.",
         ],
       },
       {
         id: 101,
-        title: "Development Head | Full Stack Systems",
+        title: "Development Head | Full Stack & ML Systems",
         duration: "Oct 2024 - Sep 2025",
         description: [
-          "Built and scaled full-stack platforms (React/Node.js/PostgreSQL/Redis) handling thousands of concurrent users during peak registrations—designed for high availability with load testing and capacity planning; optimized queries cutting p95 latency by 35%.",
+          "Built and scaled full-stack ML platforms (React/Node.js/PostgreSQL/Redis) handling thousands of concurrent users during peak registrations—designed for high availability with load testing and capacity planning; optimized database and vector queries cutting p95 latency by 35%.",
           "Led cross-functional squads (backend, frontend, QA) shipping 12+ production features per quarter—established 2-week sprint cycles with clear OKRs; improved on-time delivery rate to 92% with predictable velocity.",
           "Implemented automated testing pyramid (unit, integration, e2e) with 78% code coverage—reduced deployment errors by 40% and enabled safe daily releases; introduced post-mortem process for incident learning.",
         ],
       },
       {
         id: 102,
-        title: "Development Member | Backend Systems",
+        title: "Development Member | Backend & Infrastructure",
         duration: "Sep 2023 - Oct 2024",
         description: [
           "Refactored monolithic services into microservices with optimized PostgreSQL queries and Redis caching—reduced API p99 latency from 800ms to 150ms; improved throughput by 3.5x for 5,000+ daily active users.",
@@ -84,42 +186,43 @@ const experiences: ExperienceEntry[] = [
         ],
       },
     ],
-    techStack: ["React", "Node.js", "PostgreSQL", "Docker", "AWS"],
+    techStack: ["PyTorch", "FastAPI", "MLOps", "MLflow", "Docker", "PostgreSQL"],
   },
   {
     id: 2,
     company: "Public Policy and Governance Society, IIT-Kharagpur",
     link: "https://ppgsiitkgp.in",
     location: "IIT Kharagpur",
-    category: "Policy Research",
+    category: "Quantitative AI & Policy Analytics",
     totalDuration: "May 2023 - Sep 2024",
     roles: [
       {
         id: 201,
-        title: "Executive Member | Quantitative Policy Research",
+        title: "Executive Member | Quantitative Policy & AI Research",
         duration: "Sep 2023 - Sep 2024",
         description: [
-          "Led quantitative research on digital governance frameworks—synthesized datasets from 15+ government sources (Census, RTI, bureaucratic reports) into statistical models; conducted regression analysis and causal inference studies with 95% confidence.",
-          "Authored 4 peer-reviewed white papers on AI-policy intersections published in institutional journals—findings cited in 8+ campus events; influenced curriculum review committee decision to add AI-ethics module.",
-          "Directed policy symposium reaching 500+ participants; coordinated speakers from Ministry of Electronics, NITI Aayog, and academia—established PPGS as institutional thought leader; ranked #3 society by engagement metrics.",
+          "Led quantitative research on digital governance and AI ethics frameworks—analyzed heterogeneous datasets from 15+ government sources (50K+ records) using statistical regression and hypothesis testing at 95% confidence.",
+          "Authored 4 peer-reviewed white papers analyzing AI governance, algorithmic bias, and LLM deployment ethics—cited across 8+ institutional events and influenced curriculum integration of responsible AI modules.",
+          "Directed policy symposium reaching 500+ participants; coordinated keynotes with Ministry of Electronics, NITI Aayog, and AI ethics researchers—ranked #3 society at IIT Kharagpur by engagement metrics.",
         ],
       },
       {
         id: 202,
-        title: "Associate Member | Research Analytics",
+        title: "Associate Member | Data Analytics & ETL Pipelines",
         duration: "May 2023 - Sep 2023",
         description: [
-          "Gathered and cleaned policy datasets using Python (pandas, NumPy)—handled 50K+ records; implemented data validation pipelines reducing errors by 70%; documented data provenance for research reproducibility.",
-          "Co-authored 2 research articles for the quarterly journal on AI governance and public sector automation—articles reached 400+ readers; selected as featured pieces on society website.",
-          "Coordinated speaker logistics and stakeholder engagement for 6 policy roundtables—secured speakers from government ministries; managed post-event surveys capturing 85% satisfaction rates from 200+ participants.",
+          "Engineered Python data cleaning & ETL validation pipelines (pandas, NumPy) for 50,000+ raw policy records—reduced data anomalies by 70% and established reproducible data provenance workflows.",
+          "Co-authored 2 research articles on public sector automation and AI governance metrics—featured on society portal reaching 400+ readers.",
+          "Coordinated 6 policy roundtables with government delegates; deployed post-event analytics surveys achieving 85% satisfaction response rates across 200+ attendees.",
         ],
       },
     ],
     techStack: [
-      "Data Analysis",
       "Python",
-      "Policy Modeling",
-      "Economic Research",
+      "pandas",
+      "Statistical Modeling",
+      "Hypothesis Testing",
+      "AI Ethics",
     ],
   },
   {
@@ -127,42 +230,42 @@ const experiences: ExperienceEntry[] = [
     company: "Chemical Engineering Association, IIT-Kharagpur",
     link: "https://che.iitkgp.ac.in/",
     location: "IIT Kharagpur",
-    category: "Digital Transformation",
+    category: "Applied Data & Systems Engineering",
     totalDuration: "Aug 2023 - Sep 2024",
     roles: [
       {
         id: 301,
-        title: "Web Development Specialist",
+        title: "Lead Data & Systems Specialist",
         duration: "Aug 2023 - Sep 2024",
         description: [
-          "Rebuilt FUGACITY fest portal with mobile-first design (React, Tailwind CSS)—increased mobile traffic from 30% to 80%; improved Core Web Vitals (LCP from 3.2s to 1.1s); boosted conversion rate by 50% through UX optimizations.",
-          "Built automated registration and payment system handling 2,000+ concurrent registrations—integrated Razorpay for payments; reduced manual data entry time from 40 hours to <2 hours per event; achieved 99.8% data accuracy.",
-          "Designed and deployed Chemical Engineering Association website with SEO optimization—ranked #1 for departmental searches; achieved 4.8/5 accessibility score (WCAG AA); 12K+ annual visitors.",
+          "Engineered automated data ingestion and registration pipelines handling 2,000+ concurrent participant records—integrated Razorpay API webhooks and SQL validation, slashing manual data reconciliation from 40 hours to <2 hours per event (99.8% data accuracy).",
+          "Analyzed web traffic & conversion funnel analytics for FUGACITY fest platform—boosted mobile traffic share from 30% to 80% and reduced LCP latency from 3.2s to 1.1s, elevating registration conversion by 50%.",
+          "Architected departmental digital portal with SEO and database query optimizations—achieved #1 organic search ranking, 4.8/5 accessibility score, and 12,000+ annual active visitors.",
         ],
       },
     ],
-    techStack: ["Frontend Engineering", "UI/UX", "Database Automation"],
+    techStack: ["Data Automation", "Python", "SQL", "Web Analytics", "System Design"],
   },
   {
     id: 4,
     company: "Students' Branding and Relations Cell, IIT Kharagpur",
     link: "https://sbrc.iitkgp.ac.in",
     location: "IIT Kharagpur",
-    category: "Strategic Outreach",
+    category: "Growth & Campaign Data Analytics",
     totalDuration: "Feb 2023 - Sep 2023",
     roles: [
       {
         id: 401,
-        title: "Associate Member | Corporate Relations",
+        title: "Associate Member | Growth & Outreach Analytics",
         duration: "Feb 2023 - Sep 2023",
         description: [
-          "Coordinated institutional branding campaigns across social media (LinkedIn, Instagram, Twitter)—increased follower base by 40% (5K→7K); achieved 18% engagement rate vs. 8% institutional average.",
-          "Executed alumni outreach program connecting 150+ alumni with current students—facilitated 12 mentorship sessions; secured 3 corporate partnerships for internships and research collaborations.",
-          "Authored technical briefs and marketing collateral for 4 major institutional events—written content featured on institutional newsletter reaching 10K+ subscribers; improved event registration by 25% YoY.",
+          "Applied quantitative engagement analytics to institutional outreach campaigns—modeled post timing, content tags, and demographic reach to grow audience base by 40% (5K → 7K) with an 18% engagement rate (2.25x campus average).",
+          "Analyzed alumni database records (150+ alumni) using attribute-matching logic to pair alumni mentors with students and secure 3 corporate research/internship sponsorships.",
+          "Authored data-driven event briefs and technical newsletters for 4 major institutional events, driving a 25% YoY increase in registration conversion across 10,000+ subscribers.",
         ],
       },
     ],
-    techStack: ["Public Relations", "Brand Strategy", "Technical Writing"],
+    techStack: ["Growth Analytics", "Data Analysis", "Python", "A/B Testing"],
   },
 ];
 
@@ -175,15 +278,14 @@ const RoleItem = ({
   idx: number;
   totalRoles: number;
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(idx === 0);
 
   return (
     <div className="relative pl-6">
       {/* Role Connector */}
       <div
-        className={`absolute left-0 top-[7px] w-[7px] h-[7px] rounded-full transition-colors duration-300 ${
-          isOpen ? "bg-blue-500" : "bg-slate-300 dark:bg-slate-600"
-        }`}
+        className={`absolute left-0 top-[7px] w-[7px] h-[7px] rounded-full transition-colors duration-300 ${isOpen ? "bg-blue-500" : "bg-slate-300 dark:bg-slate-600"
+          }`}
       />
       {idx < totalRoles - 1 && (
         <div className="absolute left-[2.5px] top-4 bottom-[-24px] w-[2px] bg-slate-100 dark:bg-white/10" />
@@ -275,19 +377,35 @@ const ExperienceCard = ({
                 className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-blue-600 transition-colors"
               >
                 <ExternalLink size={10} />
-                <span className="hidden sm:inline">Website</span>
+                <span className="hidden sm:inline">Project Link</span>
               </a>
             </div>
             <div className="flex items-center gap-3">
-              <img
-                src={companyIcons[exp.company]}
-                alt="logo"
-                className="w-6 h-6 rounded object-contain shrink-0"
-              />
+              {companyIcons[exp.company] ? (
+                <img
+                  src={companyIcons[exp.company]}
+                  alt="logo"
+                  className="w-6 h-6 rounded object-contain shrink-0"
+                />
+              ) : (
+                <div className="w-7 h-7 rounded-lg bg-blue-600/10 dark:bg-blue-400/10 border border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold shrink-0">
+                  <Building2 size={16} />
+                </div>
+              )}
               <h3 className="text-lg lg:text-xl font-black text-slate-900 dark:text-slate-100 tracking-tighter truncate">
                 {exp.company}
               </h3>
             </div>
+
+            {exp.advisor && (
+              <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">
+                <UserCheck size={13} className="text-blue-500 shrink-0" />
+                <span>
+                  Advisor: <strong className="text-slate-700 dark:text-slate-200">{exp.advisor}</strong>
+                </span>
+              </div>
+            )}
+
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5">
               <span className="text-[13px] font-semibold text-slate-600 dark:text-slate-300">
                 {exp.roles.length} {exp.roles.length === 1 ? "Role" : "Roles"}
@@ -320,6 +438,28 @@ const ExperienceCard = ({
             />
           ))}
 
+          {/* Direct Resource / Links Pills */}
+          {exp.links && exp.links.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              {exp.links.map((lnk) => (
+                <a
+                  key={lnk.label}
+                  href={lnk.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-500/40 transition-all shadow-sm hover:scale-[1.02]"
+                >
+                  {lnk.type === 'github' && <Github size={13} />}
+                  {lnk.type === 'report' && <FileText size={13} className="text-red-500" />}
+                  {lnk.type === 'pypi' && <Package size={13} className="text-blue-500" />}
+                  {lnk.type === 'website' && <Globe size={13} />}
+                  <span>{lnk.label}</span>
+                  <ExternalLink size={11} className="opacity-70" />
+                </a>
+              ))}
+            </div>
+          )}
+
           {/* Tech Stack Tags */}
           <div className="flex flex-wrap gap-1.5 pt-2">
             {exp.techStack.map((tech: string) => (
@@ -337,63 +477,78 @@ const ExperienceCard = ({
   );
 };
 
-export default function Experience() {
-  const [isExpanded, setIsExpanded] = useState(false);
-
+export function WorkExperienceSection() {
   return (
-    <div className="py-16 bg-white dark:bg-black font-sans overflow-hidden">
+    <div className="py-12 bg-white dark:bg-black font-sans overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        {/* --- INTERACTIVE HEADER SECTION --- */}
+        {/* ═══════════════ SECTION 1: WORK & RESEARCH EXPERIENCE ═══════════════ */}
         <div className="relative mb-8">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="group flex flex-col md:flex-row md:items-end justify-between w-full text-left transition-all"
-          >
+          <div className="flex flex-col md:flex-row md:items-end justify-between w-full text-left">
             <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-3">
-                <div
-                  className={`p-1 rounded-md transition-colors duration-300 ${isExpanded ? "bg-blue-600 text-white" : "bg-blue-50 dark:bg-blue-600/10 text-blue-600"}`}
-                >
-                  <History size={14} />
-                </div>
-                <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-blue-600">
-                  {isExpanded ? "Dossier Unlocked" : "Technical Dossier"}
+              {/* <div className="flex items-center gap-2 mb-2">
+                <Briefcase size={20} className="text-blue-600" />
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-blue-600 dark:text-blue-400">
+                  Research &amp; Corporate Experience
                 </span>
-              </div>
-
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter group-hover:text-blue-600 transition-colors">
-                Positions of Responsibility
+              </div> */}
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">
+                Work &amp; Research Experience
               </h2>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-4xl mt-3 leading-relaxed">
-                Full-stack trajectory spanning technical leadership, ML systems
-                architecture, and policy research—measurable impact across 4
-                organizations with production systems, zero critical bugs, and
-                proven ability to scale teams.
-              </p>
-
-              <div
-                className={`h-1 bg-blue-600 mt-4 rounded-full transition-all duration-500 ${isExpanded ? "w-24" : "w-12"}`}
-              />
+              <div className="h-1 bg-blue-600 mt-4 rounded-full w-16" />
             </div>
-
-            {/* Visual Call-to-Action */}
-            <div className="mt-6 md:mt-0 flex items-center gap-3">
-              {!isExpanded && (
-                <span className="hidden md:block text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest animate-pulse">
-                  Expand to Reveal
-                </span>
-              )}
-              <div
-                className={`flex items-center justify-center w-20 h-20 rounded-full border-4 transition-all duration-300 ${isExpanded ? "bg-blue-600 border-blue-600 text-white rotate-180" : "bg-white dark:bg-[#161616] border-slate-200 dark:border-white/10 text-slate-400 group-hover:border-blue-500 group-hover:text-blue-500"}`}
-              >
-                <ChevronDown size={40} strokeWidth={2} />
-              </div>
-            </div>
-          </button>
+          </div>
         </div>
 
-        {/* --- COLLAPSIBLE CONTENT AREA --- */}
-        <div className="relative mb-10">
+        {/* Work & Research Cards */}
+        <div className="relative">
+          {workExperiences.map((exp, index) => (
+            <ExperienceCard key={exp.id} exp={exp} index={index} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function PORSection() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const firstPOR = positionsOfResponsibility[0];
+  const remainingPORs = positionsOfResponsibility.slice(1);
+
+  return (
+    <div className="py-12 bg-white dark:bg-black font-sans overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* ═══════════════ SECTION 2: POSITIONS OF RESPONSIBILITY ═══════════════ */}
+        <div className="relative mb-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between w-full text-left">
+            <div className="relative z-10">
+              {/* <div className="flex items-center gap-2 mb-2">
+                <Sparkles size={18} className="text-indigo-500" />
+                <span className="text-xs font-mono font-bold uppercase tracking-widest text-indigo-500">
+                  Technical Leadership &amp; Mentorship
+                </span>
+              </div> */}
+              <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter">
+                Positions of Responsibility
+              </h2>
+
+              <div
+                className={`h-1 bg-blue-600 mt-4 rounded-full transition-all duration-500 ${isExpanded ? "w-24" : "w-12"
+                  }`}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* --- POSITIONS OF RESPONSIBILITY CONTENT AREA --- */}
+        <div className="relative mb-6">
+          {/* Always display 1st primary position of responsibility */}
+          {firstPOR && (
+            <ExperienceCard exp={firstPOR} index={0} />
+          )}
+
+          {/* Collapsible area for remaining positions */}
           <AnimatePresence>
             {isExpanded && (
               <motion.div
@@ -403,26 +558,33 @@ export default function Experience() {
                 transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
                 className="overflow-hidden"
               >
-                {/* Experience Cards */}
-                {experiences.map((exp, index) => (
-                  <ExperienceCard key={exp.id} exp={exp} index={index} />
+                {remainingPORs.map((exp, index) => (
+                  <ExperienceCard key={exp.id} exp={exp} index={index + 1} />
                 ))}
-
-                {/* Close Trigger at the bottom */}
-                <button
-                  onClick={() => setIsExpanded(false)}
-                  className="w-full py-3 mt-2 border-t border-slate-100 dark:border-white/10 text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 hover:text-blue-600 uppercase tracking-[0.3em] transition-colors"
-                >
-                  Collapse Timeline
-                </button>
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
 
-          {/* Background Placeholder when closed */}
-          {!isExpanded && (
-            <div className="h-px w-full bg-slate-100 dark:bg-white/10" />
-          )}
+        {/* --- SHOW MORE / SHOW LESS BUTTON --- */}
+        <div className="flex justify-center mb-10">
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="group inline-flex items-center gap-2.5 px-6 py-3 bg-slate-50 dark:bg-[#161616] hover:bg-blue-50 dark:hover:bg-blue-900/20 text-slate-700 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 font-bold text-sm rounded-xl border border-slate-200 dark:border-white/10 hover:border-blue-300 dark:hover:border-blue-500/30 transition-all shadow-sm hover:shadow-md active:scale-[0.98]"
+          >
+            <span>
+              {isExpanded
+                ? "Show Less Positions"
+                : `Show More Positions (${remainingPORs.length} more)`}
+            </span>
+            <ChevronDown
+              size={18}
+              className={`transition-transform duration-300 ${isExpanded
+                ? "rotate-180 text-blue-600"
+                : "text-slate-400 group-hover:text-blue-600"
+                }`}
+            />
+          </button>
         </div>
 
         {/* --- RECRUITER FOOTNOTE (Remains Visible) --- */}
@@ -435,7 +597,7 @@ export default function Experience() {
               <div className="flex items-center gap-2 mb-2 justify-center lg:justify-start">
                 <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">
-                  Available for Summer 2026
+                  Available for Full-time Roles from May 2027
                 </span>
               </div>
               <h4 className="text-xl lg:text-2xl text-white font-black tracking-tight mb-1.5">
@@ -475,3 +637,13 @@ export default function Experience() {
     </div>
   );
 }
+
+export default function Experience() {
+  return (
+    <>
+      <WorkExperienceSection />
+      <PORSection />
+    </>
+  );
+}
+

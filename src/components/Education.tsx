@@ -52,7 +52,7 @@ export default function Education() {
       <div className="max-w-7xl mx-auto px-6">
         {/* ── Section header ─────────────────────────────────── */}
         <div className="mb-16">
-          <div className="flex items-center gap-2 mb-4">
+          {/* <div className="flex items-center gap-2 mb-4">
             <GraduationCap
               size={16}
               className="text-blue-600"
@@ -61,7 +61,7 @@ export default function Education() {
             <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-blue-600">
               Education
             </span>
-          </div>
+          </div> */}
           <h2
             id="education-heading"
             className="text-3xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tighter"
@@ -120,7 +120,7 @@ export default function Education() {
                 {/* Degree + department + Micro-Specialization */}
                 <div className="mb-6">
                   <h4 className="text-lg font-black tracking-tight text-slate-800 dark:text-slate-100">
-                    Integrated Dual Degree — B.Tech + M.Tech
+                    Integrated Dual Degree — B.Tech + M.Tech (2022-2027)
                   </h4>
                   <p className="text-sm font-bold uppercase tracking-wider text-blue-600">
                     Department of Chemical Engineering
@@ -134,7 +134,7 @@ export default function Education() {
                       Artificial Intelligence &amp; Applications ·
                     </span>
                     <span className="inline-flex items-center py-0.5 text-[14px] font-bold text-blue-700 dark:text-blue-300">
-                     High Performance Computing
+                      High Performance Computing
                     </span>
                   </div>
                 </div>
@@ -250,13 +250,13 @@ export default function Education() {
               key={label}
               className="flex flex-col gap-3 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#0a0a0a]"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20">
+              {/* <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50 dark:bg-blue-900/20">
                 <Icon
                   size={16}
                   className="text-blue-600 dark:text-blue-400"
                   aria-hidden="true"
                 />
-              </div>
+              </div> */}
               <div>
                 <p className="text-xl font-black leading-none tracking-tight text-slate-900 dark:text-slate-100">
                   {value}

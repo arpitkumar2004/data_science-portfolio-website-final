@@ -54,7 +54,7 @@ const RequestCV: React.FC = () => {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      subject: "Summer Internship 2026",
+      subject: "Full-Time Hiring (May 2027)",
     },
   });
 
@@ -358,8 +358,8 @@ const RequestCV: React.FC = () => {
                         {...register("subject")}
                         className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-20 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm appearance-none cursor-pointer"
                       >
-                        <option>Full-Time Hiring</option>
-                        <option>Summer Internship 2026</option>
+                        <option>Full-Time Hiring (May 2027)</option>
+                        <option>AI / ML Engineering Role</option>
                         <option>Research Collaboration</option>
                         <option>Contract/Freelance Work</option>
                         <option>General Portfolio Review</option>

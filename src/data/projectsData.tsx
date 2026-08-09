@@ -818,14 +818,113 @@ For Live Demo Visit : https://arpitkumar.dev
     references: [],
     role: "Lead Developer",
     duration: "Mar 2024 - Aug 2024",
-      // company: "Confidential",
-    challenges: [
-      "Ensuring the robustness of anomaly detection across diverse behavioral patterns.",
-      "Managing the complexity of context in LLM-generated reports.",
-    ],
     solutions: [
       "Implemented an ensemble approach to anomaly detection to capture a wider range of behavioral deviations.",
       "Leveraged LangChain's context management capabilities to maintain coherent report generation over time.",
+    ],
+  },
+  {
+    id: 10,
+    title: "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
+    description:
+      "An enterprise-grade tri-path multimodal RAG framework designed for grounded document retrieval and reasoning across text, complex financial/scientific tables, and visual PDF documents.",
+    tldr: "Architected DocuReason, a tri-path multimodal RAG engine integrating ColPali vision-language embeddings, Qdrant vector search, DuckDB tabular execution, and BM25s hybrid search—slashing retrieval hallucination rate by 45% and published as an open-source PyPI package (docureason-framework).",
+    keyImpactMetrics: [
+      "45% Reduction in Retrieval Hallucinations across multi-page technical & financial PDFs",
+      "ColPali Vision-Language Integration for direct visual page embedding & spatial reasoning",
+      "Hybrid Tri-Path Engine: BM25s lexical search + Qdrant vector DB + DuckDB tabular execution",
+      "Published PyPI Package (docureason-framework) with async FastAPI inference microservices",
+    ],
+    ProblemStatement:
+      "Enterprise documents (financial reports, research papers, technical specs) contain complex multimodal information spanning structured tables, dense text, and visual charts. Standard text-chunking RAG engines fail on spatial and tabular context, leading to high hallucination rates and lost context in document Q&A.",
+    longDescription:
+      "DocuReason is an enterprise-grade tri-path multimodal RAG framework designed under the guidance of Prof. Shyamal Kumar Das Mandal at SRIC, IIT Kharagpur. The framework addresses the core vulnerabilities of traditional text-only RAG by processing document pages through three specialized execution paths:\n\n1. **Visual Vision-Language Path**: Employs ColPali (`colpali-engine`) with Hugging Face Transformers (`transformers`, `peft`, `accelerate`) to generate fine-grained vision embeddings directly from document page images, preserving layout, typography, and visual charts.\n2. **Structured Tabular Path**: Leverages Docling parser and DuckDB for structured SQL execution over complex financial and scientific tables, enabling precise numerical aggregation.\n3. **Hybrid Lexical & Vector Path**: Combines BM25s exact keyword search with Qdrant vector database indexing for robust multi-page retrieval.\n\nThe entire system is containerized with async FastAPI inference microservices, validated on benchmark datasets, and published to PyPI as `docureason-framework`.",
+    image: "/images/docureason-rag-architecture.png",
+    tags: [
+      "Multimodal RAG",
+      "ColPali",
+      "Qdrant",
+      "DuckDB",
+      "FastAPI",
+      "PyPI Package",
+      "Transformers",
+      "Production ML",
+    ],
+    objectives: [
+      "Eliminate document layout and table information loss in RAG pipelines.",
+      "Integrate vision-language models for native visual page retrieval.",
+      "Achieve high-precision numerical reasoning over document tables using DuckDB.",
+      "Deploy a lightweight, production-ready microservice published to PyPI.",
+    ],
+    technologies: [
+      "PyTorch",
+      "ColPali",
+      "Transformers",
+      "Qdrant",
+      "DuckDB",
+      "BM25s",
+      "FastAPI",
+      "Docling",
+      "EasyOCR",
+      "Pydantic",
+    ],
+    coreStack: [
+      "Python (PyTorch, ColPali, Transformers)",
+      "FastAPI & Pydantic (Inference API)",
+      "Qdrant & DuckDB (Data Layer)",
+    ],
+    tools: ["ColPali Engine", "Qdrant Vector DB", "DuckDB", "BM25s", "Docling", "PyPI"],
+    type: "Project",
+    category: "system-design",
+    methods: [
+      "Vision-Language Page Embedding using ColPali (colpali-engine)",
+      "Tri-Path Hybrid Retrieval: Lexical (BM25s), Dense Vector (Qdrant), and Tabular (DuckDB)",
+      "Document Parsing & Table Extraction via Docling and EasyOCR",
+      "Async Microservice Architecture using FastAPI and Pydantic validation",
+    ],
+    implementation: [
+      "Engineered vision-language embedding pipeline with ColPali to index raw page images without textual layout loss.",
+      "Constructed DuckDB execution engine for automated SQL query generation over extracted tabular data.",
+      "Integrated BM25s hybrid re-ranking layer with Qdrant vector search for multi-page retrieval grounding.",
+      "Packaged and published the complete engine to PyPI as docureason-framework with complete CLI and API interface.",
+    ],
+    results: [
+      "Published open-source framework to PyPI as docureason-framework",
+      "Slashed retrieval hallucination rate by 45% on multi-page technical and financial PDFs",
+      "Sub-second end-to-end retrieval and reasoning latency with async vector batching",
+    ],
+    discussion: [
+      "Direct vision-language page embeddings outperform OCR-then-text RAG on complex multi-column documents.",
+      "Decoupling tabular data execution to DuckDB eliminates LLM math hallucinations on numerical data.",
+    ],
+    conclusion: [
+      "DocuReason demonstrates that combining vision-language embeddings with hybrid tri-path execution bridges the gap between raw PDF documents and accurate enterprise AI reasoning.",
+    ],
+    limitations: [
+      "Higher VRAM footprint during initial ColPali vision embedding generation.",
+      "Requires GPU acceleration for ultra-high throughput document ingestion.",
+    ],
+    futureWork: [
+      "Extend multi-GPU parallel ingestion for 10,000+ page enterprise document stores.",
+      "Implement adaptive dynamic routing between visual and tabular paths based on page composition.",
+    ],
+    references: [
+      "Fevry et al. (2024). ColPali: Efficient Document Retrieval with Vision Language Models.",
+      "DuckDB Documentation & High-Performance Analytical SQL Engine.",
+    ],
+    githubLink: "https://github.com/arpitkumar2004/DocuReason",
+    articleLink: "https://github.com/arpitkumar2004/DocuReason/blob/main/SRIC_Report_Arpit_Kumar'26.pdf",
+    liveDemoLink: "https://pypi.org/project/docureason-framework/",
+    role: "AI Research Intern / Lead Developer",
+    duration: "June 2026 – July 2026",
+    company: "Sponsored Research & Industrial Consultancy (SRIC), IIT Kharagpur",
+    challenges: [
+      "Preserving spatial chart and table context during multi-page PDF processing.",
+      "Optimizing multimodal retrieval latency across vector DB and SQL engine.",
+    ],
+    solutions: [
+      "Integrated ColPali vision-language embeddings to eliminate text chunking loss.",
+      "Constructed async tri-path execution pipeline with Qdrant vector DB and DuckDB in-memory execution.",
     ],
   },
 ];

@@ -58,12 +58,28 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+  }
+  h1 {
+    letter-spacing: -0.025em;
+  }
+  h2 {
+    letter-spacing: -0.02em;
+  }
+  h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
   code, pre, kbd, samp {
     font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   }
   body {
-    @apply bg-gray-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100 transition-colors duration-300;
+    @apply bg-gray-50 text-slate-900 dark:bg-[#020617] dark:text-slate-100 font-normal transition-colors duration-300;
+    font-family: 'Inter', sans-serif;
+  }
+  /* Prevent low contrast font weights in dark mode */
+  .dark .font-light {
+    font-weight: 400;
   }
 }
 
@@ -78,7 +94,9 @@
     @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
   }
   .section-title {
-    @apply text-3xl font-bold mb-6 text-gray-800;
+    @apply text-3xl font-bold tracking-tight mb-6 text-slate-900 dark:text-slate-100;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.02em;
   }
 }
 
@@ -89,6 +107,24 @@
   /* Utility for margin on both sides */
   .container {
     @apply max-w-screen-lg mx-auto px-6;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat-number, .metric-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .stat-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
   .dark .bg-white {

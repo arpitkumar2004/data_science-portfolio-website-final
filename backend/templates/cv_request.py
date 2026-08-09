@@ -69,8 +69,8 @@ def render(
 
             <p class="section-label" style="{_lbl}">Availability</p>
             <table class="info-table" style="{_tbl}">
-                <tr><td style="{_td_l}">Available From</td><td style="{_td_v}">Summer 2026 (flexible)</td></tr>
-                <tr><td style="{_td_l}">Notice Period</td><td style="{_td_v}">None &mdash; available for immediate start</td></tr>
+                <tr><td style="{_td_l}">Available From</td><td style="{_td_v}">May 2027 (Full-time Roles)</td></tr>
+                <tr><td style="{_td_l}">Target Roles</td><td style="{_td_v}">ML Engineer &amp; AI Researcher</td></tr>
                 <tr><td style="{_td_l}">Work Mode</td><td style="{_td_v}">Open to remote, hybrid, or on-site</td></tr>
             </table>
 

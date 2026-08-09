@@ -178,7 +178,7 @@ export const aboutFallbackData: AboutData = {
       },
     ],
     callToAction:
-      "Actively seeking Summer 2026 ML Engineering and AI Research internships at teams building production ML systems — NLP, LLM/RAG engineering, or MLOps at scale. Available May–July 2026.",
+      "Actively seeking full-time Machine Learning Engineer and AI Researcher roles starting May 2027 at teams building production AI systems — NLP, LLM/RAG engineering, speech AI, or scalable MLOps.",
   },
 
   milestones: [
@@ -189,6 +189,14 @@ export const aboutFallbackData: AboutData = {
       subtitle:
         "Top 0.5% globally among 50,000+ participants (national competition, Amazon-sponsored). Built a multimodal price prediction pipeline fusing SBERT text + CLIP image + tabular features with a 5-fold stacked ensemble (SMAPE 25.45). Production FastAPI layer: 469ms p95 latency, SHA-256 model fingerprinting, DVC + MLflow tracking across 46+ runs.",
       category: "competition",
+    },
+    {
+      icon: "Microscope",
+      date: "June 2026 – July 2026",
+      title: "AI Research Intern · SRIC, IIT Kharagpur",
+      subtitle:
+        "Under Prof. Shyamal Kumar Das Mandal. Built DocuReason RAG: A Grounded Framework for Multimodal Document Retrieval & Reasoning across text, complex tables, and visual PDFs using ColPali, Qdrant, DuckDB, BM25s, and async FastAPI. Published open-source framework to PyPI ('docureason-framework').",
+      category: "research",
     },
     {
       icon: "Microscope",
@@ -272,10 +280,9 @@ export const aboutFallbackData: AboutData = {
 
   /* ── CTA ──────────────────────────────────────────────────── */
   cta: {
-    // Updated to reflect actual target (ML Engineering / AI Research internship, not generic "Summer 2026")
-    heading: "Available for Summer 2026 ML Engineering & AI Research Internship",
+    heading: "Available for Full-time ML Engineer & AI Researcher Roles (May 2027)",
     description:
-      "Seeking roles in ML Engineering, NLP/LLM systems, or AI Research at teams building production AI at scale. Open to industrial R&D, MNC ML teams, and applied research positions. Available May–July 2026.",
+      "Seeking full-time roles in ML Engineering, NLP/LLM systems, or AI Research starting May 2027 upon graduation from IIT Kharagpur. Open for campus recruitment, industrial R&D, MNC ML teams, and applied research interviews.",
     cvLink: "/request-cv",
     meetingLink: "https://calendly.com/kumararpit17773/30min",
   },

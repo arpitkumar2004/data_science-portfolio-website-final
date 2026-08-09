@@ -10,41 +10,39 @@ export const openToWorkPositions: OpenRole[] = [
   {
     title: 'Deep Learning Research',
     field: 'Research & Innovation',
-    level: 'Internship',
+    level: 'Full-time',
     description: 'Passionate about cutting-edge ML research. Strong foundation in neural architectures, optimization, and experimental design.',
     tags: ['PyTorch', 'Computer Vision', 'NLP', 'Research Papers']
   },
   {
     title: 'ML Engineering',
     field: 'Production Systems',
-    level: 'Internship',
+    level: 'Full-time',
     description: 'Experienced in deploying ML models at scale. Skilled in MLOps, API development, and building reliable inference systems.',
     tags: ['MLOps', 'FastAPI', 'Docker', 'Model Deployment']
   },
   {
-    title: 'Generative AI',
-    field: 'LLMs & Diffusion Models',
-    level: 'Internship',
-    description: 'Fascinated by generative models. Hands-on experience with transformers, prompt engineering, and multimodal AI systems.',
-    tags: ['LLMs', 'RAG', 'Fine-tuning', 'Stable Diffusion']
+    title: 'Generative AI & LLMs',
+    field: 'LLMs & RAG Systems',
+    level: 'Full-time',
+    description: 'Specialized in generative models and RAG architectures. Hands-on experience with transformers, fine-tuning, and multimodal AI systems.',
+    tags: ['LLMs', 'RAG', 'Fine-tuning', 'Multimodal AI']
   }
 ];
 
 /**
- * Calculate deadline information for summer 2026 internships
+ * Calculate recruitment information for full-time May 2027 placement
  * Returns urgency messaging based on current date
  */
 export const getSummerDeadlineInfo = () => {
   const now = new Date();
-  // Summer 2026 internships typically have deadlines around March-April 2026
-  const deadline = new Date('2026-04-15');
+  const deadline = new Date('2027-05-01');
   const diffTime = deadline.getTime() - now.getTime();
   const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   return {
-    deadline: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-    daysLeft: daysLeft > 0 ? daysLeft : 0,
-    isUrgent: daysLeft > 0 && daysLeft <= 60, // Show urgency if within 60 days
-    isPast: daysLeft <= 0,
+    deadline: deadline.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    daysLeft,
+    isUrgent: daysLeft < 90,
   };
 };

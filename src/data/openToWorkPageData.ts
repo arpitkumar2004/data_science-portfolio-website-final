@@ -1,4 +1,4 @@
-﻿// ========================================
+// ========================================
 // OpenToWork Page - Data Source
 // ========================================
 // Clean, factual data for the recruiter-facing hire page.
@@ -115,15 +115,15 @@ export const heroData: HeroData = {
   degree: "Dual Degree (B.Tech + M.Tech), Chemical Engineering",
   institution: "IIT Kharagpur",
   cgpa: "7.86 / 10",
-  tagline: "ML Engineer & AI Researcher looking for a Summer 2026 internship in machine learning, deep learning, or generative AI systems where I can apply my skills and contribute to real-world problems.",
+  tagline: "ML Engineer & AI Researcher seeking full-time roles in Machine Learning Engineering, Deep Learning, LLM/RAG systems, and AI Research starting May 2027 where I can design, build, and scale production AI systems.",
   email: "kumararpit17773@gmail.com",
   linkedin: "https://linkedin.com/in/arpit-kumar-shivam",
   github: "https://github.com/arpitkumar2004",
   calendly: "https://calendly.com/kumararpit17773/30min",
   resumeUrl: "/Arpit_Kumar_Resume.pdf",
   resumeDownloadName: "Arpit_Kumar_IIT_KGP_Resume.pdf",
-  availableFrom: "May 2026",
-  duration: "10-12 weeks",
+  availableFrom: "May 2027",
+  duration: "Full-Time",
   location: "Kharagpur, India (willing to relocate globally)",
   relocation: "Open to remote, hybrid, or on-site. Visa sponsorship required for international roles.",
 };
@@ -184,9 +184,9 @@ export const relevantCoursework = [
 
 /** Top achievements pulled from AchievementData.tsx */
 export const getTopAchievements = (): Achievement[] => {
-  const competitions = achievementData.find(cat => cat.id === "03");
-  const algorithmic = achievementData.find(cat => cat.id === "02");
-  const academic = achievementData.find(cat => cat.id === "01");
+  const competitions = achievementData.find(cat => cat.title.includes("ML & AI Competitions") || cat.id === "01");
+  const algorithmic = achievementData.find(cat => cat.title.includes("Competitive Programming") || cat.id === "03");
+  const academic = achievementData.find(cat => cat.title.includes("Academic") || cat.id === "04");
 
   const achievements: Achievement[] = [];
 
@@ -289,16 +289,16 @@ export const experienceSummary = [
 
 // Logistics - practical info recruiters need
 export const logistics = {
-  availability: "May 2026 (flexible +/-1 week)",
-  duration: "10-12 weeks",
-  notice: "None - can start immediately",
+  availability: "May 2027 (Full-time Roles)",
+  duration: "Full-Time Permanent",
+  notice: "Graduating May 2027 (IIT Kharagpur)",
   location: "Kharagpur, India",
   relocation: "Willing to relocate anywhere globally",
   visa: "Indian passport, will need sponsorship (H-1B, J-1, etc.)",
   remote: "Open to remote, hybrid, or on-site",
-  hours: "Full-time (40 hrs/week), flexible with time zones",
+  hours: "Full-time (40 hrs/week)",
   languages: "English (fluent), Hindi (native)",
-  conversion: "Open to full-time conversion based on fit",
+  conversion: "Full-time hire from May 2027",
 };
 
 // ----- Legacy exports (backward compatibility) -----
@@ -356,10 +356,10 @@ export const technicalSkills: TechnicalSkills = {
 
 export const logisticsData: LogisticsData = {
   timeline: [
-    { label: "Start Date", value: "May 1, 2026 (flexible +/-1 week)" },
-    { label: "Duration", value: "10-12 weeks (Jun-Jul 2026)" },
-    { label: "Notice Period", value: "None (immediate start)" },
-    { label: "Full-time Conversion", value: "Open if performance aligns" },
+    { label: "Start Date", value: "May 2027 (IIT Kharagpur Dual Degree '27)" },
+    { label: "Duration", value: "Full-Time Permanent Role" },
+    { label: "Notice Period", value: "Graduating May 2027" },
+    { label: "Full-time Hire", value: "Open for interviews & placement rounds" },
   ],
   location: [
     { label: "Current Location", value: "Kharagpur, India" },
@@ -383,7 +383,7 @@ export const logisticsData: LogisticsData = {
 
 export const finalCtaData: FinalCtaData = {
   heading: "Interested?",
-  subheading: "Available May 2026 - accepting interview requests now.",
+  subheading: "Available May 2027 for Full-time Roles — open for interviews & recruitment now.",
   tagline: "",
   primaryCta: { text: "Schedule a Call", url: "https://calendly.com/kumararpit17773/30min" },
   secondaryCta: { text: "Download Resume", url: "/Arpit_Kumar_Resume.pdf", downloadName: "Arpit_Kumar_IIT_KGP_Resume.pdf" },

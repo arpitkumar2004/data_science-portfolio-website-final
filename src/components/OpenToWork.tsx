@@ -233,7 +233,7 @@ const OpenToWork: React.FC = () => {
             aria-haspopup="true"
             aria-expanded={open}
             className="group relative inline-flex items-center gap-2.5 px-5 py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 text-white rounded-full font-bold shadow-xl hover:shadow-2xl hover:from-emerald-700 hover:via-teal-700 hover:to-blue-700 focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300 dark:focus-visible:ring-emerald-500/50 transition-all duration-300 transform hover:scale-105 active:scale-95"
-            title="Seeking Summer 2026 Internship — click to see details"
+            title="Seeking Full-Time Roles from May 2027 — click to see details"
           >
             {/* Multi-layer pulse animation */}
             <span className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-blue-400 opacity-75 animate-ping" />
@@ -251,7 +251,7 @@ const OpenToWork: React.FC = () => {
                 className="group-hover:rotate-12 transition-transform duration-300"
               />
               <span className="text-sm font-bold tracking-wide">
-                Seeking Internship
+                Full-Time Roles '27
               </span>
               {deadlineInfo.isUrgent && (
                 <span className="ml-0.5 px-2 py-0.5 bg-white/25 backdrop-blur-sm rounded-full text-[11px] font-mono font-bold animate-pulse">
@@ -285,7 +285,7 @@ const OpenToWork: React.FC = () => {
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">
-                    Summer 2026 Internship
+                    Full-time Roles (May 2027)
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                     IIT Kharagpur • Dual Degree • Ready to contribute

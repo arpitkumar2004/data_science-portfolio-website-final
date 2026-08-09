@@ -61,6 +61,20 @@ const HERO_STATS = [
 
 /* ─────────────────────── AchievementItem ─────────────────────── */
 
+const renderFormattedText = (text: string) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return (
+        <strong key={i} className="font-bold text-slate-900 dark:text-slate-100">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    return part;
+  });
+};
+
 const AchievementItemRow = ({
   item,
   number,
@@ -84,7 +98,7 @@ const AchievementItemRow = ({
 
       <div className="flex-1 min-w-0">
         <p className="text-[13px] leading-relaxed text-slate-600 dark:text-slate-400">
-          {item.description}
+          {renderFormattedText(item.description)}
         </p>
 
         {validLinks.length > 0 && (
@@ -188,9 +202,9 @@ const CategoryCard = ({
               <span className="text-[9px] font-mono font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">
                 {category.category}
               </span>
-              <span className="text-[9px] font-mono font-bold rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-1.5 py-0.5">
+              {/* <span className="text-[9px] font-mono font-bold rounded-md bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-1.5 py-0.5">
                 {category.items.length} {category.items.length === 1 ? 'entry' : 'entries'}
-              </span>
+              </span> */}
             </div>
 
             {/* First-item preview — collapses when card is open */}
@@ -271,24 +285,24 @@ const Achievement: React.FC<{ categories: AchievementCategory[] }> = ({
 
         {/* ── Section header ───────────────────────────────── */}
         <div className="mb-10">
-          <div className="flex items-center gap-2 mb-3">
+          {/* <div className="flex items-center gap-2 mb-3">
             <div className="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-600/10">
               <Award size={13} className="text-blue-600" aria-hidden="true" />
             </div>
             <span className="text-[10px] font-mono font-black uppercase tracking-[0.3em] text-blue-600">
               Verified Achievements
             </span>
-          </div>
+          </div> */}
           <h2
             id="achievements-heading"
             className="text-3xl md:text-6xl font-black text-slate-900 dark:text-slate-100 tracking-tighter"
           >
             Honors &amp; Milestones
           </h2>
-          <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400 max-w-2xl leading-relaxed">
+          {/* <p className="mt-3 text-sm font-medium text-slate-500 dark:text-slate-400 max-w-2xl leading-relaxed">
             {totalItems} verified entries across {categories.length} categories —
             academic distinctions, competitive rankings, and leadership impact.
-          </p>
+          </p> */}
           <div className="mt-4 h-1 w-12 rounded-full bg-blue-600" aria-hidden="true" />
         </div>
 
@@ -316,11 +330,11 @@ const Achievement: React.FC<{ categories: AchievementCategory[] }> = ({
                 className="pointer-events-none absolute -top-6 -right-6 h-20 w-20 rounded-full bg-blue-600/15 blur-2xl"
                 aria-hidden="true"
               />
-              <Icon
+              {/* <Icon
                 size={15}
                 className="text-blue-400 mb-3 relative"
                 aria-hidden="true"
-              />
+              /> */}
               <p className="relative text-xl font-black tracking-tight leading-none">
                 {value}
               </p>

@@ -288,7 +288,7 @@ const Header: React.FC = () => {
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
               </span>
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-green-600 dark:text-green-400">
-                Open to Summer 2026 Internship
+                Full-time Roles from May 2027
               </span>
             </div>
 
