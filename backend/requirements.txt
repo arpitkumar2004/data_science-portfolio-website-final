@@ -14,4 +14,3 @@ slowapi
 sentry-sdk[fastapi]
 pytest
 httpx
-ruff
