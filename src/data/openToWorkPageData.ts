@@ -241,7 +241,7 @@ export const getTopAchievements = (): Achievement[] => {
   return achievements;
 };
 
-export const featuredProjectIds: (number | string)[] = [10, 5, 9];
+export const featuredProjectIds: (number | string)[] = [10, 9, 5];
 
 export const getFeaturedProjects = (projectsList?: Project[]): FeaturedProjectDisplay[] => {
   const source = projectsList && projectsList.length > 0 ? projectsList : staticProjects;

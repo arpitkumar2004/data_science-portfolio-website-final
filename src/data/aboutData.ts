@@ -245,24 +245,24 @@ export const aboutFallbackData: AboutData = {
 
   selectedWork: [
     {
-      title: "PrismPrice — Multimodal Product Price Intelligence Platform",
-      status: "Top 0.5% · Amazon ML '25",
+      title: "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
+      status: "Research · SRIC IIT KGP",
       statusColor: "blue",
-      tags: ["PyTorch", "BERT", "CLIP", "FastAPI", "MLflow", "Docker"],
+      tags: ["PyTorch", "FastAPI", "DuckDB", "Qdrant", "BM25S"],
       projectUrl: "/projects",
     },
     {
-      title: "LLM-Powered Employee Support Platform with RAG",
+      title: "LLM-Powered Employee Support Platform with RAG and Scalable AI Infrastructure",
       status: "1st Place · OpenSoft '25",
       statusColor: "green",
       tags: ["FastAPI", "LangChain", "LangGraph", "GPT-4o", "Docker"],
       projectUrl: "/projects",
     },
     {
-      title: "Tri-Path Multimodal RAG Framework",
-      status: "Research · SRIC IIT KGP",
+      title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
+      status: "Top 0.5% · Amazon ML '25",
       statusColor: "blue",
-      tags: ["PyTorch", "FastAPI", "DuckDB", "Qdrant", "BM25S"],
+      tags: ["PyTorch", "BERT", "CLIP", "FastAPI", "MLflow", "Docker"],
       projectUrl: "/projects",
     },
   ],
