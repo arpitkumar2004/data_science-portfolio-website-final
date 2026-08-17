@@ -11,6 +11,7 @@ import LeadBulkActions from "../components/leads/LeadBulkActions";
 import LeadTable from "../components/leads/LeadTable";
 import LeadGrid from "../components/leads/LeadGrid";
 import LeadDetailDrawer from "../components/leads/LeadDetailDrawer";
+import LeadQuickReplyModal from "../components/leads/LeadQuickReplyModal";
 import PageTransition from "../components/shared/PageTransition";
 
 interface LayoutContext {
@@ -28,10 +29,12 @@ const DashboardPage: React.FC = () => {
 
   // UI State
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [replyLead, setReplyLead] = useState<Lead | null>(null);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   const [showFilters, setShowFilters] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
 
   // Filters
   const [search, setSearch] = useState("");
@@ -352,6 +355,16 @@ const DashboardPage: React.FC = () => {
         onUpdate={handleUpdate}
         onDelete={handleDelete}
         onTagsUpdate={handleTagsUpdate}
+      />
+
+      {/* Quick Email Reply Modal */}
+      <LeadQuickReplyModal
+        lead={replyLead}
+        onClose={() => setReplyLead(null)}
+        onSuccess={() => {
+          refreshLeads();
+          refreshStats();
+        }}
       />
 
       {/* Confirm Dialog */}

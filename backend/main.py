@@ -87,7 +87,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # Include route routers
-from routes import about, auth, health, leads, projects
+from routes import about, analytics, auth, health, leads, projects, site_settings
 
 # Health routes - include at both /api and root level for compatibility
 app.include_router(health.router)  # Includes at /api prefix (default)
@@ -107,3 +107,12 @@ app.include_router(projects.public_router)
 
 # About Me public route - serves profile data for About page
 app.include_router(about.router)
+
+# Site settings & Feature flags routes
+app.include_router(site_settings.router)
+app.include_router(site_settings.public_settings_router)
+
+# Analytics, GA4, GSC & Telemetry routes
+app.include_router(analytics.router)
+app.include_router(analytics.public_telemetry_router)
+

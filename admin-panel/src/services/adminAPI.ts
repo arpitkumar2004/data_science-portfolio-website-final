@@ -431,7 +431,76 @@ class AdminAPIClient {
     return this.request<ResponseTimeData>("/api/admin/analytics/response-time");
   }
 
+  // ============= Observability & Health =============
+
+  async getDiagnostics(): Promise<any> {
+    return this.request<any>("/api/admin/health/diagnostics");
+  }
+
+  // ============= Site Settings & Maintainability =============
+
+  async getSiteSettings(): Promise<{ settings: Record<string, any> }> {
+    return this.request<{ settings: Record<string, any> }>("/api/admin/site-settings");
+  }
+
+  async updateSiteSettings(updates: Record<string, any>): Promise<any> {
+    return this.request<any>("/api/admin/site-settings", {
+      method: "PATCH",
+      body: JSON.stringify(updates),
+    });
+  }
+
+  async getAboutContent(): Promise<any> {
+    return this.request<any>("/api/admin/site-settings/content/about");
+  }
+
+  async updateAboutContent(content: any): Promise<any> {
+    return this.request<any>("/api/admin/site-settings/content/about", {
+      method: "PUT",
+      body: JSON.stringify(content),
+    });
+  }
+
+  async triggerDatabaseBackup(): Promise<void> {
+    const url = `${this.baseURL}/api/admin/site-settings/backup`;
+    const response = await fetch(url, { headers: this.getHeaders(), method: "POST" });
+    if (!response.ok) throw new Error("Backup failed");
+    const blob = await response.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `portfolio_backup_${Date.now()}.json`;
+    link.click();
+  }
+
+  // ============= GA4, GSC & Live Telemetry =============
+
+  async getGA4Analytics(period: string = "30d"): Promise<any> {
+    return this.request<any>(`/api/admin/analytics/ga4?period=${period}`);
+  }
+
+  async getGSCAnalytics(period: string = "30d"): Promise<any> {
+    return this.request<any>(`/api/admin/analytics/gsc?period=${period}`);
+  }
+
+  async getLiveVisitors(): Promise<any> {
+    return this.request<any>("/api/admin/analytics/live-visitors");
+  }
+
+  // ============= Lead Quick Reply & Unread Count =============
+
+  async getUnreadCount(): Promise<{ unread_count: number }> {
+    return this.request<{ unread_count: number }>("/api/admin/leads/unread-count");
+  }
+
+  async replyToLead(id: number, subject: string, message: string): Promise<any> {
+    return this.request<any>(`/api/admin/leads/${id}/reply`, {
+      method: "POST",
+      body: JSON.stringify({ subject, message }),
+    });
+  }
+
   // ============= Intelligence & Insights =============
+
 
   /**
    * Generate LinkedIn search URL for finding a lead's profile

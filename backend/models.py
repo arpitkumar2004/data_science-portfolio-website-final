@@ -171,3 +171,28 @@ class ContactLead(Base):
 
     # Deprecated field for backward compatibility
     timestamp = Column(DateTime, default=_utcnow)
+
+
+class SiteSettingModel(Base):
+    """SQLAlchemy model for application configuration & feature flags."""
+    __tablename__ = "site_settings"
+
+    key = Column(String(100), primary_key=True, index=True)
+    value = Column(JSON, nullable=False, default=dict)
+    description = Column(String(255), nullable=True)
+    updated_at = Column(DateTime, default=_utcnow, onupdate=_utcnow, nullable=False)
+
+
+class TelemetryEventModel(Base):
+    """SQLAlchemy model for self-hosted real-time visitor event tracking."""
+    __tablename__ = "telemetry_events"
+
+    id = Column(Integer, primary_key=True, index=True)
+    session_id = Column(String(100), index=True, nullable=False)
+    event_type = Column(String(50), index=True, nullable=False)  # pageview, click, cv_request, lead_submit
+    path = Column(String(255), nullable=False)
+    meta_data = Column(JSON, default=dict)
+    ip_address = Column(String(50), nullable=True)
+    user_agent = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=_utcnow, nullable=False, index=True)
+

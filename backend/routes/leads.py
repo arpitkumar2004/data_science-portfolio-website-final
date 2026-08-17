@@ -580,3 +580,54 @@ async def bulk_update_status_endpoint(
     return {"status": f"Updated {updated_count} leads"}
 
 
+@router.get("/admin/leads/unread-count")
+async def get_unread_leads_count(
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    """Real-time badge counter for unread leads."""
+    unread_count = db.query(models.ContactLead).filter(
+        models.ContactLead.status == models.LeadStatus.UNREAD
+    ).count()
+    return {"unread_count": unread_count}
+
+
+@router.post("/admin/leads/{lead_id}/reply")
+@limiter.limit(RATE_LIMIT_ADMIN)
+async def reply_to_lead_endpoint(
+    request: Request,
+    lead_id: int,
+    payload: dict = Body(...),
+    admin: dict = Depends(require_admin),
+    db: Session = Depends(database.get_db)
+):
+    """
+    Send custom email reply to a lead directly from the Admin Panel.
+    """
+    lead = get_lead_by_id(db, lead_id)
+    if not lead:
+        raise HTTPException(status_code=404, detail="Lead not found")
+
+    subject = payload.get("subject", f"Re: {lead.subject}")
+    message_body = payload.get("message", "")
+
+    if not message_body:
+        raise HTTPException(status_code=400, detail="Reply message cannot be empty")
+
+    from services.email_service import send_lead_reply_email
+    success = send_lead_reply_email(
+        to_email=lead.email,
+        to_name=lead.name,
+        subject=subject,
+        message_body=message_body
+    )
+
+    if success:
+        # Automatically update status to 'contacted'
+        update_lead_status(db, lead_id, models.LeadStatus.CONTACTED.value)
+        return {"status": "success", "message": f"Reply email sent to {lead.email}"}
+    else:
+        return {"status": "warning", "message": "Failed to send email via Resend/SMTP; status updated to contacted"}
+
+
+

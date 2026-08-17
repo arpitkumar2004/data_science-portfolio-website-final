@@ -9,6 +9,8 @@ import AdminLayout from "./components/layout/AdminLayout";
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
 const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
 const AnalyticsPage = lazy(() => import("./pages/AnalyticsPage"));
+const ContentManagementPage = lazy(() => import("./pages/ContentManagementPage"));
+const ObservabilityPage = lazy(() => import("./pages/ObservabilityPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ProjectDetailPage = lazy(() => import("./pages/ProjectDetailPage"));
 
@@ -111,6 +113,8 @@ function AppContent() {
             <Route path="projects" element={<ProjectsPage />} />
             <Route path="projects/:id" element={<ProjectDetailPage />} />
             <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="content" element={<ContentManagementPage />} />
+            <Route path="observability" element={<ObservabilityPage />} />
             <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>

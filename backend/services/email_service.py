@@ -302,3 +302,48 @@ def send_admin_notification(
     except Exception as e:
         logger.error("Failed to send admin notification to %s: %s", admin_email, e, exc_info=True)
         return False
+
+
+# ──────────────────────────────────────────────
+# 5. Direct Custom Admin Reply to Lead
+# ──────────────────────────────────────────────
+
+def send_lead_reply_email(
+    to_email: str,
+    to_name: str,
+    subject: str,
+    message_body: str,
+    reply_to: str | None = None
+) -> bool:
+    """
+    Send a direct reply email from the Admin Panel to a lead.
+    """
+    try:
+        reply_to_addr = reply_to or ADMIN_EMAIL
+        html_content = f"""
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1e293b; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; rounded-radius: 8px;">
+          <h2 style="color: #0f172a; margin-top: 0;">Hi {to_name},</h2>
+          <div style="font-size: 15px; white-space: pre-wrap; margin-bottom: 24px;">{message_body}</div>
+          <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 24px 0;" />
+          <div style="font-size: 13px; color: #64748b;">
+            <strong>Arpit Kumar</strong><br />
+            ML Engineer & AI Researcher | IIT Kharagpur '27<br />
+            <a href="https://linkedin.com/in/arpit-kumar-shivam" style="color: #2563eb;">LinkedIn</a> | 
+            <a href="https://github.com/arpitkumar2004" style="color: #2563eb;">GitHub</a>
+          </div>
+        </div>
+        """
+
+        resend.Emails.send({
+            "from": EMAIL_FROM,
+            "to": [to_email],
+            "reply_to": reply_to_addr,
+            "subject": subject,
+            "html": html_content,
+        })
+        logger.info("Direct reply email sent to %s", to_email)
+        return True
+    except Exception as e:
+        logger.error("Failed to send direct reply email to %s: %s", to_email, e, exc_info=True)
+        return False
+

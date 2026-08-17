@@ -26,6 +26,8 @@ const navItems = [
   { to: "/", icon: Users, label: "Leads", end: true },
   { to: "/projects", icon: FolderKanban, label: "Projects" },
   { to: "/analytics", icon: BarChart3, label: "Analytics" },
+  { to: "/content", icon: Settings, label: "Maintainability" },
+  { to: "/observability", icon: LayoutDashboard, label: "Observability" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 
