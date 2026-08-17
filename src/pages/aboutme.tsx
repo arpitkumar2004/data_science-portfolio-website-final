@@ -47,11 +47,17 @@ import { useAboutData } from "../hooks/useAboutData";
 import { useProjects } from "../context/ProjectsContext";
 import type { Milestone as MilestoneType, Stat } from "../data/aboutData";
 import type { Project } from "../data/projectsData";
-import { trackResumeDownload } from "../utils/analytics";
+import { findProjectByKeyOrTitle } from "../data/openToWorkPageData";
 
 /* ─────────────────────── constants ─────────────────────── */
 
-const FEATURED_PROJECT_IDS: (number | string)[] = [5, 8, 9];
+const FEATURED_PROJECT_TITLES = [
+  "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
+  "LLM-Powered Employee Support Platform with RAG and Scalable AI Infrastructure",
+  "PrismPrice — Multimodal Price Prediction using Text, Image, and Tabular Data",
+];
+
+const FEATURED_PROJECT_IDS_FALLBACK: (number | string)[] = [10, 9, 5];
 
 type TechnologySkill = {
   name: string;
@@ -415,13 +421,19 @@ const AboutMe: React.FC = () => {
   const { data, loading } = useAboutData();
   const { projects } = useProjects();
 
-  const featuredProjects = useMemo(
-    () =>
-      FEATURED_PROJECT_IDS.map((id) =>
-        projects.find((p) => String(p.id) === String(id) || (p.slug && p.slug === String(id))),
-      ).filter((p): p is Project => p !== undefined),
-    [projects],
-  );
+  const featuredProjects = useMemo(() => {
+    const result: Project[] = [];
+    FEATURED_PROJECT_TITLES.forEach((targetTitle, idx) => {
+      let match = findProjectByKeyOrTitle(projects, targetTitle);
+      if (!match && FEATURED_PROJECT_IDS_FALLBACK[idx]) {
+        match = projects.find((p) => String(p.id) === String(FEATURED_PROJECT_IDS_FALLBACK[idx]));
+      }
+      if (match) {
+        result.push(match);
+      }
+    });
+    return result;
+  }, [projects]);
 
   if (loading) {
     return (

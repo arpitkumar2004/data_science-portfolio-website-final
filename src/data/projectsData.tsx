@@ -261,7 +261,7 @@ id: 9,
   {
 id: 5,
     slug: "multimodal-price-prediction",
-    title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
+    title: "PrismPrice — Multimodal Price Prediction using Text, Image, and Tabular Data",
     description:
       "A state-of-the-art multimodal machine learning system combining BERT text embeddings, CLIP visual representations, and tabular feature engineering to predict product prices.",
     tldr: "Ranked Top 0.5% globally among 50,000+ participants in Amazon ML Challenge 2025 by building PrismPrice—a multimodal fusion pipeline with SBERT text, CLIP visual features, unit signals, and stacked ensembles.",

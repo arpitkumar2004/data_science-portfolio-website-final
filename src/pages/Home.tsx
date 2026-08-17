@@ -16,7 +16,7 @@ import { trackExternalLink, trackResumeDownload } from "../utils/analytics";
 import { getRecruiterProfile } from "../utils/recruiterProfile";
 import SEOHead from "../components/SEOHead";
 
-import { SiGithub, SiKaggle, SiLinkedin, SiOrcid } from "react-icons/si";
+import { SiGithub, SiKaggle, SiLinkedin, SiOrcid, SiPypi } from "react-icons/si";
 
 // Components
 import ProjectCard from "../components/ProjectCard";
@@ -29,10 +29,41 @@ import AniText from "../components/AniText";
 
 // Data & Assets
 import { useProjects } from "../context/ProjectsContext";
+import { findProjectByKeyOrTitle } from "../data/openToWorkPageData";
 import myphoto from "../data/img/me/my_photo2.png";
 
 const Home: React.FC = () => {
   const { projects } = useProjects();
+
+  const featuredHomeProjects = useMemo(() => {
+    const titles = [
+      "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
+      "LLM-Powered Employee Support Platform with RAG and Scalable AI Infrastructure",
+      "PrismPrice — Multimodal Price Prediction using Text, Image, and Tabular Data",
+    ];
+    const fallbackIds = [10, 9, 5];
+    const result: typeof projects = [];
+
+    titles.forEach((targetTitle, idx) => {
+      let match = findProjectByKeyOrTitle(projects, targetTitle);
+      if (!match && fallbackIds[idx]) {
+        match = projects.find((p) => String(p.id) === String(fallbackIds[idx]));
+      }
+      if (match) {
+        result.push(match);
+      }
+    });
+
+    if (result.length < 3) {
+      projects.forEach((p) => {
+        if (result.length < 3 && !result.some((r) => r.id === p.id)) {
+          result.push(p);
+        }
+      });
+    }
+
+    return result;
+  }, [projects]);
 
   const GoogleScholar = () => (
     <svg
@@ -419,6 +450,13 @@ const Home: React.FC = () => {
                     platform: "orcid",
                     gradient: "from-green-500 to-teal-500",
                   },
+                  {
+                    icon: SiPypi,
+                    href: "https://pypi.org/user/kumararpit/",
+                    label: "PyPI",
+                    platform: 'pypi',
+                    gradient: "from-green-600 to-teal-500",
+                  },
                 ].map((item, i) => (
                   <motion.a
                     key={i}
@@ -535,7 +573,7 @@ const Home: React.FC = () => {
           />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence mode="popLayout">
-              {projects.slice(0, 3).map((p) => (
+              {featuredHomeProjects.map((p) => (
                 <ProjectCard key={p.id} {...p} />
               ))}
             </AnimatePresence>

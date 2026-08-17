@@ -10,7 +10,7 @@ import {
   FileText,
   Layout,
 } from "lucide-react";
-import { SiKaggle, SiCodeforces, SiLinkedin, SiGithub, SiOrcid} from "react-icons/si";
+import { SiKaggle, SiCodeforces, SiLinkedin, SiGithub, SiOrcid, SiPypi } from "react-icons/si";
 import { useRole } from "../context/RoleContext";
 
 /* ─────────────────────── data ─────────────────────── */
@@ -48,6 +48,11 @@ const TECH_LINKS = [
     href: "https://linkedin.com/in/arpit-kumar-shivam",
     label: "LinkedIn",
     icon: SiLinkedin,
+  },
+  {
+    href: "https://pypi.org/user/kumararpit/",
+    label: "PyPI",
+    icon: SiPypi,
   },
   {
     href: "https://codeforces.com/profile/kumararpit",

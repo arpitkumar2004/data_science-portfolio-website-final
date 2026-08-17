@@ -123,8 +123,8 @@ export const aboutFallbackData: AboutData = {
 
   stats: [
     {
-      value: "8.86",
-      label: "GPA · Dual Degree IIT Kharagpur",
+      value: "AIR 807",
+      label: "GATE 2026 · Chemical Engg",
       color: "default",
     },
     {
@@ -158,7 +158,7 @@ export const aboutFallbackData: AboutData = {
     paragraphs: [
       {
         label: "Background",
-        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Specialization in Artificial Intelligence and High Performance Computing at IIT Kharagpur (GPA 8.86/10, Graduating April 2027). My combination of engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
+        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Specialization in Artificial Intelligence and High Performance Computing at IIT Kharagpur (GATE 2026 AIR 807, Graduating April 2027). My combination of engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
       },
       {
         label: "Research & Competitions",
@@ -259,7 +259,7 @@ export const aboutFallbackData: AboutData = {
       projectUrl: "/projects",
     },
     {
-      title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
+      title: "PrismPrice — Multimodal Price Prediction using Text, Image, and Tabular Data",
       status: "Top 0.5% · Amazon ML '25",
       statusColor: "blue",
       tags: ["PyTorch", "BERT", "CLIP", "FastAPI", "MLflow", "Docker"],

@@ -23,6 +23,8 @@ const bold = (text: string) => {
   );
 };
 
+import { findProjectByKeyOrTitle } from '../data/openToWorkPageData';
+
 /* ─── Section heading (simple, no wrapper card) ─── */
 const SH: React.FC<{ children: React.ReactNode; id?: string }> = ({ children, id }) => (
   <h3 id={id} className="text-base font-bold text-slate-900 dark:text-slate-100 tracking-tight mt-10 mb-3 first:mt-0">
@@ -51,7 +53,7 @@ const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { projects, loading } = useProjects();
-  const project = projects.find((p) => String(p.id) === String(id) || (p.slug && p.slug === id));
+  const project = id ? findProjectByKeyOrTitle(projects, id) : undefined;
 
   /* ── Modal state ── */
   const [modalImg, setModalImg] = useState('');

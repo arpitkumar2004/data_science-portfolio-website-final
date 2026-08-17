@@ -24,6 +24,7 @@ import ppgsLogo from "../data/img/ppgs_logo.png";
 import sbrcLogo from "../data/img/sbrc_logo.jpg";
 import { trackResumeDownload } from "../utils/analytics";
 import sricLogo from "../data/img/me/2.png";
+import atdclogo from '../data/img/me/2.png';
 
 export type ExperienceLink = {
   label: string;
@@ -57,6 +58,7 @@ const companyIcons: Record<string, string> = {
   "Chemical Engineering Association, IIT-Kharagpur": cheaLogo,
   "Students' Branding and Relations Cell, IIT Kharagpur": sbrcLogo,
   "Sponsored Research & Industrial Consultancy (SRIC), IIT Kharagpur": sricLogo,
+  "Advanced Technology Development Centre (ATDC), IIT Kharagpur": atdclogo,
 };
 
 const workExperiences: ExperienceEntry[] = [
@@ -114,43 +116,48 @@ const workExperiences: ExperienceEntry[] = [
       }
     ],
   },
-  // {
-  //   id: 11,
-  //   company: "Advanced Technology Development Centre (ATDC), IIT Kharagpur",
-  //   link: "https://claude.ai/public/artifacts/6d1cbb90-64a9-4403-bc7a-15b658e82f60",
-  //   location: "IIT Kharagpur",
-  //   category: "Speech AI & Vision Transformer Research",
-  //   totalDuration: "May 2025 - July 2025",
-  //   advisor: "Prof. Shyamal Kumar Das Mandal, IIT Kharagpur",
-  //   roles: [
-  //     {
-  //       id: 1002,
-  //       title: "AI Research Intern | Vision Transformers & Speech Accent NLI",
-  //       duration: "May 2025 - July 2025",
-  //       description: [
-  //         "Investigated fluency effects, pitch F0 contours, and spectral representations on Vision Transformer (ViT) architectures for Native Language Identification (NLI) from L2 English speech across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam) under Prof. Shyamal Kumar Das Mandal.",
-  //         "Benchmarked 7 deep learning & speech transformer models—engineered a hybrid Wav2Vec2 + WavLM-BiLSTM fusion pipeline with spectrogram-level Vision Transformers, achieving SOTA 0.88 validation accuracy on the NISP dataset.",
-  //         "Quantified acoustic-phonetic degradation across varying speaker fluency bands; authored technical research report documenting spectral attention maps, cross-lingual confusion matrices, and feature attribution.",
-  //       ],
-  //     },
-  //   ],
-  //   techStack: [
-  //     "Wav2Vec2",
-  //     "WavLM",
-  //     "Vision Transformers",
-  //     "PyTorch",
-  //     "Speech Processing",
-  //     "Librosa",
-  //     "MFCCs",
-  //   ],
-  //   links: [
-  //     {
-  //       label: "Research Report & Analysis",
-  //       url: "https://claude.ai/public/artifacts/6d1cbb90-64a9-4403-bc7a-15b658e82f60",
-  //       type: "report",
-  //     },
-  //   ],
-  // },
+  {
+    id: 11,
+    company: "Advanced Technology Development Centre (ATDC), IIT Kharagpur",
+    link: "https://arpitkumar.dev/projects/11",
+    location: "IIT Kharagpur",
+    category: "Speech AI & Vision Transformer Research",
+    totalDuration: "May 2025 - July 2025",
+    advisor: "Prof. Shyamal Kumar Das Mandal, IIT Kharagpur",
+    roles: [
+      {
+        id: 1002,
+        title: "AI Research Intern | Project: Native Language Identification (NLI) from L2 English Speech",
+        duration: "May 2025 - July 2025",
+        description: [
+          "Investigated fluency effects, pitch F0 contours, and spectral representations on Vision Transformer (ViT) architectures for Native Language Identification (NLI) from L2 English speech across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam) under Prof. Shyamal Kumar Das Mandal.",
+          "Benchmarked 7 deep learning & speech transformer models—engineered a hybrid Wav2Vec2 + WavLM-BiLSTM fusion pipeline with spectrogram-level Vision Transformers, achieving SOTA 0.88 validation accuracy on the NISP dataset.",
+          "Quantified acoustic-phonetic degradation across varying speaker fluency bands; authored technical research report documenting spectral attention maps, cross-lingual confusion matrices, and feature attribution.",
+        ],
+      },
+    ],
+    techStack: [
+      "Wav2Vec2",
+      "WavLM",
+      "Vision Transformers",
+      "PyTorch",
+      "Speech Processing",
+      "Librosa",
+      "MFCCs",
+    ],
+    links: [
+      {
+        label: "Research Report & Analysis",
+        url: "https://arpitkumar.dev/projects/11",
+        type: "report",
+      },
+      {
+        label: "View More",
+        url: "https://arpitkumar.dev/projects/11",
+        type: "website",
+      }
+    ],
+  },
 ];
 
 const positionsOfResponsibility: ExperienceEntry[] = [

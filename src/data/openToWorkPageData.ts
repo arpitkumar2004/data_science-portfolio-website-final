@@ -241,12 +241,89 @@ export const getTopAchievements = (): Achievement[] => {
   return achievements;
 };
 
+/**
+ * Computes Jaccard/token similarity between two title strings (0.0 to 1.0)
+ */
+export const getTitleSimilarity = (titleA: string, titleB: string): number => {
+  if (!titleA || !titleB) return 0;
+  const clean = (str: string) =>
+    str
+      .toLowerCase()
+      .replace(/[^a-z0-9\s]/g, " ")
+      .split(/\s+/)
+      .filter((w) => w.length > 2);
+
+  const tokensA = new Set(clean(titleA));
+  const tokensB = new Set(clean(titleB));
+  if (tokensA.size === 0 || tokensB.size === 0) return 0;
+
+  const intersection = new Set([...tokensA].filter((x) => tokensB.has(x)));
+  const union = new Set([...tokensA, ...tokensB]);
+  return intersection.size / union.size;
+};
+
+/**
+ * Finds a project in a list by Title Similarity, Slug, or ID
+ */
+export const findProjectByKeyOrTitle = (
+  source: Project[],
+  key: string | number
+): Project | undefined => {
+  const keyStr = String(key).trim();
+  if (!keyStr) return undefined;
+
+  // 1. Direct ID match
+  let match = source.find((p) => String(p.id) === keyStr);
+  if (match) return match;
+
+  // 2. Direct Slug match
+  match = source.find((p) => p.slug && p.slug.toLowerCase() === keyStr.toLowerCase());
+  if (match) return match;
+
+  // 3. Exact or Substring Title match
+  const lowerKey = keyStr.toLowerCase();
+  match = source.find(
+    (p) =>
+      p.title &&
+      (p.title.toLowerCase().includes(lowerKey) || lowerKey.includes(p.title.toLowerCase()))
+  );
+  if (match) return match;
+
+  // 4. Token Similarity match (> 0.35 threshold)
+  let bestMatch: Project | undefined = undefined;
+  let highestScore = 0.35;
+
+  for (const p of source) {
+    if (!p.title) continue;
+    const score = getTitleSimilarity(p.title, keyStr);
+    if (score > highestScore) {
+      highestScore = score;
+      bestMatch = p;
+    }
+  }
+
+  return bestMatch;
+};
+
+export const featuredProjectTitles: string[] = [
+  "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
+  "LLM-Powered Employee Support Platform with RAG and Scalable AI Infrastructure",
+  "PrismPrice — Multimodal Price Prediction using Text, Image, and Tabular Data",
+];
+
 export const featuredProjectIds: (number | string)[] = [10, 9, 5];
 
 export const getFeaturedProjects = (projectsList?: Project[]): FeaturedProjectDisplay[] => {
   const source = projectsList && projectsList.length > 0 ? projectsList : staticProjects;
-  return featuredProjectIds.map((id) => {
-    const project = source.find((p) => String(p.id) === String(id) || (p.slug && p.slug === String(id)));
+  return featuredProjectTitles.map((targetTitle, index) => {
+    // Match by title similarity first
+    let project = findProjectByKeyOrTitle(source, targetTitle);
+
+    // Fallback match by ID
+    if (!project && featuredProjectIds[index]) {
+      project = source.find((p) => String(p.id) === String(featuredProjectIds[index]));
+    }
+
     if (!project) return null;
 
     return {
