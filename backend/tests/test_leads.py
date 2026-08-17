@@ -2,25 +2,24 @@
 Leads endpoint tests — public contact submission + all admin CRUD/analytics.
 Uses unittest.mock to patch DB and email services so no real DB is needed.
 """
-from unittest.mock import patch, MagicMock
 from datetime import datetime, timezone
-
+from unittest.mock import MagicMock, patch
 
 # ── Helpers ──
 
 def _fake_lead(**overrides):
     """Return a mock ContactLead model object."""
     now = datetime.now(timezone.utc)
-    defaults = dict(
-        id=1, name="Test User", email="test@example.com",
-        subject="Hello", message="Test message", company="TestCo",
-        role="user", lead_type="contact", form_type="contacts",
-        status="unread", priority="medium", quality_score=0.5,
-        internal_notes="", flagged=False,
-        tags=["test"], source="contact_form", metadata_json={},
-        created_at=now, updated_at=now, timestamp=now,
-        last_contacted=None, follow_up_date=None, contact_history=[],
-    )
+    defaults = {
+        "id": 1, "name": "Test User", "email": "test@example.com",
+        "subject": "Hello", "message": "Test message", "company": "TestCo",
+        "role": "user", "lead_type": "contact", "form_type": "contacts",
+        "status": "unread", "priority": "medium", "quality_score": 0.5,
+        "internal_notes": "", "flagged": False,
+        "tags": ["test"], "source": "contact_form", "metadata_json": {},
+        "created_at": now, "updated_at": now, "timestamp": now,
+        "last_contacted": None, "follow_up_date": None, "contact_history": [],
+    }
     defaults.update(overrides)
     lead = MagicMock()
     for k, v in defaults.items():
@@ -30,18 +29,18 @@ def _fake_lead(**overrides):
 
 def _serialized_lead(**overrides):
     """Return a dict that matches serialize_contact_lead output."""
-    defaults = dict(
-        id=1, name="Test User", email="test@example.com",
-        subject="Hello", message="Test message", company="TestCo",
-        role="user", lead_type="contact",
-        status="unread", priority="medium", quality_score=0.5,
-        internal_notes="", flagged=False,
-        tags=["test"], source="contact_form", metadata={},
-        created_at=datetime.now(timezone.utc).isoformat(),
-        updated_at=datetime.now(timezone.utc).isoformat(),
-        timestamp=datetime.now(timezone.utc).isoformat(),
-        last_contacted=None, follow_up_date=None, contact_history=[],
-    )
+    defaults = {
+        "id": 1, "name": "Test User", "email": "test@example.com",
+        "subject": "Hello", "message": "Test message", "company": "TestCo",
+        "role": "user", "lead_type": "contact",
+        "status": "unread", "priority": "medium", "quality_score": 0.5,
+        "internal_notes": "", "flagged": False,
+        "tags": ["test"], "source": "contact_form", "metadata": {},
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "last_contacted": None, "follow_up_date": None, "contact_history": [],
+    }
     defaults.update(overrides)
     return defaults
 

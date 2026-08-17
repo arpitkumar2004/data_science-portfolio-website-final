@@ -1,5 +1,6 @@
 """Health check endpoints"""
 from fastapi import APIRouter
+
 from config import APP_VERSION
 
 router = APIRouter(prefix="/api", tags=["health"])

@@ -9,21 +9,26 @@ Supported mailing cases
 4. Admin Notification      – new-lead alert to portfolio owner
 """
 
-import logging
 import base64
+import logging
 from pathlib import Path
 
 import resend
 
 from config import (
+    ADMIN_EMAIL,
+    CALENDLY_LINK,
+    CONTACT_PHONE_NUMBER,
     EMAIL_FROM,
     RESEND_API_KEY,
     VITE_API_URL,
-    CALENDLY_LINK,
-    CONTACT_PHONE_NUMBER,
-    ADMIN_EMAIL,
 )
-from templates import contact_acknowledgment, cv_request, recruiter_login, admin_notification
+from templates import (
+    admin_notification,
+    contact_acknowledgment,
+    cv_request,
+    recruiter_login,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -40,9 +45,9 @@ def send_contact_acknowledgment(
     email: str,
     subject: str,
     message: str,
-    calendly_link: str = None,
-    frontend_url: str = None,
-    phone: str = None,
+    calendly_link: str | None = None,
+    frontend_url: str | None = None,
+    phone: str | None = None,
 ):
     """
     Send acknowledgment email to contact form submitter.
@@ -94,9 +99,9 @@ def send_cv_request_email(
     email: str,
     company: str,
     subject: str,
-    cv_path: str = None,
-    frontend_url: str = None,
-    phone: str = None,
+    cv_path: str | None = None,
+    frontend_url: str | None = None,
+    phone: str | None = None,
 ):
     """
     Send CV and detailed profile information to CV requester.
@@ -161,10 +166,10 @@ def send_recruiter_login_email(
     name: str,
     email: str,
     login_link: str,
-    company: str = None,
-    frontend_url: str = None,
-    phone: str = None,
-    cv_path: str = None,
+    company: str | None = None,
+    frontend_url: str | None = None,
+    phone: str | None = None,
+    cv_path: str | None = None,
 ):
     """
     Send the high-conversion recruiter welcome email with CV attachment.
@@ -248,11 +253,11 @@ def send_admin_notification(
     email: str,
     subject: str,
     message: str,
-    company: str = None,
-    role: str = None,
-    metadata: dict = None,
-    admin_url: str = None,
-    frontend_url: str = None,
+    company: str | None = None,
+    role: str | None = None,
+    metadata: dict | None = None,
+    admin_url: str | None = None,
+    frontend_url: str | None = None,
 ):
     """
     Notify the admin/owner about a new lead.

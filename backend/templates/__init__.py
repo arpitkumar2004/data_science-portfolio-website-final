@@ -19,15 +19,15 @@ Usage
 """
 
 from templates import (
+    admin_notification,
     contact_acknowledgment,
     cv_request,
     recruiter_login,
-    admin_notification,
 )
 
 __all__ = [
+    "admin_notification",
     "contact_acknowledgment",
     "cv_request",
     "recruiter_login",
-    "admin_notification",
 ]

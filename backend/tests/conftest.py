@@ -4,6 +4,7 @@ This file runs before any test module is imported.
 """
 import os
 from unittest.mock import MagicMock
+
 import pytest
 
 # 1. Set dummy env vars before anything imports config.py
@@ -14,11 +15,13 @@ os.environ.setdefault("RESEND_API_KEY", "re_test_fake_key")
 
 # 2. Patch create_all before main.py is imported (models use JSONB = PostgreSQL only)
 import sqlalchemy.sql.schema as _schema
+
 _original_create_all = _schema.MetaData.create_all
 _schema.MetaData.create_all = MagicMock()
 
-from fastapi.testclient import TestClient  # noqa: E402
-from main import app  # noqa: E402
+from fastapi.testclient import TestClient
+
+from main import app
 
 
 @pytest.fixture

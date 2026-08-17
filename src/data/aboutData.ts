@@ -26,8 +26,6 @@ export interface PersonalInfo {
 export interface Stat {
   value: string;
   label: string;
-  // "purple" removed — not in the blue-only brand palette.
-  // If the backend sends "purple", it will fall back to "default" in the component.
   color: "default" | "blue" | "green";
 }
 
@@ -66,7 +64,7 @@ export interface TechItem {
 export interface SelectedWork {
   title: string;
   status: string;
-  statusColor: "blue" | "green" | "default"; // purple removed
+  statusColor: "blue" | "green" | "default";
   tags: string[];
   projectUrl: string;
 }
@@ -91,7 +89,7 @@ export interface AboutData {
 
 /* ═══════════════════════════════════════════════════════════════
    FALLBACK DATA — mirrors backend/data/about.json
-   All values verified against Arpit_Kumar_CV_updated.pdf
+   All values verified against Arpit_Kumar_CV.pdf
    ═══════════════════════════════════════════════════════════════ */
 
 export const aboutFallbackData: AboutData = {
@@ -99,12 +97,9 @@ export const aboutFallbackData: AboutData = {
   /* ── Personal ─────────────────────────────────────────────── */
   personal: {
     name: "Arpit Kumar",
-    // Tagline matches the CV headline exactly
     tagline: "ML Engineer & AI Researcher · IIT Kharagpur '27",
     photo: "/img/me/my_photo2.png",
-    // CV states "Seeking an ML Engineering / AI Research internship" — updated from vague "Available for Summer 2026"
-    availability: "",
-    // More specific roles that reflect actual CV specializations
+    availability: "Available for Full-time Roles (April 2027)",
     animatedRoles: [
       "ML Engineer",
       "AI Researcher",
@@ -126,8 +121,12 @@ export const aboutFallbackData: AboutData = {
     calendlyUrl: "https://calendly.com/kumararpit17773/30min",
   },
 
-  
   stats: [
+    {
+      value: "8.86",
+      label: "GPA · Dual Degree IIT Kharagpur",
+      color: "default",
+    },
     {
       value: "Top 0.5%",
       label: "Amazon ML Challenge · 50K+ participants",
@@ -139,11 +138,6 @@ export const aboutFallbackData: AboutData = {
       color: "blue",
     },
     {
-      value: "AIR 807",
-      label: "GATE 2026 · Chemical Engineering",
-      color: "green",
-    },
-    {
       value: "AIR 135",
       label: "Integral Cup 2026",
       color: "green",
@@ -152,13 +146,11 @@ export const aboutFallbackData: AboutData = {
 
   /* ── Education ────────────────────────────────────────────── */
   education: {
-    degree: "Integrated Dual Degree — B.Tech + M.Tech",
-    // Micro-Specialization is a formal academic credential from the CV
-    specialization: "Chemical Engineering · Micro-Spec in AI & Applications and High Performance Computing (HPC)",
+    degree: "Integrated B.Tech - M.Tech (Dual Degree) in Chemical Engineering",
+    specialization: "Specialization in Artificial Intelligence (AI) and High Performance Computing (HPC)",
     institution: "IIT Kharagpur",
     graduation: "April 2027",
   },
-
 
   bio: {
     greeting:
@@ -166,44 +158,44 @@ export const aboutFallbackData: AboutData = {
     paragraphs: [
       {
         label: "Background",
-        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Micro-Specialization in Artificial Intelligence and Applications and High Performance Computing at IIT Kharagpur (Graduating April 2027). My unusual combination of rigorous engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
+        text: "I'm completing an Integrated Dual Degree (B.Tech + M.Tech) in Chemical Engineering with a Specialization in Artificial Intelligence and High Performance Computing at IIT Kharagpur (GPA 8.86/10, Graduating April 2027). My combination of engineering fundamentals and deep ML training gives me a concrete edge: I think in systems, design for real-world constraints, and build models that are both theoretically grounded and deployable at scale.",
       },
       {
         label: "Research & Competitions",
-        text: "At IIT Kharagpur's Advanced Technology Development Centre (ATDC), under Prof. Shyamal Kumar Das Mandal, I built a Wav2Vec2 + WavLM-BiLSTM fusion model for Native Language Identification from L2 English speech — achieving 0.88 validation accuracy, state-of-the-art on the NISP dataset across 5 Indian languages. In parallel, I ranked Top 0.5% globally in the Amazon ML Challenge 2025 among 50,000+ participants, shipping a multimodal price prediction system (SMAPE 25.45) with a production FastAPI serving layer at 469ms p95 latency and 46+ tracked MLflow runs with SHA-256 model fingerprinting.",
+        text: "At IIT Kharagpur's Advanced Technology Development Centre (ATDC), under Prof. Shyamal Kumar Das Mandal, I developed a native language identification framework using fixed Vision Transformers (ViT-small) on L2 English speech — achieving 93.09% test accuracy on the NISP dataset across 5 Indian languages. At SRIC, IIT Kharagpur, I built a Tri-Path Multimodal RAG framework combining BM25S, DuckDB Text-to-SQL, BLIP-2, weighted RRF, and cross-encoder reranking (+13.7% to +19.8% recall across 10 benchmarks, mitigating 91% of RAG failure modes). In parallel, I ranked Top 0.5% globally in the Amazon ML Challenge 2025 out of 50,000+ participants with a reproducible multimodal price prediction system.",
       },
       {
         label: "What I Build",
-        text: "I specialize in the full ML lifecycle — from experiment tracking (MLflow, DVC) to containerized deployment (Docker, CI/CD) and scalable inference (FastAPI, async routing). At GC OpenSoft '25, sponsored by Deloitte, I led development of an LLM-powered RAG employee support platform that cut resolution time by 35%, reduced hallucination rate by 40%, and boosted API throughput by 50%. As Technical Advisor at DevSoc — IIT KGP's developer society — I shape ML and software architecture decisions and mentor engineers building production systems.",
+        text: "I specialize in the full ML lifecycle — from experiment tracking (MLflow, DVC) to containerized deployment (Docker, CI/CD) and scalable inference (FastAPI, async routing). At GC OpenSoft '25, sponsored by Deloitte, I led development of an LLM-powered RAG employee support platform (1st Place) that cut resolution time by 35%, reduced hallucination rate by 40%, and boosted API throughput by 50%. As Advisor at DevSoc — IIT KGP's developer society — I shape ML and software architecture decisions and mentor engineers.",
       },
     ],
     callToAction:
-      "Actively seeking full-time Machine Learning Engineer and AI Researcher roles starting May 2027 at teams building production AI systems — NLP, LLM/RAG engineering, speech AI, or scalable MLOps.",
+      "Actively seeking full-time Machine Learning Engineer and AI Researcher roles starting April 2027 at teams building production AI systems — NLP, LLM/RAG engineering, speech AI, or scalable MLOps.",
   },
 
   milestones: [
+    {
+      icon: "Microscope",
+      date: "May 2026 – July 2026",
+      title: "AI Researcher Intern · SRIC, IIT Kharagpur",
+      subtitle:
+        "Engineered a Tri-Path Multimodal RAG framework for documents combining dense BM25S retrieval, DuckDB Text-to-SQL, BLIP-2 vision retrieval, weighted RRF, cross-encoder reranking, and NLI attribution. Achieved 0.612 Recall@5, 0.552 nDCG@5, 0.578 SQL execution success, 0.657 attribution precision, improving RAG baselines by 13.7%–19.8% points across 10 benchmarks. Mitigated 91% of known RAG failure modes.",
+      category: "research",
+    },
     {
       icon: "Trophy",
       date: "Sep – Dec 2025",
       title: "Top 0.5% · Amazon ML Challenge 2025",
       subtitle:
-        "Top 0.5% globally among 50,000+ participants (national competition, Amazon-sponsored). Built a multimodal price prediction pipeline fusing SBERT text + CLIP image + tabular features with a 5-fold stacked ensemble (SMAPE 25.45). Production FastAPI layer: 469ms p95 latency, SHA-256 model fingerprinting, DVC + MLflow tracking across 46+ runs.",
+        "Ranked Top 0.5% globally out of 50,000+ participants in Amazon ML Challenge 2025. Built PrismPrice — a multimodal price prediction pipeline across 3 modalities (TF-IDF/SBERT text, CLIP/ResNet vision, unit signals) with 5+ model families, cross-validation, OOF stacking, FastAPI endpoints, MLflow, and DVC tracking.",
       category: "competition",
-    },
-    {
-      icon: "Microscope",
-      date: "June 2026 – July 2026",
-      title: "AI Research Intern · SRIC, IIT Kharagpur",
-      subtitle:
-        "Under Prof. Shyamal Kumar Das Mandal. Built DocuReason RAG: A Grounded Framework for Multimodal Document Retrieval & Reasoning across text, complex tables, and visual PDFs using ColPali, Qdrant, DuckDB, BM25s, and async FastAPI. Published open-source framework to PyPI ('docureason-framework').",
-      category: "research",
     },
     {
       icon: "Microscope",
       date: "May – Jul 2025",
       title: "AI Researcher Intern · ATDC, IIT Kharagpur",
       subtitle:
-        "Under Prof. Shyamal Kumar Das Mandal. Native Language Identification from L2 English speech on the NISP dataset (5 Indian languages: Hindi, Telugu, Tamil, Kannada, Malayalam). Benchmarked 7 architectures; final model — Wav2Vec2 + WavLM-BiLSTM fusion with frozen transformer layers — achieved 0.88 validation accuracy, state-of-the-art on this task.",
+        "Under Prof. Shyamal Kumar Das Mandal. Native Language Identification from L2 English speech on the NISP dataset (5 Indian languages: Hindi, Telugu, Tamil, Kannada, Malayalam). Engineered 128-Mel spectrograms, log-F0, and 14-feature fluency representations, trained ViT-small models with PyTorch feature caching (reducing epoch time from ~13 min to 30 sec). Achieved 93.09% test accuracy, outperforming CNN and ResNet-18 baselines by 6.00% and 4.80%.",
       category: "research",
     },
     {
@@ -211,16 +203,15 @@ export const aboutFallbackData: AboutData = {
       date: "Jan – Apr 2025",
       title: "1st Place · GC OpenSoft '25 (Deloitte-sponsored)",
       subtitle:
-        "Inter-hall software competition at IIT Kharagpur. Built an LLM-powered RAG employee support platform: 35% reduction in resolution time, 40% reduction in hallucination rate (human-evaluated), 50% boost in API throughput via async FastAPI + non-blocking LLM routing, 30% cost reduction via token optimization. Stack: LangChain, FAISS/Chroma, OpenAI API, Groq, OpenTelemetry, Docker.",
+        "Inter-hall software competition at IIT Kharagpur. Built an LLM-powered RAG employee support platform: 35% reduction in resolution time, 40% reduction in hallucination rate, 50% boost in API throughput via async FastAPI with 5 specialized agents (GPT-4o, LangChain, LangGraph, vector retrieval, Docker, GCP).",
       category: "competition",
     },
     {
       icon: "Briefcase",
-      // "Present" triggers the active green dot in MilestoneCard
       date: "Sep 2023 – Present",
-      title: "Technical Advisor · Developers' Society (DevSoc), IIT KGP",
+      title: "Advisor · Developers' Society (DevSoc), IIT KGP",
       subtitle:
-        "ML & Software Architecture track. Shape architecture decisions, review production systems, and implement CI/CD workflows for IIT KGP's premier developer society. Mentor engineers across ML and backend development tracks.",
+        "Advisor for Machine Learning & Software Architecture. Shape architecture decisions, review production systems, and mentor engineers across ML and backend tracks.",
       category: "leadership",
     },
     {
@@ -228,7 +219,7 @@ export const aboutFallbackData: AboutData = {
       date: "Jul 2022 – Apr 2027",
       title: "IIT Kharagpur",
       subtitle:
-        "Integrated Dual Degree (B.Tech + M.Tech), Chemical Engineering with Micro-Specialization in Artificial Intelligence & Applications. GPA 8.86/10. Admitted via JEE Advanced AIR 1478 (98.28 percentile JEE Mains, 1.1M+ candidates).",
+        "Integrated B.Tech - M.Tech (Dual Degree) in Chemical Engineering with Specialization in Artificial Intelligence (AI) and High Performance Computing (HPC). GPA 8.86/10.",
       category: "education",
     },
   ],
@@ -238,51 +229,49 @@ export const aboutFallbackData: AboutData = {
     { name: "C++",         level: "Advanced",      category: "core"     },
     { name: "PyTorch",     level: "Advanced",      category: "ml"       },
     { name: "TensorFlow",  level: "Advanced",      category: "ml"       },
-    { name: "JAX",         level: "Intermediate",  category: "ml"       },
     { name: "Scikit-learn",level: "Advanced",      category: "ml"       },
-    { name: "LangChain",   level: "Advanced",      category: "genai"    },
     { name: "FastAPI",     level: "Advanced",      category: "backend"  },
-    { name: "Flask",       level: "Intermediate",  category: "backend"  },
+    { name: "LangChain",   level: "Advanced",      category: "genai"    },
     { name: "Docker",      level: "Advanced",      category: "devops"   },
     { name: "MLflow",      level: "Advanced",      category: "devops"   },
     { name: "DVC",         level: "Advanced",      category: "devops"   },
-    { name: "FAISS",       level: "Advanced",      category: "genai"    },
+    { name: "Qdrant",      level: "Advanced",      category: "genai"    },
+    { name: "DuckDB",      level: "Advanced",      category: "data"     },
     { name: "Pandas",      level: "Advanced",      category: "data"     },
     { name: "NumPy",       level: "Advanced",      category: "data"     },
     { name: "SQL",         level: "Advanced",      category: "data"     },
     { name: "React",       level: "Intermediate",  category: "frontend" },
   ],
 
-
   selectedWork: [
     {
-      title: "Multimodal ML Platform for E-Commerce (Amazon ML Challenge '25)",
-      status: "Top 0.5% · 50K+ participants",
+      title: "PrismPrice — Multimodal Product Price Intelligence Platform",
+      status: "Top 0.5% · Amazon ML '25",
       statusColor: "blue",
-      tags: ["PyTorch", "SBERT", "CLIP", "FastAPI", "MLflow", "Docker"],
+      tags: ["PyTorch", "BERT", "CLIP", "FastAPI", "MLflow", "Docker"],
       projectUrl: "/projects",
     },
     {
       title: "LLM-Powered Employee Support Platform with RAG",
       status: "1st Place · OpenSoft '25",
       statusColor: "green",
-      tags: ["FastAPI", "LangChain", "FAISS", "OpenAI API", "Docker"],
+      tags: ["FastAPI", "LangChain", "LangGraph", "GPT-4o", "Docker"],
       projectUrl: "/projects",
     },
     {
-      title: "Native Language Identification from L2 English Speech",
-      status: "Research · ATDC IIT KGP",
+      title: "Tri-Path Multimodal RAG Framework",
+      status: "Research · SRIC IIT KGP",
       statusColor: "blue",
-      tags: ["Wav2Vec2", "WavLM", "BiLSTM", "PyTorch", "MFCCs"],
+      tags: ["PyTorch", "FastAPI", "DuckDB", "Qdrant", "BM25S"],
       projectUrl: "/projects",
     },
   ],
 
   /* ── CTA ──────────────────────────────────────────────────── */
   cta: {
-    heading: "Available for Full-time ML Engineer & AI Researcher Roles (May 2027)",
+    heading: "Available for Full-time ML Engineer & AI Researcher Roles (April 2027)",
     description:
-      "Seeking full-time roles in ML Engineering, NLP/LLM systems, or AI Research starting May 2027 upon graduation from IIT Kharagpur. Open for campus recruitment, industrial R&D, MNC ML teams, and applied research interviews.",
+      "Seeking full-time roles in ML Engineering, NLP/LLM systems, Speech AI, or AI Research starting April 2027 upon graduation from IIT Kharagpur.",
     cvLink: "/request-cv",
     meetingLink: "https://calendly.com/kumararpit17773/30min",
   },

@@ -1,5 +1,5 @@
-from pydantic import BaseModel, ConfigDict, Field, EmailStr
-from typing import List, Optional
+
+from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
 class StatusUpdate(BaseModel):
@@ -19,11 +19,11 @@ class NotesUpdate(BaseModel):
 
 
 class TagUpdate(BaseModel):
-    tags: List[str]
+    tags: list[str]
 
 
 class BulkStatusUpdate(BaseModel):
-    lead_ids: List[int]
+    lead_ids: list[int]
     status: str = Field(..., pattern="^(unread|processing|contacted|archived)$")
 
 
@@ -33,11 +33,11 @@ class ContactLeadCreate(BaseModel):
     email: EmailStr
     subject: str
     message: str
-    company: Optional[str] = None
+    company: str | None = None
     form_type: str = "contacts"
-    role: Optional[str] = None
-    lead_type: Optional[str] = "contact"
-    metadata: Optional[dict] = None
+    role: str | None = None
+    lead_type: str | None = "contact"
+    metadata: dict | None = None
 
 
 class CVRequestCreate(BaseModel):
@@ -47,8 +47,8 @@ class CVRequestCreate(BaseModel):
     company: str
     subject: str
     message: str
-    role: Optional[str] = None
-    metadata: Optional[dict] = None
+    role: str | None = None
+    metadata: dict | None = None
 
 
 class ContactLeadResponse(BaseModel):
@@ -59,20 +59,20 @@ class ContactLeadResponse(BaseModel):
     subject: str
     company: str
     message: str
-    lead_type: Optional[str]
-    created_at: Optional[str]
-    updated_at: Optional[str]
+    lead_type: str | None
+    created_at: str | None
+    updated_at: str | None
     flagged: bool
     status: str
     priority: str
     quality_score: float
     internal_notes: str
-    last_contacted: Optional[str]
-    follow_up_date: Optional[str]
-    contact_history: List
-    tags: List[str]
+    last_contacted: str | None
+    follow_up_date: str | None
+    contact_history: list
+    tags: list[str]
     source: str
-    metadata: Optional[dict]
+    metadata: dict | None
 
     model_config = ConfigDict(from_attributes=True)
 

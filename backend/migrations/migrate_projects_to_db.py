@@ -27,9 +27,9 @@ from pathlib import Path
 # Allow importing from backend/
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from database import SessionLocal
 from sqlalchemy import text
 
+from database import SessionLocal
 
 # ============= Configuration =============
 
@@ -168,8 +168,8 @@ def insert_projects(rows: list[dict]) -> int:
     inserted = 0
     try:
         for row in rows:
-            columns = ", ".join(f'"{k}"' for k in row.keys())
-            placeholders = ", ".join(f":{k}" for k in row.keys())
+            columns = ", ".join(f'"{k}"' for k in row)
+            placeholders = ", ".join(f":{k}" for k in row)
             sql = text(f'INSERT INTO projects ({columns}) VALUES ({placeholders})')
             db.execute(sql, row)
             inserted += 1

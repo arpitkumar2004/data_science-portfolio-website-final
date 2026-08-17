@@ -1,5 +1,5 @@
 """Authentication endpoints with JWT support and rate limiting."""
-from fastapi import APIRouter, Form, Request, Depends
+from fastapi import APIRouter, Depends, Form, Request
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 

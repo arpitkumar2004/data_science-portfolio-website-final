@@ -13,9 +13,9 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 
-import models
 import database
-from config import CORS_ORIGINS, APP_TITLE, APP_VERSION
+import models
+from config import APP_TITLE, APP_VERSION, CORS_ORIGINS
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -87,7 +87,7 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 # Include route routers
-from routes import health, auth, leads, projects, about  # noqa: E402
+from routes import about, auth, health, leads, projects
 
 # Health routes - include at both /api and root level for compatibility
 app.include_router(health.router)  # Includes at /api prefix (default)

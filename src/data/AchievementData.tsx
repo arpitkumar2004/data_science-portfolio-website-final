@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   GraduationCap,
@@ -23,6 +22,7 @@ interface AchievementCategory {
   category: string;
   items: AchievementItem[];
 }
+
 export const achievementData: AchievementCategory[] = [
   {
     id: '01',
@@ -32,14 +32,14 @@ export const achievementData: AchievementCategory[] = [
     items: [
       {
         description:
-          'Amazon ML Challenge 2025 — ranked **Top 0.5% globally** among **50,000+ participants** in this national Amazon-sponsored competition. Built a multimodal price prediction pipeline fusing SBERT text embeddings, CLIP image features, and engineered tabular inputs with a 5-fold stacked ensemble (RF, XGBoost, LightGBM, CatBoost, Ridge). Achieved **SMAPE 25.45**, **RMSE 0.82**, **MAE 0.66**. Production FastAPI serving layer at **469.1ms p95 latency**. Tracked 46+ experiments with MLflow, DVC, and SHA-256 model fingerprinting for deterministic reproducibility.',
+          'Amazon ML Challenge 2025 — ranked **Top 0.5% globally** among **50,000+ participants** in this national Amazon-sponsored competition. Built PrismPrice: a multimodal product price prediction pipeline fusing TF-IDF/SBERT text embeddings, CLIP/ResNet vision features, and unit signals with 5-fold stacked ensembles. Production FastAPI serving layer, versioned model registry, MLflow and DVC tracking.',
         links: [
           { url: 'https://github.com/arpitkumar2004/A_ML_25', label: 'GitHub Repository' },
         ],
       },
       {
         description:
-          '1st Place (Gold Medalist), GC OpenSoft \'25 — inter-hall software championship at IIT Kharagpur, sponsored by Deloitte. Built an LLM-powered RAG employee support platform: **35% reduction in average resolution time**, **40% reduction in hallucination rate**, **50% increase in API throughput** via async FastAPI with non-blocking LLM routing, and **30% token cost reduction** via adaptive model selection. Deployed with OpenTelemetry, Prometheus, and Grafana observability.',
+          '1st Place (Gold Medalist), GC OpenSoft \'25 — inter-hall software championship at IIT Kharagpur, sponsored by Deloitte. Built an LLM-powered RAG employee support platform: **35% reduction in average resolution time**, **40% reduction in hallucination rate**, **50% increase in API throughput** via async FastAPI with 5 specialized agents (GPT-4o, LangChain, LangGraph, vector retrieval, Docker, GCP).',
         links: [],
       },
       {
@@ -58,24 +58,18 @@ export const achievementData: AchievementCategory[] = [
   //   items: [
   //     {
   //       description:
-  //         'AI Researcher Intern — Advanced Technology Development Centre (ATDC), IIT Kharagpur, under Prof. Shyamal Kumar Das Mandal (May–July 2025). Research focus: Native Language Identification (NLI) from L2 English speech. Engineered a speaker-balanced preprocessing pipeline for the NISP dataset across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam). Benchmarked 7 deep learning architectures. Final model — **Wav2Vec2 + WavLM-BiLSTM fusion** with frozen transformer layers — achieved **0.88 validation accuracy**, state-of-the-art on this task.',
+  //         'AI Researcher Intern — Sponsored Research & Industrial Consultancy (SRIC), IIT Kharagpur (May–July 2026). Engineered a **Tri-Path Multimodal RAG framework** combining dense BM25S retrieval, DuckDB Text-to-SQL, BLIP-2 vision retrieval, weighted RRF, cross-encoder reranking, and NLI attribution. Achieved **0.612 Recall@5**, **0.552 nDCG@5**, **0.578 SQL execution success**, and **0.657 attribution precision**, improving RAG baselines by **13.7%–19.8% points** across 10 benchmarks and mitigating **91% of known RAG failure modes**.',
+  //       links: [],
+  //     },
+  //     {
+  //       description:
+  //         'AI Researcher (UG) Intern — Advanced Technology Development Centre (ATDC), IIT Kharagpur, under Prof. Shyamal Kumar Das Mandal (May–July 2025). Developed a native language identification framework using fixed Vision Transformers (ViT-small) on L2 English speech across 5 Indian languages (Hindi, Telugu, Tamil, Kannada, Malayalam). Engineered 128-Mel spectrograms, log-F0, and 14-feature fluency descriptors with PyTorch feature caching (epoch time reduced from ~13 min to 30 sec). Achieved **93.09% test accuracy**, outperforming CNN and ResNet-18 baselines by **6.00% and 4.80%**.',
   //       links: [],
   //     },
   //     {
   //       description:
   //         'Technical Advisor, ML & Software Architecture — Developers\' Society (DevSoc), TSG, IIT Kharagpur (September 2023 – present). Shape ML and software architecture decisions, conduct technical reviews, and mentor engineers building production systems across ML, web, and backend development tracks.',
   //       links: [],
-  //     },
-  //     {
-  //       description:
-  //         'Executive Member, Quantitative Policy Research — Public Policy and Governance Society (PPGS), IIT Kharagpur (May 2023 – September 2024). Applied quantitative methods and statistical modeling to policy analysis in one of IIT KGP\'s premier policy organizations.',
-  //       links: [
-  //         { url: 'https://ppgsiitkgp.in/', label: 'PPGS Website' },
-  //         {
-  //           url: 'https://certificate.givemycertificate.com/c/6e149c8a-bb09-48bf-bd7b-8fd41719f0db',
-  //           label: 'Certificate',
-  //         },
-  //       ],
   //     },
   //   ],
   // },
@@ -95,7 +89,7 @@ export const achievementData: AchievementCategory[] = [
       },
       {
         description:
-          'Integral Cup 2026 — secured **AIR 135** across three mathematical tracks: Probability Theory & Statistics, Linear Algebra & Optimization, and Integral Analysis. Strong signal of mathematical rigor directly applicable to ML theory and quantitative research.',
+          'Integral Cup 2026 S1 — secured **AIR 135** across three mathematical tracks: Probability Theory & Statistics, Linear Algebra & Optimization, and Integral Analysis. Strong signal of mathematical rigor directly applicable to ML theory and quantitative research.',
         links: [],
       },
       {
@@ -121,7 +115,7 @@ export const achievementData: AchievementCategory[] = [
       },
       {
         description:
-          'Integrated Dual Degree (B.Tech + M.Tech), Chemical Engineering with **Micro-Specialization in Artificial Intelligence & Applications** — IIT Kharagpur (2022–2027). Cumulative Performance Index: **8.86 / 10**.',
+          'Integrated Dual Degree (B.Tech + M.Tech), Chemical Engineering with **Specialization in Artificial Intelligence (AI) and High Performance Computing (HPC)** — IIT Kharagpur (2022–2027). Cumulative Performance Index: **8.86 / 10**.',
         links: [],
       },
     ],

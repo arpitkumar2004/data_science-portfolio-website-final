@@ -1,20 +1,22 @@
 """Lead management service for database operations"""
 import logging
 from datetime import datetime, timedelta, timezone
+
+from sqlalchemy import case, extract, func
 from sqlalchemy.orm import Session
-from sqlalchemy import func, case, extract
+
 import models
 from utils.serializers import serialize_contact_lead
 
 logger = logging.getLogger(__name__)
 
 
-def create_contact_lead(db: Session, name: str, email: str, subject: str, message: str, 
-                       company: str = None, form_type: str = "contacts", role: str = None,
-                       metadata: dict = None, lead_type: str = None) -> models.ContactLead:
+def create_contact_lead(db: Session, name: str, email: str, subject: str, message: str,
+                       company: str | None = None, form_type: str = "contacts", role: str | None = None,
+                       metadata: dict | None = None, lead_type: str | None = None) -> models.ContactLead:
     """
     Create and persist a new contact lead to database.
-    
+
     Args:
         db: Database session
         name: Lead name
@@ -25,7 +27,7 @@ def create_contact_lead(db: Session, name: str, email: str, subject: str, messag
         form_type: Type of form submission
         role: User role
         metadata: Additional metadata (IP, user-agent, etc.)
-    
+
     Returns:
         Created ContactLead model instance
     """
@@ -46,25 +48,25 @@ def create_contact_lead(db: Session, name: str, email: str, subject: str, messag
     return new_lead
 
 
-def get_all_leads(db: Session, skip: int = 0, limit: int = None) -> list:
+def get_all_leads(db: Session, skip: int = 0, limit: int | None = None) -> list:
     """
     Fetch all leads sorted by newest first.
-    
+
     Args:
         db: Database session
         skip: Number of records to skip
         limit: Maximum records to return
-    
+
     Returns:
         List of serialized lead dictionaries
     """
     query = db.query(models.ContactLead).order_by(models.ContactLead.created_at.desc())
-    
+
     if skip > 0:
         query = query.offset(skip)
     if limit:
         query = query.limit(limit)
-    
+
     leads = query.all()
     return [serialize_contact_lead(lead) for lead in leads]
 
@@ -77,14 +79,14 @@ def get_lead_by_id(db: Session, lead_id: int) -> models.ContactLead:
 def delete_lead(db: Session, lead_id: int) -> bool:
     """
     Delete a lead by ID.
-    
+
     Returns:
         True if deleted successfully, False if not found
     """
     lead = get_lead_by_id(db, lead_id)
     if not lead:
         return False
-    
+
     db.delete(lead)
     db.commit()
     return True
@@ -134,7 +136,7 @@ def update_lead_notes(db: Session, lead_id: int, notes: str) -> models.ContactLe
 def update_lead_tags(db: Session, lead_id: int, tags: list) -> models.ContactLead:
     """Update tags for a lead"""
     from sqlalchemy.orm.attributes import flag_modified
-    
+
     lead = get_lead_by_id(db, lead_id)
     if lead:
         lead.tags = tags
@@ -167,11 +169,11 @@ def unflag_lead(db: Session, lead_id: int) -> models.ContactLead:
 def search_leads(db: Session, query: str) -> list:
     """
     Search leads across multiple fields.
-    
+
     Args:
         db: Database session
         query: Search query string
-    
+
     Returns:
         List of matching leads
     """
@@ -182,19 +184,19 @@ def search_leads(db: Session, query: str) -> list:
         (models.ContactLead.message.contains(query)) |
         (models.ContactLead.internal_notes.contains(query))
     ).all()
-    
+
     return [serialize_contact_lead(lead) for lead in leads]
 
 
 def filter_leads_by_date(db: Session, start_date: str, end_date: str) -> list:
     """
     Filter leads by date range.
-    
+
     Args:
         db: Database session
         start_date: Start date string (ISO format)
         end_date: End date string (ISO format)
-    
+
     Returns:
         List of leads in date range
     """
@@ -202,32 +204,32 @@ def filter_leads_by_date(db: Session, start_date: str, end_date: str) -> list:
         models.ContactLead.timestamp >= start_date,
         models.ContactLead.timestamp <= end_date
     ).all()
-    
+
     return [serialize_contact_lead(lead) for lead in leads]
 
 
-def get_filtered_leads(db: Session, status: str = None, priority: str = None, min_score: float = None) -> list:
+def get_filtered_leads(db: Session, status: str | None = None, priority: str | None = None, min_score: float | None = None) -> list:
     """
     Get leads with optional filters.
-    
+
     Args:
         db: Database session
         status: Filter by status
         priority: Filter by priority
         min_score: Filter by minimum quality score
-    
+
     Returns:
         List of filtered leads
     """
     query = db.query(models.ContactLead)
-    
+
     if status:
         query = query.filter(models.ContactLead.status == status)
     if priority:
         query = query.filter(models.ContactLead.priority == priority)
     if min_score is not None:
         query = query.filter(models.ContactLead.quality_score >= min_score)
-    
+
     leads = query.order_by(models.ContactLead.created_at.desc()).all()
     return [serialize_contact_lead(lead) for lead in leads]
 
@@ -235,12 +237,12 @@ def get_filtered_leads(db: Session, status: str = None, priority: str = None, mi
 def bulk_update_status(db: Session, lead_ids: list, status: str) -> int:
     """
     Update status for multiple leads.
-    
+
     Args:
         db: Database session
         lead_ids: List of lead IDs
         status: New status value
-    
+
     Returns:
         Number of updated leads
     """
@@ -250,7 +252,7 @@ def bulk_update_status(db: Session, lead_ids: list, status: str) -> int:
         models.ContactLead.status: status,
         models.ContactLead.last_contacted: datetime.now(timezone.utc)
     }, synchronize_session=False)
-    
+
     db.commit()
     return updated_count
 
@@ -258,18 +260,18 @@ def bulk_update_status(db: Session, lead_ids: list, status: str) -> int:
 def bulk_delete_leads(db: Session, lead_ids: list) -> int:
     """
     Delete multiple leads.
-    
+
     Args:
         db: Database session
         lead_ids: List of lead IDs to delete
-    
+
     Returns:
         Number of deleted leads
     """
     deleted_count = db.query(models.ContactLead).filter(
         models.ContactLead.id.in_(lead_ids)
     ).delete(synchronize_session=False)
-    
+
     db.commit()
     return deleted_count
 
@@ -278,10 +280,10 @@ def get_lead_statistics(db: Session) -> dict:
     """
     Calculate lead statistics using a single aggregated query.
     Replaces 8+ separate COUNT queries with one efficient SQL query.
-    
+
     Args:
         db: Database session
-    
+
     Returns:
         Dictionary with statistics
     """
@@ -335,11 +337,11 @@ def get_lead_statistics(db: Session) -> dict:
 def get_leads_timeline(db: Session, period: str = "30d") -> list:
     """
     Get daily lead counts for time-series chart.
-    
+
     Args:
         db: Database session
         period: Time period string (7d, 30d, 90d)
-    
+
     Returns:
         List of {date, count} objects
     """
@@ -347,7 +349,7 @@ def get_leads_timeline(db: Session, period: str = "30d") -> list:
     days = days_map.get(period, 30)
     now = datetime.now(timezone.utc)
     start_date = now - timedelta(days=days)
-    
+
     leads = db.query(
         func.date(models.ContactLead.created_at).label("date"),
         func.count(models.ContactLead.id).label("count")
@@ -358,12 +360,12 @@ def get_leads_timeline(db: Session, period: str = "30d") -> list:
     ).order_by(
         func.date(models.ContactLead.created_at)
     ).all()
-    
+
     # Fill in missing dates with 0
     result = []
     current = start_date.date()
     lead_map = {str(row.date): row.count for row in leads}
-    
+
     while current <= now.date():
         date_str = str(current)
         result.append({
@@ -371,14 +373,14 @@ def get_leads_timeline(db: Session, period: str = "30d") -> list:
             "count": lead_map.get(date_str, 0)
         })
         current += timedelta(days=1)
-    
+
     return result
 
 
 def get_source_breakdown(db: Session) -> list:
     """
     Get lead source attribution breakdown.
-    
+
     Returns:
         List of {source, count} objects
     """
@@ -390,7 +392,7 @@ def get_source_breakdown(db: Session) -> list:
     ).order_by(
         func.count(models.ContactLead.id).desc()
     ).all()
-    
+
     return [{"source": row.source or "unknown", "count": row.count} for row in sources]
 
 
@@ -398,7 +400,7 @@ def get_response_time_stats(db: Session) -> dict:
     """
     Calculate average response time using SQL aggregation.
     Pushes computation to the database instead of loading all leads into memory.
-    
+
     Returns:
         Dict with avg_hours, responded_count, total_count, response_rate
     """
@@ -415,7 +417,7 @@ def get_response_time_stats(db: Session) -> dict:
     total = row.total or 0
     responded_count = row.responded or 0
     avg_hours = float(row.avg_hours) if row.avg_hours else 0
-    
+
     return {
         "avg_hours": round(avg_hours, 1),
         "responded_count": responded_count,

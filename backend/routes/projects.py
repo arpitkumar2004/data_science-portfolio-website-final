@@ -5,23 +5,22 @@ Admin-only CRUD operations + public read endpoint for portfolio frontend.
 import logging
 import time
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import JSONResponse
-from typing import List
 from slowapi import Limiter
 from slowapi.util import get_remote_address
 
-from schemas.project import ProjectCreate, ProjectUpdate, ProjectResponse
+from config import RATE_LIMIT_ADMIN, RATE_LIMIT_PUBLIC
+from schemas.project import ProjectCreate, ProjectResponse, ProjectUpdate
 from services.auth_service_v2 import require_admin
 from services.project_service import (
+    create_project,
+    delete_project,
     get_all_projects,
     get_project_by_id,
-    create_project,
-    update_project,
-    delete_project,
     get_version_info,
+    update_project,
 )
-from config import RATE_LIMIT_ADMIN, RATE_LIMIT_PUBLIC
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,7 @@ _projects_cache: dict = {"data": None, "expires": 0}
 _CACHE_TTL = 300  # 5 minutes
 
 
-def _get_cached_projects() -> List[dict]:
+def _get_cached_projects() -> list[dict]:
     """Return cached projects or refresh from DB."""
     now = time.time()
     if _projects_cache["data"] is not None and now < _projects_cache["expires"]:
@@ -73,13 +72,13 @@ async def projects_version(request: Request):
 
 @public_router.get(
     "",
-    response_model=List[ProjectResponse],
+    response_model=list[ProjectResponse],
     summary="Get all projects (public)",
 )
 @limiter.limit(RATE_LIMIT_PUBLIC)
 async def list_projects_public_clean(request: Request):
     """
-    Public endpoint at /api/projects — returns all projects for the 
+    Public endpoint at /api/projects — returns all projects for the
     portfolio frontend. No authentication required.
     Responses are cached for 5 minutes and include Cache-Control header.
     """
@@ -110,7 +109,7 @@ async def get_project_public(request: Request, project_id: int):
 
 @router.get(
     "/public",
-    response_model=List[ProjectResponse],
+    response_model=list[ProjectResponse],
     summary="Get all projects (public)",
 )
 async def list_projects_public(request: Request):
@@ -125,7 +124,7 @@ async def list_projects_public(request: Request):
 
 @router.get(
     "",
-    response_model=List[ProjectResponse],
+    response_model=list[ProjectResponse],
     summary="List all projects (admin)",
 )
 @limiter.limit(RATE_LIMIT_ADMIN)
@@ -219,4 +218,3 @@ async def delete_existing_project(
             detail=f"Project with id {project_id} not found",
         )
     _invalidate_projects_cache()
-    return None

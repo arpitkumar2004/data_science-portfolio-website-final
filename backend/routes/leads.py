@@ -1,39 +1,64 @@
 """Lead management endpoints with rate limiting and JWT auth"""
-import logging
-
-from fastapi import APIRouter, Depends, Form, HTTPException, status, BackgroundTasks, Request, Body
-from fastapi.responses import StreamingResponse
-from sqlalchemy.orm import Session
-from slowapi import Limiter
-from slowapi.util import get_remote_address
-from starlette.concurrency import run_in_threadpool
-from email_validator import validate_email, EmailNotValidError
-import json
 import csv
 import io
+import json
+import logging
+
+from email_validator import EmailNotValidError, validate_email
+from fastapi import (
+    APIRouter,
+    BackgroundTasks,
+    Body,
+    Depends,
+    Form,
+    HTTPException,
+    Request,
+    status,
+)
+from fastapi.responses import StreamingResponse
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from sqlalchemy.orm import Session
+from starlette.concurrency import run_in_threadpool
 
 import database
 import models
+from config import ADMIN_EMAIL, RATE_LIMIT_ADMIN, RATE_LIMIT_PUBLIC, VITE_API_URL
 from schemas.lead import (
-    StatusUpdate, PriorityRequest, ScoreRequest, NotesUpdate, TagUpdate,
-    BulkStatusUpdate
+    BulkStatusUpdate,
+    NotesUpdate,
+    PriorityRequest,
+    ScoreRequest,
+    StatusUpdate,
+    TagUpdate,
 )
 from services.auth_service_v2 import require_admin
-from services.lead_service import (
-    create_contact_lead, get_all_leads, get_lead_by_id, delete_lead,
-    update_lead_status, update_lead_priority, update_lead_quality_score,
-    update_lead_notes, update_lead_tags, flag_lead, unflag_lead,
-    search_leads, filter_leads_by_date, get_filtered_leads,
-    bulk_update_status, bulk_delete_leads, get_lead_statistics
-)
 from services.email_service import (
+    send_admin_notification,
     send_contact_acknowledgment,
     send_cv_request_email,
     send_recruiter_login_email,
-    send_admin_notification,
+)
+from services.lead_service import (
+    bulk_delete_leads,
+    bulk_update_status,
+    create_contact_lead,
+    delete_lead,
+    filter_leads_by_date,
+    flag_lead,
+    get_all_leads,
+    get_filtered_leads,
+    get_lead_by_id,
+    get_lead_statistics,
+    search_leads,
+    unflag_lead,
+    update_lead_notes,
+    update_lead_priority,
+    update_lead_quality_score,
+    update_lead_status,
+    update_lead_tags,
 )
 from utils.serializers import serialize_contact_lead
-from config import RATE_LIMIT_PUBLIC, RATE_LIMIT_ADMIN, ADMIN_EMAIL, VITE_API_URL
 
 logger = logging.getLogger(__name__)
 
@@ -87,7 +112,7 @@ async def submit_contact(
             "referer": request.headers.get("referer", ""),
             "origin": request.headers.get("origin", ""),
         }
-        
+
         # Persist lead to database
         new_lead = await run_in_threadpool(
             create_contact_lead,
@@ -180,7 +205,7 @@ async def handle_cv_request(
             "user_agent": request.headers.get("user-agent", ""),
             "referer": request.headers.get("referer", ""),
         }
-        
+
         # Save lead to database
         await run_in_threadpool(
             create_contact_lead,
@@ -232,8 +257,8 @@ async def handle_cv_request(
 @limiter.limit(RATE_LIMIT_ADMIN)
 async def get_admin_leads(
     request: Request,
-    page: int = None,
-    per_page: int = None,
+    page: int | None = None,
+    per_page: int | None = None,
     admin: dict = Depends(require_admin),
     db: Session = Depends(database.get_db)
 ):
@@ -385,9 +410,9 @@ async def export_leads(
 @limiter.limit(RATE_LIMIT_ADMIN)
 async def get_filtered_leads_endpoint(
     request: Request,
-    status: str = None,
-    priority: str = None,
-    min_score: float = None,
+    status: str | None = None,
+    priority: str | None = None,
+    min_score: float | None = None,
     admin: dict = Depends(require_admin),
     db: Session = Depends(database.get_db)
 ):

@@ -24,8 +24,8 @@ Required fields:
 
 import html as _html
 
-from templates.base import wrap
 from config import CONTACT_PHONE_NUMBER
+from templates.base import wrap
 
 
 def render(

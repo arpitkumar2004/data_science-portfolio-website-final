@@ -4,40 +4,39 @@ Uses unittest.mock to patch the project service layer.
 """
 from unittest.mock import patch
 
-
 # ── Helpers ──
 
 def _sample_project(**overrides):
     """Return a dict matching ProjectResponse shape."""
-    defaults = dict(
-        id=1, title="ML Pipeline", description="A machine learning pipeline",
-        longDescription="Detailed description here", image="/img/ml.png",
-        tags=["python", "ml"], objectives=["Build pipeline"],
-        technologies=["Python", "Scikit-learn"], type="Data Science",
-        category="data-science", methods=["supervised"], results=["95% accuracy"],
-        role="Lead Developer", duration="3 months",
-        tldr=None, keyImpactMetrics=None, ProblemStatement=None,
-        LiteratureReview=None, coreStack=None, tools=None,
-        implementation=None, discussion=None, conclusion=None,
-        limitations=None, futureWork=None, references=None,
-        acknowledgements=None, codeSnippet=None, githubLink=None,
-        articleLink=None, liveDemoLink=None, company=None,
-        challenges=None, solutions=None, galleryImages=None,
-        similarProjectIds=None, standings=None,
-        created_at="2024-01-01T00:00:00", updated_at="2024-01-01T00:00:00",
-    )
+    defaults = {
+        "id": 1, "title": "ML Pipeline", "description": "A machine learning pipeline",
+        "longDescription": "Detailed description here", "image": "/img/ml.png",
+        "tags": ["python", "ml"], "objectives": ["Build pipeline"],
+        "technologies": ["Python", "Scikit-learn"], "type": "Data Science",
+        "category": "data-science", "methods": ["supervised"], "results": ["95% accuracy"],
+        "role": "Lead Developer", "duration": "3 months",
+        "tldr": None, "keyImpactMetrics": None, "ProblemStatement": None,
+        "LiteratureReview": None, "coreStack": None, "tools": None,
+        "implementation": None, "discussion": None, "conclusion": None,
+        "limitations": None, "futureWork": None, "references": None,
+        "acknowledgements": None, "codeSnippet": None, "githubLink": None,
+        "articleLink": None, "liveDemoLink": None, "company": None,
+        "challenges": None, "solutions": None, "galleryImages": None,
+        "similarProjectIds": None, "standings": None,
+        "created_at": "2024-01-01T00:00:00", "updated_at": "2024-01-01T00:00:00",
+    }
     defaults.update(overrides)
     return defaults
 
 
 def _create_payload(**overrides):
     """Minimal valid project creation payload."""
-    defaults = dict(
-        title="New Project", description="A new project",
-        longDescription="Long description of the project",
-        image="/img/new.png", type="Web App", category="web-app",
-        role="Developer", duration="2 months",
-    )
+    defaults = {
+        "title": "New Project", "description": "A new project",
+        "longDescription": "Long description of the project",
+        "image": "/img/new.png", "type": "Web App", "category": "web-app",
+        "role": "Developer", "duration": "2 months",
+    }
     defaults.update(overrides)
     return defaults
 

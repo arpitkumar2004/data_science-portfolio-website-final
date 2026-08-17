@@ -2,9 +2,9 @@
 Pydantic schemas for Project CRUD operations.
 Mirrors the frontend Project interface from projectsData.tsx.
 """
-from pydantic import BaseModel, Field
-from typing import List, Optional
 from enum import Enum
+
+from pydantic import BaseModel, Field
 
 
 class ProjectCategory(str, Enum):
@@ -20,80 +20,80 @@ class ProjectCreate(BaseModel):
     description: str = Field(..., min_length=1, max_length=1000)
     longDescription: str = Field(..., min_length=1)
     image: str = Field(..., description="Image URL or path")
-    tags: List[str] = Field(default_factory=list)
-    objectives: List[str] = Field(default_factory=list)
-    technologies: List[str] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
+    objectives: list[str] = Field(default_factory=list)
+    technologies: list[str] = Field(default_factory=list)
     type: str = Field(..., min_length=1, max_length=100)
     category: ProjectCategory
-    methods: List[str] = Field(default_factory=list)
-    results: List[str] = Field(default_factory=list)
+    methods: list[str] = Field(default_factory=list)
+    results: list[str] = Field(default_factory=list)
     role: str = Field(..., min_length=1, max_length=100)
     duration: str = Field(..., min_length=1, max_length=100)
 
     # Optional fields
-    tldr: Optional[str] = None
-    keyImpactMetrics: Optional[List[str]] = None
-    ProblemStatement: Optional[str] = None
-    LiteratureReview: Optional[str] = None
-    coreStack: Optional[List[str]] = None
-    tools: Optional[List[str]] = None
-    implementation: Optional[List[str]] = None
-    discussion: Optional[List[str]] = None
-    conclusion: Optional[List[str]] = None
-    limitations: Optional[List[str]] = None
-    futureWork: Optional[List[str]] = None
-    references: Optional[List[str]] = None
-    acknowledgements: Optional[List[str]] = None
-    codeSnippet: Optional[str] = None
-    githubLink: Optional[str] = None
-    articleLink: Optional[str] = None
-    liveDemoLink: Optional[str] = None
-    company: Optional[str] = None
-    challenges: Optional[List[str]] = None
-    solutions: Optional[List[str]] = None
-    galleryImages: Optional[List[str]] = None
-    similarProjectIds: Optional[List[int]] = None
-    standings: Optional[str] = None
+    tldr: str | None = None
+    keyImpactMetrics: list[str] | None = None
+    ProblemStatement: str | None = None
+    LiteratureReview: str | None = None
+    coreStack: list[str] | None = None
+    tools: list[str] | None = None
+    implementation: list[str] | None = None
+    discussion: list[str] | None = None
+    conclusion: list[str] | None = None
+    limitations: list[str] | None = None
+    futureWork: list[str] | None = None
+    references: list[str] | None = None
+    acknowledgements: list[str] | None = None
+    codeSnippet: str | None = None
+    githubLink: str | None = None
+    articleLink: str | None = None
+    liveDemoLink: str | None = None
+    company: str | None = None
+    challenges: list[str] | None = None
+    solutions: list[str] | None = None
+    galleryImages: list[str] | None = None
+    similarProjectIds: list[int] | None = None
+    standings: str | None = None
 
 
 class ProjectUpdate(BaseModel):
     """Schema for updating a project (all fields optional)."""
-    title: Optional[str] = Field(None, min_length=1, max_length=200)
-    description: Optional[str] = Field(None, min_length=1, max_length=1000)
-    longDescription: Optional[str] = None
-    image: Optional[str] = None
-    tags: Optional[List[str]] = None
-    objectives: Optional[List[str]] = None
-    technologies: Optional[List[str]] = None
-    type: Optional[str] = None
-    category: Optional[ProjectCategory] = None
-    methods: Optional[List[str]] = None
-    results: Optional[List[str]] = None
-    role: Optional[str] = None
-    duration: Optional[str] = None
-    tldr: Optional[str] = None
-    keyImpactMetrics: Optional[List[str]] = None
-    ProblemStatement: Optional[str] = None
-    LiteratureReview: Optional[str] = None
-    coreStack: Optional[List[str]] = None
-    tools: Optional[List[str]] = None
-    implementation: Optional[List[str]] = None
-    discussion: Optional[List[str]] = None
-    conclusion: Optional[List[str]] = None
-    limitations: Optional[List[str]] = None
-    futureWork: Optional[List[str]] = None
-    references: Optional[List[str]] = None
-    acknowledgements: Optional[List[str]] = None
-    codeSnippet: Optional[str] = None
-    githubLink: Optional[str] = None
-    articleLink: Optional[str] = None
-    liveDemoLink: Optional[str] = None
-    company: Optional[str] = None
-    challenges: Optional[List[str]] = None
-    solutions: Optional[List[str]] = None
-    galleryImages: Optional[List[str]] = None
-    similarProjectIds: Optional[List[int]] = None
-    standings: Optional[str] = None
+    title: str | None = Field(None, min_length=1, max_length=200)
+    description: str | None = Field(None, min_length=1, max_length=1000)
+    longDescription: str | None = None
+    image: str | None = None
+    tags: list[str] | None = None
+    objectives: list[str] | None = None
+    technologies: list[str] | None = None
+    type: str | None = None
+    category: ProjectCategory | None = None
+    methods: list[str] | None = None
+    results: list[str] | None = None
+    role: str | None = None
+    duration: str | None = None
+    tldr: str | None = None
+    keyImpactMetrics: list[str] | None = None
+    ProblemStatement: str | None = None
+    LiteratureReview: str | None = None
+    coreStack: list[str] | None = None
+    tools: list[str] | None = None
+    implementation: list[str] | None = None
+    discussion: list[str] | None = None
+    conclusion: list[str] | None = None
+    limitations: list[str] | None = None
+    futureWork: list[str] | None = None
+    references: list[str] | None = None
+    acknowledgements: list[str] | None = None
+    codeSnippet: str | None = None
+    githubLink: str | None = None
+    articleLink: str | None = None
+    liveDemoLink: str | None = None
+    company: str | None = None
+    challenges: list[str] | None = None
+    solutions: list[str] | None = None
+    galleryImages: list[str] | None = None
+    similarProjectIds: list[int] | None = None
+    standings: str | None = None
 
 
 class ProjectResponse(BaseModel):
@@ -103,37 +103,37 @@ class ProjectResponse(BaseModel):
     description: str
     longDescription: str
     image: str
-    tags: List[str]
-    objectives: List[str]
-    technologies: List[str]
+    tags: list[str]
+    objectives: list[str]
+    technologies: list[str]
     type: str
     category: str
-    methods: List[str]
-    results: List[str]
+    methods: list[str]
+    results: list[str]
     role: str
     duration: str
-    tldr: Optional[str] = None
-    keyImpactMetrics: Optional[List[str]] = None
-    ProblemStatement: Optional[str] = None
-    LiteratureReview: Optional[str] = None
-    coreStack: Optional[List[str]] = None
-    tools: Optional[List[str]] = None
-    implementation: Optional[List[str]] = None
-    discussion: Optional[List[str]] = None
-    conclusion: Optional[List[str]] = None
-    limitations: Optional[List[str]] = None
-    futureWork: Optional[List[str]] = None
-    references: Optional[List[str]] = None
-    acknowledgements: Optional[List[str]] = None
-    codeSnippet: Optional[str] = None
-    githubLink: Optional[str] = None
-    articleLink: Optional[str] = None
-    liveDemoLink: Optional[str] = None
-    company: Optional[str] = None
-    challenges: Optional[List[str]] = None
-    solutions: Optional[List[str]] = None
-    galleryImages: Optional[List[str]] = None
-    similarProjectIds: Optional[List[int]] = None
-    standings: Optional[str] = None
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    tldr: str | None = None
+    keyImpactMetrics: list[str] | None = None
+    ProblemStatement: str | None = None
+    LiteratureReview: str | None = None
+    coreStack: list[str] | None = None
+    tools: list[str] | None = None
+    implementation: list[str] | None = None
+    discussion: list[str] | None = None
+    conclusion: list[str] | None = None
+    limitations: list[str] | None = None
+    futureWork: list[str] | None = None
+    references: list[str] | None = None
+    acknowledgements: list[str] | None = None
+    codeSnippet: str | None = None
+    githubLink: str | None = None
+    articleLink: str | None = None
+    liveDemoLink: str | None = None
+    company: str | None = None
+    challenges: list[str] | None = None
+    solutions: list[str] | None = None
+    galleryImages: list[str] | None = None
+    similarProjectIds: list[int] | None = None
+    standings: str | None = None
+    created_at: str | None = None
+    updated_at: str | None = None

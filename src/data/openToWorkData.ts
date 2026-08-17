@@ -31,12 +31,12 @@ export const openToWorkPositions: OpenRole[] = [
 ];
 
 /**
- * Calculate recruitment information for full-time May 2027 placement
+ * Calculate recruitment information for full-time April 2027 placement
  * Returns urgency messaging based on current date
  */
 export const getSummerDeadlineInfo = () => {
   const now = new Date();
-  const deadline = new Date('2027-05-01');
+  const deadline = new Date('2027-04-30');
   const diffTime = deadline.getTime() - now.getTime();
   const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 

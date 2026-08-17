@@ -14,7 +14,6 @@ import threading
 from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List, Optional
 
 from database import SessionLocal
 from models import ProjectModel
@@ -31,12 +30,12 @@ class ProjectRepository(ABC):
     """
 
     @abstractmethod
-    def get_all(self) -> List[dict]:
+    def get_all(self) -> list[dict]:
         """Return all projects."""
         ...
 
     @abstractmethod
-    def get_by_id(self, project_id: int) -> Optional[dict]:
+    def get_by_id(self, project_id: int) -> dict | None:
         """Return a single project or None."""
         ...
 
@@ -46,7 +45,7 @@ class ProjectRepository(ABC):
         ...
 
     @abstractmethod
-    def update(self, project_id: int, updates: dict) -> Optional[dict]:
+    def update(self, project_id: int, updates: dict) -> dict | None:
         """Update a project's fields. Return updated project or None."""
         ...
 
@@ -64,7 +63,7 @@ class JSONProjectRepository(ProjectRepository):
     Reads/writes to backend/data/projects.json.
     """
 
-    def __init__(self, file_path: Optional[str] = None):
+    def __init__(self, file_path: str | None = None):
         if file_path is None:
             file_path = str(Path(__file__).resolve().parent.parent / "data" / "projects.json")
         self._file_path = Path(file_path)
@@ -77,7 +76,7 @@ class JSONProjectRepository(ProjectRepository):
         if not self._file_path.exists():
             self._file_path.write_text("[]", encoding="utf-8")
 
-    def _read(self) -> List[dict]:
+    def _read(self) -> list[dict]:
         """Read all projects from disk."""
         try:
             content = self._file_path.read_text(encoding="utf-8").strip()
@@ -87,14 +86,14 @@ class JSONProjectRepository(ProjectRepository):
         except (json.JSONDecodeError, FileNotFoundError):
             return []
 
-    def _write(self, projects: List[dict]):
+    def _write(self, projects: list[dict]):
         """Write all projects to disk."""
         self._file_path.write_text(
             json.dumps(projects, indent=2, ensure_ascii=False),
             encoding="utf-8",
         )
 
-    def _next_id(self, projects: List[dict]) -> int:
+    def _next_id(self, projects: list[dict]) -> int:
         """Generate the next auto-increment ID."""
         if not projects:
             return 1
@@ -102,11 +101,11 @@ class JSONProjectRepository(ProjectRepository):
 
     # --- Public API ---
 
-    def get_all(self) -> List[dict]:
+    def get_all(self) -> list[dict]:
         with self._lock:
             return self._read()
 
-    def get_by_id(self, project_id: int) -> Optional[dict]:
+    def get_by_id(self, project_id: int) -> dict | None:
         with self._lock:
             projects = self._read()
             return next((p for p in projects if p["id"] == project_id), None)
@@ -122,7 +121,7 @@ class JSONProjectRepository(ProjectRepository):
             self._write(projects)
         return project_data
 
-    def update(self, project_id: int, updates: dict) -> Optional[dict]:
+    def update(self, project_id: int, updates: dict) -> dict | None:
         now = datetime.now(timezone.utc).isoformat()
         with self._lock:
             projects = self._read()
@@ -134,7 +133,7 @@ class JSONProjectRepository(ProjectRepository):
                             projects[i][key] = value
                     projects[i]["updated_at"] = now
                     self._write(projects)
-                    return projects[i]
+                    return p
         return None
 
     def delete(self, project_id: int) -> bool:
@@ -247,12 +246,12 @@ class DatabaseProjectRepository(ProjectRepository):
                 db.close()
         return _ctx()
 
-    def get_all(self) -> List[dict]:
+    def get_all(self) -> list[dict]:
         with self._session() as db:
             rows = db.query(ProjectModel).order_by(ProjectModel.id).all()
             return [_model_to_dict(r) for r in rows]
 
-    def get_by_id(self, project_id: int) -> Optional[dict]:
+    def get_by_id(self, project_id: int) -> dict | None:
         with self._session() as db:
             row = db.query(ProjectModel).filter(ProjectModel.id == project_id).first()
             return _model_to_dict(row) if row else None
@@ -270,7 +269,7 @@ class DatabaseProjectRepository(ProjectRepository):
                 db.rollback()
                 raise
 
-    def update(self, project_id: int, updates: dict) -> Optional[dict]:
+    def update(self, project_id: int, updates: dict) -> dict | None:
         with self._session() as db:
             try:
                 row = db.query(ProjectModel).filter(ProjectModel.id == project_id).first()
@@ -310,12 +309,12 @@ project_repo: ProjectRepository = DatabaseProjectRepository()
 
 # ============= Service Functions (used by routes) =============
 
-def get_all_projects() -> List[dict]:
+def get_all_projects() -> list[dict]:
     """Get all projects."""
     return project_repo.get_all()
 
 
-def get_project_by_id(project_id: int) -> Optional[dict]:
+def get_project_by_id(project_id: int) -> dict | None:
     """Get a single project by ID."""
     return project_repo.get_by_id(project_id)
 
@@ -325,7 +324,7 @@ def create_project(project_data: dict) -> dict:
     return project_repo.create(project_data)
 
 
-def update_project(project_id: int, updates: dict) -> Optional[dict]:
+def update_project(project_id: int, updates: dict) -> dict | None:
     """Update an existing project."""
     return project_repo.update(project_id, updates)
 

@@ -504,12 +504,12 @@ const getInitialProjects = (): { projects: Project[]; source: DataSource } => {
     title: "Multimodal Price Prediction using Text, Image, and Tabular Data",
     description:
       "A state-of-the-art multimodal machine learning system combining BERT text embeddings, CLIP visual representations, and tabular feature engineering to predict product prices.",
-    tldr: "Secured Platinum standing (42nd out of 8,690 teams, top 0.5% globally) in Amazon ML Challenge 2025 by building a multimodal fusion pipeline with UMAP dimensionality reduction and ensemble stacking.",
+    tldr: "Ranked Top 0.5% globally among 50,000+ participants in Amazon ML Challenge 2025 by building PrismPrice—a multimodal fusion pipeline with SBERT text, CLIP visual features, unit signals, and stacked ensembles.",
     keyImpactMetrics: [
-      "42nd Rank out of 8,690 teams globally (Top 0.5% Platinum)",
-      "SMAPE 42.89% on large-scale e-commerce test evaluation",
-      "Multimodal Data Fusion: BERT (Text) + CLIP (Vision) + Tabular XGBoost",
-      "Non-linear Manifold Reduction using UMAP for high-dimensional embeddings",
+      "Top 0.5% globally among 50,000+ participants (Amazon ML Challenge 2025)",
+      "SMAPE 25.45 on 5-fold stacked ensemble validation",
+      "Multimodal Data Fusion: SBERT/TF-IDF (Text) + CLIP/ResNet (Vision) + Tabular Signals",
+      "Production FastAPI serving layer at 469ms p95 latency, MLflow & DVC tracking",
     ],
     ProblemStatement:
       "E-commerce product pricing requires understanding heterogeneous data sources—unstructured text descriptions, product images, and structured metadata. Single-modality baselines struggle because critical pricing cues (e.g., brand logos, subtle material specs, packaging quantities) are split across text and images.",
@@ -960,12 +960,12 @@ const getInitialProjects = (): { projects: Project[]; source: DataSource } => {
     title: "Conversational AI Platform for Employee Welfare",
     description:
       "An enterprise AI platform combining ensemble anomaly detection (Isolation Forest, LOF) and LangChain LLM pipelines to proactively flag workplace burnout and automate HR welfare reports.",
-    tldr: "Engineered a high-availability GCP platform using FastAPI, Docker, Next.js, and an ensemble anomaly model (Isolation Forest + LOF) paired with LangChain RAG to convert raw user activity logs into empathetic HR reports.",
+    tldr: "Won 1st Place (Gold Medal) at GC OpenSoft '25 (Deloitte-sponsored) by building an LLM-powered RAG employee support platform with GPT-4o, LangChain, LangGraph, and 5 specialized agents—cutting resolution time by 35% and hallucination rate by 40%.",
     keyImpactMetrics: [
-      "Proactive Burnout Identification using Ensemble Anomaly Detection",
-      "Automated HR Reporting via LangChain LLM Pipelines",
-      "Containerized High-Availability Microservices on Google Cloud (GCE, GCR)",
-      "Asynchronous CRON Synchronization for Real-Time Analytics",
+      "1st Place Gold Medalist, GC OpenSoft '25 (Deloitte-sponsored)",
+      "35% Reduction in Employee Support Resolution Time",
+      "40% Reduction in Hallucination Rate via Dual-Knowledge RAG",
+      "50% Increase in API Throughput via Async FastAPI & Concurrent Agents",
     ],
     ProblemStatement:
       "Organizations rely on periodic, self-reported HR surveys to monitor employee well-being. These surveys suffer from low response rates and lagging indicators, leaving HR teams unaware of burnout until after employee turnover occurs.",
@@ -1063,12 +1063,12 @@ const getInitialProjects = (): { projects: Project[]; source: DataSource } => {
     title: "DocuReason RAG: Multimodal Document Retrieval & Reasoning Framework",
     description:
       "An enterprise-grade tri-path multimodal RAG framework designed for grounded document retrieval and reasoning across text, complex financial/scientific tables, and visual PDF documents.",
-    tldr: "Architected DocuReason, a tri-path multimodal RAG engine integrating ColPali vision-language embeddings, Qdrant vector search, DuckDB tabular execution, and BM25s hybrid search—slashing retrieval hallucination rate by 45% and published as an open-source PyPI package (docureason-framework).",
+    tldr: "Engineered a Tri-Path Multimodal RAG framework combining dense BM25S retrieval, DuckDB Text-to-SQL, BLIP-2 vision retrieval, weighted RRF, cross-encoder reranking, and NLI attribution—improving RAG baselines by 13.7%–19.8% across 10 benchmarks and mitigating 91% of known RAG failure modes.",
     keyImpactMetrics: [
-      "45% Reduction in Retrieval Hallucinations across multi-page technical & financial PDFs",
-      "ColPali Vision-Language Integration for direct visual page embedding & spatial reasoning",
-      "Hybrid Tri-Path Engine: BM25s lexical search + Qdrant vector DB + DuckDB tabular execution",
-      "Published PyPI Package (docureason-framework) with async FastAPI inference microservices",
+      "13.7%–19.8% Baseline Improvement across 10 set benchmarks",
+      "91% Mitigation of Known RAG Failure Modes during robustness testing",
+      "0.612 Recall@5, 0.552 nDCG@5, 0.578 SQL Execution Success, 0.657 Attribution Precision",
+      "Productionized via PyPI packaging, GitHub Actions CI, vulnerability auditing, and 22D eval harness",
     ],
     ProblemStatement:
       "Enterprise documents (financial reports, research papers, technical specs) contain complex multimodal information spanning structured tables, dense text, and visual charts. Standard text-chunking RAG engines fail on spatial and tabular context, leading to high hallucination rates and lost context in document Q&A.",

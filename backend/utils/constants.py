@@ -34,7 +34,7 @@ def get_cv_request_email(
     )
 
 
-def get_recruiter_login_email(name: str, login_link: str, company: str = None, phone: str = "911234567890") -> str:
+def get_recruiter_login_email(name: str, login_link: str, company: str | None = None, phone: str = "911234567890") -> str:
     """Generate HTML email for recruiter login.  *Delegates to templates.recruiter_login*."""
     from templates import recruiter_login
     return recruiter_login.render(name=name, login_link=login_link, company=company, phone=phone)

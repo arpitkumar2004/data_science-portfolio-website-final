@@ -5,11 +5,17 @@ Includes bcrypt password hashing for secure credential management.
 """
 import hmac
 from datetime import datetime, timedelta, timezone
-from typing import Optional
+
+from fastapi import Depends, Header, HTTPException, status
 from jose import JWTError, jwt
-from fastapi import HTTPException, status, Header, Depends
 from passlib.context import CryptContext
-from config import JWT_SECRET_KEY, JWT_ALGORITHM, JWT_ACCESS_TOKEN_EXPIRE_MINUTES, ADMIN_SECRET_KEY
+
+from config import (
+    ADMIN_SECRET_KEY,
+    JWT_ACCESS_TOKEN_EXPIRE_MINUTES,
+    JWT_ALGORITHM,
+    JWT_SECRET_KEY,
+)
 
 # ============= Password Hashing Configuration =============
 # Using bcrypt with 12 rounds for production-grade security
@@ -23,10 +29,10 @@ pwd_context = CryptContext(
 def hash_password(password: str) -> str:
     """
     Hash a password using bcrypt.
-    
+
     Args:
         password: Plain text password
-    
+
     Returns:
         Bcrypt hashed password
     """
@@ -36,11 +42,11 @@ def hash_password(password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
     Verify a plain password against a bcrypt hash.
-    
+
     Args:
         plain_password: Plain text password to verify
         hashed_password: Bcrypt hashed password from database
-    
+
     Returns:
         True if password matches, False otherwise
     """
@@ -49,30 +55,30 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 # ============= JWT Token Management =============
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     """
     Create a JWT access token.
-    
+
     Args:
         data: Payload data to encode in token (e.g., {"sub": "admin", "role": "admin"})
         expires_delta: Optional custom expiration time
-    
+
     Returns:
         Encoded JWT token string
     """
     to_encode = data.copy()
-    
+
     now = datetime.now(timezone.utc)
     if expires_delta:
         expire = now + expires_delta
     else:
         expire = now + timedelta(minutes=JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
-    
+
     to_encode.update({
         "exp": expire,
         "iat": now
     })
-    
+
     encoded_jwt = jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
     return encoded_jwt
 
@@ -80,13 +86,13 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 def verify_token(token: str) -> dict:
     """
     Verify and decode a JWT token.
-    
+
     Args:
         token: JWT token string
-    
+
     Returns:
         Decoded token payload
-    
+
     Raises:
         HTTPException: If token is invalid or expired
     """
@@ -96,7 +102,7 @@ def verify_token(token: str) -> dict:
     except JWTError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Invalid or expired token: {str(e)}",
+            detail=f"Invalid or expired token: {e!s}",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
@@ -105,13 +111,13 @@ def authenticate_admin(password: str) -> dict:
     """
     Authenticate admin user and issue JWT token.
     Uses bcrypt for secure password verification.
-    
+
     Args:
         password: Admin password to verify
-    
+
     Returns:
         Dictionary with access_token, token_type, and expires_in
-    
+
     Raises:
         HTTPException: If credentials are invalid (401)
     """
@@ -121,12 +127,12 @@ def authenticate_admin(password: str) -> dict:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid admin credentials"
         )
-    
+
     # Issue JWT token valid for 1 hour
     access_token = create_access_token(
         data={"sub": "admin", "role": "admin"}
     )
-    
+
     return {
         "access_token": access_token,
         "token_type": "bearer",
@@ -136,12 +142,12 @@ def authenticate_admin(password: str) -> dict:
 
 # ============= FastAPI Dependencies for RBAC =============
 
-async def get_current_user(authorization: Optional[str] = Header(None)) -> dict:
+async def get_current_user(authorization: str | None = Header(None)) -> dict:
     """
     Extract and verify user from Authorization header.
     Dependency for endpoints requiring authentication.
-    
-    Usage: 
+
+    Usage:
         @router.get("/protected")
         async def protected_route(current_user: dict = Depends(get_current_user)):
             ...
@@ -152,7 +158,7 @@ async def get_current_user(authorization: Optional[str] = Header(None)) -> dict:
             detail="Missing Authorization header",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     try:
         scheme, token = authorization.split()
         if scheme.lower() != "bearer":
@@ -167,7 +173,7 @@ async def get_current_user(authorization: Optional[str] = Header(None)) -> dict:
             detail="Invalid Authorization header format. Expected 'Bearer <token>'",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
+
     payload = verify_token(token)
     return payload
 
@@ -176,7 +182,7 @@ async def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
     """
     Enforce admin role requirement.
     Dependency for admin-only endpoints.
-    
+
     Usage:
         @router.get("/admin/leads")
         async def get_leads(admin: dict = Depends(require_admin)):
@@ -187,7 +193,7 @@ async def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Insufficient permissions. Admin role required."
         )
-    
+
     return current_user
 
 
@@ -196,10 +202,10 @@ async def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
 def extract_token_from_header(authorization: str) -> str:
     """
     Extract token from Authorization header string.
-    
+
     Args:
         authorization: Full authorization header value
-    
+
     Returns:
         Extracted token string
     """

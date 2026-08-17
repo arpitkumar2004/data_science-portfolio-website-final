@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import List
+
 from dotenv import load_dotenv
 
 # Load env from backend/.env first, then project root .env as fallback
@@ -50,7 +50,7 @@ RATE_LIMIT_PUBLIC = "10/minute"  # Public endpoints
 RATE_LIMIT_ADMIN = "100/minute"  # Admin endpoints
 
 # CORS Configuration
-_default_cors: List[str] = [
+_default_cors: list[str] = [
     "http://localhost:5173",      # Main portfolio
     "http://localhost:5174",      # Admin panel
     "https://arpitkumar.dev",
