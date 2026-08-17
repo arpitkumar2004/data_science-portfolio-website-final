@@ -53,7 +53,7 @@ def render(
 
             <p class="section-label" style="{_lbl}">Professional Summary</p>
             <table class="info-table" style="{_tbl}">
-                <tr><td style="{_td_l}">Education</td><td style="{_td_v}">IIT Kharagpur &mdash; B.Tech + M.Tech Integrated Dual Degree (7.86 CGPA), Graduating May 2027</td></tr>
+                <tr><td style="{_td_l}">Education</td><td style="{_td_v}">IIT Kharagpur &mdash; B.Tech + M.Tech Integrated Dual Degree (8.86 CGPA), Graduating May 2027</td></tr>
                 <tr><td style="{_td_l}">Specialisation</td><td style="{_td_v}">Deep Learning, NLP, LLMs, Computer Vision, Generative AI</td></tr>
                 <tr><td style="{_td_l}">Core Stack</td><td style="{_td_v}">PyTorch, JAX, Transformers (BERT, CLIP), XGBoost, LightGBM</td></tr>
                 <tr><td style="{_td_l}">Engineering</td><td style="{_td_v}">FastAPI, Docker, Kubernetes, AWS / GCP, CI/CD, PostgreSQL</td></tr>
